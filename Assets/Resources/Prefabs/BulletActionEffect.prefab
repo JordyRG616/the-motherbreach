@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9108899706517846832}
   - component: {fileID: 2232729688115175442}
   - component: {fileID: 6327413566281048751}
+  - component: {fileID: 3165491192998575122}
   m_Layer: 0
   m_Name: Shooter
   m_TagString: Untagged
@@ -3669,10 +3670,10 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
-    type: 0
-    collisionMode: 0
+    type: 1
+    collisionMode: 1
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
@@ -3787,7 +3788,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3842,11 +3843,11 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 65
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -4864,6 +4865,25 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &3165491192998575122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533536809274662720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd66aa09ac839b94aa1c2a59c558dbbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    target: 1
+    bulletSpeed: 10
+    bulletRange: 2
+    bulletSize: 0.5
+    fireRate: 1
+    bulletDamage: 10
 --- !u!1 &6070819127656450695
 GameObject:
   m_ObjectHideFlags: 0
@@ -4873,7 +4893,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3709292450076844395}
-  - component: {fileID: 1199939718394089532}
   m_Layer: 0
   m_Name: BulletActionEffect
   m_TagString: Untagged
@@ -4896,26 +4915,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1199939718394089532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6070819127656450695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd66aa09ac839b94aa1c2a59c558dbbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shooter: {fileID: 2232729688115175442}
-  data:
-    target: 1
-    bulletSpeed: 10
-    bulletRange: 2
-    bulletSize: 0.5
-    fireRate: 1
-    bulletDamage: 10
 --- !u!1 &7200142627107522525
 GameObject:
   m_ObjectHideFlags: 0

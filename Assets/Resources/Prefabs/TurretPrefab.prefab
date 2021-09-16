@@ -191,9 +191,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4079032858720769112}
-  - component: {fileID: 4896502030120255640}
   - component: {fileID: 983329047615808249}
   - component: {fileID: 7247961646125107898}
+  - component: {fileID: 1391804187}
   m_Layer: 0
   m_Name: TurretPrefab
   m_TagString: Untagged
@@ -217,18 +217,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4896502030120255640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7685943198356329193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98075fd54b6ec924383a56bcc79487e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &983329047615808249
 Rigidbody2D:
   serializedVersion: 4
@@ -244,7 +232,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -266,6 +254,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 7}
   serializedVersion: 2
   m_Radius: 8
+--- !u!114 &1391804187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7685943198356329193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8c010bd3066323428f8e30831482ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shooters:
+  - {fileID: 6342110202891006796}
+  - {fileID: 3973888730918536811}
+  enemiesInSight: []
 --- !u!1001 &2073911790044805753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -321,6 +325,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BulletActionEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 9108899706517846832, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108899706517846832, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
 --- !u!4 &3436824980464278290 stripped
@@ -328,6 +340,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
   m_PrefabInstance: {fileID: 2073911790044805753}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3973888730918536811 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3165491192998575122, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
+  m_PrefabInstance: {fileID: 2073911790044805753}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd66aa09ac839b94aa1c2a59c558dbbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8353516327733579614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -335,6 +358,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7117668576714831811}
     m_Modifications:
+    - target: {fileID: 2232729688115175442, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 3709292450076844395, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -383,6 +418,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BulletActionEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 9108899706517846832, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108899706517846832, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
 --- !u!4 &4654376773530824245 stripped
@@ -390,3 +433,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
   m_PrefabInstance: {fileID: 8353516327733579614}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6342110202891006796 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3165491192998575122, guid: f296ddc18e05d2f44aa4d68e3809fc08, type: 3}
+  m_PrefabInstance: {fileID: 8353516327733579614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd66aa09ac839b94aa1c2a59c558dbbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

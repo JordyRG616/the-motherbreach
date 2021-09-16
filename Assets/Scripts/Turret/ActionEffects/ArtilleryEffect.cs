@@ -9,12 +9,4 @@ public class ArtilleryEffect : ActionEffect
     {
         Debug.Log("took" + data.bulletDamage);
     }
-
-    public override void Shoot()
-    {
-        if(!shooter.isPlaying)
-        {
-            shooter.Play();
-        }
-    }
 }

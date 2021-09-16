@@ -6,11 +6,11 @@ using System;
 
 public abstract class ActionController : MonoBehaviour
 {
-    [SerializeField] protected List<ActionEffect> action;
-    protected List<EnemyManager> enemiesInSight = new List<EnemyManager>();
+    [SerializeField] protected List<ActionEffect> shooters;
+    [SerializeField] protected List<EnemyManager> enemiesInSight = new List<EnemyManager>();
     protected EnemyManager target;
 
-    private IEnumerator GetTarget()
+    protected IEnumerator GetTarget()
     {
         yield return new WaitUntil(() => enemiesInSight.Count > 0);
         target = enemiesInSight.OrderBy(x => Vector3.Distance(transform.position, x.transform.position))
@@ -22,16 +22,33 @@ public abstract class ActionController : MonoBehaviour
 
     public abstract void Activate();
 
+    protected virtual void StopShooters()
+    {
+        foreach(ActionEffect shooter in shooters)
+        {
+            shooter.StopShooting();
+        }
+
+        StartCoroutine(GetTarget());
+    }
+
     protected IEnumerator FollowTarget(EnemyManager target)
     {
         while(enemiesInSight.Contains(target))
         {
             Vector3 direction = target.transform.position - this.transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            this.transform.rotation = Quaternion.Euler(0, 0, angle);
+            this.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+
+            foreach(ActionEffect shooter in shooters)
+            {
+                shooter.RotateShoots(-angle + 90f);
+            }
+
             yield return new WaitForEndOfFrame();
         }
 
+        StopShooters();
         StopCoroutine("FollowTarget");
     }
 

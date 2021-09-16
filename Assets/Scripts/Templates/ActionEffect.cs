@@ -5,16 +5,16 @@ using UnityEngine;
 
 public abstract class ActionEffect : MonoBehaviour
 {
-    [SerializeField] protected ParticleSystem shooter;
+    protected ParticleSystem shooter;
     [SerializeField] protected ActionData data;
 
     protected virtual void Awake()
     {
+        shooter = GetComponent<ParticleSystem>();
+        
         shooter.Stop();
 
         SetActionData();
-
-        shooter.Play();
     }
 
     protected void SetActionData()
@@ -26,7 +26,27 @@ public abstract class ActionEffect : MonoBehaviour
         main.startSize = data.bulletSize;
     }
 
-    public abstract void Shoot();
+    public virtual void Shoot()
+    {
+        // if(!shooter.isPlaying)
+        // {
+            shooter.Play();
+        // }
+    }
+
+    public virtual void StopShooting()
+    {
+        if(shooter.isPlaying)
+        {
+            shooter.Stop();
+        }
+    }
+
+    public virtual void RotateShoots(float angle)
+    {
+        var main = shooter.main;
+        main.startRotation = angle * Mathf.Deg2Rad;
+    }
 
     public abstract void ApplyEffect(HitManager hitManager);
 
