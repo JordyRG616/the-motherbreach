@@ -24,14 +24,20 @@ public abstract class ActionEffect : MonoBehaviour
         main.startLifetime = data.bulletRange;
         main.duration = data.fireRate;
         main.startSize = data.bulletSize;
+
+        var coll = shooter.collision;
+        coll.collidesWith = data.targetLayer;
     }
 
     public virtual void Shoot()
     {
-        // if(!shooter.isPlaying)
-        // {
-            shooter.Play();
-        // }
+        shooter.Play();
+    }
+
+    public virtual void Burst()
+    {
+        shooter.Play();
+        Invoke("StopShooting", .1f);
     }
 
     public virtual void StopShooting()
@@ -44,6 +50,14 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void RotateShoots(float angle)
     {
+        var main = shooter.main;
+        main.startRotation = angle * Mathf.Deg2Rad;
+    }
+
+    public virtual void RotateShoots()
+    {
+        var parent = GetComponentInParent<Transform>();
+        float angle = - parent.rotation.eulerAngles.z;
         var main = shooter.main;
         main.startRotation = angle * Mathf.Deg2Rad;
     }
@@ -61,7 +75,7 @@ public abstract class ActionEffect : MonoBehaviour
 [System.Serializable]
 public struct ActionData
 {
-    public TargetType target;
+    public LayerMask targetLayer;
     public float bulletSpeed;
     public float bulletRange;
     public float bulletSize;

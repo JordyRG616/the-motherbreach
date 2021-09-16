@@ -107,7 +107,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -4878,7 +4878,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    target: 1
+    targetLayer:
+      serializedVersion: 2
+      m_Bits: 64
     bulletSpeed: 10
     bulletRange: 2
     bulletSize: 0.5
