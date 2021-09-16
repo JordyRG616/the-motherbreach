@@ -6,27 +6,27 @@ public class TurretManager : MonoBehaviour
 {
     private TurretStats stats;
     private BaseEffectTemplate baseEffect;
-    private TopActionTemplate topAction;
+    private ActionEffect topAction;
     private ActionController actionController;
 
     void Awake()
     {
         baseEffect = GetComponentInChildren<BaseEffectTemplate>();
-        topAction = GetComponentInChildren<TopActionTemplate>();
+        topAction = GetComponentInChildren<ActionEffect>();
         actionController = GetComponentInChildren<ActionController>();
 
         SetStats();
 
         baseEffect.ActivateMainEffect(this);
         
-        actionController.Initialize(topAction, stats.cooldown);
+       // actionController.Initialize(topAction, stats.cooldown);
     }   
 
     private void SetStats()
     {
-        stats.cost = baseEffect.ReturnCost() + topAction.ReturnCost();
-        stats.hull = baseEffect.ReturnHull() + topAction.ReturnHull();
-        stats.cooldown = topAction.ReturnCooldown();
+        // stats.cost = baseEffect.ReturnCost() + topAction.ReturnCost();
+        // stats.hull = baseEffect.ReturnHull() + topAction.ReturnHull();
+        // stats.cooldown = topAction.ReturnCooldown();
     }
     
     public void UpdateHull(float amount)

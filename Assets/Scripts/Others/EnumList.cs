@@ -5,5 +5,7 @@ public enum RotationControlScheme {None, QE, Mouse}
 //. EFEITOS DE TURRET
 public enum BaseType {None, Accelerator}
 public enum TopType {None, Artillery}
+
+//. BULLET SYSTEM
 public enum TargetType {None, Enemy, Friend}
 

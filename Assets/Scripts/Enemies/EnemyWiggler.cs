@@ -17,6 +17,7 @@ public class EnemyWiggler : MonoBehaviour
         {
             CancelInvoke();
         }
+        //float rdm = UnityEngine.Random.Range(0, 1f);
         InvokeRepeating("Wiggle", 0, .1f);
     }
 
