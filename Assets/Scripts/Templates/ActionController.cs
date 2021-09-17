@@ -42,7 +42,7 @@ public abstract class ActionController : MonoBehaviour
             shooter.ReceiveTarget(null);
         }
         
-        transform.localRotation = initialRotation;
+        StartCoroutine(ReturnToInitialRotation());
         
         StartCoroutine(GetTarget());
     }
