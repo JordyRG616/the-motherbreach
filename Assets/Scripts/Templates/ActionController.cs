@@ -43,7 +43,7 @@ public abstract class ActionController : MonoBehaviour
         }
         
         transform.localRotation = initialRotation;
-        
+
         StartCoroutine(GetTarget());
     }
 

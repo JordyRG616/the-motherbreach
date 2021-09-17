@@ -447,7 +447,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 626906754}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d552069b85802e34492bceb768842fa0, type: 3}
+  m_Script: {fileID: 11500000, guid: b503ec2b82856014fab8a589fc862b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   movementScheme: 1
@@ -1460,13 +1460,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1026620203233198501, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1026620203233198501, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1026620203233198501, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 2833432014126258593, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
       propertyPath: movementSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2833432014126258593, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
       propertyPath: rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2833432014126258595, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
       propertyPath: m_RootOrder
@@ -1515,6 +1527,22 @@ PrefabInstance:
     - target: {fileID: 2833432014126258605, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
       propertyPath: m_Name
       value: Base
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619274050931570226, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619274051287617628, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619274051959253178, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619274052238632280, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a700a3d03bd2abc4c90da011706f7055, type: 3}
