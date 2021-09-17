@@ -7,8 +7,10 @@ public class ShipController : MonoBehaviour
 {
     [SerializeField] private float movementSpeed, rotationSpeed, dragFactor, dragSpeed;
     private Rigidbody2D body;
-    private Vector3 drag;
-    private bool playing;
+    private Vector3 linearDrag;
+    private float angularDrag;
+    private bool linearDrafting, angularDrafting;
+    [SerializeField] private float angularDraftAdjust;
 
     void OnEnable()
     {
@@ -26,53 +28,77 @@ public class ShipController : MonoBehaviour
     
     private void MoveShip(object sender, MovementEventArgs e)
     {
-        transform.position += drag + (Vector3)e.direction * .01f * movementSpeed;
+        transform.position += linearDrag + (Vector3)e.direction * .01f * movementSpeed;
         // Debug.Log(e.direction.x / dragFactor);
-        drag += (Vector3)e.direction / dragFactor;
+        linearDrag += (Vector3)e.direction / dragFactor;
     }
 
     private void RotateShip(object sender, RotationEventArgs e)
     {
-        body.MoveRotation(body.rotation + e.direction * rotationSpeed);
+        transform.Rotate(0, 0, e.direction * rotationSpeed, Space.Self);
+        angularDrag += e.direction / dragFactor;
     }
 
     private void ApplyInertia(object sender, EventArgs e)
     {
-        if(!playing)
+        if(!linearDrafting)
         {
-            StartCoroutine(Draft());
+            StartCoroutine(MovementDraft());
+        }
+        if(!angularDrafting)
+        {
+            StartCoroutine(RotationDraft());
         }
     }
 
-    private IEnumerator Draft()
+    private IEnumerator MovementDraft()
     {
-        if(drag.magnitude > 0)
+        if(linearDrag.magnitude > 0)
         {
-            Debug.Log("playing");
-
-            playing = true;
+            linearDrafting = true;
 
             float dragRemaining = 1.1f;
             
             while(dragRemaining > 1)
             {
 
-                dragRemaining = Mathf.Max(drag.magnitude * dragFactor, 1);
+                dragRemaining = Mathf.Max(linearDrag.magnitude * dragFactor, 1);
 
-                transform.position += drag * dragSpeed * movementSpeed;
-                drag -= drag * .01f;
-                Debug.Log(dragRemaining);
+                transform.position += linearDrag * dragSpeed * movementSpeed;
+                linearDrag -= linearDrag * .01f;
                 yield return new WaitForSecondsRealtime(.01f);
             }
 
-            drag = Vector3.zero;
+            linearDrag = Vector3.zero;
 
-            playing = false;
+            linearDrafting = false;
 
-            Debug.Log("finished");
-
-            StopCoroutine(Draft());
+            StopCoroutine(MovementDraft());
         }
+    }
+
+    private IEnumerator RotationDraft()
+    {        
+        angularDrafting = true;
+
+        float dragRemaining = 1.1f;
+        
+        while(dragRemaining > 1)
+        {
+
+            dragRemaining = Mathf.Max(Mathf.Sqrt((angularDrag * dragFactor) * (angularDrag * dragFactor)), 1);
+
+            transform.Rotate(0, 0, angularDrag * dragSpeed * rotationSpeed * angularDraftAdjust, Space.Self);
+            angularDrag -= angularDrag * .01f;
+            yield return new WaitForSecondsRealtime(.01f);
+        }
+
+        //angularDrag = 0;
+
+        angularDrafting = false;
+
+        StopCoroutine(RotationDraft());
+        
     }
 
     private void DestroyController()

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ArtilleryController : ActionController
 {
-    void Awake()
+    public override void Awake()
     {
-        StartCoroutine(GetTarget());
+        base.Awake();
 
+        StartCoroutine(GetTarget());
     }
 
     public override void Activate()

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2833432014126258595}
   - component: {fileID: 2833432014126258604}
   - component: {fileID: 2833432014126258593}
-  - component: {fileID: 2833432014126258594}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -101,28 +100,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 3
-  rotationSpeed: 1.5
---- !u!50 &2833432014126258594
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2833432014126258605}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 1
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  rotationSpeed: 0.3
+  dragFactor: 100000000
+  dragSpeed: 20000
+  angularDraftAdjust: 30
 --- !u!114 &258829387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1524247461609163238, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2985067165456925456, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
       propertyPath: m_SortingOrder
@@ -331,7 +312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1524247461609163238, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2985067165456925456, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
       propertyPath: m_SortingOrder
@@ -426,7 +407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1524247461609163238, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4079032858720769112, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
       propertyPath: m_RootOrder
@@ -505,7 +486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1524247461609163238, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2985067165456925456, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
       propertyPath: m_SortingOrder

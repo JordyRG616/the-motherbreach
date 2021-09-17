@@ -233,6 +233,7 @@ MonoBehaviour:
   - {fileID: 6342110202891006796}
   - {fileID: 3973888730918536811}
   enemiesInSight: []
+  fieldOfView: {fileID: 1524247461609163238}
 --- !u!70 &1524247461609163238
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -240,7 +241,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7685943198356329193}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1

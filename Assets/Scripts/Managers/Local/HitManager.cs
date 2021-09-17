@@ -19,10 +19,8 @@ public class HitManager : MonoBehaviour, IManager
 
     void OnParticleCollision(GameObject other)
     {
-        Debug.Log("w1");
         if(other.TryGetComponent<ActionEffect>(out ActionEffect action))
         {
-            Debug.Log("w2");
             action.ApplyEffect(this);   
         }
     }

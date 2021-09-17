@@ -9,12 +9,24 @@ public abstract class ActionController : MonoBehaviour
     [SerializeField] protected List<ActionEffect> shooters;
     [SerializeField] protected List<EnemyManager> enemiesInSight = new List<EnemyManager>();
     protected EnemyManager target;
+    protected Quaternion initialRotation;
+
+    public virtual void Awake()
+    {
+        initialRotation = transform.rotation;
+    }
 
     protected IEnumerator GetTarget()
     {
         yield return new WaitUntil(() => enemiesInSight.Count > 0);
         target = enemiesInSight.OrderBy(x => Vector3.Distance(transform.position, x.transform.position))
             .FirstOrDefault();
+
+        foreach(ActionEffect shooter in shooters)
+        {
+            shooter.ReceiveTarget(target);
+        }
+
         StartCoroutine(FollowTarget(target));
         Activate();
         StopCoroutine(GetTarget());
@@ -27,9 +39,25 @@ public abstract class ActionController : MonoBehaviour
         foreach(ActionEffect shooter in shooters)
         {
             shooter.StopShooting();
+            shooter.ReceiveTarget(null);
+        }
+        
+        StartCoroutine(ReturnToInitialRotation());
+        
+        StartCoroutine(GetTarget());
+    }
+
+    private IEnumerator ReturnToInitialRotation()
+    {
+        Debug.Log(initialRotation.eulerAngles.z);
+        while((int)transform.localRotation.eulerAngles.z != (int)initialRotation.eulerAngles.z)
+        {
+        Debug.Log(transform.localRotation.eulerAngles.z);
+            transform.Rotate(0, 0, -0.1f, Space.Self);
+            yield return new WaitForSecondsRealtime(.01f);
         }
 
-        StartCoroutine(GetTarget());
+        StopCoroutine(ReturnToInitialRotation());
     }
 
     protected IEnumerator FollowTarget(EnemyManager target)
@@ -47,7 +75,7 @@ public abstract class ActionController : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
-
+    
         StopShooters();
         StopCoroutine("FollowTarget");
     }
@@ -67,6 +95,7 @@ public abstract class ActionController : MonoBehaviour
             if(enemiesInSight.Contains(enemy))
             {
                 enemiesInSight.Remove(enemy);
+                
             }
         }
     }
