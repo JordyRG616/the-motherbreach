@@ -39,6 +39,7 @@ public class InputManager : MonoBehaviour
 
     public event EventHandler<MovementEventArgs> OnMovementPressed;
     public event EventHandler<RotationEventArgs> OnRotationPressed;
+    public event EventHandler OnInertia;
 
     void Awake()
     {
@@ -99,6 +100,10 @@ public class InputManager : MonoBehaviour
         if(direction.magnitude != 0)
         {
             OnMovementPressed?.Invoke(this, new MovementEventArgs(direction));
+        }
+        if(direction.magnitude == 0)
+        {
+            OnInertia?.Invoke(this, EventArgs.Empty);
         }
     }
 
