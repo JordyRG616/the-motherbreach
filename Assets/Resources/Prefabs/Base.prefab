@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c53f785a5bda34e902bc8972a8ba02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 3
-  rotationSpeed: 0.3
+  movementSpeed: 2
+  rotationSpeed: 0.2
   dragFactor: 100000000
   dragSpeed: 20000
   angularDraftAdjust: 30
@@ -124,31 +124,6 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5619274050931570226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edbf1b21fa3a7bc49bed7bcdd8febc5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1844068020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5619274051287617628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14a51192193237f41b2d41e18cad7dc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxIntegrity: 100
---- !u!114 &1844068024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5619274051287617628}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: edbf1b21fa3a7bc49bed7bcdd8febc5f, type: 3}
@@ -401,14 +376,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2833432014126258595}
     m_Modifications:
-    - target: {fileID: -6271160054087907953, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
-      propertyPath: m_Radius
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1524247461609163238, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4079032858720769112, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -457,17 +424,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: TurretPrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 7685943198356329193, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
---- !u!1 &5619274051287617628 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7685943198356329193, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}
-  m_PrefabInstance: {fileID: 2833432015033483957}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2290640758601471725 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4079032858720769112, guid: 73501c202d2a673489f1b8b94eb29e86, type: 3}

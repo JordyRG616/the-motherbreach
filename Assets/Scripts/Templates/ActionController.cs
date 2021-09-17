@@ -49,10 +49,8 @@ public abstract class ActionController : MonoBehaviour
 
     private IEnumerator ReturnToInitialRotation()
     {
-        Debug.Log(initialRotation.eulerAngles.z);
         while((int)transform.localRotation.eulerAngles.z != (int)initialRotation.eulerAngles.z)
         {
-        Debug.Log(transform.localRotation.eulerAngles.z);
             transform.Rotate(0, 0, -0.1f, Space.Self);
             yield return new WaitForSecondsRealtime(.01f);
         }
