@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2232729688115175442}
   - component: {fileID: 6327413566281048751}
   - component: {fileID: 3165491192998575122}
+  - component: {fileID: 4897547520524322565}
   m_Layer: 0
   m_Name: Shooter
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533536809274662720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: 0.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 767239399378577487}
@@ -4819,7 +4820,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ef7817b1739ab4c418aee63c8a001b56, type: 2}
+  - {fileID: 2100000, guid: fbf06f580acda5842b545435d5ca0b8b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4880,12 +4881,25 @@ MonoBehaviour:
   data:
     targetLayer:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 128
     bulletSpeed: 10
     bulletRange: 2
     bulletSize: 0.5
     fireRate: 1
     bulletDamage: 10
+--- !u!114 &4897547520524322565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533536809274662720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f900d3a95ec5e47adbe52974283124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Prefab: {fileID: 3347733753155457817, guid: 894fc0cd49b4cf14eb3e13428d1545a1, type: 3}
 --- !u!1 &6070819127656450695
 GameObject:
   m_ObjectHideFlags: 0
@@ -4896,7 +4910,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3709292450076844395}
   m_Layer: 0
-  m_Name: BulletActionEffect
+  m_Name: Simple shoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
