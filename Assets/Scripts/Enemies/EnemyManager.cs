@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour, IManager
 {
+    [SerializeField] private EnemyType enemyType;
     private EnemyWiggler wiggler;
     private AttackController attackController;
     private int attackCooldown = 0;
@@ -33,5 +34,10 @@ public class EnemyManager : MonoBehaviour, IManager
         {
             attackCooldown++;
         }
+    }
+
+    public EnemyType GetEnemyType()
+    {
+        return enemyType;
     }
 }

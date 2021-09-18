@@ -9,11 +9,6 @@ public class CameraFollowComponent : MonoBehaviour
     [SerializeField] private float followSpeed;
     private bool following;
 
-    void Start()
-    {
-
-    }
-
     private IEnumerator Follow(Vector3 direction)
     {
         while(!Mathf.Approximately(direction.magnitude, 0))
