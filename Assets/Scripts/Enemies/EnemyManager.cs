@@ -12,7 +12,6 @@ public class EnemyManager : MonoBehaviour, IManager
 
     public void DestroyManager()
     {
-        wiggler.OnWigglePeak -= TriggerAttack;
         Destroy(this);
     }
 
@@ -21,7 +20,6 @@ public class EnemyManager : MonoBehaviour, IManager
         wiggler = GetComponent<EnemyWiggler>();
         attackController = GetComponent<AttackController>();
 
-        wiggler.OnWigglePeak += TriggerAttack;
     }
 
     private void TriggerAttack(object sender, EventArgs e)

@@ -5,4 +5,12 @@ public enum RotationControlScheme {None, QE, Mouse}
 //.WAVE/FORMATION/ENEMY RELATED
 public enum WaveType {Normal, Elite, Boss}
 public enum EnemyType {Shooter}
-public enum WigglePattern {HorizontalSine, VerticalSine, HorizontalCosine, VerticalCosine}
+public enum WigglePattern 
+{
+    HorizontalSine, 
+    VerticalSine, 
+    HorizontalCosine, 
+    VerticalCosine, 
+    ClockwiseCircle, 
+    CounterClockwiseCircle
+}

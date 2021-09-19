@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FormationManager : MonoBehaviour
 {
-    [SerializeField] private List<RowData> rows;
+    [SerializeField] private FormationSlotsData slotsData;
     private FormationConstructor formationConstructor;
     private WiggleController wiggleController;
     private List<IManager> managers;
@@ -19,6 +19,8 @@ public class FormationManager : MonoBehaviour
         managers = GetComponents<IManager>().ToList();
 
         Fill();
+
+        wiggleController.Initiate();
     }
 
     public T GetManager<T>()
@@ -29,17 +31,7 @@ public class FormationManager : MonoBehaviour
 
     private void Fill()
     {
-        foreach(RowData row in rows)
-        {
-            formationConstructor.ConstructRow(row, this);
-        }
+        formationConstructor.ConstructEnemies(slotsData.slots, this);
     }
-}
-
-[System.Serializable]
-public struct RowData
-{
-    public List<Vector2> enemyPositions;
-    public EnemyType enemyType;
-    public WigglePattern wigglePattern;
+    
 }

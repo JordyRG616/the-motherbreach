@@ -40,13 +40,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7881279865963158432}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b4bb2e6d25ca58478346c18cd69fb4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.2
-  baseTransform: {fileID: 0}
   MinOrbitRadius: 20
   MaxOrbitRadius: 35
 --- !u!114 &103657891
@@ -73,22 +72,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf34a1a5e733a94b91d78f53f4c6f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rows:
-  - enemyPositions:
-    - {x: -4.8, y: -3.2}
-    - {x: -1.6, y: -3.2}
-    - {x: 1.6, y: -3.2}
-    - {x: 4.8, y: -3.2}
-    enemyType: 0
-    wigglePattern: 0
-  - enemyPositions:
-    - {x: -3.2, y: 0}
-    - {x: 0, y: 0}
-    - {x: 3.2, y: 0}
-    enemyType: 0
-    wigglePattern: 2
-  - enemyPositions:
-    - {x: -1.6, y: 3.2}
-    - {x: 1.6, y: 3.2}
-    enemyType: 0
-    wigglePattern: 0
+  slotsData: {fileID: 11400000, guid: 347bd66872ff68345bccf986a022a4a4, type: 2}

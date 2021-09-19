@@ -50,19 +50,24 @@ public class FormationConstructor : MonoBehaviour
         }
     }
 
-    public void ConstructRow(RowData data, FormationManager parentFormation)
+    public void ConstructEnemies(List<EnemySlot> slots, FormationManager parentFormation)
     {
-        var instanceList = enemies.FindAll(x => x.GetEnemyType() == data.enemyType);
-        int rdm = Random.Range(0, instanceList.Count);
-        var enemy = instanceList[rdm];
-        
-        if(availableEnemies.Contains(enemy.gameObject))
+        foreach(EnemySlot slot in slots)
         {
-            foreach(Vector2 position in data.enemyPositions)
+            var instanceList = enemies.FindAll(x => x.GetEnemyType() == slot.enemyType);
+            int rdm = Random.Range(0, instanceList.Count);
+            var enemy = instanceList[rdm];
+
+            if(availableEnemies.Contains(enemy.gameObject))
             {
-                var container = Instantiate(enemy.gameObject, position, Quaternion.identity, parentFormation.transform);
-                parentFormation.GetManager<WiggleController>().AddToMatrix(data.wigglePattern, container.GetComponent<EnemyWiggler>());
+                
+                var container = Instantiate(enemy.gameObject, parentFormation.transform.position, Quaternion.identity, parentFormation.transform);
+                container.transform.localPosition = slot.slotPosition;
+                parentFormation.GetManager<WiggleController>().AddToMatrix(slot.wigglePattern, container.GetComponent<EnemyWiggler>());
             }
-        }
+        }  
     }
+
+
+    
 }

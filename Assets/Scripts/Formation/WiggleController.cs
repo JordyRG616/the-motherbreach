@@ -7,13 +7,8 @@ public class WiggleController : MonoBehaviour, IManager
 {
     private Dictionary<WigglePattern, List<EnemyWiggler>> wiggleMatrix = new Dictionary<WigglePattern, List<EnemyWiggler>>();
 
-    [ContextMenu("teste")]
-    public void test()
+    public void Initiate()
     {
-        // foreach(List<EnemyWiggler> key in wiggleMatrix.Values)
-        // {
-        //     Debug.Log(key.Count);
-        // }
         ActivateWigglers();
     }
     

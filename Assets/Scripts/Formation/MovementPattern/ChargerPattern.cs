@@ -15,11 +15,11 @@ public class ChargerPattern : MovementPatternTemplate
 
     protected override void Move()
     {
-        float distance = Vector3.Distance(transform.position, baseTransform.position);
+        float distance = Vector3.Distance(transform.position, ship.position);
         
         if(distance > forkDistance)
         {
-            direction = (baseTransform.position - transform.position).normalized;
+            direction = (ship.position - transform.position).normalized;
             Rotate();
         }
 
@@ -28,7 +28,7 @@ public class ChargerPattern : MovementPatternTemplate
 
     private void Rotate()
     {
-        Vector3 direction = - (baseTransform.position - transform.position);
+        Vector3 direction = - (ship.position - transform.position);
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.Euler(0, 0, angle);

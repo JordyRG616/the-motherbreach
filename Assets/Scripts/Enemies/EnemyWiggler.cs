@@ -6,13 +6,15 @@ using UnityEngine;
 public class EnemyWiggler : MonoBehaviour
 {
     private int wiggleAmount;
-    private Vector3 wiggleDirection = new Vector3();
     private bool wiggling;
+    private float frequency;
+    private Vector3 StartingPosition;
 
-    public event EventHandler OnWigglePeak;
 
     public void StartWiggling(WigglePattern pattern)
     {
+        StartingPosition = transform.localPosition;
+        frequency = .1f;
         wiggling = true;
         StartCoroutine(pattern.ToString());
     }
@@ -26,10 +28,10 @@ public class EnemyWiggler : MonoBehaviour
     {
         while(wiggling)
         {
-            float shift = Mathf.Sin(wiggleAmount * .1f * Mathf.Rad2Deg);
-            transform.localPosition += Vector3.right * shift;
-            wiggleAmount += 1;
-            yield return new WaitForSecondsRealtime(.1f);
+            float shift = Mathf.Sin(wiggleAmount * Mathf.Deg2Rad);
+            transform.localPosition = new Vector3(shift, 0, 0) + StartingPosition;
+            wiggleAmount += 10;
+            yield return new WaitForSecondsRealtime(frequency);
         }
     }
 
@@ -37,12 +39,58 @@ public class EnemyWiggler : MonoBehaviour
     {
         while(wiggling)
         {
-            float shift = Mathf.Cos((wiggleAmount * .1f * Mathf.Rad2Deg) + 180);
-            transform.localPosition += Vector3.right * shift;
-            wiggleAmount += 1;
-            yield return new WaitForSecondsRealtime(.1f);
+            float shift = Mathf.Cos((wiggleAmount + 90) * Mathf.Deg2Rad);
+            transform.localPosition =  new Vector3(shift, 0, 0) + StartingPosition;
+            wiggleAmount += 10;
+            yield return new WaitForSecondsRealtime(frequency);
         }
     }
+
+    private IEnumerator VerticalSine()
+    {
+        while(wiggling)
+        {
+            float shift = Mathf.Sin(wiggleAmount * Mathf.Deg2Rad);
+            transform.localPosition = new Vector3(0, shift, 0) + StartingPosition;
+            wiggleAmount += 10;
+            yield return new WaitForSecondsRealtime(frequency);
+        }
+    }
+
+    private IEnumerator VerticalCosine()
+    {
+        while(wiggling)
+        {
+            float shift = Mathf.Cos ((wiggleAmount + 90f) * Mathf.Deg2Rad );
+            transform.localPosition = new Vector3(0, shift, 0) + StartingPosition;
+            wiggleAmount += 10;
+            yield return new WaitForSecondsRealtime(frequency);
+        }
+    }
+
+    private IEnumerator ClockwiseCircle()
+    {
+        while(wiggling)
+        {
+            float angle = (wiggleAmount * Mathf.Deg2Rad);
+            transform.localPosition = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) + StartingPosition;
+            wiggleAmount -= 10;
+            yield return new WaitForSecondsRealtime(frequency);
+        }
+    }
+
+    private IEnumerator CounterClockwiseCircle()
+    {
+        while(wiggling)
+        {
+            float angle = (wiggleAmount * Mathf.Deg2Rad);
+            transform.localPosition = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle))  + StartingPosition;
+            wiggleAmount += 10;
+            yield return new WaitForSecondsRealtime(frequency);
+        }
+    }
+
+
 
     // private void Wiggle()
     // {
