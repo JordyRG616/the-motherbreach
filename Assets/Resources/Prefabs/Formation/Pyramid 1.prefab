@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 103657890}
   - component: {fileID: 103657891}
   - component: {fileID: 2818983217388122581}
+  - component: {fileID: 3934246630490480194}
+  - component: {fileID: 2102595000625488609}
   m_Layer: 0
   m_Name: Pyramid 1
   m_TagString: Untagged
@@ -46,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.2
-  MinOrbitRadius: 20
-  MaxOrbitRadius: 35
+  MinOrbitRadius: 10
+  MaxOrbitRadius: 15
 --- !u!114 &103657891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,3 +75,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotsData: {fileID: 11400000, guid: 347bd66872ff68345bccf986a022a4a4, type: 2}
+--- !u!114 &3934246630490480194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7881279865963158432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b34e1c5d29d3aa34db9edc164a1ee693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2102595000625488609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7881279865963158432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109bb39407840d04c854f2273bb5999b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 5
+  interval: 1
