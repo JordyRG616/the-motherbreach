@@ -5,33 +5,21 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour, IManager
 {
+    [SerializeField] private EnemyType enemyType;
     private EnemyWiggler wiggler;
-    private AttackController attackController;
-    private int attackCooldown = 0;
 
     public void DestroyManager()
     {
-        wiggler.OnWigglePeak -= TriggerAttack;
         Destroy(this);
     }
 
     void Awake()
     {
         wiggler = GetComponent<EnemyWiggler>();
-        attackController = GetComponent<AttackController>();
-
-        wiggler.OnWigglePeak += TriggerAttack;
     }
 
-    private void TriggerAttack(object sender, EventArgs e)
+    public EnemyType GetEnemyType()
     {
-        if(attackCooldown == attackController.cooldown)
-        {
-            attackController.Attack();
-            attackCooldown = 0;
-        } else
-        {
-            attackCooldown++;
-        }
+        return enemyType;
     }
 }

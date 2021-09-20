@@ -16,7 +16,7 @@ public class CirclePattern : MovementPatternTemplate
 
     protected override void Move()
     {
-        float distance = Vector3.Distance(transform.position, baseTransform.position);
+        float distance = Vector3.Distance(transform.position, ship.position);
          
         if(distance > MaxOrbitRadius || distance < MinOrbitRadius)
         {
@@ -31,7 +31,7 @@ public class CirclePattern : MovementPatternTemplate
 
     private void Rotate()
     {
-        Vector3 direction = (baseTransform.position - transform.position);
+        Vector3 direction = (ship.position - transform.position);
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.Euler(0, 0, angle + 90f);
@@ -41,11 +41,11 @@ public class CirclePattern : MovementPatternTemplate
     {
         if(distance > MaxOrbitRadius)
         {
-            Vector3 direction = (baseTransform.position - transform.position).normalized;
-            transform.position += direction * speed/10;
+            Vector3 direction = (ship.position - transform.position).normalized;
+            transform.position += direction * speed/2;
         } else if(distance < MinOrbitRadius)
         {
-            Vector3 direction = (baseTransform.position - transform.position).normalized;
+            Vector3 direction = (ship.position - transform.position).normalized;
             transform.position -= direction * speed;
         }
     }
@@ -55,8 +55,8 @@ public class CirclePattern : MovementPatternTemplate
         float angle = .01f * speed;
         float cos = Mathf.Cos(angle) - 1;
         float sin = Mathf.Sin(angle);
-        float x = transform.position.x - baseTransform.position.x;
-        float y = transform.position.y - baseTransform.position.y;
+        float x = transform.position.x - ship.position.x;
+        float y = transform.position.y - ship.position.y;
 
         Vector3 newPosition = new Vector3
         (

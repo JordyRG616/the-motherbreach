@@ -2,10 +2,15 @@
 public enum MovementControlScheme {None, WASD, Arrows}
 public enum RotationControlScheme {None, QE, Mouse}
 
-//. EFEITOS DE TURRET
-public enum BaseType {None, Accelerator}
-public enum TopType {None, Artillery}
-
-//. BULLET SYSTEM
-public enum TargetType {None, Enemy, Friend}
-
+//.WAVE/FORMATION/ENEMY RELATED
+public enum WaveType {Normal, Elite, Boss}
+public enum EnemyType {Shooter}
+public enum WigglePattern 
+{
+    HorizontalSine, 
+    VerticalSine, 
+    HorizontalCosine, 
+    VerticalCosine, 
+    ClockwiseCircle, 
+    CounterClockwiseCircle
+}

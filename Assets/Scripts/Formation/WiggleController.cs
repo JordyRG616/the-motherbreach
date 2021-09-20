@@ -3,38 +3,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WiggleController : MonoBehaviour
+public class WiggleController : MonoBehaviour, IManager
 {
-    [SerializeField] private List<EnemyWiggler> leftWigglers;
-    [SerializeField] private List<EnemyWiggler> rightWigglers;
-    [SerializeField] private List<EnemyWiggler> upWigglers;
-    [SerializeField] private List<EnemyWiggler> downWigglers;
+    private Dictionary<WigglePattern, List<EnemyWiggler>> wiggleMatrix = new Dictionary<WigglePattern, List<EnemyWiggler>>();
 
-    void Start()
+    public void Initiate()
     {
         ActivateWigglers();
+    }
+    
+
+    public void AddToMatrix(WigglePattern pattern, EnemyWiggler enemy)
+    {
+        if(wiggleMatrix.ContainsKey(pattern))
+        {
+            wiggleMatrix[pattern].Add(enemy);
+        } else
+        {
+            List<EnemyWiggler> newWigglerList = new List<EnemyWiggler>();
+            newWigglerList.Add(enemy);
+            wiggleMatrix.Add(pattern, newWigglerList);
+        }
+    }
+
+    public void DestroyManager()
+    {
+        foreach(WigglePattern pattern in wiggleMatrix.Keys)
+        {
+            foreach(EnemyWiggler enemy in wiggleMatrix[pattern])
+            {
+                enemy.StopWiggling();
+            }
+        }
+
+        Destroy(this);
     }
 
     private void ActivateWigglers()
     {
-        foreach(EnemyWiggler enemy in leftWigglers)
+        foreach(WigglePattern pattern in wiggleMatrix.Keys)
         {
-            enemy.StartWiggling(Vector3.left);
-        }
-
-        foreach(EnemyWiggler enemy in rightWigglers)
-        {
-            enemy.StartWiggling(Vector3.right);
-        }
-        
-        foreach(EnemyWiggler enemy in upWigglers)
-        {
-            enemy.StartWiggling(Vector3.up);
-        }
-        
-        foreach(EnemyWiggler enemy in downWigglers)
-        {
-            enemy.StartWiggling(Vector3.down);
+            foreach(EnemyWiggler enemy in wiggleMatrix[pattern])
+            {
+                enemy.StartWiggling(pattern);
+            }
         }
     }
 }

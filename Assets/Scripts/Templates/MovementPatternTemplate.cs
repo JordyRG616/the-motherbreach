@@ -6,7 +6,12 @@ public abstract class MovementPatternTemplate : MonoBehaviour
 {
 
     [SerializeField] protected float speed;
-    [SerializeField] protected Transform baseTransform;
+    protected Transform ship;
+
+    protected virtual void Awake()
+    {
+        ship = ShipManager.Main.transform;
+    }
 
 
     protected abstract void Move();
