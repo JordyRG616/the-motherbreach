@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b11d72124408df34f83d4ab30998556e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
 --- !u!50 &3427604724501293083
 Rigidbody2D:
   serializedVersion: 4
@@ -164,7 +165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   action: {fileID: 4070923977961272659}
-  cooldown: 1
 --- !u!114 &1884776048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3165491192998575122, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
       propertyPath: data.bulletSpeed
-      value: 10
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3165491192998575122, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
       propertyPath: data.targetLayer.m_Bits

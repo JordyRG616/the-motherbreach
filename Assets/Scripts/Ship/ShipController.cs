@@ -57,12 +57,13 @@ public class ShipController : MonoBehaviour
         {
             linearDrafting = true;
 
-            float dragRemaining = 1.1f;
+            float dragRemaining = 1.11f;
             
             while(dragRemaining > 1)
             {
 
-                dragRemaining = Mathf.Max(linearDrag.magnitude * dragFactor, 1);
+                if (dragRemaining <= 1.1) dragRemaining = Mathf.Max(linearDrag.magnitude * dragFactor, 1);
+                if (dragRemaining > 1.1) dragRemaining = 1.1f;
 
                 transform.position += linearDrag * dragSpeed * movementSpeed;
                 linearDrag -= linearDrag * .01f;
@@ -86,7 +87,9 @@ public class ShipController : MonoBehaviour
         while(dragRemaining > 1)
         {
 
-            dragRemaining = Mathf.Max(Mathf.Sqrt((angularDrag * dragFactor) * (angularDrag * dragFactor)), 1);
+            if (dragRemaining <= 2) dragRemaining = Mathf.Max(Mathf.Sqrt((angularDrag * dragFactor) * (angularDrag * dragFactor)), 1);
+            if (dragRemaining > 2) dragRemaining = 2;
+
 
             transform.Rotate(0, 0, angularDrag * dragSpeed * rotationSpeed * angularDraftAdjust, Space.Self);
             angularDrag -= angularDrag * .01f;

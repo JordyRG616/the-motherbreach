@@ -26,7 +26,6 @@ public class CameraFollowComponent : MonoBehaviour
     void Update()
     {
         Vector3 direction = objectToFollow.position - transform.position + new Vector3(0, 0, transform.position.z);
-        Debug.Log(direction.magnitude);
         if(direction.magnitude >= followDistance && !following)
         {
             following = true;
