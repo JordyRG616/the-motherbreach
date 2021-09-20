@@ -9,9 +9,10 @@ public abstract class AttackPatternTemplate : MonoBehaviour
     public abstract IEnumerator Sequence(List<AttackController> attackers);
 
     public abstract event EventHandler OnSequenceEnd;
-
+    
     public float GetCooldown()
     {
         return cooldown;
     }
+
 }

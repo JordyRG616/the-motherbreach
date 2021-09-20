@@ -7,10 +7,18 @@ public class AttackController : MonoBehaviour
 {
     [SerializeField] private ActionEffect action;
     
+    public event EventHandler<EnemyEventArgs> OnDeath;
+
     public void Attack()
     {
-        action.RotateShoots();
-        action.Burst();
+        if(action)
+        {
+            action.RotateShoots();
+            action.Burst();
+        } else
+        {
+            OnDeath?.Invoke(this, new EnemyEventArgs(this));
+        }
     }
     
 }

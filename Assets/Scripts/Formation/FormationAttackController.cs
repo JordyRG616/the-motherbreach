@@ -23,7 +23,15 @@ public class FormationAttackController : MonoBehaviour, IManager
     public void AddAttacker(AttackController attacker)
     {
         attackers.Add(attacker);
+        attacker.OnDeath += RemoveEnemy;
     }
+
+    private void RemoveEnemy(object sender, EnemyEventArgs e)
+    {
+        e.attackController.OnDeath -= RemoveEnemy;
+        attackers.Remove(e.attackController);
+    }
+
     private void StartCooldown(object sender, EventArgs e)
     {
         StartCoroutine(OnCooldown());
@@ -45,6 +53,7 @@ public class FormationAttackController : MonoBehaviour, IManager
 
     public void DestroyManager()
     {
+        StopAllCoroutines();
         attackPattern.OnSequenceEnd -= StartCooldown;
     }
 }

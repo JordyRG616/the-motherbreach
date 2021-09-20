@@ -7,5 +7,6 @@ public class WaveData : ScriptableObject
 {
     public WaveType type;
     public int level;
+    public float intervalOfSpawn;
     public List<GameObject> availableFormations;
 }

@@ -63,8 +63,11 @@ public class FormationConstructor : MonoBehaviour
                 
                 var container = Instantiate(enemy.gameObject, parentFormation.transform.position, Quaternion.identity, parentFormation.transform);
                 container.transform.localPosition = slot.slotPosition;
+
                 parentFormation.GetManager<WiggleController>().AddToMatrix(slot.wigglePattern, container.GetComponent<EnemyWiggler>());
                 parentFormation.GetManager<FormationAttackController>().AddAttacker(container.GetComponent<AttackController>());
+                parentFormation.GetManager<PopulationManager>().RegisterEnemy(container.GetComponent<EnemyHealthController>());
+                
             }
         }  
     }

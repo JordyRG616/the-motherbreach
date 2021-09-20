@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
     [SerializeField] private int maxHealth;
     private float currentHealth;
     private Material material;
+
+    public event EventHandler<EnemyEventArgs> OnDeath;
 
     void Awake()
     {
@@ -34,6 +37,8 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
             material.SetFloat("_death", step);
             yield return new WaitForSecondsRealtime(.01f);
         } while(step < 1);
+
+        OnDeath?.Invoke(this, new EnemyEventArgs(this));
 
         Destroy(gameObject);
     }

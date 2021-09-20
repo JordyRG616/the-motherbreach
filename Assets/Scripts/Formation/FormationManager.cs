@@ -2,25 +2,35 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class FormationManager : MonoBehaviour
 {
     [SerializeField] private FormationSlotsData slotsData;
     private FormationConstructor formationConstructor;
-    private WiggleController wiggleController;
     private List<IManager> managers;
 
 
     public void Initialize()
     {
         formationConstructor = FormationConstructor.Main;
-        wiggleController = GetComponent<WiggleController>();
 
         managers = GetComponents<IManager>().ToList();
 
         Fill();
 
-        wiggleController.Initiate();
+        GetManager<WiggleController>().Initiate();
+        GetManager<PopulationManager>().OnPopulationEmpty += DestroyFormation;
+    }
+
+    private void DestroyFormation(object sender, EventArgs e)
+    {
+        foreach(IManager manager in managers)
+        {
+            manager.DestroyManager();
+        }
+
+        Destroy(gameObject);
     }
 
     public T GetManager<T>()
