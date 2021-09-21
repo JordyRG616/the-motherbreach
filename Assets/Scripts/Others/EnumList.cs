@@ -14,3 +14,6 @@ public enum WigglePattern
     ClockwiseCircle, 
     CounterClockwiseCircle
 }
+
+//. TURRET/REWARD RELATED
+public enum RewardLevel {Common, Uncommon, Rare, Unique, Error}

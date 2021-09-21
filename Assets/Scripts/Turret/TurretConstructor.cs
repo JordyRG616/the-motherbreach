@@ -3,16 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TurretConstructor : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
+{   
+    #region Singleton
+    private static TurretConstructor _instance;
+    public static TurretConstructor Main
     {
-        
+        get
+        {
+            if(_instance == null)
+            {
+                _instance = FindObjectOfType<TurretConstructor>();
+                
+                if(_instance == null)
+                {
+                    GameObject container = GameObject.Find("Game Manager");
+
+                    if(container == null)
+                    {
+                        container = new GameObject("Game manager");
+                    }
+                    
+                    _instance = container.AddComponent<TurretConstructor>();
+                }
+            }
+            return _instance;
+        }
+    }
+    #endregion
+
+
+
+
+    [SerializeField] private GameObject TurretTemplate;
+    [SerializeField] private RewardList baseList;
+    [SerializeField] private RewardList topList;
+
+    
+    private GameObject GetBase(Transform parentBlueprint, RewardLevel level)
+    {
+        int rdm = Random.Range(0, baseList.GetListCount(level));
+        GameObject container = Instantiate(baseList.GetRewardByLevel(level, rdm), transform.position, Quaternion.identity, parentBlueprint);
+        container.transform.localPosition = Vector3.zero;
+        return container;
     }
 
-    // Update is called once per frame
-    void Update()
+    private GameObject GetTop(Transform parentBlueprint, RewardLevel level)
     {
-        
+        int rdm = Random.Range(0, topList.GetListCount(level));
+        GameObject container = Instantiate(topList.GetRewardByLevel(level, rdm), transform.position, Quaternion.identity, parentBlueprint);
+        container.transform.localPosition = Vector3.zero;
+        return container;
+    }
+
+    public GameObject Construct(RewardLevel baseLevel, RewardLevel topLevel)
+    {
+        GameObject blueprint = Instantiate(TurretTemplate, transform.position, Quaternion.identity);
+
+        GetBase(blueprint.transform, baseLevel);
+        GetTop(blueprint.transform, topLevel);
+
+        return blueprint;
     }
 }

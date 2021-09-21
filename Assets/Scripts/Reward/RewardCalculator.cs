@@ -4,33 +4,90 @@ using UnityEngine;
 
 public class RewardCalculator : MonoBehaviour
 {
-    [SerializeField][Range(0, 999)] private int a;
-    [SerializeField] private float b;
-    [SerializeField] private float x;
 
-    [ContextMenu("Teste")]
-    public void test()
+    #region Singleton
+    private static RewardCalculator _instance;
+    public static RewardCalculator Main
     {
-        float max = GammaDistribution(2);
-        Debug.Log(FactorialFunction(a));
-        Debug.Log(GammaDistribution(x, max));
-    }
-
-
-    public float GammaDistribution(float x, float max = 1)
-    {
-        float y = ((Mathf.Pow(b, a)) * (Mathf.Pow(x, a - 1)) * (Mathf.Exp(-b * x))) / (FactorialFunction(a - 1));
-        y *= 1 / max;
-        return y;
-    }
-
-    public int FactorialFunction(int x)
-    {
-        int y = 1;
-        for (int i = 0; i < x; i++)
+        get
         {
-            y *= (x-i);
+            if(_instance == null)
+            {
+                _instance = FindObjectOfType<RewardCalculator>();
+                
+                if(_instance == null)
+                {
+                    GameObject container = GameObject.Find("Game Manager");
+
+                    if(container == null)
+                    {
+                        container = new GameObject("Game manager");
+                    }
+                    
+                    _instance = container.AddComponent<RewardCalculator>();
+                }
+            }
+            return _instance;
         }
+    }
+    #endregion
+    
+    Dictionary<float, RewardLevel> ranges = new Dictionary<float, RewardLevel>();
+
+    [SerializeField] private RewardLevelData data;
+    public float test;
+
+    void Awake()
+    {
+        GenerateRanges();
+        Debug.Log(ReturnRewardLevel(GammaDistribution(test)));
+    }
+
+
+    private void GenerateRanges()
+    {   
+        ranges.Clear();
+
+        for (int i = 0; i < data.rewardLevels.Count; i++)
+        {
+            if(i == 0)
+            {
+                ranges.Add(RangeGammaDistribution(0, data.rewardLevels[i].maxProbabilityRange), data.rewardLevels[i].type);
+            } else
+            {
+                ranges.Add(RangeGammaDistribution
+                (
+                    data.rewardLevels[i -1].maxProbabilityRange, 
+                    data.rewardLevels[i].maxProbabilityRange), 
+                    data.rewardLevels[i].type);
+            }
+        }
+
+    }
+
+    public RewardLevel ReturnRewardLevel(float x)
+    {
+        foreach(float range in ranges.Keys)
+        {
+            if(x <= range)
+            {
+                return ranges[range];
+            }
+        }
+        return RewardLevel.Error;
+    }
+
+
+    private float GammaDistribution(float x)
+    {
+        float y = 1 - (Mathf.Exp(-x/2) * ((x/2) + 1));
         return y;
     }
+
+    private float RangeGammaDistribution(float a, float b)
+    {
+        return GammaDistribution(b) - GammaDistribution(a);
+    }  
+
+
 }
