@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,24 +51,37 @@ public class RewardManager : MonoBehaviour
     {
         turretConstructor = TurretConstructor.Main;
         calculator = RewardCalculator.Main;
-        waveManager = WaveManager.Main;
+        //waveManager = WaveManager.Main;
         guiManager = RewardGUIManager.Main;
 
-        
+        guiManager.StartAnimation();
+        GenerateOffer();
     }
 
-    private void AddToOffer(GameObject turret)
+    private void GenerateOffer()
+    {
+        foreach(OfferBox box in guiManager.GetBoxes())
+        {
+            if(box.Empty == true)
+            {
+                GenerateReward(box);
+            }
+        }
+    }
+
+    private void AddToOffer(GameObject turret, OfferBox box)
     {
         turretsInOffer.Add(turret);
+        box.ReceiveTurret(turret);
     }
     
     
 
-    private void GenerateReward()
+    private void GenerateReward(OfferBox box)
     {
-        int waveLevel = waveManager.GetWaveLevel();
-        RewardLevel _base = calculator.CalculateRewardLevel(waveLevel);
-        RewardLevel _top = calculator.CalculateRewardLevel(waveLevel);
-        AddToOffer(turretConstructor.Construct(_base, _top));
+        //int waveLevel = waveManager.GetWaveLevel();
+        RewardLevel _base = RewardLevel.Common; //calculator.CalculateRewardLevel(waveLevel);
+        RewardLevel _top = RewardLevel.Common; //calculator.CalculateRewardLevel(waveLevel);
+        AddToOffer(turretConstructor.Construct(_base, _top), box);
     }
 }

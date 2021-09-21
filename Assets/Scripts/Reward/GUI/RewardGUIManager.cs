@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.UI;
 
 public class RewardGUIManager : MonoBehaviour
 {
@@ -34,14 +36,14 @@ public class RewardGUIManager : MonoBehaviour
 
     [SerializeField] private RectTransform rightPanel;
     [SerializeField] private RectTransform leftPanel;
+    [SerializeField] private List<OfferBox> Boxes;
     [SerializeField] private float speed;
     [SerializeField] private float rightInitialPositon;
     [SerializeField] private float leftInitialPosition;
     [SerializeField] private float meetUpPoint;
     [SerializeField] private Camera mainCamera;
 
-[ContextMenu("Teste")]
-    public void StartInterfaceMovement()
+    public void StartAnimation()
     {
         StopAllCoroutines();
         StartCoroutine(MoveRightPanel());
@@ -60,6 +62,7 @@ public class RewardGUIManager : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(.01f);
         }
+
         StopCoroutine(MoveRightPanel());
     }
 
@@ -85,5 +88,10 @@ public class RewardGUIManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(.01f);
         }
         StopCoroutine(AdjustCamera());
+    }
+
+    public List<OfferBox> GetBoxes()
+    {
+        return Boxes;
     }
 }

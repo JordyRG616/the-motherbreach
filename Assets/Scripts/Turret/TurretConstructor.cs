@@ -32,13 +32,17 @@ public class TurretConstructor : MonoBehaviour
     #endregion
 
 
-
-
     [SerializeField] private GameObject TurretTemplate;
     [SerializeField] private RewardList baseList;
     [SerializeField] private RewardList topList;
 
-    
+    void Start()
+    {
+        baseList.InitiateMatrix();
+        topList.InitiateMatrix();
+    }
+
+
     private GameObject GetBase(Transform parentBlueprint, RewardLevel level)
     {
         int rdm = Random.Range(0, baseList.GetListCount(level));
@@ -59,8 +63,8 @@ public class TurretConstructor : MonoBehaviour
     {
         GameObject blueprint = Instantiate(TurretTemplate, transform.position, Quaternion.identity);
 
-        GetBase(blueprint.transform, baseLevel);
-        GetTop(blueprint.transform, topLevel);
+        GameObject _gun = GetBase(blueprint.transform, baseLevel);
+        GameObject _base = GetTop(blueprint.transform, topLevel);
 
         return blueprint;
     }

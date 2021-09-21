@@ -12,7 +12,7 @@ public class RewardList : ScriptableObject
 
     private Dictionary<RewardLevel, List<GameObject>> listsByRewards = new Dictionary<RewardLevel, List<GameObject>>();
 
-    void Awake()
+    public void InitiateMatrix()
     {
         listsByRewards.Add(RewardLevel.Common, Common);
         listsByRewards.Add(RewardLevel.Uncommon, Uncommon);
