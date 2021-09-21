@@ -35,14 +35,29 @@ public class RewardCalculator : MonoBehaviour
     Dictionary<float, RewardLevel> ranges = new Dictionary<float, RewardLevel>();
 
     [SerializeField] private RewardLevelData data;
-    public float test;
+    private static float _upgradeFactor;
+    public static float UpgradeFactor
+    {
+        get
+        {
+            if(_upgradeFactor < 0)
+            {
+                return 0;
+            }
+            if(_upgradeFactor > 1)
+            {
+                return 1;
+            }
+            return _upgradeFactor;
+        }
+    }
 
     void Awake()
     {
         GenerateRanges();
-        Debug.Log(ReturnRewardLevel(GammaDistribution(test)));
     }
 
+    
 
     private void GenerateRanges()
     {   
@@ -65,7 +80,17 @@ public class RewardCalculator : MonoBehaviour
 
     }
 
-    public RewardLevel ReturnRewardLevel(float x)
+    public RewardLevel CalculateRewardLevel(int waveLevel)
+    {
+        float x = waveLevel - Random.Range(1, UpgradeFactor);
+        if(x < 0)
+        {
+            x = 0;
+        }
+        return ReturnRewardLevel(x);
+    }
+
+    private RewardLevel ReturnRewardLevel(float x)
     {
         foreach(float range in ranges.Keys)
         {
@@ -89,5 +114,8 @@ public class RewardCalculator : MonoBehaviour
         return GammaDistribution(b) - GammaDistribution(a);
     }  
 
-
+    public void UpdateUpgradeFactor(float value)
+    {
+        _upgradeFactor += value;
+    }
 }
