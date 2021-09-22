@@ -36,58 +36,97 @@ public class RewardGUIManager : MonoBehaviour
 
     [SerializeField] private RectTransform rightPanel;
     [SerializeField] private RectTransform leftPanel;
+    [SerializeField] private GameObject interactablePanel;
     [SerializeField] private List<OfferBox> Boxes;
+    [SerializeField] private List<TurretSlotGUI> slotsGUI;
     [SerializeField] private float speed;
     [SerializeField] private float rightInitialPositon;
     [SerializeField] private float leftInitialPosition;
     [SerializeField] private float meetUpPoint;
     [SerializeField] private Camera mainCamera;
 
-    public void StartAnimation()
+    public void InitiateGUI()
     {
         StopAllCoroutines();
-        StartCoroutine(MoveRightPanel());
-        StartCoroutine(MoveLeftPanel());
-        StartCoroutine(AdjustCamera());
+        StartCoroutine(MoveRightPanel(Vector2.right * 150));
+        StartCoroutine(MoveLeftPanel(Vector2.right * 150));
+        StartCoroutine(AdjustCamera(10));
     }
 
-    private IEnumerator MoveRightPanel()
+    public void TerminateGUI()
     {
-        while(rightPanel.anchoredPosition.x < 150)
-        {
-            if(rightPanel.position.x != 150)
-            {
-                rightPanel.anchoredPosition += Vector2.right * speed;
-            }
+        StopAllCoroutines();
+        StartCoroutine(MoveRightPanel(Vector2.left * 650));
+        StartCoroutine(MoveLeftPanel(Vector2.right * 650));
+        StartCoroutine(AdjustCamera(25));
+    }
 
+    private void InitiateInteractablePanel()
+    {
+        interactablePanel.SetActive(true);
+        foreach (TurretSlotGUI slot in slotsGUI)
+        {
+            slot.ActivateTracking();
+        }
+    }
+
+    private void TerminateInteractablePanel()
+    {
+        interactablePanel.SetActive(false);
+        foreach (TurretSlotGUI slot in slotsGUI)
+        {
+            slot.DeactivateTracking();
+        }
+    }
+
+    private IEnumerator MoveRightPanel(Vector2 targetPos)
+    {
+        while ((rightPanel.anchoredPosition - targetPos).magnitude > 0)
+        {
+            rightPanel.anchoredPosition += (targetPos - rightPanel.anchoredPosition).normalized * speed;
+        
             yield return new WaitForSecondsRealtime(.01f);
         }
 
-        StopCoroutine(MoveRightPanel());
+        StopCoroutine("MoveRightPanel");
     }
 
-    private IEnumerator MoveLeftPanel()
+
+    private IEnumerator MoveLeftPanel(Vector2 targetPos)
     {
-        while(leftPanel.anchoredPosition.x > 150)
+        while ((leftPanel.anchoredPosition - targetPos).magnitude > 0)
         {
-            if(leftPanel.position.x != 150)
-            {
-                leftPanel.anchoredPosition += Vector2.left * speed * (5f/8f);
-            }
+            leftPanel.anchoredPosition += (targetPos - leftPanel.anchoredPosition).normalized * speed * 5f/8f;
+        
             yield return new WaitForSecondsRealtime(.01f);
         }
-        StopCoroutine(MoveLeftPanel());
+
+        StopCoroutine("MoveLeftPanel");
     }
 
-    private IEnumerator AdjustCamera()
+    
+
+    private IEnumerator AdjustCamera(int targetSize)
     {
-        while(mainCamera.orthographicSize > 10)
+        float sign = Mathf.Sign(mainCamera.orthographicSize - targetSize);
+
+        while((mainCamera.orthographicSize - targetSize) * sign > 0)
         {
-            mainCamera.orthographicSize -= (15f/80f);
-            mainCamera.transform.position += Vector3.left * (4f/80f);
+            mainCamera.orthographicSize -= (15f/80f) * sign;
+            mainCamera.transform.position += Vector3.left * (4f/80f) * sign;
             yield return new WaitForSecondsRealtime(.01f);
         }
-        StopCoroutine(AdjustCamera());
+
+        if(sign < 0)
+        {
+            TerminateInteractablePanel();
+        } else 
+        {
+            InitiateInteractablePanel();
+        }
+
+
+        StopCoroutine("AdjustCamera");
     }
 
     public List<OfferBox> GetBoxes()

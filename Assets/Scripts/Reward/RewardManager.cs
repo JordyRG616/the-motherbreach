@@ -33,13 +33,13 @@ public class RewardManager : MonoBehaviour
     #endregion
 
 
-
     private TurretConstructor turretConstructor;
     private RewardCalculator calculator;
     private WaveManager waveManager;
     private RewardGUIManager guiManager;
 
-    private List<GameObject> turretsInOffer = new List<GameObject>();
+    private Dictionary<OfferBox, GameObject> turretsInOffer = new Dictionary<OfferBox, GameObject>();
+    public GameObject ActiveSelection {get; private set;}
     
 
     void Start()
@@ -54,7 +54,7 @@ public class RewardManager : MonoBehaviour
         //waveManager = WaveManager.Main;
         guiManager = RewardGUIManager.Main;
 
-        guiManager.StartAnimation();
+        guiManager.InitiateGUI();
         GenerateOffer();
     }
 
@@ -69,13 +69,26 @@ public class RewardManager : MonoBehaviour
         }
     }
 
+    public void BuildSelection()
+    {
+        Destroy(ActiveSelection);
+        guiManager.TerminateGUI();
+    }
+
     private void AddToOffer(GameObject turret, OfferBox box)
     {
-        turretsInOffer.Add(turret);
         box.ReceiveTurret(turret);
+        box.OnOfferSelected += SelectTurret;
+        turret.transform.position = box.transform.position - Vector3.left * 100;
+        turretsInOffer.Add(box, turret);
     }
-    
-    
+
+    private void SelectTurret(object sender, EventArgs e)
+    {
+        OfferBox box = (OfferBox)sender;
+        ActiveSelection = turretsInOffer[box];
+        ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
+    }
 
     private void GenerateReward(OfferBox box)
     {
