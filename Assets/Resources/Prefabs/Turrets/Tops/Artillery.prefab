@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 61e36c669df917d43830da923aaa1f55, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 394d622165596614ea0c5b87fb62e4dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,10 +91,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1355426411069355527}
     m_Modifications:
-    - target: {fileID: 533536809274662720, guid: b2747e83ee5648747b9695e47140109e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: SubModule.subEmitters.Array.data[0].emitter
+      value: 
+      objectReference: {fileID: 6740935475670804334}
     - target: {fileID: 3709292450076844395, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -157,10 +157,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1355426411069355527}
     m_Modifications:
-    - target: {fileID: 533536809274662720, guid: b2747e83ee5648747b9695e47140109e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3709292450076844395, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -214,5 +210,10 @@ PrefabInstance:
 --- !u!4 &6656696006611705943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+  m_PrefabInstance: {fileID: 8006089981129146684}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6740935475670804334 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3645599520356279890, guid: b2747e83ee5648747b9695e47140109e, type: 3}
   m_PrefabInstance: {fileID: 8006089981129146684}
   m_PrefabAsset: {fileID: 0}
