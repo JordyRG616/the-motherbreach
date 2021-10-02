@@ -90,6 +90,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1355426411069355527}
     m_Modifications:
+    - target: {fileID: 2232729688115175442, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}
+      propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}
+      propertyPath: ShapeModule.m_Position.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}
+      propertyPath: ShapeModule.m_Position.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}
+      propertyPath: InitialModule.startSizeY.scalar
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3709292450076844395, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -137,6 +157,10 @@ PrefabInstance:
     - target: {fileID: 6070819127656450695, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}
       propertyPath: m_Name
       value: Beamer
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108899706517846832, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}

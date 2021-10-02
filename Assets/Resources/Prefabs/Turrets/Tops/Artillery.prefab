@@ -91,10 +91,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1355426411069355527}
     m_Modifications:
-    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
-      propertyPath: SubModule.subEmitters.Array.data[0].emitter
-      value: 
-      objectReference: {fileID: 6740935475670804334}
     - target: {fileID: 3709292450076844395, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -143,6 +139,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Artillery Shooter
       objectReference: {fileID: 0}
+    - target: {fileID: 6327413566281048751, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b228987f04970e441abdd262c84acd3a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2747e83ee5648747b9695e47140109e, type: 3}
 --- !u!4 &9027030139415595156 stripped
@@ -210,10 +210,5 @@ PrefabInstance:
 --- !u!4 &6656696006611705943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: b2747e83ee5648747b9695e47140109e, type: 3}
-  m_PrefabInstance: {fileID: 8006089981129146684}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &6740935475670804334 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3645599520356279890, guid: b2747e83ee5648747b9695e47140109e, type: 3}
   m_PrefabInstance: {fileID: 8006089981129146684}
   m_PrefabAsset: {fileID: 0}
