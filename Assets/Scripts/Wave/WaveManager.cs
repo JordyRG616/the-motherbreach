@@ -5,6 +5,34 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    #region Singleton
+    private static WaveManager _instance;
+    public static WaveManager Main
+    {
+        get
+        {
+            if(_instance == null)
+            {
+                _instance = FindObjectOfType<WaveManager>();
+                
+                if(_instance == null)
+                {
+                    GameObject container = GameObject.Find("Game Manager");
+
+                    if(container == null)
+                    {
+                        container = new GameObject("Game manager");
+                    }
+                    
+                    _instance = container.AddComponent<WaveManager>();
+                }
+            }
+            return _instance;
+        }
+    }
+    #endregion
+
+
     [SerializeField] private WaveList listOfWaves;
     [SerializeField] private float distanceToSpawn;
     private Queue<WaveData> dataQueue  = new Queue<WaveData>();
@@ -73,6 +101,11 @@ public class WaveManager : MonoBehaviour
     {
         StopAllCoroutines();
         StartNextWave();
+    }
+
+    public int GetWaveLevel()
+    {
+        return activeWave.level;
     }
 
     public void ResetInstantiator(object sender, EventArgs e)

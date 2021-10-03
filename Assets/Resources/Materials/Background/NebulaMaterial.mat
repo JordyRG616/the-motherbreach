@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NebulaMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: fb0812312e7b0f44ab7bbe9e9a1307fe, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_2c3fa3bc9c2a4a3d903248781302ff67:
+        m_Texture: {fileID: 2800000, guid: 3a364ca4c24581a4c8b97d74cd4f7a3d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b2c918905330c264a9110c2f39739833, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_228f4c444fa14779b02414b99085a80f_Out_0:
+        m_Texture: {fileID: 2800000, guid: 3a364ca4c24581a4c8b97d74cd4f7a3d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_027a61ac4f8d465693c5cb053e827c84: -16.41
+    - Vector1_3289704098ef42e08132c5654c29a0a9: 1.7
+    - Vector1_540ae1ea4c1c42f6a011e65b8e5b790d: 0.707
+    - Vector1_56c643f74f1846cc962034788b5531b3: 1.73
+    - Vector1_5aacdab46c754dc4a828ce29af79bb0b: 0.1
+    - Vector1_5bf96ad1e38842009885c7e78ea0c6a9: 1.73
+    - Vector1_67ec867ec4eb4a6eb3985a7cf10e3527: 28.2
+    - Vector1_b563424ea1794416b2ca747def741afa: -0.55
+    - Vector1_c1e108bc3eb640199bb04494a270dcf4: 0
+    - Vector1_c256811900254c1fa6df111c17a72575: 0.1
+    m_Colors:
+    - Vector2_9ec6f74750e6488cb790271d68c43940: {r: 1, g: 1, b: 0, a: 0}
+    - Vector2_cf70d8c5066b4a5fbcf3c8916c5d2d0a: {r: 0.01, g: 0.01, b: 0, a: 0}
+  m_BuildTextureStacks: []
