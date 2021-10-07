@@ -155,6 +155,15 @@ MonoBehaviour:
   musicTrack:
     trackVolume: 1
     maxChannels: 2
+    invoker: {fileID: 572250548}
+  SFXTrack:
+    trackVolume: 1
+    maxChannels: 16
+    invoker: {fileID: 572250548}
+  GUITrack:
+    trackVolume: 1
+    maxChannels: 1
+    invoker: {fileID: 572250548}
 --- !u!4 &572250549
 Transform:
   m_ObjectHideFlags: 0
@@ -201,11 +210,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicEvents:
   - eventName: Inertia
-    unique: 0
+    unique: 1
     eventPath: event:/Music/Inertia
   - eventName: Momentum
-    unique: 0
+    unique: 1
     eventPath: event:/Music/Momentum
+  SFXEvents:
+  - eventName: EnemyDeath
+    unique: 0
+    eventPath: event:/SFX/EnemyDeath
+  - eventName: Explosion
+    unique: 0
+    eventPath: event:/SFX/Explosion
+  - eventName: Hit1
+    unique: 0
+    eventPath: event:/SFX/Hit1
+  - eventName: Hit2
+    unique: 0
+    eventPath: event:/SFX/Hit2
+  - eventName: Shoot1
+    unique: 0
+    eventPath: event:/SFX/Shoot1
+  - eventName: Shoot2
+    unique: 0
+    eventPath: event:/SFX/Shoot2
+  - eventName: Spawn
+    unique: 0
+    eventPath: event:/SFX/Spawn
+  GUIEvents: []
 --- !u!4 &1023249431
 Transform:
   m_ObjectHideFlags: 0

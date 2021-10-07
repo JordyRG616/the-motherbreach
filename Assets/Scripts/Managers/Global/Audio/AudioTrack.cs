@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,29 +11,62 @@ public class AudioTrack
 {
     [Range(0, 1f)] public float trackVolume;
     [SerializeField] private int maxChannels;
-    public List<EventInstance> activeChannels = new List<EventInstance>();
+    [SerializeField] private MonoBehaviour invoker;
+    public Dictionary<EventInstance, IEnumerator> activeChannels = new Dictionary<EventInstance, IEnumerator>();
 
-    public void ReceiveAudio(EventInstance audioInstance, MonoBehaviour emitter)
+    public void ReceiveAudio(EventInstance audioInstance, bool unique = false)
     {
+
         if(activeChannels.Count < maxChannels)
         {
-            activeChannels.Add(audioInstance);
+            if(unique && activeChannels.Keys.Contains(audioInstance))
+            {
+                StopAudio(audioInstance);
+            }
+
+            IEnumerator couroutine = TrackAudioVolume(audioInstance);
+            activeChannels.Add(audioInstance, couroutine);
             audioInstance.setVolume(trackVolume);
-            emitter.StartCoroutine(PlayAudio(audioInstance));
+            audioInstance.start();
+            invoker.StartCoroutine(couroutine);
         }
     }
 
-    private IEnumerator PlayAudio(EventInstance audioInstance)
+    public void ReceivePlayingAudio(EventInstance audioInstance)
     {
-        audioInstance.start();
+        if(activeChannels.Count < maxChannels)
+        {
+            IEnumerator couroutine = TrackAudioVolume(audioInstance);
+            activeChannels.Add(audioInstance, couroutine);
+            audioInstance.setVolume(trackVolume);
+            invoker.StartCoroutine(couroutine);
+        }
+    }
 
-        while(AudioIsPlaying(audioInstance))
+    private IEnumerator TrackAudioVolume(EventInstance audioInstance)
+    {
+
+        while (AudioIsPlaying(audioInstance))
         {
             audioInstance.setVolume(trackVolume);
 
             yield return new WaitForEndOfFrame();
         }
 
+        StopAudio(audioInstance);
+    }
+
+    public void StopTrackingVolume(EventInstance audioInstance)
+    {
+        if(activeChannels.Keys.Contains(audioInstance))
+        {
+            invoker.StopCoroutine(activeChannels[audioInstance]);
+        }
+    }
+
+    public void StopAudio(EventInstance audioInstance)
+    {
+        audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         audioInstance.release();
         activeChannels.Remove(audioInstance);
     }

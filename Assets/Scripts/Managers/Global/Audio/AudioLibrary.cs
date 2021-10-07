@@ -7,6 +7,8 @@ using FMOD.Studio;
 public class AudioLibrary : MonoBehaviour
 {
     [SerializeField] private List<AudioEventData> musicEvents;
+    [SerializeField] private List<AudioEventData> SFXEvents;
+    [SerializeField] private List<AudioEventData> GUIEvents;
 
     public EventInstance GetMusic(string musicName)
     {
@@ -19,4 +21,13 @@ public class AudioLibrary : MonoBehaviour
         return musicEvents[rdm].ReturnInstance();
     }
 
+    public EventInstance GetSFX(string SFXName)
+    {
+        return SFXEvents.Find(x => x.eventName == SFXName).ReturnInstance();
+    }
+
+    public EventInstance GetGUISound(string SFXName)
+    {
+        return GUIEvents.Find(x => x.eventName == SFXName).ReturnInstance();
+    }
 }
