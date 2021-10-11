@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IntegrityManager : MonoBehaviour, IDamageable
+public class IntegrityManager : MonoBehaviour, IDamageable, IManager
 {
     [SerializeField] private int maxIntegrity;
     [SerializeField] private SpriteRenderer barRenderer;
@@ -20,12 +20,18 @@ public class IntegrityManager : MonoBehaviour, IDamageable
             manager.DestroyManager();
         }
 
-        Destroy(gameObject);
+        GetComponentInChildren<TurretVFXManager>().StartCoroutine(GetComponentInChildren<TurretVFXManager>().Die(gameObject));
+
+        // Destroy(gameObject);
     }
 
     public void UpdateHealth(float amount)
     {
         currentIntegrity += amount;
+        if(amount < 0)
+        {
+            GetComponentInChildren<TurretVFXManager>().StartCoroutine(GetComponentInChildren<TurretVFXManager>().TakeDamage());
+        }
         if(currentIntegrity <= 0)
         {
             DestroyDamageable();
@@ -40,4 +46,8 @@ public class IntegrityManager : MonoBehaviour, IDamageable
         barRenderer.material.SetFloat("_healthPercentual", percentual);
     }
 
+    public void DestroyManager()
+    {
+
+    }
 }

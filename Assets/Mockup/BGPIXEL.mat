@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TurretMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: 42f16620936903f4d83292de704865df, type: 3}
+  m_Name: BGPIXEL
+  m_Shader: {fileID: -6465566751694194690, guid: 4e075ebb9a200b347a3ef2e07abbffab, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,11 +19,11 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
+    - Texture2D_dfaced5a6f4c4abd9089af9b53603a18:
+        m_Texture: {fileID: 8400000, guid: a8485805d9523ff46af1d97983d4a217, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NormalMap:
+    - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -40,20 +40,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Boolean_0c57503af9944d3682b2bed8cac60299: 0
-    - Boolean_abe8ac7bb78f4821b40016380ed0b6f2: 0
-    - Vector1_1ef51f10658b4a3ea1b0fcf6798fb4bc: 15
-    - Vector1_22af8b6fd5ad4df7b8a14a4dc181b733: 0
-    - Vector1_42203951df83492a9f69092664b46642: 1
-    - Vector1_6be705bdb2894fc19f116a42ad55a8f5: 17.3
-    - Vector1_7209149770dc48e6a44fba8deb3a5788: 7.7
-    - Vector1_8b0f11f8f55a4b7ebdff1ca214f4f19c: 0
-    - _Damaged: 0
-    - _Decay: 0
-    - _ScanDensity: 15
-    - _Selected: 0
-    - _Variation: 4
+    - Vector1_0ab17214ea4042ec96ed97eeed4bd486: 200
+    - Vector1_7040314a79f841b19d57448e8d116cea: 1
     m_Colors:
-    - Color_6228915fed6d48118fbbbde4be062ee0: {r: 0, g: 1, b: 0.1750474, a: 1}
-    - _SelectedColor: {r: 0.9911022, g: 0, b: 0.07618539, a: 1}
+    - Vector2_9f5a6a51373048ca808cb92a6e432e1e: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []

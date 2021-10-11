@@ -19,6 +19,7 @@ public class TurretSlot : MonoBehaviour
     public void BuildTurret(GameObject turret)
     {
         GameObject occupyingTurret = Instantiate(turret, Vector3.zero, transform.rotation, transform);
+        occupyingTurret.GetComponentInChildren<TurretVFXManager>().DisableSelected();
         occupyingTurret.transform.localPosition = Vector3.zero;
     }
 }

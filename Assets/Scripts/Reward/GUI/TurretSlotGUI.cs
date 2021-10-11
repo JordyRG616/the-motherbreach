@@ -27,7 +27,6 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("w");
         if(!associatedSlot.IsOcuppied())
         {
             associatedSlot.BuildTurret(manager.ActiveSelection);
@@ -44,6 +43,10 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
         if(manager.ActiveSelection != null)
         {
             manager.ActiveSelection.transform.rotation = associatedSlot.transform.rotation;
+            if(!associatedSlot.IsOcuppied())
+            {
+                manager.ActiveSelection.GetComponentInChildren<TurretVFXManager>().SetSelectedColor(true);
+            }
         }
     }
 
@@ -52,6 +55,8 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
         if(manager.ActiveSelection != null)
         {
             manager.ActiveSelection.transform.rotation = Quaternion.identity;
+            manager.ActiveSelection.GetComponentInChildren<TurretVFXManager>().SetSelectedColor(false);
+
         }
     }
 

@@ -88,6 +88,7 @@ public class RewardManager : MonoBehaviour
         OfferBox box = (OfferBox)sender;
         ActiveSelection = turretsInOffer[box];
         ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
+        ActiveSelection.GetComponentInChildren<TurretVFXManager>().EnableSelected();
     }
 
     private void GenerateReward(OfferBox box)

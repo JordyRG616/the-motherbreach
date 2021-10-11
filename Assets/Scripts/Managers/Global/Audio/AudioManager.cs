@@ -35,15 +35,15 @@ public class AudioManager : MonoBehaviour
     {
         effects = new AudioEffects(this);
         library = GetComponentInChildren<AudioLibrary>();
+
+        RequestMusic();
     }
 
-    [ContextMenu("Play")]
     public void RequestMusic()
     {
         musicTrack.ReceiveAudio(library.GetMusic(), true);
     }
 
-    [ContextMenu("Crossfade")]
     public void CrossfadeMusics()
     {
         effects.StartCrossfade(musicTrack.activeChannels.Keys.FirstOrDefault(), library.GetMusic(), musicTrack);
