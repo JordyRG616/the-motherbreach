@@ -6,14 +6,14 @@ using UnityEngine;
 public class EnemyHealthController : MonoBehaviour, IDamageable
 {
     [SerializeField] private int maxHealth;
+    private EnemyVFXManager vfxManager;
     private float currentHealth;
-    private Material material;
 
     public event EventHandler<EnemyEventArgs> OnDeath;
 
-    void Awake()
+    void Start()
     {
-        material = GetComponent<SpriteRenderer>().material;
+        vfxManager = GetComponent<EnemyVFXManager>();
         UpdateHealth(maxHealth);
     }
 
@@ -22,41 +22,54 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
         foreach(IManager manager in GetComponents<IManager>())
         {
             manager.DestroyManager();
-        }
-
-        StartCoroutine(LastBreath());
+        }        
     }
 
-    private IEnumerator LastBreath()
+    public void TriggerOnDeath()
     {
-        float step = 0;
-
-        do
-        {
-            step += .01f;
-            material.SetFloat("_death", step);
-            yield return new WaitForSecondsRealtime(.01f);
-        } while(step < 1);
-
+        vfxManager.StopAllCoroutines();
+        DestroyDamageable();
         OnDeath?.Invoke(this, new EnemyEventArgs(this));
-
         Destroy(gameObject);
     }
+
+    // private IEnumerator LastBreath()
+    // {
+    //     float step = 0;
+
+    //     do
+    //     {
+    //         step += .01f;
+    //         material.SetFloat("_death", step);
+    //         yield return new WaitForSecondsRealtime(.01f);
+    //     } while(step < 1);
+
+    //     OnDeath?.Invoke(this, new EnemyEventArgs(this));
+
+    //     Destroy(gameObject);
+    // }
 
     public void UpdateHealth(float amount)
     {
         currentHealth += amount;
         if(currentHealth <= 0)
         {
-            DestroyDamageable();
+            GetComponent<CircleCollider2D>().enabled = false;
+            vfxManager.StartCoroutine(vfxManager.LastBreath());
         }
+
         UpdateHealthBar();
     }
 
     public void UpdateHealthBar()
     {
-        float percentual = Mathf.Min(1 - currentHealth / maxHealth, 1);
-
-        material.SetFloat("_damagePercentual", percentual);
+        vfxManager.StartCoroutine(vfxManager.UpdateHealthBar(currentHealth, maxHealth));
     }
+
+    // public void UpdateHealthBar()
+    // {
+    //     float percentual = Mathf.Min(1 - currentHealth / maxHealth, 1);
+
+    //     material.SetFloat("_damagePercentual", percentual);
+    // }
 }
