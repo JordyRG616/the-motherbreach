@@ -4,18 +4,9 @@ using UnityEngine;
 
 public abstract class BaseEffectTemplate : MonoBehaviour
 {
-    [SerializeField] protected int cost, hull;
+    [SerializeField] protected BaseEffectTrigger trigger;
+    protected ActionController associatedController;
 
-    public abstract void ActivateMainEffect(TurretManager turretManager);
-    public abstract void ActivateLocalEffect();
+    public abstract void ApplyEffect(List<ActionEffect> shooters);
 
-    public int ReturnCost()
-    {
-        return cost;
-    }
-
-    public int ReturnHull()
-    {
-        return hull;
-    }
 }

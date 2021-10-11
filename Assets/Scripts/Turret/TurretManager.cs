@@ -17,7 +17,7 @@ public class TurretManager : MonoBehaviour
 
         SetStats();
 
-        baseEffect.ActivateMainEffect(this);
+        //baseEffect.ActivateMainEffect(this);
         
        // actionController.Initialize(topAction, stats.cooldown);
     }   
