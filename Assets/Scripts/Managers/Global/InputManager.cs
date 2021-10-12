@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using CraftyUtilities;
 using UnityEngine;
 
@@ -41,6 +42,7 @@ public class InputManager : MonoBehaviour
     public event EventHandler<RotationEventArgs> OnRotationPressed;
     public event EventHandler OnInertia;
 
+
     void Awake()
     {
         if(movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
@@ -60,6 +62,8 @@ public class InputManager : MonoBehaviour
         {
             initializeMouseScheme();
         }
+
+        StartCoroutine(WaveControl());
     }
 
     private void initializeQEScheme()
@@ -117,10 +121,14 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    void Update()
+    private IEnumerator WaveControl()
     {
-        TriggerMovement();
-        TriggerRotation();
+        while(gameObject.activeSelf)
+        {
+            TriggerMovement();
+            TriggerRotation();
+            yield return new WaitForSecondsRealtime(0.001f);
+        }
     }
 }
 

@@ -28,9 +28,8 @@ public class ShipController : MonoBehaviour
     
     private void MoveShip(object sender, MovementEventArgs e)
     {
-        transform.position += linearDrag + (Vector3)e.direction * .01f * movementSpeed;
-        // Debug.Log(e.direction.x / dragFactor);
-        linearDrag += (Vector3)e.direction / dragFactor;
+        transform.position += (Vector3)e.direction * .01f * movementSpeed;
+        linearDrag += (Vector3)e.direction;
     }
 
     private void RotateShip(object sender, RotationEventArgs e)
@@ -57,17 +56,13 @@ public class ShipController : MonoBehaviour
         {
             linearDrafting = true;
 
-            float dragRemaining = 1.11f;
+            float step = .1f;
             
-            while(dragRemaining > 1)
+            while(step > 0)
             {
-
-                if (dragRemaining <= 1.1) dragRemaining = Mathf.Max(linearDrag.magnitude * dragFactor, 1);
-                if (dragRemaining > 1.1) dragRemaining = 1.1f;
-
-                transform.position += linearDrag * dragSpeed * movementSpeed;
-                linearDrag -= linearDrag * .01f;
-                yield return new WaitForSecondsRealtime(.01f);
+                transform.position += linearDrag.normalized * step;
+                step -= .001f;
+                yield return new WaitForSecondsRealtime(.02f);
             }
 
             linearDrag = Vector3.zero;
@@ -111,4 +106,5 @@ public class ShipController : MonoBehaviour
 
         Destroy(this);
     }
+
 }

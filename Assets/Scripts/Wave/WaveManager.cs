@@ -40,13 +40,13 @@ public class WaveManager : MonoBehaviour
     private ShipManager ship;
     private int spawnedFormations;
 
+    public event EventHandler OnWaveEnd;
 
-    public void Start()
+
+    public void Initialize()
     {
         ship = ShipManager.Main;
         GenerateDataQueue();
-        StartNextWave();
-        StartCoroutine(InstantiateFormations(PositionToSpawn()));
     }
 
     private void GenerateDataQueue()
@@ -57,15 +57,16 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private void StartNextWave()
+    public void StartNextWave()
     {
         if(dataQueue.Count > 0)
         {
             activeWave = dataQueue.Dequeue();
             spawnedFormations = 0;
+            StartCoroutine(InstantiateFormations(PositionToSpawn()));
         } else
         { 
-            Debug.Log("Game Over");
+            Debug.Log("Victory");
         }
     }
 
@@ -100,7 +101,7 @@ public class WaveManager : MonoBehaviour
     private void EndWave()
     {
         StopAllCoroutines();
-        StartNextWave();
+        OnWaveEnd?.Invoke(this, EventArgs.Empty);
     }
 
     public int GetWaveLevel()
