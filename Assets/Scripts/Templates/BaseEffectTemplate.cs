@@ -7,6 +7,25 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     [SerializeField] protected BaseEffectTrigger trigger;
     protected ActionController associatedController;
 
-    public abstract void ApplyEffect(List<ActionEffect> shooters);
+    public abstract void ApplyEffect();
+
+    
+    protected void UpdateControllerStats()
+    {
+        foreach(ActionEffect shooter in associatedController.GetShooters())
+        {
+            shooter.SetActionData();
+        }
+    }
+
+    public void ReceiveWeapon(ActionController weapon)
+    {
+        associatedController = weapon;
+    }
+
+    public BaseEffectTrigger GetTrigger()
+    {
+        return trigger;
+    }
 
 }

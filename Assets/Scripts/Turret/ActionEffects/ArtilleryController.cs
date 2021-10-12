@@ -17,6 +17,6 @@ public class ArtilleryController : ActionController
         ActionEffect secondGun = shooters[1];
 
         firstGun.Shoot();
-        secondGun.Invoke("Shoot", secondGun.GetData().cooldown / 2);
+        secondGun.Invoke("Shoot", secondGun.GetData().Cooldown / 2);
     }
 }

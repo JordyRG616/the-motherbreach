@@ -97,4 +97,9 @@ public abstract class ActionController : MonoBehaviour
             }
         }
     }
+
+    public List<ActionEffect> GetShooters()
+    {
+        return shooters;
+    }
 }

@@ -1,34 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection;
 
 [System.Serializable]
 public class ActionData
 {
     public LayerMask targetLayer;
-    public float speed;
-    public float range;
-    public float bulletSize;
-    public float cooldown;
-    public float damage;
+    public float Speed;
+    public float Range;
+    public float Size;
+    public float Cooldown;
+    public float Damage;
     private Dictionary<ActionStat, float> stats = new Dictionary<ActionStat, float>();
-
-    private void InitiateList()
-    {
-        stats.Add(ActionStat.Speed, speed);
-        stats.Add(ActionStat.Range, range);
-        stats.Add(ActionStat.Size, bulletSize);
-        stats.Add(ActionStat.Cooldown, cooldown);
-        stats.Add(ActionStat.Damage, damage);
-    }
 
     public void SetStat(ActionStat stat, float value)
     {
-        if(stats.Count == 0)
-        {
-            InitiateList();
-        }
-
-        stats[stat] = value;
+        FieldInfo _stat = typeof(ActionData).GetField(stat.ToString());
+        _stat.SetValue(this, value);
     }
 }

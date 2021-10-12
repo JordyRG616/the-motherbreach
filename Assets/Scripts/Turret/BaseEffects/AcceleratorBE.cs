@@ -6,12 +6,14 @@ public class AcceleratorBE : BaseEffectTemplate
 {
 
 
-    public override void ApplyEffect(List<ActionEffect> shooters)
+    public override void ApplyEffect()
     {
-        foreach(ActionEffect shooter in shooters)
+        foreach(ActionEffect shooter in associatedController.GetShooters())
         {
-            float value = shooter.GetData().cooldown / 2;
-            shooter.GetData().SetStat(ActionStat.Speed, value);
+            float value = shooter.GetData().Cooldown / 2;
+            shooter.GetData().SetStat(ActionStat.Cooldown, value);
         }
+
+        UpdateControllerStats();
     }
 }

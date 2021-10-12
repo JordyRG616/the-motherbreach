@@ -63,8 +63,8 @@ public class TurretConstructor : MonoBehaviour
     {
         GameObject blueprint = Instantiate(TurretTemplate, transform.position, Quaternion.identity);
 
-        GameObject _gun = GetBase(blueprint.transform, baseLevel);
-        GameObject _base = GetTop(blueprint.transform, topLevel);
+        GameObject _base = GetBase(blueprint.transform, baseLevel);
+        GameObject _gun = GetTop(blueprint.transform, topLevel);
 
         return blueprint;
     }
