@@ -110,6 +110,8 @@ public class RewardGUIManager : MonoBehaviour
     {
         float sign = Mathf.Sign(mainCamera.orthographicSize - targetSize);
 
+        mainCamera.GetComponent<CameraFollowComponent>().enabled = !mainCamera.GetComponent<CameraFollowComponent>().enabled;
+
         while((mainCamera.orthographicSize - targetSize) * sign > 0)
         {
             mainCamera.orthographicSize -= (15f/80f) * sign;

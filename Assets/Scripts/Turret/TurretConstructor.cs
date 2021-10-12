@@ -36,7 +36,7 @@ public class TurretConstructor : MonoBehaviour
     [SerializeField] private RewardList baseList;
     [SerializeField] private RewardList topList;
 
-    void Start()
+    public void Initialize()
     {
         baseList.InitiateMatrix();
         topList.InitiateMatrix();

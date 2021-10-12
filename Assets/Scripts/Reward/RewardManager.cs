@@ -40,16 +40,17 @@ public class RewardManager : MonoBehaviour
 
     private Dictionary<OfferBox, GameObject> turretsInOffer = new Dictionary<OfferBox, GameObject>();
     public GameObject ActiveSelection {get; private set;}
-    
 
     void Start()
     {
         Initiate();
     }
 
+
     public void Initiate()
     {
         turretConstructor = TurretConstructor.Main;
+        turretConstructor.Initialize();
         calculator = RewardCalculator.Main;
         //waveManager = WaveManager.Main;
         guiManager = RewardGUIManager.Main;

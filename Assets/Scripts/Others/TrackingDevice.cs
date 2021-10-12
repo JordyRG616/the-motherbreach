@@ -14,7 +14,10 @@ public class TrackingDevice : MonoBehaviour
     {
         while(tracking == true)
         {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 viewPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos = new Vector2(viewPos.x, viewPos.y);
+            Debug.Log(Input.mousePosition);
+            
             if(IsUI)
             {
                 mousePos = Input.mousePosition;
@@ -24,8 +27,6 @@ public class TrackingDevice : MonoBehaviour
             {
                 transform.position = mousePos;
             }
-
-            transform.position = mousePos;
 
             yield return new WaitForSecondsRealtime(.01f);
         }
