@@ -44,6 +44,8 @@ public class TurretVFXManager : VFXManager
         float step = 0;
         deathParticles.Play();
 
+        audioManager.RequestSFX(deathSFX);
+
         while(step <= 1)
         {
             instMaterial.SetFloat("_Decay", step);

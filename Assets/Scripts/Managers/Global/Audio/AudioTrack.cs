@@ -71,6 +71,17 @@ public class AudioTrack
         activeChannels.Remove(audioInstance);
     }
 
+    public void StopAudio(int audioID)
+    {
+        if(activeChannels.Count > audioID)
+        {
+            EventInstance audioInstance = activeChannels.ElementAt(audioID).Key;
+            audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            audioInstance.release();
+            activeChannels.Remove(audioInstance);
+        }
+    }
+
     private bool AudioIsPlaying(EventInstance audioInstance)
     {
         audioInstance.getPlaybackState(out PLAYBACK_STATE state);

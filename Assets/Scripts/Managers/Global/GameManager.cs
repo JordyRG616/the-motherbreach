@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     private RewardManager rewardManager;
     private WaveManager waveManager;
     private InputManager inputManager;
+    private AudioManager audioManager;
 
     [ContextMenu("Start Game")]
     public void Start()
@@ -55,6 +56,9 @@ public class GameManager : MonoBehaviour
         inputManager = InputManager.Main;
         OnGameStateChange += inputManager.HandleWaveControl;
 
+        audioManager = AudioManager.Main;
+        audioManager.Initialize();
+
         InitiateRewardPhase(this, EventArgs.Empty);
     }
 
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour
         gameState = GameState.OnWave;
         OnGameStateChange?.Invoke(this, toWave);
         waveManager.StartNextWave();
+        audioManager.RequestMusic();
     }
 
     private void InitiateRewardPhase(object sender, EventArgs e)
@@ -70,6 +75,7 @@ public class GameManager : MonoBehaviour
         gameState = GameState.OnReward;
         OnGameStateChange?.Invoke(this, toReward);
         rewardManager.InitiateReward();
+        audioManager.StopMusicTrack();
     }
 }
 

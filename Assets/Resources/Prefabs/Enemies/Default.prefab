@@ -179,6 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1945ee5ee02ce449bc8f6011edf1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitSFX: event:/SFX/Hit2
 --- !u!114 &3144146666003743109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   refMaterial: {fileID: 2100000, guid: fabe78c187155b14eaa20de6d80dd1ea, type: 2}
   deathParticles: {fileID: 776650173809352576}
+  deathSFX: event:/SFX/EnemyDeath
   healthController: {fileID: 3144146666003743109}
 --- !u!1001 &1409845202651105601
 PrefabInstance:

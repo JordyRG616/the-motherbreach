@@ -6,12 +6,15 @@ public abstract class VFXManager : MonoBehaviour, IManager
 {
     [SerializeField] protected Material refMaterial;
     [SerializeField] protected ParticleSystem deathParticles;
+    [SerializeField] [FMODUnity.EventRef] protected string deathSFX;
+    protected AudioManager audioManager;
 
     protected Material instMaterial;
 
 
     protected virtual void Awake()
     {
+        audioManager = AudioManager.Main;
         instMaterial = new Material(refMaterial);
         GetComponent<SpriteRenderer>().material = instMaterial;
     }
@@ -20,5 +23,6 @@ public abstract class VFXManager : MonoBehaviour, IManager
     {
         StopAllCoroutines();
         Destroy(instMaterial);
+        Destroy(this);
     }
 }

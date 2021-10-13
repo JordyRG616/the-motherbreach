@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6327413566281048751}
   - component: {fileID: 3165491192998575122}
   - component: {fileID: 855313659844933342}
+  - component: {fileID: 437484634214772865}
   m_Layer: 8
   m_Name: Shooter
   m_TagString: Untagged
@@ -4893,7 +4894,7 @@ MonoBehaviour:
     Range: 2
     Size: 0.75
     Cooldown: 3
-    Damage: 100
+    Damage: 50
 --- !u!114 &855313659844933342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4907,6 +4908,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Prefab: {fileID: 3347733753155457817, guid: 1e58c4d1e6fb55c48b351d41a81ab38a, type: 3}
+--- !u!114 &437484634214772865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533536809274662720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 713fc53059c7c1241bab7e4be7c42e42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  associatedPS: {fileID: 2232729688115175442}
+  eventPath: event:/SFX/Shoot1
 --- !u!1 &4727326768003400753
 GameObject:
   m_ObjectHideFlags: 0

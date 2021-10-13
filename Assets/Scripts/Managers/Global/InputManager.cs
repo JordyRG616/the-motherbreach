@@ -73,12 +73,10 @@ public class InputManager : MonoBehaviour
     { 
         if(e.newState == GameState.OnWave)
         {
-            Debug.Log(e.newState);
             StartCoroutine(_waveControl);
         }
         if(e.newState == GameState.OnReward)
         {
-            Debug.Log(e.newState);
             StopAllCoroutines();
         }
     }
@@ -135,6 +133,11 @@ public class InputManager : MonoBehaviour
         if(direction != 0)
         {
             OnRotationPressed?.Invoke(this, new RotationEventArgs(direction));
+        }
+
+        if(direction == 0)
+        {
+            OnInertia?.Invoke(this, EventArgs.Empty);
         }
     }
 

@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class HitManager : MonoBehaviour, IManager
 {    
+    [SerializeField] [FMODUnity.EventRef] private string hitSFX;
     public IDamageable HealthInterface{get; private set;}
     private ParticleSystem.Particle[] particles;
+    private AudioManager audioManager;
 
     public void DestroyManager()
     {
@@ -16,6 +18,8 @@ public class HitManager : MonoBehaviour, IManager
 
     void Awake()
     {
+        audioManager = AudioManager.Main;
+
         HealthInterface = GetComponent<IDamageable>();
 
         particles = new ParticleSystem.Particle[1000];
@@ -28,16 +32,11 @@ public class HitManager : MonoBehaviour, IManager
             ParticleSystem shuriken = other.GetComponent<ParticleSystem>();
             int count = shuriken.GetParticles(particles);
 
-            // List<ParticleCollisionEvent> _collisionEvents = new List<ParticleCollisionEvent>(shuriken.GetSafeCollisionEventSize());
-            // int events = shuriken.GetCollisionEvents(gameObject, _collisionEvents);
-
-            // foreach(ParticleCollisionEvent collision in _collisionEvents)
-            // {
-            //     collision.
-            // }
-
             ParticleSystem.Particle particle = particles.OrderBy(x => (this.transform.position - x.position).magnitude).FirstOrDefault();
             other.GetComponent<ParticleSystem>().TriggerSubEmitter(0, ref particle);
+
+            audioManager.RequestSFX(hitSFX);
+
             action.ApplyEffect(this);   
         }
     }

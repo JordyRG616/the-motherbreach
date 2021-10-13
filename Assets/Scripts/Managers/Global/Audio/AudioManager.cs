@@ -31,12 +31,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioTrack SFXTrack;
     [SerializeField] private AudioTrack GUITrack;
 
-    void Awake()
+    public void Initialize()
     {
         effects = new AudioEffects(this);
         library = GetComponentInChildren<AudioLibrary>();
-
-        RequestMusic();
     }
 
     public void RequestMusic()
@@ -44,8 +42,18 @@ public class AudioManager : MonoBehaviour
         musicTrack.ReceiveAudio(library.GetMusic(), true);
     }
 
+    public void StopMusicTrack()
+    {
+        musicTrack.StopAudio(0);
+    }
+
     public void CrossfadeMusics()
     {
         effects.StartCrossfade(musicTrack.activeChannels.Keys.FirstOrDefault(), library.GetMusic(), musicTrack);
+    }
+
+    public void RequestSFX(string eventPath)
+    {
+        SFXTrack.ReceiveAudio(library.GetSFX(eventPath));
     }
 }
