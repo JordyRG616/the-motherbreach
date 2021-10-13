@@ -39,9 +39,10 @@ public class GameManager : MonoBehaviour
 
     private RewardManager rewardManager;
     private WaveManager waveManager;
+    private InputManager inputManager;
 
     [ContextMenu("Start Game")]
-    public void StartGame()
+    public void Start()
     {
         rewardManager = RewardManager.Main;
         rewardManager.Initialize();
@@ -50,6 +51,11 @@ public class GameManager : MonoBehaviour
         waveManager = WaveManager.Main;
         waveManager.Initialize();
         waveManager.OnWaveEnd += InitiateRewardPhase;
+
+        inputManager = InputManager.Main;
+        OnGameStateChange += inputManager.HandleWaveControl;
+
+        InitiateRewardPhase(this, EventArgs.Empty);
     }
 
     private void InitiateWavePhase(object sender, EventArgs e)

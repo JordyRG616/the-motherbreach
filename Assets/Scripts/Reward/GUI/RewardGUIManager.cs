@@ -59,6 +59,11 @@ public class RewardGUIManager : MonoBehaviour
         StartCoroutine(MoveRightPanel(Vector2.left * 650));
         StartCoroutine(MoveLeftPanel(Vector2.right * 650));
         StartCoroutine(AdjustCamera(25));
+
+        foreach(OfferBox box in Boxes)
+        {
+            box.Clear();
+        }
     }
 
     private void InitiateInteractablePanel()

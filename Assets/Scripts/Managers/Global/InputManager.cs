@@ -42,28 +42,45 @@ public class InputManager : MonoBehaviour
     public event EventHandler<RotationEventArgs> OnRotationPressed;
     public event EventHandler OnInertia;
 
+    private IEnumerator _waveControl;
+
 
     void Awake()
     {
-        if(movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
+        if (movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
         {
             initializeWASDScheme();
-        } 
-        else if(movementScheme == MovementControlScheme.Arrows)
+        }
+        else if (movementScheme == MovementControlScheme.Arrows)
         {
             initializeArrowScheme();
         }
 
-        if(rotationScheme == RotationControlScheme.None || rotationScheme == RotationControlScheme.QE)
+        if (rotationScheme == RotationControlScheme.None || rotationScheme == RotationControlScheme.QE)
         {
             initializeQEScheme();
-        } 
-        else if(rotationScheme ==  RotationControlScheme.Mouse)
+        }
+        else if (rotationScheme == RotationControlScheme.Mouse)
         {
             initializeMouseScheme();
         }
 
-        StartCoroutine(WaveControl());
+        _waveControl = WaveControl();
+
+    }
+
+    public void HandleWaveControl(object sender, GameStateEventArgs e)
+    { 
+        if(e.newState == GameState.OnWave)
+        {
+            Debug.Log(e.newState);
+            StartCoroutine(_waveControl);
+        }
+        if(e.newState == GameState.OnReward)
+        {
+            Debug.Log(e.newState);
+            StopAllCoroutines();
+        }
     }
 
     private void initializeQEScheme()

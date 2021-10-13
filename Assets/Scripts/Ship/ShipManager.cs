@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,35 @@ public class ShipManager : MonoBehaviour
     }
     #endregion
 
+    private GameManager gameManager;
 
-    
+    void Awake()
+    {
+        gameManager = GameManager.Main;
+        gameManager.OnGameStateChange += HandleRotationReset;
+    }
+
+    private void HandleRotationReset(object sender, GameStateEventArgs e)
+    {
+        if(e.newState == GameState.OnReward)
+        {
+            StartCoroutine(ResetRotation());
+        }
+        if(e.newState == GameState.OnWave)
+        {
+            StopAllCoroutines();
+        }
+    }
+
+    private IEnumerator ResetRotation()
+    {
+        float step = 0;
+
+        while(step < 1)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, step);
+            step += .1f;
+            yield return new WaitForSecondsRealtime(.01f);
+        }
+    }
 }

@@ -16,7 +16,6 @@ public class TrackingDevice : MonoBehaviour
         {
             Vector2 viewPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos = new Vector2(viewPos.x, viewPos.y);
-            Debug.Log(Input.mousePosition);
             
             if(IsUI)
             {
