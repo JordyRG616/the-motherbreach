@@ -48,22 +48,17 @@ public class RewardGUIManager : MonoBehaviour
     public void InitiateGUI()
     {
         StopAllCoroutines();
-        StartCoroutine(MoveRightPanel(Vector2.right * 150));
-        StartCoroutine(MoveLeftPanel(Vector2.right * 150));
+        StartCoroutine(MoveRightPanel(Vector2.right * meetUpPoint));
+        StartCoroutine(MoveLeftPanel(Vector2.right * meetUpPoint));
         StartCoroutine(AdjustCamera(10));
     }
 
     public void TerminateGUI()
     {
         StopAllCoroutines();
-        StartCoroutine(MoveRightPanel(Vector2.left * 650));
-        StartCoroutine(MoveLeftPanel(Vector2.right * 650));
+        StartCoroutine(MoveRightPanel(Vector2.right * rightInitialPositon));
+        StartCoroutine(MoveLeftPanel(Vector2.right * leftInitialPosition));
         StartCoroutine(AdjustCamera(25));
-
-        foreach(OfferBox box in Boxes)
-        {
-            box.Clear();
-        }
     }
 
     private void InitiateInteractablePanel()
@@ -86,27 +81,52 @@ public class RewardGUIManager : MonoBehaviour
 
     private IEnumerator MoveRightPanel(Vector2 targetPos)
     {
-        while ((rightPanel.anchoredPosition - targetPos).magnitude > 0)
+        float step = 0;
+
+        while(step <= 1)
         {
-            rightPanel.anchoredPosition += (targetPos - rightPanel.anchoredPosition).normalized * speed;
-        
+            Vector2 newPos = Vector2.Lerp(rightPanel.anchoredPosition, targetPos, step);
+            rightPanel.anchoredPosition = newPos;
+            step += .001f;
             yield return new WaitForSecondsRealtime(.01f);
         }
 
         StopCoroutine("MoveRightPanel");
+
+        // while ((rightPanel.anchoredPosition - targetPos).magnitude > 0)
+        // {
+        //     rightPanel.anchoredPosition += (targetPos - rightPanel.anchoredPosition).normalized * speed;
+        
+        //     yield return new WaitForSecondsRealtime(.01f);
+        // }
+
+        // StopCoroutine("MoveRightPanel");
     }
 
 
     private IEnumerator MoveLeftPanel(Vector2 targetPos)
     {
-        while ((leftPanel.anchoredPosition - targetPos).magnitude > 0)
+        float step = 0;
+
+        while(step <= 1)
         {
-            leftPanel.anchoredPosition += (targetPos - leftPanel.anchoredPosition).normalized * speed * 5f/8f;
-        
+            Vector2 newPos = Vector2.Lerp(leftPanel.anchoredPosition, targetPos, step);
+            leftPanel.anchoredPosition = newPos;
+            step += .001f;
             yield return new WaitForSecondsRealtime(.01f);
         }
 
         StopCoroutine("MoveLeftPanel");
+
+
+        // while ((leftPanel.anchoredPosition - targetPos).magnitude > 0)
+        // {
+        //     leftPanel.anchoredPosition += (targetPos - leftPanel.anchoredPosition).normalized * speed * 5f/8f;
+        
+        //     yield return new WaitForSecondsRealtime(.01f);
+        // }
+
+        // StopCoroutine("MoveLeftPanel");
     }
 
     
@@ -114,8 +134,6 @@ public class RewardGUIManager : MonoBehaviour
     private IEnumerator AdjustCamera(int targetSize)
     {
         float sign = Mathf.Sign(mainCamera.orthographicSize - targetSize);
-
-        mainCamera.GetComponent<CameraFollowComponent>().enabled = !mainCamera.GetComponent<CameraFollowComponent>().enabled;
 
         while((mainCamera.orthographicSize - targetSize) * sign > 0)
         {
