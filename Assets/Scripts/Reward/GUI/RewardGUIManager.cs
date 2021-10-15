@@ -37,6 +37,10 @@ public class RewardGUIManager : MonoBehaviour
     [SerializeField] private RectTransform rightPanel;
     [SerializeField] private RectTransform leftPanel;
     [SerializeField] private RectTransform RewardPanel;
+    [SerializeField] private Image title;
+    [SerializeField] [ColorUsage(true, true)] private Color textColor;
+    [SerializeField] private List<RectTransform> boxRects;
+    [SerializeField] private List<RectTransform> textBoxes;
     [SerializeField] private GameObject interactablePanel;
     [SerializeField] private List<OfferBox> Boxes;
     [SerializeField] private List<TurretSlotGUI> slotsGUI;
@@ -53,11 +57,26 @@ public class RewardGUIManager : MonoBehaviour
         StartCoroutine(MoveLeftPanel(Vector2.right * meetUpPoint));
         StartCoroutine(ExpandRewardPanel(610));
         StartCoroutine(AdjustCamera(10));
+        InitiateInteractablePanel();
+
+        foreach(RectTransform rect in boxRects)
+        {
+            foreach(Image image in rect.GetComponentsInChildren<Image>())
+            {
+                if(image.gameObject != rect.gameObject)
+                {
+                    Color newColor = image.color;
+                    newColor.a = 0;
+                    image.color = newColor;
+                }
+            }
+        }
     }
 
     public void TerminateGUI()
     {
         StopAllCoroutines();
+        TerminateInteractablePanel();
         StartCoroutine(MoveRightPanel(Vector2.right * rightInitialPositon));
         StartCoroutine(MoveLeftPanel(Vector2.right * leftInitialPosition));
         StartCoroutine(ExpandRewardPanel(0));
@@ -116,7 +135,7 @@ public class RewardGUIManager : MonoBehaviour
     {
         float step = 0;
 
-        while(step <= 1)
+        while(step <= .1f)
         {
             float _size = Mathf.Lerp(RewardPanel.sizeDelta.x, targetSize, step);
             RewardPanel.sizeDelta = new Vector2(_size, RewardPanel.sizeDelta.y);
@@ -124,31 +143,107 @@ public class RewardGUIManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.01f);
         }
 
+        StartCoroutine(ExpandBoxes(120));
+
         StopCoroutine("ExpandRewardPanel");
 
     }
 
-    
+    private IEnumerator ExpandBoxes(float targetSize)
+    {
+        float step = 0;
+
+        while(step <= 1)
+        {
+            foreach(RectTransform rect in boxRects)
+            {
+                float _size = Mathf.Lerp(rect.sizeDelta.x, targetSize, step);
+                rect.sizeDelta = new Vector2(_size, rect.sizeDelta.y);
+            }
+            step += 0.1f;
+            if(Mathf.Approximately(step, .3f))
+            {
+                StartCoroutine(ExpandTexts());
+            }
+            yield return new WaitForSecondsRealtime(.01f);
+        }
+
+        float midStep = 0;
+
+        while(midStep <= 1)
+        {
+            float _alpha = Mathf.Lerp(0, 1, midStep);
+             
+            foreach(RectTransform rect in boxRects)
+            {
+                foreach(Image image in rect.GetComponentsInChildren<Image>())
+                {
+                    if(image.gameObject != rect.gameObject)
+                    {
+                        Color newColor = image.color;
+                        newColor.a = _alpha;
+                        image.color = newColor;
+                    }
+                }
+            }
+
+            midStep += 0.01f;
+            yield return new WaitForSecondsRealtime(.01f);
+        }
+    }
+
+    private IEnumerator ExpandTexts()
+    {
+        float _step = 0;
+
+        while(_step <= 1)
+        {
+            foreach(RectTransform rect in textBoxes)
+            {
+                float _size = Mathf.Lerp(rect.localScale.y, 1, _step);
+                rect.localScale = new Vector2(rect.localScale.x, _size);
+            }
+            _step += 0.01f;
+
+            if(Mathf.Approximately(_step, .3f))
+            {
+                StartCoroutine(GlowText());
+            }
+            yield return new WaitForSecondsRealtime(.01f);
+        }
+
+    }
+
+    private IEnumerator GlowText()
+    {
+        float step = 0;
+        Color ogColor = title.color;
+
+        while(step <= 1)
+        {
+            Color newColor = Color.Lerp(ogColor, textColor, step);
+            title.color = newColor;
+            step += 0.01f;
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+    }
 
     private IEnumerator AdjustCamera(int targetSize)
     {
         float sign = Mathf.Sign(mainCamera.orthographicSize - targetSize);
 
-        while((mainCamera.orthographicSize - targetSize) * sign > 0)
+        float step = 0.2f;
+
+        while(step <= 1)
         {
-            mainCamera.orthographicSize -= (15f/120f) * sign;
-            mainCamera.transform.position += Vector3.left * (12f/120f) * sign;
+            float camSize = Mathf.Lerp(0, .32f, step);
+            mainCamera.orthographicSize -= camSize * sign;
+
+            float offset = Mathf.Lerp(0, .19f, step);
+            mainCamera.transform.position -= new Vector3(offset, 0, 0) * sign;
+            step += .01f;
             yield return new WaitForSecondsRealtime(.01f);
         }
-
-        if(sign < 0)
-        {
-            TerminateInteractablePanel();
-        } else 
-        {
-            InitiateInteractablePanel();
-        }
-
 
         StopCoroutine("AdjustCamera");
     }

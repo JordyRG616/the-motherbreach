@@ -99,6 +99,10 @@ public class RewardManager : MonoBehaviour
         OfferBox box = (OfferBox)sender;
         ActiveSelection = turretsInOffer[box];
         ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
+        foreach (SpriteRenderer renderer in ActiveSelection.GetComponentsInChildren<SpriteRenderer>())
+        {
+            renderer.color = Color.white;
+        }
         ActiveSelection.GetComponentInChildren<TurretVFXManager>().EnableSelected();
     }
 
