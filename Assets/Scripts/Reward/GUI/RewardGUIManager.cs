@@ -36,6 +36,7 @@ public class RewardGUIManager : MonoBehaviour
 
     [SerializeField] private RectTransform rightPanel;
     [SerializeField] private RectTransform leftPanel;
+    [SerializeField] private RectTransform RewardPanel;
     [SerializeField] private GameObject interactablePanel;
     [SerializeField] private List<OfferBox> Boxes;
     [SerializeField] private List<TurretSlotGUI> slotsGUI;
@@ -50,6 +51,7 @@ public class RewardGUIManager : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(MoveRightPanel(Vector2.right * meetUpPoint));
         StartCoroutine(MoveLeftPanel(Vector2.right * meetUpPoint));
+        StartCoroutine(ExpandRewardPanel(610));
         StartCoroutine(AdjustCamera(10));
     }
 
@@ -58,6 +60,7 @@ public class RewardGUIManager : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(MoveRightPanel(Vector2.right * rightInitialPositon));
         StartCoroutine(MoveLeftPanel(Vector2.right * leftInitialPosition));
+        StartCoroutine(ExpandRewardPanel(0));
         StartCoroutine(AdjustCamera(25));
     }
 
@@ -92,15 +95,6 @@ public class RewardGUIManager : MonoBehaviour
         }
 
         StopCoroutine("MoveRightPanel");
-
-        // while ((rightPanel.anchoredPosition - targetPos).magnitude > 0)
-        // {
-        //     rightPanel.anchoredPosition += (targetPos - rightPanel.anchoredPosition).normalized * speed;
-        
-        //     yield return new WaitForSecondsRealtime(.01f);
-        // }
-
-        // StopCoroutine("MoveRightPanel");
     }
 
 
@@ -116,17 +110,22 @@ public class RewardGUIManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(.01f);
         }
 
-        StopCoroutine("MoveLeftPanel");
+    }
 
+    private IEnumerator ExpandRewardPanel(int targetSize)
+    {
+        float step = 0;
 
-        // while ((leftPanel.anchoredPosition - targetPos).magnitude > 0)
-        // {
-        //     leftPanel.anchoredPosition += (targetPos - leftPanel.anchoredPosition).normalized * speed * 5f/8f;
-        
-        //     yield return new WaitForSecondsRealtime(.01f);
-        // }
+        while(step <= 1)
+        {
+            float _size = Mathf.Lerp(RewardPanel.sizeDelta.x, targetSize, step);
+            RewardPanel.sizeDelta = new Vector2(_size, RewardPanel.sizeDelta.y);
+            step += 0.001f;
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
 
-        // StopCoroutine("MoveLeftPanel");
+        StopCoroutine("ExpandRewardPanel");
+
     }
 
     
@@ -137,8 +136,8 @@ public class RewardGUIManager : MonoBehaviour
 
         while((mainCamera.orthographicSize - targetSize) * sign > 0)
         {
-            mainCamera.orthographicSize -= (15f/80f) * sign;
-            mainCamera.transform.position += Vector3.left * (4f/80f) * sign;
+            mainCamera.orthographicSize -= (15f/120f) * sign;
+            mainCamera.transform.position += Vector3.left * (12f/120f) * sign;
             yield return new WaitForSecondsRealtime(.01f);
         }
 

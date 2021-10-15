@@ -219,7 +219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4174501789438114415, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4174501789438114415, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -295,6 +295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightPanel: {fileID: 664358812}
   leftPanel: {fileID: 1292363990}
+  RewardPanel: {fileID: 284491320}
   interactablePanel: {fileID: 564801864}
   Boxes:
   - {fileID: 72144700}
@@ -341,6 +342,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 011dabcf363423b4f9122445f83a1cd7, type: 2}
+--- !u!224 &284491320 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 284491320, guid: 2896005398aabf44dae5516e9d914465, type: 3}
+  m_PrefabInstance: {fileID: 2493357290181566880}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &363938533 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2493357289970754373, guid: 2896005398aabf44dae5516e9d914465, type: 3}
@@ -617,7 +623,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &861444013 stripped
 MonoBehaviour:
@@ -1068,34 +1074,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1937755057767089193, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_Type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1937755057767089193, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 7482667652216324306, guid: b2c918905330c264a9110c2f39739833, type: 3}
-    - target: {fileID: 1937755057767089193, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_Color.b
-      value: 0.44705886
-      objectReference: {fileID: 0}
-    - target: {fileID: 1937755057767089193, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_Color.g
-      value: 0.5058824
-      objectReference: {fileID: 0}
-    - target: {fileID: 1937755057767089193, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_Color.r
-      value: 0.26666668
-      objectReference: {fileID: 0}
-    - target: {fileID: 1937755057767089193, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_Maskable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1937755057767089193, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 2100000, guid: f00fb0b9b30fcc74ea69bb0c7342f049, type: 2}
     - target: {fileID: 2493357289218140778, guid: 2896005398aabf44dae5516e9d914465, type: 3}
       propertyPath: associatedSlot
       value: 
@@ -1104,10 +1082,6 @@ PrefabInstance:
       propertyPath: associatedSlot
       value: 
       objectReference: {fileID: 920075765}
-    - target: {fileID: 2493357289464217364, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2493357289853301800, guid: 2896005398aabf44dae5516e9d914465, type: 3}
       propertyPath: associatedSlot
       value: 
@@ -1116,10 +1090,6 @@ PrefabInstance:
       propertyPath: associatedSlot
       value: 
       objectReference: {fileID: 693335146}
-    - target: {fileID: 2493357290004918735, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2493357290277442134, guid: 2896005398aabf44dae5516e9d914465, type: 3}
       propertyPath: associatedSlot
       value: 
@@ -1128,10 +1098,6 @@ PrefabInstance:
       propertyPath: associatedSlot
       value: 
       objectReference: {fileID: 1564336890}
-    - target: {fileID: 2493357290417696325, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_Maskable
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2493357290644383533, guid: 2896005398aabf44dae5516e9d914465, type: 3}
       propertyPath: associatedSlot
       value: 
@@ -1140,10 +1106,6 @@ PrefabInstance:
       propertyPath: associatedSlot
       value: 
       objectReference: {fileID: 1665686374}
-    - target: {fileID: 2493357291068228707, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2493357291214742070, guid: 2896005398aabf44dae5516e9d914465, type: 3}
       propertyPath: m_Name
       value: GUIv2
@@ -1236,17 +1198,5 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1614310879}
-    - target: {fileID: 2917111829421838953, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_Name
-      value: Background
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775712321319326475, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 647.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775712321319326475, guid: 2896005398aabf44dae5516e9d914465, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -123.78
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2896005398aabf44dae5516e9d914465, type: 3}
