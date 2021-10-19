@@ -601,6 +601,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Global Volume
       objectReference: {fileID: 0}
+    - target: {fileID: 7437379562553116307, guid: 77d7b4899f7479b4dadd4238d15b1e78, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77d7b4899f7479b4dadd4238d15b1e78, type: 3}
 --- !u!1001 &7502965891483346605
@@ -772,10 +776,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9107252135224519856, guid: 22f896c3377ded341a1d714ccf1edf4b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9107252135224519857, guid: 22f896c3377ded341a1d714ccf1edf4b, type: 3}
       propertyPath: objectToFollow
       value: 
       objectReference: {fileID: 1061227592}
+    - target: {fileID: 9107252135224519860, guid: 22f896c3377ded341a1d714ccf1edf4b, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9107252135474855905, guid: 22f896c3377ded341a1d714ccf1edf4b, type: 3}
       propertyPath: m_Name
       value: Main Camera
@@ -822,6 +834,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9107252135474855908, guid: 22f896c3377ded341a1d714ccf1edf4b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9107252135474855909, guid: 22f896c3377ded341a1d714ccf1edf4b, type: 3}
+      propertyPath: m_RenderPostProcessing
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9107252135474855914, guid: 22f896c3377ded341a1d714ccf1edf4b, type: 3}

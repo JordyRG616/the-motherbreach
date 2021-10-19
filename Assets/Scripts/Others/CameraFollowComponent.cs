@@ -9,6 +9,12 @@ public class CameraFollowComponent : MonoBehaviour
     [SerializeField] private float followSpeed;
     private bool following;
 
+    void OnEnable()
+    {
+        Vector3 direction = objectToFollow.position - transform.position + new Vector3(0, 0, transform.position.z);
+        StartCoroutine(Follow(direction));
+    }
+
     private IEnumerator Follow(Vector3 direction)
     {
         while(!Mathf.Approximately(direction.magnitude, 0))
@@ -31,5 +37,10 @@ public class CameraFollowComponent : MonoBehaviour
             following = true;
             StartCoroutine(Follow(direction));
         }
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
     }
 }

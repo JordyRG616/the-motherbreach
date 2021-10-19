@@ -83,6 +83,11 @@ public class RewardManager : MonoBehaviour
             Destroy(turret);
         }
 
+        foreach(OfferBox box in turretsInOffer.Keys)
+        {
+            box.Clear();
+        }
+
         turretsInOffer.Clear();
     }
 

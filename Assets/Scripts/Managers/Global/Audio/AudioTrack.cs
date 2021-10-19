@@ -82,7 +82,7 @@ public class AudioTrack
         }
     }
 
-    private bool AudioIsPlaying(EventInstance audioInstance)
+    public bool AudioIsPlaying(EventInstance audioInstance)
     {
         audioInstance.getPlaybackState(out PLAYBACK_STATE state);
         if(state == PLAYBACK_STATE.STOPPED)
@@ -93,6 +93,19 @@ public class AudioTrack
         {
             return true;
         }
+    }
+
+    public bool AudioIsPlaying()
+    {
+        foreach(EventInstance audio in activeChannels.Keys)
+        {
+            if(AudioIsPlaying(audio))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

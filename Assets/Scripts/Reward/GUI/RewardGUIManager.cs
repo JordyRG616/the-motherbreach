@@ -49,10 +49,14 @@ public class RewardGUIManager : MonoBehaviour
     [SerializeField] private float leftInitialPosition;
     [SerializeField] private float meetUpPoint;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private float sign = -1;
 
     public void InitiateGUI()
     {
+        mainCamera.GetComponent<CameraFollowComponent>().enabled = false;
+        
         StopAllCoroutines();
+
         StartCoroutine(MoveRightPanel(Vector2.right * meetUpPoint));
         StartCoroutine(MoveLeftPanel(Vector2.right * meetUpPoint));
         StartCoroutine(ExpandRewardPanel(610));
@@ -76,11 +80,15 @@ public class RewardGUIManager : MonoBehaviour
     public void TerminateGUI()
     {
         StopAllCoroutines();
+
         TerminateInteractablePanel();
         StartCoroutine(MoveRightPanel(Vector2.right * rightInitialPositon));
         StartCoroutine(MoveLeftPanel(Vector2.right * leftInitialPosition));
         StartCoroutine(ExpandRewardPanel(0));
         StartCoroutine(AdjustCamera(25));
+
+        mainCamera.GetComponent<CameraFollowComponent>().enabled = true;
+
     }
 
     private void InitiateInteractablePanel()
@@ -230,7 +238,7 @@ public class RewardGUIManager : MonoBehaviour
 
     private IEnumerator AdjustCamera(int targetSize)
     {
-        float sign = Mathf.Sign(mainCamera.orthographicSize - targetSize);
+        sign = sign * -1f;
 
         float step = 0.2f;
 
@@ -238,9 +246,20 @@ public class RewardGUIManager : MonoBehaviour
         {
             float camSize = Mathf.Lerp(0, .32f, step);
             mainCamera.orthographicSize -= camSize * sign;
+            
+            if(sign > 0)
+            {
+                Vector2 target = ShipManager.Main.transform.position;
+                float adjust = 1f;
 
-            float offset = Mathf.Lerp(0, .19f, step);
-            mainCamera.transform.position -= new Vector3(offset, 0, 0) * sign;
+                target.x -= 9.5f * adjust;
+
+
+                Vector3 offset = Vector2.Lerp(mainCamera.transform.position, target, step);
+                mainCamera.transform.position = offset * sign;
+                mainCamera.transform.position -= new Vector3(0, 0, 10);
+            }
+
             step += .01f;
             yield return new WaitForSecondsRealtime(.01f);
         }
