@@ -71,7 +71,18 @@ public class AudioTrack
         activeChannels.Remove(audioInstance);
     }
 
-    private bool AudioIsPlaying(EventInstance audioInstance)
+    public void StopAudio(int audioID)
+    {
+        if(activeChannels.Count > audioID)
+        {
+            EventInstance audioInstance = activeChannels.ElementAt(audioID).Key;
+            audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            audioInstance.release();
+            activeChannels.Remove(audioInstance);
+        }
+    }
+
+    public bool AudioIsPlaying(EventInstance audioInstance)
     {
         audioInstance.getPlaybackState(out PLAYBACK_STATE state);
         if(state == PLAYBACK_STATE.STOPPED)
@@ -82,6 +93,19 @@ public class AudioTrack
         {
             return true;
         }
+    }
+
+    public bool AudioIsPlaying()
+    {
+        foreach(EventInstance audio in activeChannels.Keys)
+        {
+            if(AudioIsPlaying(audio))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

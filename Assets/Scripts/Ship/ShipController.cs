@@ -28,24 +28,23 @@ public class ShipController : MonoBehaviour
     
     private void MoveShip(object sender, MovementEventArgs e)
     {
-        transform.position += linearDrag + (Vector3)e.direction * .01f * movementSpeed;
-        // Debug.Log(e.direction.x / dragFactor);
-        linearDrag += (Vector3)e.direction / dragFactor;
+        transform.position += (Vector3)e.direction * .01f * movementSpeed;
+        linearDrag += (Vector3)e.direction;
     }
 
     private void RotateShip(object sender, RotationEventArgs e)
     {
         transform.Rotate(0, 0, e.direction * rotationSpeed, Space.Self);
-        angularDrag += e.direction / dragFactor;
+        angularDrag = e.direction;
     }
 
     private void ApplyInertia(object sender, EventArgs e)
     {
-        if(!linearDrafting)
+        if(!linearDrafting && linearDrag.magnitude > 0)
         {
             StartCoroutine(MovementDraft());
         }
-        if(!angularDrafting)
+        if(!angularDrafting && angularDrag > 0)
         {
             StartCoroutine(RotationDraft());
         }
@@ -57,17 +56,13 @@ public class ShipController : MonoBehaviour
         {
             linearDrafting = true;
 
-            float dragRemaining = 1.11f;
+            float step = .1f;
             
-            while(dragRemaining > 1)
+            while(step > 0)
             {
-
-                if (dragRemaining <= 1.1) dragRemaining = Mathf.Max(linearDrag.magnitude * dragFactor, 1);
-                if (dragRemaining > 1.1) dragRemaining = 1.1f;
-
-                transform.position += linearDrag * dragSpeed * movementSpeed;
-                linearDrag -= linearDrag * .01f;
-                yield return new WaitForSecondsRealtime(.01f);
+                transform.position += linearDrag.normalized * step;
+                step -= .001f;
+                yield return new WaitForSecondsRealtime(.02f);
             }
 
             linearDrag = Vector3.zero;
@@ -82,21 +77,16 @@ public class ShipController : MonoBehaviour
     {        
         angularDrafting = true;
 
-        float dragRemaining = 1.1f;
+        float step = .1f;
         
-        while(dragRemaining > 1)
+        while(step > 0)
         {
-
-            if (dragRemaining <= 2) dragRemaining = Mathf.Max(Mathf.Sqrt((angularDrag * dragFactor) * (angularDrag * dragFactor)), 1);
-            if (dragRemaining > 2) dragRemaining = 2;
-
-
-            transform.Rotate(0, 0, angularDrag * dragSpeed * rotationSpeed * angularDraftAdjust, Space.Self);
-            angularDrag -= angularDrag * .01f;
-            yield return new WaitForSecondsRealtime(.01f);
+            transform.Rotate(0, 0, angularDrag * step * 2, Space.Self);
+            step -= .001f;
+            yield return new WaitForSecondsRealtime(.02f);
         }
 
-        //angularDrag = 0;
+        angularDrag = 0;
 
         angularDrafting = false;
 
@@ -111,4 +101,5 @@ public class ShipController : MonoBehaviour
 
         Destroy(this);
     }
+
 }

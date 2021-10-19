@@ -13,7 +13,7 @@ public abstract class ActionController : MonoBehaviour
 
     public virtual void Awake()
     {
-        initialRotation = transform.rotation;
+        //initialRotation = transform.rotation;
     }
 
     protected IEnumerator GetTarget()
@@ -42,14 +42,14 @@ public abstract class ActionController : MonoBehaviour
             shooter.ReceiveTarget(null);
         }
         
-        transform.localRotation = initialRotation;
+        transform.localRotation = Quaternion.identity;
 
         StartCoroutine(GetTarget());
     }
 
     private IEnumerator ReturnToInitialRotation()
     {
-        while((int)transform.localRotation.eulerAngles.z != (int)initialRotation.eulerAngles.z)
+        while((int)transform.localRotation.eulerAngles.z != 0)
         {
             transform.Rotate(0, 0, -0.1f, Space.Self);
             yield return new WaitForSecondsRealtime(.01f);
@@ -96,5 +96,10 @@ public abstract class ActionController : MonoBehaviour
                 
             }
         }
+    }
+
+    public List<ActionEffect> GetShooters()
+    {
+        return shooters;
     }
 }

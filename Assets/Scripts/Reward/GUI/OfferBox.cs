@@ -25,6 +25,11 @@ public class OfferBox : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
         Empty = false;
     }
 
+    public void Clear()
+    {
+        Empty = true;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         OnOfferSelected?.Invoke(this, EventArgs.Empty);

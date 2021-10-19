@@ -17,6 +17,8 @@ public class EnemyVFXManager : VFXManager
 
         deathParticles.Play();
 
+        audioManager.RequestSFX(deathSFX);
+
         while(step <= 1)
         {
             instMaterial.SetFloat("_death", step);

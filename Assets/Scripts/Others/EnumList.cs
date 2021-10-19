@@ -17,3 +17,8 @@ public enum WigglePattern
 
 //. TURRET/REWARD RELATED
 public enum RewardLevel {Common, Uncommon, Rare, Unique, Error}
+public enum ActionStat {Damage, Speed, Range, Cooldown, Size}
+public enum BaseEffectTrigger {Immediate, StartOfWave, EndOfWave, OnDestruction}
+
+//. GAME STATE
+public enum GameState {OnWave, OnReward}

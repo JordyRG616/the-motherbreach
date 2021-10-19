@@ -18,13 +18,13 @@ public abstract class ActionEffect : MonoBehaviour
         SetActionData();
     }
 
-    protected void SetActionData()
+    public void SetActionData()
     {
         var main = shooter.main;
-        main.startSpeed = data.bulletSpeed;
-        main.startLifetime = data.bulletRange;
-        main.duration = data.fireRate;
-        main.startSize = data.bulletSize;
+        main.startSpeed = data.Speed;
+        main.startLifetime = data.Range;
+        main.duration = data.Cooldown;
+        main.startSize = data.Size;
 
         var coll = shooter.collision;
         coll.collidesWith = data.targetLayer;
@@ -74,17 +74,5 @@ public abstract class ActionEffect : MonoBehaviour
     {
         return data;
     }
-    
-    
-}
 
-[System.Serializable]
-public struct ActionData
-{
-    public LayerMask targetLayer;
-    public float bulletSpeed;
-    public float bulletRange;
-    public float bulletSize;
-    public float fireRate;
-    public float bulletDamage;
 }

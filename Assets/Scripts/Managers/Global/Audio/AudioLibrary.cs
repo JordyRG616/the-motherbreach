@@ -23,11 +23,11 @@ public class AudioLibrary : MonoBehaviour
 
     public EventInstance GetSFX(string SFXName)
     {
-        return SFXEvents.Find(x => x.eventName == SFXName).ReturnInstance();
+        return SFXEvents.Find(x => x.eventPath == SFXName).ReturnInstance();
     }
 
     public EventInstance GetGUISound(string SFXName)
     {
-        return GUIEvents.Find(x => x.eventName == SFXName).ReturnInstance();
+        return GUIEvents.Find(x => x.eventPath == SFXName).ReturnInstance();
     }
 }

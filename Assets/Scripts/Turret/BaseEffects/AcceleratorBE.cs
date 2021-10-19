@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class AcceleratorBE : BaseEffectTemplate
 {
-    [SerializeField] private float potency;
 
-    public override void ActivateLocalEffect()
+
+    public override void ApplyEffect()
     {
-        throw new System.NotImplementedException("Bônus local ainda não implementado");
-    }
+        foreach(ActionEffect shooter in associatedController.GetShooters())
+        {
+            float value = shooter.GetData().Cooldown / 2;
+            shooter.GetData().SetStat(ActionStat.Cooldown, value);
+        }
 
-    public override void ActivateMainEffect(TurretManager turretManager)
-    {
-        turretManager.UpdateCooldown(-(potency * 5));
+        UpdateControllerStats();
     }
-
 }

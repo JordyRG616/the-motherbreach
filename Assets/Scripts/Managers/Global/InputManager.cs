@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using CraftyUtilities;
 using UnityEngine;
 
@@ -41,24 +42,42 @@ public class InputManager : MonoBehaviour
     public event EventHandler<RotationEventArgs> OnRotationPressed;
     public event EventHandler OnInertia;
 
+    private IEnumerator _waveControl;
+
+
     void Awake()
     {
-        if(movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
+        if (movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
         {
             initializeWASDScheme();
-        } 
-        else if(movementScheme == MovementControlScheme.Arrows)
+        }
+        else if (movementScheme == MovementControlScheme.Arrows)
         {
             initializeArrowScheme();
         }
 
-        if(rotationScheme == RotationControlScheme.None || rotationScheme == RotationControlScheme.QE)
+        if (rotationScheme == RotationControlScheme.None || rotationScheme == RotationControlScheme.QE)
         {
             initializeQEScheme();
-        } 
-        else if(rotationScheme ==  RotationControlScheme.Mouse)
+        }
+        else if (rotationScheme == RotationControlScheme.Mouse)
         {
             initializeMouseScheme();
+        }
+
+        _waveControl = WaveControl();
+
+    }
+
+    public void HandleWaveControl(object sender, GameStateEventArgs e)
+    { 
+        if(e.newState == GameState.OnWave)
+        {
+            StartCoroutine(_waveControl);
+        }
+        if(e.newState == GameState.OnReward)
+        {
+            StopAllCoroutines();
         }
     }
 
@@ -115,12 +134,21 @@ public class InputManager : MonoBehaviour
         {
             OnRotationPressed?.Invoke(this, new RotationEventArgs(direction));
         }
+
+        if(direction == 0)
+        {
+            OnInertia?.Invoke(this, EventArgs.Empty);
+        }
     }
 
-    void Update()
+    private IEnumerator WaveControl()
     {
-        TriggerMovement();
-        TriggerRotation();
+        while(gameObject.activeSelf)
+        {
+            TriggerMovement();
+            TriggerRotation();
+            yield return new WaitForSecondsRealtime(0.001f);
+        }
     }
 }
 

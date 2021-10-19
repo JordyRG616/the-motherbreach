@@ -4,18 +4,28 @@ using UnityEngine;
 
 public abstract class BaseEffectTemplate : MonoBehaviour
 {
-    [SerializeField] protected int cost, hull;
+    [SerializeField] protected BaseEffectTrigger trigger;
+    protected ActionController associatedController;
 
-    public abstract void ActivateMainEffect(TurretManager turretManager);
-    public abstract void ActivateLocalEffect();
+    public abstract void ApplyEffect();
 
-    public int ReturnCost()
+    
+    protected void UpdateControllerStats()
     {
-        return cost;
+        foreach(ActionEffect shooter in associatedController.GetShooters())
+        {
+            shooter.SetActionData();
+        }
     }
 
-    public int ReturnHull()
+    public void ReceiveWeapon(ActionController weapon)
     {
-        return hull;
+        associatedController = weapon;
     }
+
+    public BaseEffectTrigger GetTrigger()
+    {
+        return trigger;
+    }
+
 }

@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3018682489552691874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3018682489552691876}
+  - component: {fileID: 3018682489552691877}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3018682489552691876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3018682489552691874}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.929144, y: 0.24667934, z: -5.991457}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3018682489856898822}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3018682489552691877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3018682489552691874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8565f5642dd4b8b49880984fdbf254a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicTrack:
+    trackVolume: 1
+    maxChannels: 2
+    invoker: {fileID: 3018682489552691877}
+  SFXTrack:
+    trackVolume: 1
+    maxChannels: 16
+    invoker: {fileID: 3018682489552691877}
+  GUITrack:
+    trackVolume: 1
+    maxChannels: 1
+    invoker: {fileID: 3018682489552691877}
+--- !u!1 &3018682489856898820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3018682489856898822}
+  - component: {fileID: 3018682489856898823}
+  m_Layer: 0
+  m_Name: Audio Library
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3018682489856898822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3018682489856898820}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3018682489552691876}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3018682489856898823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3018682489856898820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f42d3cb6c461be43b363bf5396fcb73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicEvents:
+  - eventName: Inertia
+    unique: 1
+    eventPath: event:/Music/Inertia
+  - eventName: Momentum
+    unique: 1
+    eventPath: event:/Music/Momentum
+  SFXEvents:
+  - eventName: EnemyDeath
+    unique: 0
+    eventPath: event:/SFX/EnemyDeath
+  - eventName: Explosion
+    unique: 0
+    eventPath: event:/SFX/Explosion
+  - eventName: Hit1
+    unique: 0
+    eventPath: event:/SFX/Hit1
+  - eventName: Hit2
+    unique: 0
+    eventPath: event:/SFX/Hit2
+  - eventName: Shoot1
+    unique: 0
+    eventPath: event:/SFX/Shoot1
+  - eventName: Shoot2
+    unique: 0
+    eventPath: event:/SFX/Shoot2
+  - eventName: Spawn
+    unique: 0
+    eventPath: event:/SFX/Spawn
+  GUIEvents: []

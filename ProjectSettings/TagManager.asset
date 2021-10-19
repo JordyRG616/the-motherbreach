@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - SecCamera
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - Player
   - Bullets
   - BG
-  - 
+  - Glow
   - 
   - 
   - 
@@ -38,9 +39,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2595814357
+    locked: 0
+  - name: Stars
+    uniqueID: 1467743085
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: VFX
     uniqueID: 443927703
+    locked: 0
+  - name: UI
+    uniqueID: 2597495849
     locked: 0

@@ -7,6 +7,6 @@ public class ArtilleryEffect : ActionEffect
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-data.bulletDamage);
+        hitManager.HealthInterface.UpdateHealth(-data.Damage);
     }
 }

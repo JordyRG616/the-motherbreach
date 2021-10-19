@@ -40,20 +40,19 @@ public class RewardManager : MonoBehaviour
 
     private Dictionary<OfferBox, GameObject> turretsInOffer = new Dictionary<OfferBox, GameObject>();
     public GameObject ActiveSelection {get; private set;}
-    
 
-    void Start()
-    {
-        Initiate();
-    }
+    public event EventHandler OnRewardSelection;
 
-    public void Initiate()
+    public void Initialize()
     {
         turretConstructor = TurretConstructor.Main;
+        turretConstructor.Initialize();
         calculator = RewardCalculator.Main;
-        //waveManager = WaveManager.Main;
         guiManager = RewardGUIManager.Main;
+    }
 
+    public void InitiateReward()
+    {
         guiManager.InitiateGUI();
         GenerateOffer();
     }
@@ -72,7 +71,24 @@ public class RewardManager : MonoBehaviour
     public void BuildSelection()
     {
         Destroy(ActiveSelection);
+        EliminateOffer();
         guiManager.TerminateGUI();
+        OnRewardSelection?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void EliminateOffer()
+    {
+        foreach(GameObject turret in turretsInOffer.Values)
+        {
+            Destroy(turret);
+        }
+
+        foreach(OfferBox box in turretsInOffer.Keys)
+        {
+            box.Clear();
+        }
+
+        turretsInOffer.Clear();
     }
 
     private void AddToOffer(GameObject turret, OfferBox box)
@@ -88,6 +104,10 @@ public class RewardManager : MonoBehaviour
         OfferBox box = (OfferBox)sender;
         ActiveSelection = turretsInOffer[box];
         ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
+        foreach (SpriteRenderer renderer in ActiveSelection.GetComponentsInChildren<SpriteRenderer>())
+        {
+            renderer.color = Color.white;
+        }
         ActiveSelection.GetComponentInChildren<TurretVFXManager>().EnableSelected();
     }
 
