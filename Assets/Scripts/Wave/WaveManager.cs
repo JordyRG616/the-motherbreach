@@ -42,7 +42,7 @@ public class WaveManager : MonoBehaviour
 
     public event EventHandler OnWaveEnd;
 
-
+    [ContextMenu("Initialize")]
     public void Initialize()
     {
         ship = ShipManager.Main;
@@ -57,6 +57,7 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    [ContextMenu("Next")]
     public void StartNextWave()
     {
         if(dataQueue.Count > 0)
