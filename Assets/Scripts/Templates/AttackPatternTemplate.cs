@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class AttackPatternTemplate : MonoBehaviour
 {
     [SerializeField] protected float cooldown;
-    public abstract IEnumerator Sequence(List<AttackController> attackers);
+    public abstract IEnumerator Sequence(List<EnemyAttackController> attackers);
 
     public abstract event EventHandler OnSequenceEnd;
     

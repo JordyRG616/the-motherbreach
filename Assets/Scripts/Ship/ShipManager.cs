@@ -24,8 +24,8 @@ public class ShipManager : MonoBehaviour
 
     void Awake()
     {
-        gameManager = GameManager.Main;
-        gameManager.OnGameStateChange += HandleRotationReset;
+        // gameManager = GameManager.Main;
+        // gameManager.OnGameStateChange += HandleRotationReset;
     }
 
     private void HandleRotationReset(object sender, GameStateEventArgs e)

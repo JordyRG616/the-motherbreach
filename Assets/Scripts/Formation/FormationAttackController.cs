@@ -7,7 +7,7 @@ public class FormationAttackController : MonoBehaviour, IManager
 {
     private float cooldown;
     private AttackPatternTemplate attackPattern;
-    private List<AttackController> attackers = new List<AttackController>();
+    private List<EnemyAttackController> attackers = new List<EnemyAttackController>();
 
     void Start()
     {
@@ -20,7 +20,7 @@ public class FormationAttackController : MonoBehaviour, IManager
     }
 
 
-    public void AddAttacker(AttackController attacker)
+    public void AddAttacker(EnemyAttackController attacker)
     {
         attackers.Add(attacker);
         attacker.OnDeath += RemoveEnemy;

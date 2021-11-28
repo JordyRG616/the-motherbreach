@@ -38,11 +38,11 @@ public class WaveManager : MonoBehaviour
     private Queue<WaveData> dataQueue  = new Queue<WaveData>();
     private WaveData activeWave;
     private ShipManager ship;
-    private int spawnedFormations;
+    private int spawnIndex;
 
     public event EventHandler OnWaveEnd;
 
-
+    [ContextMenu("Initialize")]
     public void Initialize()
     {
         ship = ShipManager.Main;
@@ -57,13 +57,14 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    [ContextMenu("Next")]
     public void StartNextWave()
     {
         if(dataQueue.Count > 0)
         {
             activeWave = dataQueue.Dequeue();
-            spawnedFormations = 0;
-            StartCoroutine(InstantiateFormations(PositionToSpawn()));
+            spawnIndex = 0;
+            StartCoroutine(InstantiateFormations());
         } else
         { 
             Debug.Log("Victory");
@@ -77,18 +78,22 @@ public class WaveManager : MonoBehaviour
         return (distanceToSpawn * direction) + ship.transform.position;
     }
 
-    private IEnumerator InstantiateFormations(Vector3 position)
+    private IEnumerator InstantiateFormations()
     {
-        while(spawnedFormations < activeWave.level)
+        while(spawnIndex < activeWave.availableFormations.Count)
         {
-            int rdm = UnityEngine.Random.Range(0, activeWave.availableFormations.Count);
-            var formationToSpawn = activeWave.availableFormations[rdm];
+            int qnt = UnityEngine.Random.Range(1, activeWave.level + 1);
 
-            GameObject formation = Instantiate(formationToSpawn, position, Quaternion.identity);
-            var manager = formation.GetComponent<FormationManager>();
-            manager.Initialize();
-            manager.GetManager<PopulationManager>().RegisterToEvent(this);
-            spawnedFormations++;
+            for(int i = 0; i <= qnt; i++)
+            {
+                Vector2 spwPos = PositionToSpawn();
+                Instantiate(activeWave.availableFormations[spawnIndex], spwPos, Quaternion.identity);
+
+                spawnIndex++;
+                if(spawnIndex == activeWave.availableFormations.Count) break;
+
+                yield return new WaitForSecondsRealtime(1f);
+            }
 
             yield return new WaitForSecondsRealtime(activeWave.intervalOfSpawn);
         }
@@ -98,19 +103,16 @@ public class WaveManager : MonoBehaviour
         EndWave();
     }
 
+    
+
     private void EndWave()
     {
         StopAllCoroutines();
         OnWaveEnd?.Invoke(this, EventArgs.Empty);
     }
 
-    public int GetWaveLevel()
-    {
-        return activeWave.level;
-    }
-
     public void ResetInstantiator(object sender, EventArgs e)
     {
-        StartCoroutine(InstantiateFormations(PositionToSpawn()));
+        StartCoroutine(InstantiateFormations());
     }
 }

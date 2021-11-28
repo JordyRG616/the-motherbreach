@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,5 +15,17 @@ public abstract class MovementPatternTemplate : MonoBehaviour
     }
 
 
-    protected abstract void Move();
+    public virtual void Move(out IEnumerator activeCourotine)
+    {
+        StopAllCoroutines();
+        activeCourotine = DoMove();
+        StartCoroutine(activeCourotine);
+    }
+
+    protected abstract IEnumerator DoMove();
+
+    public void Stop()
+    {
+        StopAllCoroutines();
+    }
 }

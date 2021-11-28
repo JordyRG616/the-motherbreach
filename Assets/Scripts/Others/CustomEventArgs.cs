@@ -7,14 +7,14 @@ public class EnemyEventArgs : EventArgs
 {
     public EnemyHealthController healthController;
 
-    public AttackController attackController;
+    public EnemyAttackController attackController;
 
     public EnemyEventArgs(EnemyHealthController enemyHealth)
     {
         healthController = enemyHealth;
     }
 
-    public EnemyEventArgs(AttackController attack)
+    public EnemyEventArgs(EnemyAttackController attack)
     {
         attackController = attack;
     }

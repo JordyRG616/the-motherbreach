@@ -1,42 +1,39 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ChargerPattern : MovementPatternTemplate
 {
-    [SerializeField] private float forkDistance;
-    private Vector3 direction = Vector3.zero;
+    [SerializeField] private float correctionAngle;
+    [SerializeField] private float chargeDuration;
 
-
-    void Start()
+    protected override IEnumerator DoMove()
     {
-        InvokeRepeating("Move", 0, .01f);
-    }
+        Vector2 distance = (Vector2)(ship.position - transform.position);
+        distance = new Vector2(distance.x * Mathf.Cos(correctionAngle * Mathf.Deg2Rad), distance.y * Mathf.Sin(correctionAngle * Mathf.Deg2Rad));
 
-    protected override void Move()
-    {
-        float distance = Vector3.Distance(transform.position, ship.position);
-        
-        if(distance > forkDistance)
+        Rotate(distance);
+
+        float step = 0f;
+
+        while(step <= chargeDuration)
         {
-            direction = (ship.position - transform.position).normalized;
-            Rotate();
-        }
+            
+            transform.position += (Vector3)distance.normalized * speed;
 
-        Seek(direction);
+            step += 0.01f;
+
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
     }
 
-    private void Rotate()
+    private void Rotate(Vector3 target)
     {
-        Vector3 direction = - (ship.position - transform.position);
+        Vector3 direction = (target - transform.position);
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-    }
-
-    private void Seek(Vector3 direction)
-    {
-        transform.position += direction * speed/10;
+        transform.rotation = Quaternion.Euler(0, 0, angle + 90f);
     }
     
 }

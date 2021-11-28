@@ -24,7 +24,7 @@ public abstract class ActionController : MonoBehaviour
 
         foreach(ActionEffect shooter in shooters)
         {
-            shooter.ReceiveTarget(target);
+            shooter.ReceiveTarget(target.gameObject);
         }
 
         StartCoroutine(FollowTarget(target));

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TurretManager : MonoBehaviour
 {
+    /*
     private TurretStats stats;
     private BaseEffectTemplate baseEffect;
     private ActionEffect topAction;
@@ -38,6 +39,7 @@ public class TurretManager : MonoBehaviour
     {
         stats.cooldown += amount;
     }
+    */
 }
 
 public struct TurretStats
