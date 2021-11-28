@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class ActionEffect : MonoBehaviour
 {
     protected ParticleSystem shooter;
-    protected EnemyManager target;
+    protected GameObject target;
     [SerializeField] protected ActionData data;
 
     protected virtual void Awake()
@@ -30,7 +30,7 @@ public abstract class ActionEffect : MonoBehaviour
         coll.collidesWith = data.targetLayer;
     }
 
-    public virtual void ReceiveTarget(EnemyManager parentTarget)
+    public virtual void ReceiveTarget(GameObject parentTarget)
     {
         target = parentTarget;
     }
@@ -41,12 +41,6 @@ public abstract class ActionEffect : MonoBehaviour
         {
             shooter.Play();
         }
-    }
-
-    public virtual void Burst()
-    {
-        shooter.Play();
-        Invoke("StopShooting", .1f);
     }
 
     public virtual void StopShooting()

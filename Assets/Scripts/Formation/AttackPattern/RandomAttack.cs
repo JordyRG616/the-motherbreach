@@ -10,11 +10,11 @@ public class RandomAttack : AttackPatternTemplate
 
     public override event EventHandler OnSequenceEnd;
 
-    public override IEnumerator Sequence(List<AttackController> attackers)
+    public override IEnumerator Sequence(List<EnemyAttackController> attackers)
     {
 
-        List<AttackController> _attackers = new List<AttackController>();
-        AttackController[] array = new AttackController[attackers.Count];
+        List<EnemyAttackController> _attackers = new List<EnemyAttackController>();
+        EnemyAttackController[] array = new EnemyAttackController[attackers.Count];
         attackers.CopyTo(array);
         _attackers = array.ToList();
 
