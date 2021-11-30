@@ -7,7 +7,7 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
 {
     [SerializeField] private int maxHealth;
     private EnemyVFXManager vfxManager;
-    private float currentHealth;
+    [SerializeField] private float currentHealth;
 
     public event EventHandler<EnemyEventArgs> OnDeath;
 
@@ -54,7 +54,7 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
         currentHealth += amount;
         if(currentHealth <= 0)
         {
-            GetComponent<CircleCollider2D>().enabled = false;
+            // GetComponent<CircleCollider2D>().enabled = false;
             vfxManager.StartCoroutine(vfxManager.LastBreath());
         }
 

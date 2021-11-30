@@ -14,13 +14,15 @@ public class TimedController : ActionController
         StartCoroutine(ManageActivation());
     }
 
-    private IEnumerator ManageActivation()
+    protected override IEnumerator ManageActivation()
     {
         while(true)
         {
             yield return wait;
 
             Activate();
+
+            yield return new WaitForSecondsRealtime(shooters[0].StatSet[ActionStat.Rest]);
         }
     }
 

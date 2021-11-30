@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6441676040720515796}
   - component: {fileID: 247059723}
   - component: {fileID: 247059724}
+  - component: {fileID: 854066348}
   m_Layer: 7
   m_Name: Spreader
   m_TagString: Untagged
@@ -100,8 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shooters:
-  - {fileID: 373624876971714852}
-  enemiesInSight: []
+  - {fileID: 854066348}
   timeBetweenActivations: 5
 --- !u!114 &247059724
 MonoBehaviour:
@@ -120,6 +120,26 @@ MonoBehaviour:
   deathSFX: event:/SFX/Explosion
   invalidSelectionColor: {r: 0.9911022, g: 0, b: 0.07618539, a: 1}
   validSelectionColor: {r: 0.0033465356, g: 0.9911022, b: 0.084376216, a: 1}
+--- !u!114 &854066348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5443480414947530925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 601709d415b3d6c488723dc22e4bed30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shooter: {fileID: 612703159599540919}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  initialDamage: 25
+  initialRest: 5
+  durationModifier: 0
+  bulletSizeModifier: 0
 --- !u!1001 &1620448784068790949
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +150,10 @@ PrefabInstance:
     - target: {fileID: 855313659844933342, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
+      propertyPath: lengthInSec
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: NoiseModule.frequency
@@ -158,6 +182,10 @@ PrefabInstance:
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: ClampVelocityModule.drag.minScalar
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
+      propertyPath: ClampVelocityModule.multiplyDragByParticleSize
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].value
@@ -231,21 +259,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spreader
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1392628568341062529, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
 --- !u!4 &2668083994481667022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
   m_PrefabInstance: {fileID: 1620448784068790949}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &373624876971714852 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1392628568341062529, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
+--- !u!198 &612703159599540919 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
   m_PrefabInstance: {fileID: 1620448784068790949}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 601709d415b3d6c488723dc22e4bed30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

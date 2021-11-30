@@ -10,8 +10,8 @@ public class AcceleratorBE : BaseEffectTemplate
     {
         foreach(ActionEffect shooter in associatedController.GetShooters())
         {
-            float value = shooter.GetData().Cooldown / 2;
-            shooter.GetData().SetStat(ActionStat.Cooldown, value);
+            // float value = shooter.GetStat().Cooldown / 2;
+            // shooter.GetStat().SetStat(ActionStat.Cooldown, value);
         }
 
         UpdateControllerStats();

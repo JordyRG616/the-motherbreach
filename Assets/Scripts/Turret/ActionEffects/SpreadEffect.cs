@@ -1,15 +1,48 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpreadEffect : ActionEffect
 {
+    [SerializeField] private float durationModifier;
+    [SerializeField] private float bulletSizeModifier;
 
-    protected override void Awake()
+    protected override void SetData()
     {
-        shooter = GetComponent<ParticleSystem>();
-        
-        shooter.Stop();
+        StatSet.Add(ActionStat.BulletSize, bulletSizeModifier);
+        SetBulletSize();
+        StatSet.Add(ActionStat.Duration, durationModifier);
+        SetDuration();
+
+        base.SetData();
+    }
+
+    public override void SetStat(ActionStat statName, float value)
+    {
+        base.SetStat(statName, value);
+        SetDuration();
+        SetBulletSize();
+    }
+
+    private void SetDuration()
+    {
+        var main = shooter.main;
+        Vector2 minMax = new Vector2();
+        minMax.x = durationModifier + main.startLifetime.constantMin;
+        minMax.y = durationModifier + main.startLifetime.constantMax;
+        ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
+        main.startLifetime = curve;
+    }
+
+    private void SetBulletSize()
+    {
+        var main = shooter.main;
+        Vector2 minMax = new Vector2();
+        minMax.x = durationModifier + main.startSize.constantMin;
+        minMax.y = durationModifier + main.startSize.constantMax;
+        ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
+        main.startSize = curve;
     }
 
     public override void Shoot()
@@ -19,6 +52,8 @@ public class SpreadEffect : ActionEffect
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        throw new System.NotImplementedException();
+        hitManager.HealthInterface.UpdateHealth(-StatSet[ActionStat.Damage]/100);
+        var slugged = hitManager.GetComponentInParent<Slug>();
+        if (slugged == null) hitManager.transform.parent.gameObject.AddComponent<Slug>();
     }
 }

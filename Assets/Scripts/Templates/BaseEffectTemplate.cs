@@ -14,7 +14,7 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     {
         foreach(ActionEffect shooter in associatedController.GetShooters())
         {
-            shooter.SetActionData();
+            // shooter.SetActionData();
         }
     }
 

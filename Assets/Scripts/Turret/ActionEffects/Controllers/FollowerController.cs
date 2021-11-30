@@ -12,7 +12,6 @@ public class FollowerController : ActionController
 
     protected IEnumerator GetTarget()
     {
-        Debug.Log("target acquired");
         yield return new WaitUntil(() => enemiesInSight.Count > 0);
         target = enemiesInSight.OrderBy(x => Vector3.Distance(transform.position, x.transform.position))
             .FirstOrDefault();
@@ -23,13 +22,15 @@ public class FollowerController : ActionController
         }
 
         StartCoroutine(FollowTarget(target));
-        Activate();
     }
 
     protected IEnumerator FollowTarget(EnemyManager target)
     {
-        Debug.Log("following target");
         StopCoroutine(GetTarget());
+
+        var _manager = ManageActivation();
+
+        StartCoroutine(_manager);
 
         while(enemiesInSight.Contains(target))
         {
@@ -37,17 +38,25 @@ public class FollowerController : ActionController
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             this.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
 
-            foreach(ActionEffect shooter in shooters)
-            {
-                shooter.RotateShoots(-angle + 90f);
-            }
-
             yield return new WaitForEndOfFrame();
         }
-    
+
+        StopCoroutine(_manager);
+        
         StopShooters();
 
         StartCoroutine(ReturnToInitialRotation());
+    }
+
+    protected override IEnumerator ManageActivation()
+    {
+        while(true)
+        {
+            Activate();
+
+            yield return new WaitForSecondsRealtime(shooters[0].StatSet[ActionStat.Rest]);
+        }
+
     }
 
     
@@ -55,13 +64,12 @@ public class FollowerController : ActionController
     {
         for(int i = 0; i < shooters.Count;i++ )
         {
-            shooters[i].Invoke("Shoot", shooters[i].GetData().Cooldown / shooters.Count * i);
+            shooters[i].Invoke("Shoot", .5f * i);
         }
     }
 
     private IEnumerator ReturnToInitialRotation()
     {
-        Debug.Log("stop following");
         while((int)transform.localRotation.eulerAngles.z != 0)
         {
             float sign = Mathf.Sign(transform.localRotation.eulerAngles.z - 180);

@@ -1,33 +1,40 @@
 using System;
+using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ActionEffect : MonoBehaviour
 {
-    protected ParticleSystem shooter;
+    [SerializeField] protected ParticleSystem shooter;
+    [SerializeField] protected LayerMask targetLayer;
     protected GameObject target;
-    [SerializeField] protected ActionData data;
+    [SerializeField] protected float initialDamage;
+    [SerializeField] protected float initialRest;
+    public Dictionary<ActionStat, float> StatSet {get; protected set;} = new Dictionary<ActionStat, float>();
 
     protected virtual void Awake()
-    {
-        shooter = GetComponent<ParticleSystem>();
-        
+    {        
         shooter.Stop();
 
-        SetActionData();
+        SetData();
     }
 
-    public void SetActionData()
+    protected virtual void SetData()
     {
-        var main = shooter.main;
-        main.startSpeed = data.Speed;
-        main.startLifetime = data.Range;
-        main.duration = data.Cooldown;
-        main.startSize = data.Size;
+        StatSet.Add(ActionStat.Damage, initialDamage);
+        StatSet.Add(ActionStat.Rest, initialRest);
 
-        var coll = shooter.collision;
-        coll.collidesWith = data.targetLayer;
+        var col = shooter.collision;
+        col.collidesWith = targetLayer;
+    }
+
+    public virtual void SetStat(ActionStat statName, float value)
+    {
+        if(StatSet.ContainsKey(statName))
+        {
+            StatSet[statName] = value;
+        } 
     }
 
     public virtual void ReceiveTarget(GameObject parentTarget)
@@ -63,10 +70,5 @@ public abstract class ActionEffect : MonoBehaviour
     }
 
     public abstract void ApplyEffect(HitManager hitManager);
-
-    public ActionData GetData()
-    {
-        return data;
-    }
 
 }
