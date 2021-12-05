@@ -54,4 +54,9 @@ public class DroneController : ActionController
 
         }
     }
+
+    public void Stop()
+    {
+        StopShooters();
+    }
 }

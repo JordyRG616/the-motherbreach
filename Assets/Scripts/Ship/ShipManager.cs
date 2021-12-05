@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ public class ShipManager : MonoBehaviour
     #endregion
 
     private GameManager gameManager;
+    private List<TurretManager> turrets = new List<TurretManager>();
 
     void Awake()
     {
@@ -51,4 +53,29 @@ public class ShipManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(.01f);
         }
     }
+
+    public List<BaseEffectTemplate> GetBases()
+    {
+        List<BaseEffectTemplate> container = new List<BaseEffectTemplate>();
+
+        foreach(TurretManager turret in turrets)
+        {
+            container.Add(turret.BaseEffect);
+        }
+
+        return container;
+    }
+
+    public List<ActionController> GetWeapons()
+    {
+        List<ActionController> container = new List<ActionController>();
+
+        foreach(TurretManager turret in turrets)
+        {
+            container.Add(turret.ActionController);
+        }
+
+        return container;
+    }
+
 }

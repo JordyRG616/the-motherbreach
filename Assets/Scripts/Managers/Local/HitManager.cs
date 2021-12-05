@@ -37,7 +37,7 @@ public class HitManager : MonoBehaviour, IManager
 
             // audioManager.RequestSFX(hitSFX);
 
-            action.ApplyEffect(this);   
+            action.totalEffect(this);   
         }
     }
 }

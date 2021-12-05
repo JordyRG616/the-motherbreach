@@ -87,9 +87,17 @@ public class GameManager : MonoBehaviour
 public class GameStateEventArgs : EventArgs
 {
     public GameState newState;
+    public BaseEffectTrigger effectTrigger;
 
     public GameStateEventArgs(GameState newState)
     {
         this.newState = newState;
+        if(newState == GameState.OnWave)
+        {
+            effectTrigger = BaseEffectTrigger.StartOfWave;
+        } else
+        {
+            effectTrigger = BaseEffectTrigger.EndOfWave;
+        }
     }
 }

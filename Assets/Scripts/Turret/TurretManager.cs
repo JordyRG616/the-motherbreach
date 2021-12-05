@@ -4,47 +4,14 @@ using UnityEngine;
 
 public class TurretManager : MonoBehaviour
 {
-    /*
-    private TurretStats stats;
-    private BaseEffectTemplate baseEffect;
-    private ActionEffect topAction;
-    private ActionController actionController;
-
-    void Awake()
-    {
-        baseEffect = GetComponentInChildren<BaseEffectTemplate>();
-        topAction = GetComponentInChildren<ActionEffect>();
-        actionController = GetComponentInChildren<ActionController>();
-
-        SetStats();
-
-        //baseEffect.ActivateMainEffect(this);
-        
-       // actionController.Initialize(topAction, stats.cooldown);
-    }   
-
-    private void SetStats()
-    {
-        // stats.cost = baseEffect.ReturnCost() + topAction.ReturnCost();
-        // stats.hull = baseEffect.ReturnHull() + topAction.ReturnHull();
-        // stats.cooldown = topAction.ReturnCooldown();
-    }
     
-    public void UpdateHull(float amount)
-    {
-        stats.hull += amount;
-    }
+    public BaseEffectTemplate BaseEffect {get; private set;}
+    public ActionController ActionController {get; private set;}
 
-    public void UpdateCooldown(float amount)
+    void Start()
     {
-        stats.cooldown += amount;
-    }
-    */
-}
-
-public struct TurretStats
-{
-    public int cost;
-    public float hull;
-    public float cooldown;
+        BaseEffect = GetComponentInChildren<BaseEffectTemplate>();
+        ActionController = GetComponentInChildren<ActionController>();
+    }   
+    
 }

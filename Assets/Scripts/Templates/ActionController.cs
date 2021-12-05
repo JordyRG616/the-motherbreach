@@ -48,4 +48,19 @@ public abstract class ActionController : MonoBehaviour
     {
         return shooters;
     }
+
+    public List<WeaponClass> GetClasses()
+    {
+        List<WeaponClass> container = new List<WeaponClass>();
+        
+        foreach(ActionEffect shooter in shooters)
+        {
+            if(!container.Contains(shooter.GetClass()))
+            {
+                container.Add(shooter.GetClass());
+            }
+        }
+        
+        return container;
+    }
 }

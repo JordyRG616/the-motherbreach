@@ -25,6 +25,7 @@ public class DroneMovement : MonoBehaviour
         yield return new WaitForSecondsRealtime(lifetime);
 
         StopMoving();
+        GetComponent<DroneController>().Stop();
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
     }
@@ -51,9 +52,18 @@ public class DroneMovement : MonoBehaviour
 
         step = 0;
 
-        while(Vector2.Distance(target.transform.position, transform.position) >= distance)
+        while(true)
         {
-            transform.position += (Vector3)ReturnPosition(step) * speed / 100;
+            if(Vector2.Distance(target.transform.position, transform.position) > distance)
+            {
+                transform.position += (Vector3)ReturnFollowPosition() * speed / 100;
+            }
+
+            if(Vector2.Distance(target.transform.position, transform.position) <= distance)
+            {
+                transform.position += (Vector3)ReturnOrbitPosition() * speed / 100;
+            }
+
             Rotate();
 
             step += 1f;
@@ -68,11 +78,20 @@ public class DroneMovement : MonoBehaviour
         lifetime += level * 2;
     }
 
-    private Vector2 ReturnPosition(float step)
+    private Vector2 ReturnFollowPosition()
     {
         Vector2 direction = target.transform.position - transform.position;
 
         return direction.normalized;
+    }
+
+    private Vector2 ReturnOrbitPosition()
+    {
+        Vector2 direction = (target.transform.position - transform.position).normalized;
+        direction = Vector2.Perpendicular(direction);
+
+        return direction;
+
     }
 
     private void Rotate()

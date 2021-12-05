@@ -8,16 +8,28 @@ public abstract class ActionEffect : MonoBehaviour
 {
     [SerializeField] protected ParticleSystem shooter;
     [SerializeField] protected LayerMask targetLayer;
+    [SerializeField] protected WeaponClass weaponClass;
     protected GameObject target;
     [SerializeField] protected float initialDamage;
     [SerializeField] protected float initialRest;
     public Dictionary<ActionStat, float> StatSet {get; protected set;} = new Dictionary<ActionStat, float>();
 
-    protected virtual void Awake()
+    public delegate void Effect(HitManager hitManager);
+
+    public Effect totalEffect;
+
+    protected virtual void Start()
     {        
         shooter.Stop();
 
         SetData();
+
+        totalEffect += ApplyEffect;
+    }
+
+    public WeaponClass GetClass()
+    {
+        return weaponClass;
     }
 
     protected virtual void SetData()
@@ -67,6 +79,11 @@ public abstract class ActionEffect : MonoBehaviour
         float angle = - parent.rotation.eulerAngles.z;
         var main = shooter.main;
         main.startRotation = angle * Mathf.Deg2Rad;
+    }
+
+    public ParticleSystem GetShooterSystem()
+    {
+        return shooter;
     }
 
     public abstract void ApplyEffect(HitManager hitManager);
