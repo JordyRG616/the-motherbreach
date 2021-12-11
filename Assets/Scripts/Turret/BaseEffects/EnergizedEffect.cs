@@ -18,14 +18,14 @@ public class EnergizedEffect : BaseEffectTemplate
         {
             if(shooter.GetClass() == WeaponClass.Artillery || shooter.GetClass() == WeaponClass.Shotgun )
             {
-                var ogStat = shooter.StatSet[ActionStat.BulletSpeed];
+                var ogStat = shooter.StatSet[Stat.BulletSpeed];
                 ogStat *= 1 + (percentage * ArtilleryCount());
-                shooter.SetStat(ActionStat.BulletSpeed, ogStat);
+                shooter.SetStat(Stat.BulletSpeed, ogStat);
             } else
             {
-                var ogStat = shooter.StatSet[ActionStat.Duration];
+                var ogStat = shooter.StatSet[Stat.Duration];
                 ogStat *= 1 + (percentage * ArtilleryCount());
-                shooter.SetStat(ActionStat.Duration, ogStat);
+                shooter.SetStat(Stat.Duration, ogStat);
             }
         }
     }

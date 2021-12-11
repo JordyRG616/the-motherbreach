@@ -5,13 +5,35 @@ using UnityEngine;
 public class TurretManager : MonoBehaviour
 {
     
-    public BaseEffectTemplate BaseEffect {get; private set;}
-    public ActionController ActionController {get; private set;}
+    public BaseEffectTemplate baseEffect {get; private set;}
+    public ActionController actionController {get; private set;}
+    public Dictionary<Stat, float> Stats {get; protected set;} = new Dictionary<Stat, float>();
 
-    void Start()
+
+    public void Initiate()
     {
-        BaseEffect = GetComponentInChildren<BaseEffectTemplate>();
-        ActionController = GetComponentInChildren<ActionController>();
-    }   
+        baseEffect = GetComponentInChildren<BaseEffectTemplate>();
+        actionController = GetComponentInChildren<ActionController>();
+
+        GetStats();
+        
+        var integrityManager = GetComponent<IntegrityManager>();
+        integrityManager.Initiate(Stats[Stat.Health]);
+    }
+
+    private void GetStats()
+    {
+        Stats.Add(Stat.Cost, baseEffect.GetCost() + actionController.GetCost());
+        Stats.Add(Stat.Health, actionController.GetHealth());
+
+        var stats = actionController.GetShooters()[0].StatSet;
+        Debug.Log(stats.Count);
+
+        foreach(Stat stat in stats.Keys)
+        {
+            Stats.Add(stat, stats[stat]);
+        }
+
+    }
     
 }

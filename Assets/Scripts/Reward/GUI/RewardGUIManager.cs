@@ -42,7 +42,7 @@ public class RewardGUIManager : MonoBehaviour
     [SerializeField] private List<RectTransform> boxRects;
     [SerializeField] private List<RectTransform> textBoxes;
     [SerializeField] private GameObject interactablePanel;
-    [SerializeField] private List<OfferBox> Boxes;
+    [SerializeField] private List<RewardBox> Boxes;
     [SerializeField] private List<TurretSlotGUI> slotsGUI;
     [SerializeField] private float speed;
     [SerializeField] private float rightInitialPositon;
@@ -96,7 +96,7 @@ public class RewardGUIManager : MonoBehaviour
         interactablePanel.SetActive(true);
         foreach (TurretSlotGUI slot in slotsGUI)
         {
-            slot.ActivateTracking();
+            // slot.ActivateTracking();
         }
     }
 
@@ -206,11 +206,11 @@ public class RewardGUIManager : MonoBehaviour
 
         while(_step <= 1)
         {
-            foreach(RectTransform rect in textBoxes)
-            {
-                float _size = Mathf.Lerp(rect.localScale.y, 1, _step);
-                rect.localScale = new Vector2(rect.localScale.x, _size);
-            }
+            // foreach(RectTransform rect in textBoxes)
+            // {
+            //     float _size = Mathf.Lerp(rect.localScale.y, 1, _step);
+            //     rect.localScale = new Vector2(rect.localScale.x, _size);
+            // }
             _step += 0.01f;
 
             if(Mathf.Approximately(_step, .3f))
@@ -267,7 +267,7 @@ public class RewardGUIManager : MonoBehaviour
         StopCoroutine("AdjustCamera");
     }
 
-    public List<OfferBox> GetBoxes()
+    public List<RewardBox> GetBoxes()
     {
         return Boxes;
     }

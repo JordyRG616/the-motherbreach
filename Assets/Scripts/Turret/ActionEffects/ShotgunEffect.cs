@@ -10,15 +10,15 @@ public class ShotgunEffect : ActionEffect
 
     protected override void SetData()
     {
-        StatSet.Add(ActionStat.BulletSpeed ,initialbulletSpeed);
+        StatSet.Add(Stat.BulletSpeed ,initialbulletSpeed);
         SetBulletSpeed();
-        StatSet.Add(ActionStat.Projectiles, initialProjectiles);
+        StatSet.Add(Stat.Projectiles, initialProjectiles);
         SetProjectileCount();
     
         base.SetData();
     }
 
-    public override void SetStat(ActionStat statName, float value)
+    public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
         SetBulletSpeed();
@@ -28,7 +28,7 @@ public class ShotgunEffect : ActionEffect
 
     private void SetProjectileCount()
     {
-        var newBurst = new ParticleSystem.Burst(0.0001f, StatSet[ActionStat.Projectiles]);
+        var newBurst = new ParticleSystem.Burst(0.0001f, StatSet[Stat.Projectiles]);
         shooter.emission.SetBurst(0, newBurst);
 
     }
@@ -36,12 +36,12 @@ public class ShotgunEffect : ActionEffect
     private void SetBulletSpeed()
     {
         var main = shooter.main;
-        main.startSpeed = StatSet[ActionStat.BulletSpeed];
+        main.startSpeed = StatSet[Stat.BulletSpeed];
     }
 
 
     public override void ApplyEffect(HitManager hitManager)
     {        
-        hitManager.HealthInterface.UpdateHealth(-StatSet[ActionStat.Damage]);
+        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
 }

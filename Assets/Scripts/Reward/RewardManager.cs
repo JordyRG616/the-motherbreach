@@ -32,13 +32,13 @@ public class RewardManager : MonoBehaviour
     }
     #endregion
 
-
+    [SerializeField] private List<RewardBox> rewardBoxes;
     private TurretConstructor turretConstructor;
     private RewardCalculator calculator;
     private WaveManager waveManager;
-    private RewardGUIManager guiManager;
+    private UIAnimationManager animationManager;
 
-    private Dictionary<OfferBox, GameObject> turretsInOffer = new Dictionary<OfferBox, GameObject>();
+    private Dictionary<RewardBox, GameObject> turretsInOffer = new Dictionary<RewardBox, GameObject>();
     public GameObject ActiveSelection {get; private set;}
 
     public event EventHandler OnRewardSelection;
@@ -48,18 +48,18 @@ public class RewardManager : MonoBehaviour
         turretConstructor = TurretConstructor.Main;
         turretConstructor.Initialize();
         calculator = RewardCalculator.Main;
-        guiManager = RewardGUIManager.Main;
+        animationManager = UIAnimationManager.Main;
     }
 
     public void InitiateReward()
     {
-        guiManager.InitiateGUI();
+        animationManager.InitiateUI();
         GenerateOffer();
     }
 
     private void GenerateOffer()
     {
-        foreach(OfferBox box in guiManager.GetBoxes())
+        foreach(RewardBox box in rewardBoxes)
         {
             if(box.Empty == true)
             {
@@ -72,7 +72,7 @@ public class RewardManager : MonoBehaviour
     {
         Destroy(ActiveSelection);
         EliminateOffer();
-        guiManager.TerminateGUI();
+        animationManager.TerminateUI();
         OnRewardSelection?.Invoke(this, EventArgs.Empty);
     }
 
@@ -83,7 +83,7 @@ public class RewardManager : MonoBehaviour
             Destroy(turret);
         }
 
-        foreach(OfferBox box in turretsInOffer.Keys)
+        foreach(RewardBox box in turretsInOffer.Keys)
         {
             box.Clear();
         }
@@ -91,7 +91,7 @@ public class RewardManager : MonoBehaviour
         turretsInOffer.Clear();
     }
 
-    private void AddToOffer(GameObject turret, OfferBox box)
+    private void AddToOffer(GameObject turret, RewardBox box)
     {
         box.ReceiveTurret(turret);
         box.OnOfferSelected += SelectTurret;
@@ -101,7 +101,7 @@ public class RewardManager : MonoBehaviour
 
     private void SelectTurret(object sender, EventArgs e)
     {
-        OfferBox box = (OfferBox)sender;
+        RewardBox box = (RewardBox)sender;
         ActiveSelection = turretsInOffer[box];
         ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
         foreach (SpriteRenderer renderer in ActiveSelection.GetComponentsInChildren<SpriteRenderer>())
@@ -111,7 +111,7 @@ public class RewardManager : MonoBehaviour
         ActiveSelection.GetComponentInChildren<TurretVFXManager>().EnableSelected();
     }
 
-    private void GenerateReward(OfferBox box)
+    private void GenerateReward(RewardBox box)
     {
         //int waveLevel = waveManager.GetWaveLevel();
         RewardLevel _base = RewardLevel.Common; //calculator.CalculateRewardLevel(waveLevel);

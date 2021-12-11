@@ -8,12 +8,12 @@ public class BeamEffect : ActionEffect
 
     protected override void SetData()
     {
-        StatSet.Add(ActionStat.Duration, duration);
+        StatSet.Add(Stat.Duration, duration);
         SetDuration();
         base.SetData();
     }
 
-    public override void SetStat(ActionStat statName, float value)
+    public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
         SetDuration();
@@ -22,7 +22,7 @@ public class BeamEffect : ActionEffect
     private void SetDuration()
     {
         var main = shooter.main;
-        main.duration = StatSet[ActionStat.Duration];
+        main.duration = StatSet[Stat.Duration];
     }
 
     public override void Shoot()
@@ -32,7 +32,7 @@ public class BeamEffect : ActionEffect
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-StatSet[ActionStat.Damage]/100);
+        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]/100);
         var burned = hitManager.GetComponent<ChemicalBurn>();
         if (burned == null) hitManager.gameObject.AddComponent<ChemicalBurn>();
 

@@ -19,12 +19,12 @@ public class DroneController : ActionController
 
         GetTarget();
 
-        var damage = shooters[0].StatSet[ActionStat.Damage];
-        shooters[0].SetStat(ActionStat.Damage, damage * level);
-        var rest = shooters[0].StatSet[ActionStat.Rest];
-        shooters[0].SetStat(ActionStat.Rest, rest + (level/10));
+        var damage = shooters[0].StatSet[Stat.Damage];
+        shooters[0].SetStat(Stat.Damage, damage * level);
+        var rest = shooters[0].StatSet[Stat.Rest];
+        shooters[0].SetStat(Stat.Rest, rest + (level/10));
 
-        waitTime = new WaitForSecondsRealtime(shooters[0].StatSet[ActionStat.Rest]);
+        waitTime = new WaitForSecondsRealtime(shooters[0].StatSet[Stat.Rest]);
         waitDistance = new WaitUntil(() => Vector2.Distance(transform.position, target.transform.position) <= movement.GetDistance());
     }
 

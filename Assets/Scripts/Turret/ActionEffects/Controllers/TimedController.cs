@@ -22,7 +22,7 @@ public class TimedController : ActionController
 
             Activate();
 
-            yield return new WaitForSecondsRealtime(shooters[0].StatSet[ActionStat.Rest]);
+            yield return new WaitForSecondsRealtime(shooters[0].StatSet[Stat.Rest]);
         }
     }
 

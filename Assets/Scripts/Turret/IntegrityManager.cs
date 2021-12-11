@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class IntegrityManager : MonoBehaviour, IDamageable, IManager
 {
-    [SerializeField] private float maxIntegrity;
+    private float maxIntegrity;
     [SerializeField] private SpriteRenderer barRenderer;
     private float currentIntegrity;
 
-    void Awake()
+    public void Initiate(float maxHealth)
     {
+        this.maxIntegrity = maxHealth;
         currentIntegrity = maxIntegrity;
     }
 

@@ -7,6 +7,8 @@ using System;
 public abstract class ActionController : MonoBehaviour
 {
     [SerializeField] protected List<ActionEffect> shooters;
+    [SerializeField] protected float cost;
+    [SerializeField] protected float health;
     protected List<EnemyManager> enemiesInSight = new List<EnemyManager>();
     protected EnemyManager target;
   
@@ -46,6 +48,10 @@ public abstract class ActionController : MonoBehaviour
 
     public List<ActionEffect> GetShooters()
     {
+        foreach(ActionEffect shooter in shooters)
+        {
+            shooter.Initiate();
+        }
         return shooters;
     }
 
@@ -62,5 +68,20 @@ public abstract class ActionController : MonoBehaviour
         }
         
         return container;
+    }
+
+    public float GetCost()
+    {
+        return cost;
+    }
+
+    public float GetHealth()
+    {
+        return health;
+    }
+
+    public void RaiseHealthByPercentage(float percentage)
+    {
+        health *= (1 + percentage);
     }
 }

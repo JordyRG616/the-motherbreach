@@ -54,7 +54,7 @@ public class FollowerController : ActionController
         {
             Activate();
 
-            yield return new WaitForSecondsRealtime(shooters[0].StatSet[ActionStat.Rest]);
+            yield return new WaitForSecondsRealtime(shooters[0].StatSet[Stat.Rest]);
         }
 
     }

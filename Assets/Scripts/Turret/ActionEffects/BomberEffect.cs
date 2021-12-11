@@ -11,14 +11,14 @@ public class BomberEffect : ActionEffect
 
     protected override void SetData()
     {
-        StatSet.Add(ActionStat.Projectiles, initialProjectiles);
+        StatSet.Add(Stat.Projectiles, initialProjectiles);
         SetProjectiles();
-        StatSet.Add(ActionStat.BulletSize, initalBulletSize);
+        StatSet.Add(Stat.BulletSize, initalBulletSize);
         SetBulletSize();
         base.SetData();
     }
 
-    public override void SetStat(ActionStat statName, float value)
+    public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
         SetProjectiles();
@@ -28,18 +28,18 @@ public class BomberEffect : ActionEffect
     private void SetProjectiles()
     {
         var emission = subShooter.emission;
-        ParticleSystem.Burst burst = new ParticleSystem.Burst(0.0001f, StatSet[ActionStat.Projectiles]);
+        ParticleSystem.Burst burst = new ParticleSystem.Burst(0.0001f, StatSet[Stat.Projectiles]);
         emission.SetBurst(0, burst);
     }
 
     private void SetBulletSize()
     {
         var main = shooter.main;
-        main.startSize = StatSet[ActionStat.BulletSize];
+        main.startSize = StatSet[Stat.BulletSize];
     }
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-StatSet[ActionStat.Damage]);
+        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
 }

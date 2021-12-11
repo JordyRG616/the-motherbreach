@@ -13,13 +13,14 @@ GameObject:
   - component: {fileID: 2138977645}
   - component: {fileID: 2138977643}
   - component: {fileID: 2138977644}
+  - component: {fileID: 3534781280390107309}
   m_Layer: 7
   m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1355426411069355527
 Transform:
   m_ObjectHideFlags: 0
@@ -134,8 +135,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shooters:
-  - {fileID: 1705820763739684944}
-  enemiesInSight: []
+  - {fileID: 3534781280390107309}
+  cost: 0
+  health: 0
+--- !u!114 &3534781280390107309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5443480414947530925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6fa02eed31aec4093067a2d2e07a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shooter: {fileID: 2503544373685050448}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  weaponClass: 1
+  initialDamage: 20
+  initialRest: 4
+  initialbulletSpeed: 15
+  initialProjectiles: 3
 --- !u!1001 &4342138018048392258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147,25 +170,13 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3165491192998575122, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
-      propertyPath: data.Size
-      value: 0.5
+    - target: {fileID: 2232729688115175442, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3165491192998575122, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
-      propertyPath: data.Range
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3165491192998575122, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
-      propertyPath: data.Speed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3165491192998575122, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
-      propertyPath: data.Damage
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3165491192998575122, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
-      propertyPath: data.Cooldown
-      value: 2
+    - target: {fileID: 3645599520356279890, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3709292450076844395, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
       propertyPath: m_RootOrder
@@ -230,14 +241,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
   m_PrefabInstance: {fileID: 4342138018048392258}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1705820763739684944 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3165491192998575122, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
+--- !u!198 &2503544373685050448 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2232729688115175442, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
   m_PrefabInstance: {fileID: 4342138018048392258}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd66aa09ac839b94aa1c2a59c558dbbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

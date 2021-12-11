@@ -38,4 +38,14 @@ public abstract class BaseEffectTemplate : MonoBehaviour
         return trigger;
     }
 
+    public List<WeaponClass> GetWeaponClasses()
+    {
+        return targetedClasses;
+    }
+
+    public float GetCost()
+    {
+        return cost;
+    }
+
 }

@@ -10,8 +10,8 @@ public class RelentlessEffect : BaseEffectTemplate
     {
         foreach(ActionEffect shooter in associatedController.GetShooters())
         {
-            float ogRest = shooter.StatSet[ActionStat.Rest];
-            shooter.SetStat(ActionStat.Rest, ogRest * percentage);
+            float ogRest = shooter.StatSet[Stat.Rest];
+            shooter.SetStat(Stat.Rest, ogRest * percentage);
         }
     }
 }

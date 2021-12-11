@@ -14,9 +14,9 @@ public class StoicEffect : BaseEffectTemplate
 
     public override void ApplyEffect()
     {
-        var integrityManager = GetComponentInParent<IntegrityManager>();
+        //var integrityManager = GetComponentInParent<IntegrityManager>();
         float totalPercentage = BomberCount() * percentage;
-        integrityManager.RaiseMaxIntegrityByPercentage(totalPercentage);
+        associatedController.RaiseHealthByPercentage(totalPercentage);
     }
 
     private int BomberCount()

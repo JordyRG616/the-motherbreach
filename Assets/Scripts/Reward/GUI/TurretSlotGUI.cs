@@ -9,7 +9,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     [SerializeField] private TurretSlot associatedSlot;
     private RewardManager manager;
 
-    public void ActivateTracking()
+    void Start()
     {
         if(manager == null)
         {
@@ -17,6 +17,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
             tracking = GetComponent<TrackingDevice>();
         }
+        
         tracking.StartTracking(associatedSlot.transform);
     }
 

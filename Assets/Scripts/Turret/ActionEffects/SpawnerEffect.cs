@@ -13,13 +13,13 @@ public class SpawnerEffect : ActionEffect
 
     protected override void SetData()
     {
-        StatSet.Add(ActionStat.Capacity, capacity);
-        StatSet.Add(ActionStat.DroneLevel, droneLevel);
+        StatSet.Add(Stat.Capacity, capacity);
+        StatSet.Add(Stat.DroneLevel, droneLevel);
 
         base.SetData();
     }
 
-    public override void SetStat(ActionStat statName, float value)
+    public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
     }

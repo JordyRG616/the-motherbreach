@@ -6,6 +6,6 @@ public class BombFragEffect : ActionEffect
 {
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-StatSet[ActionStat.Damage]);
+        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }    
 }

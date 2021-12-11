@@ -17,18 +17,18 @@ public class ShredderEffect : BaseEffectTemplate
         {
             if(shooter.GetClass() == WeaponClass.Spawner)
             {
-                var ogStat = shooter.StatSet[ActionStat.Capacity];
-                shooter.SetStat(ActionStat.Capacity, ogStat + ShotgunCount());
+                var ogStat = shooter.StatSet[Stat.Capacity];
+                shooter.SetStat(Stat.Capacity, ogStat + ShotgunCount());
             } 
             else if(shooter.GetClass() == WeaponClass.Bomber)
             {
-                var ogStat = shooter.StatSet[ActionStat.Projectiles];
-                shooter.SetStat(ActionStat.Projectiles, ogStat + ShotgunCount());
+                var ogStat = shooter.StatSet[Stat.Projectiles];
+                shooter.SetStat(Stat.Projectiles, ogStat + ShotgunCount());
             }
             else
             {
-                var ogStat = shooter.StatSet[ActionStat.BurstSize];
-                shooter.SetStat(ActionStat.BurstSize, ogStat + ShotgunCount());
+                var ogStat = shooter.StatSet[Stat.BurstSize];
+                shooter.SetStat(Stat.BurstSize, ogStat + ShotgunCount());
             }
         }
     }

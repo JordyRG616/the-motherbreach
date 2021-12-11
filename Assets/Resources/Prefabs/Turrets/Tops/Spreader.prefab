@@ -102,6 +102,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shooters:
   - {fileID: 854066348}
+  cost: 0
+  health: 0
   timeBetweenActivations: 5
 --- !u!114 &247059724
 MonoBehaviour:
@@ -135,7 +137,8 @@ MonoBehaviour:
   shooter: {fileID: 612703159599540919}
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
+  weaponClass: 5
   initialDamage: 25
   initialRest: 5
   durationModifier: 0
@@ -154,6 +157,10 @@ PrefabInstance:
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: lengthInSec
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: NoiseModule.frequency
@@ -210,6 +217,10 @@ PrefabInstance:
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: NoiseModule.strength.maxCurve.m_Curve.Array.data[1].outSlope
       value: 2.2779872
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645599520356279890, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3709292450076844395, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: m_RootOrder

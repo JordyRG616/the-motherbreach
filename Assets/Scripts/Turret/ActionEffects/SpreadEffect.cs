@@ -10,15 +10,15 @@ public class SpreadEffect : ActionEffect
 
     protected override void SetData()
     {
-        StatSet.Add(ActionStat.BulletSize, bulletSizeModifier);
+        StatSet.Add(Stat.BulletSize, bulletSizeModifier);
         SetBulletSize();
-        StatSet.Add(ActionStat.Duration, durationModifier);
+        StatSet.Add(Stat.Duration, durationModifier);
         SetDuration();
 
         base.SetData();
     }
 
-    public override void SetStat(ActionStat statName, float value)
+    public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
         SetDuration();
@@ -52,7 +52,7 @@ public class SpreadEffect : ActionEffect
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-StatSet[ActionStat.Damage]/100);
+        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]/100);
         var slugged = hitManager.GetComponentInParent<Slug>();
         if (slugged == null) hitManager.transform.parent.gameObject.AddComponent<Slug>();
     }

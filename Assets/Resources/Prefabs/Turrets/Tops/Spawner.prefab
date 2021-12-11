@@ -4914,6 +4914,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shooters:
   - {fileID: 6304654335742844667}
+  cost: 0
+  health: 0
   timeBetweenActivations: 5
 --- !u!114 &6133096348551807458
 MonoBehaviour:
@@ -4948,6 +4950,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
+  weaponClass: 5
   initialDamage: 0
   initialRest: 5
   droneTemplate: {fileID: 0}

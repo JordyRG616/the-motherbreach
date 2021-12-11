@@ -12,13 +12,13 @@ public abstract class ActionEffect : MonoBehaviour
     protected GameObject target;
     [SerializeField] protected float initialDamage;
     [SerializeField] protected float initialRest;
-    public Dictionary<ActionStat, float> StatSet {get; protected set;} = new Dictionary<ActionStat, float>();
+    public Dictionary<Stat, float> StatSet {get; protected set;} = new Dictionary<Stat, float>();
 
     public delegate void Effect(HitManager hitManager);
 
     public Effect totalEffect;
 
-    protected virtual void Start()
+    public virtual void Initiate()
     {        
         shooter.Stop();
 
@@ -34,14 +34,14 @@ public abstract class ActionEffect : MonoBehaviour
 
     protected virtual void SetData()
     {
-        StatSet.Add(ActionStat.Damage, initialDamage);
-        StatSet.Add(ActionStat.Rest, initialRest);
+        StatSet.Add(Stat.Damage, initialDamage);
+        StatSet.Add(Stat.Rest, initialRest);
 
         var col = shooter.collision;
         col.collidesWith = targetLayer;
     }
 
-    public virtual void SetStat(ActionStat statName, float value)
+    public virtual void SetStat(Stat statName, float value)
     {
         if(StatSet.ContainsKey(statName))
         {
@@ -69,16 +69,16 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void RotateShoots(float angle)
     {
-        var main = shooter.main;
-        main.startRotation = angle * Mathf.Deg2Rad;
+        // var main = shooter.main;
+        // main.startRotation = angle * Mathf.Deg2Rad;
     }
 
     public virtual void RotateShoots()
     {
-        var parent = GetComponentInParent<Transform>();
-        float angle = - parent.rotation.eulerAngles.z;
-        var main = shooter.main;
-        main.startRotation = angle * Mathf.Deg2Rad;
+        // var parent = GetComponentInParent<Transform>();
+        // float angle = - parent.rotation.eulerAngles.z;
+        // var main = shooter.main;
+        // main.startRotation = angle * Mathf.Deg2Rad;
     }
 
     public ParticleSystem GetShooterSystem()

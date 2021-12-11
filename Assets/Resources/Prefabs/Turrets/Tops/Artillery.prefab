@@ -156,6 +156,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
+  weaponClass: 0
   initialDamage: 25
   initialRest: 5
   initialBulletSpeed: 15
@@ -176,6 +177,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
+  weaponClass: 0
   initialDamage: 25
   initialRest: 5
   initialBulletSpeed: 15
@@ -264,7 +266,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: b228987f04970e441abdd262c84acd3a, type: 2}
     m_RemovedComponents:
-    - {fileID: 3165491192998575122, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: b2747e83ee5648747b9695e47140109e, type: 3}
 --- !u!4 &9027030139415595156 stripped
 Transform:
@@ -426,8 +428,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Artillery Shooter
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3165491192998575122, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2747e83ee5648747b9695e47140109e, type: 3}
 --- !u!4 &6656696006611705943 stripped
 Transform:

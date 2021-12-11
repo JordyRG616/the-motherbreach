@@ -60,7 +60,7 @@ public class ShipManager : MonoBehaviour
 
         foreach(TurretManager turret in turrets)
         {
-            container.Add(turret.BaseEffect);
+            container.Add(turret.baseEffect);
         }
 
         return container;
@@ -72,7 +72,7 @@ public class ShipManager : MonoBehaviour
 
         foreach(TurretManager turret in turrets)
         {
-            container.Add(turret.ActionController);
+            container.Add(turret.actionController);
         }
 
         return container;

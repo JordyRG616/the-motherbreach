@@ -113,7 +113,6 @@ public class IdleState : FormationState
     private float GetStepValue(float xPos, float yPos)
     {
         float arg = (xPos - target.position.x)/Vector2.Distance(target.position, new Vector2(xPos, yPos));
-        Debug.Log(arg);
         float stepX = Mathf.Acos(arg) * Mathf.Rad2Deg / speed;
         float _y = Mathf.Sign(target.position.y + (minorR * Mathf.Sin((stepX * speed) * Mathf.Deg2Rad)));
 

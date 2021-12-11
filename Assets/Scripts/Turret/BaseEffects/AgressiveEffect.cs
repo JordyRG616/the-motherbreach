@@ -12,13 +12,13 @@ public class AgressiveEffect : BaseEffectTemplate
         {
             if(shooter.GetClass() == WeaponClass.Spawner)
             {
-                float ogLevel = shooter.StatSet[ActionStat.DroneLevel];
-                shooter.SetStat(ActionStat.DroneLevel, ogLevel + 1); 
+                float ogLevel = shooter.StatSet[Stat.DroneLevel];
+                shooter.SetStat(Stat.DroneLevel, ogLevel + 1); 
             } 
             else
             {
-                float ogDamage = shooter.StatSet[ActionStat.Damage];
-                shooter.SetStat(ActionStat.Damage, ogDamage * (1 + percentage));
+                float ogDamage = shooter.StatSet[Stat.Damage];
+                shooter.SetStat(Stat.Damage, ogDamage * (1 + percentage));
             }
         }
     }

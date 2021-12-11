@@ -9,15 +9,15 @@ public class ArtilleryEffect : ActionEffect
 
     protected override void SetData()
     {
-        StatSet.Add(ActionStat.BulletSpeed, initialBulletSpeed);
+        StatSet.Add(Stat.BulletSpeed, initialBulletSpeed);
         SetBulletSpeed();
-        StatSet.Add(ActionStat.BurstSize, initialBurstSize);
+        StatSet.Add(Stat.BurstSize, initialBurstSize);
         SetBurstSize();
 
         base.SetData();
     }
 
-    public override void SetStat(ActionStat statName, float value)
+    public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
         SetBulletSpeed();
@@ -27,17 +27,17 @@ public class ArtilleryEffect : ActionEffect
     private void SetBulletSpeed()
     {
         var main = shooter.main;
-        main.startSpeed = StatSet[ActionStat.BulletSpeed];
+        main.startSpeed = StatSet[Stat.BulletSpeed];
     }
 
     private void SetBurstSize()
     {
         var main = shooter.main;
-        main.duration = StatSet[ActionStat.BurstSize];
+        main.duration = StatSet[Stat.BurstSize];
     }
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-StatSet[ActionStat.Damage]);
+        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
 }
