@@ -15,8 +15,8 @@ public class IdleState : FormationState
     private bool configured = false;
     [SerializeField] private ParticleSystem rift;
 
-
     private WaitForSecondsRealtime waitStep = new WaitForSecondsRealtime(0.01f);
+
 
     private void Configure()
     {
@@ -25,6 +25,7 @@ public class IdleState : FormationState
         speed = UnityEngine.Random.Range(speedRange.x, speedRange.y);
         float sign = Mathf.Sign(UnityEngine.Random.Range(-1, 1));
         speed *= sign;
+
 
         majorR = UnityEngine.Random.Range(majorRadiusRange.x, majorRadiusRange.y);
 
@@ -44,7 +45,7 @@ public class IdleState : FormationState
     {
         LookAtShip();
 
-        rift.Play();
+        if(configured != true) rift.Play();
 
         float _step = 0;
 
@@ -59,7 +60,7 @@ public class IdleState : FormationState
             yield return new WaitForSecondsRealtime(0.01f);
         }
 
-        rift.Stop();
+        if(configured != true) rift.Stop();
 
         OnStateEnter();
     }
@@ -110,7 +111,7 @@ public class IdleState : FormationState
         transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
     }
 
-    private float GetStepValue(float xPos, float yPos)
+    public float GetStepValue(float xPos, float yPos)
     {
         float arg = (xPos - target.position.x)/Vector2.Distance(target.position, new Vector2(xPos, yPos));
         float stepX = Mathf.Acos(arg) * Mathf.Rad2Deg / speed;
@@ -144,4 +145,14 @@ public class IdleState : FormationState
     {
         return speed;
     }
+
+    public void ResetRadiuses(Vector2 position, float stepCorrection)
+    {
+        step += stepCorrection;
+
+        majorR = Vector2.Distance(position, target.transform.position);
+        minorR = Vector2.Distance(position, target.transform.position);
+
+    }
+
 }

@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     private AudioManager audioManager;
 
     [SerializeField] private GameObject globalVolume;
+    [SerializeField] private float initialCash;
 
     [ContextMenu("Start Game")]
     public void Start()
@@ -62,7 +63,9 @@ public class GameManager : MonoBehaviour
         audioManager.Initialize();
         audioManager.RequestMusic();
 
-        InitiateRewardPhase(this, EventArgs.Empty);
+        EndWaveEventArgs initialArgs = new EndWaveEventArgs();
+        initialArgs.waveReward = initialCash;
+        InitiateRewardPhase(this, initialArgs);
     }
 
     private void InitiateWavePhase(object sender, EventArgs e)
@@ -74,12 +77,12 @@ public class GameManager : MonoBehaviour
         audioManager.HandleMusicVolume(0.7f);
     }
 
-    private void InitiateRewardPhase(object sender, EventArgs e)
+    private void InitiateRewardPhase(object sender, EndWaveEventArgs e)
     {
         // globalVolume.SetActive(false);
         gameState = GameState.OnReward;
         OnGameStateChange?.Invoke(this, toReward);
-        rewardManager.InitiateReward();
+        rewardManager.InitiateReward(e.waveReward);
         audioManager.HandleMusicVolume(-0.7f);
     }
 }

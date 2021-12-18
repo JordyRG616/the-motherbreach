@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 6390329837503872525}
   - component: {fileID: 2773553571261130901}
   m_Layer: 6
-  m_Name: Drone
+  m_Name: Drone 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bd17f79f92aed5945a8fd3fcac4ed45a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0260eecb0eb0f4e4789d054fca2a798e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -133,7 +133,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.142857, y: 2.142857}
+    oldSize: {x: 1.5, y: 1.5}
     newSize: {x: 3.2, y: 3.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -141,14 +141,12 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.03198079, y: 0.7952956}
-      - {x: -0.7755703, y: 0.03198103}
-      - {x: -0.7854351, y: -0.5}
-      - {x: -0.4999981, y: -0.78543365}
-      - {x: 0.47041512, y: -0.78543377}
-      - {x: 0.79529417, y: -0.4802761}
-      - {x: 0.7755722, y: 0.0517048}
-      - {x: 0.051704682, y: 0.7755717}
+    - - {x: -0.693409, y: 0.4613634}
+      - {x: -0.66511345, y: -0.05386305}
+      - {x: -0.42170453, y: -0.58022696}
+      - {x: 0.44056815, y: -0.580227}
+      - {x: 0.64624983, y: -0.048181355}
+      - {x: 0.65568167, y: 0.46136335}
 --- !u!114 &6390329837503872526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,11 +349,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 15
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 2
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3165491192998575122, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
       propertyPath: data.Cooldown

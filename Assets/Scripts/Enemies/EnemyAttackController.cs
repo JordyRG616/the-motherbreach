@@ -10,6 +10,10 @@ public class EnemyAttackController : MonoBehaviour
     
     public event EventHandler<EnemyEventArgs> OnDeath;
 
+    void Start()
+    {
+        action.Initiate();
+    }
 
     private void GetTarget()
     {

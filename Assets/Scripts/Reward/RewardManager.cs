@@ -37,6 +37,7 @@ public class RewardManager : MonoBehaviour
     private RewardCalculator calculator;
     private WaveManager waveManager;
     private UIAnimationManager animationManager;
+    public static float TotalCash{get; private set;}
 
     private Dictionary<RewardBox, GameObject> turretsInOffer = new Dictionary<RewardBox, GameObject>();
     public GameObject ActiveSelection {get; private set;}
@@ -51,9 +52,10 @@ public class RewardManager : MonoBehaviour
         animationManager = UIAnimationManager.Main;
     }
 
-    public void InitiateReward()
+    public void InitiateReward(float rewardValue)
     {
         animationManager.InitiateUI();
+        TotalCash += rewardValue;
         GenerateOffer();
     }
 

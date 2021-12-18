@@ -40,7 +40,8 @@ public class WaveManager : MonoBehaviour
     private ShipManager ship;
     private int spawnIndex;
 
-    public event EventHandler OnWaveEnd;
+    public event EventHandler<EndWaveEventArgs> OnWaveEnd;
+    private EndWaveEventArgs defaultArg = new EndWaveEventArgs();
 
     [ContextMenu("Initialize")]
     public void Initialize()
@@ -82,9 +83,9 @@ public class WaveManager : MonoBehaviour
     {
         while(spawnIndex < activeWave.availableFormations.Count)
         {
-            int qnt = UnityEngine.Random.Range(1, activeWave.level + 1);
+            int qnt = UnityEngine.Random.Range(1, activeWave.level + 2);
 
-            for(int i = 0; i <= qnt; i++)
+            for(int i = 0; i < qnt; i++)
             {
                 Vector2 spwPos = PositionToSpawn();
                 Instantiate(activeWave.availableFormations[spawnIndex], spwPos, Quaternion.identity);
@@ -103,16 +104,21 @@ public class WaveManager : MonoBehaviour
         EndWave();
     }
 
-    
-
     private void EndWave()
     {
         StopAllCoroutines();
-        OnWaveEnd?.Invoke(this, EventArgs.Empty);
+        defaultArg.waveReward = activeWave.rewardValue;
+        OnWaveEnd?.Invoke(this, defaultArg);
     }
 
     public void ResetInstantiator(object sender, EventArgs e)
     {
         StartCoroutine(InstantiateFormations());
     }
+    
+}
+
+public class EndWaveEventArgs : EventArgs
+{
+    public float waveReward;
 }
