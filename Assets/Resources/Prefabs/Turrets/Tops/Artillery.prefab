@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1560200900}
   - component: {fileID: 1560200901}
   m_Layer: 7
-  m_Name: Artillery
+  m_Name: artillery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,6 +124,8 @@ MonoBehaviour:
   shooters:
   - {fileID: 1560200901}
   - {fileID: 1560200900}
+  cost: 3
+  health: 100
 --- !u!70 &-7005680236428361042
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -27,7 +27,6 @@ public class TurretManager : MonoBehaviour
         Stats.Add(Stat.Health, actionController.GetHealth());
 
         var stats = actionController.GetShooters()[0].StatSet;
-        Debug.Log(stats.Count);
 
         foreach(Stat stat in stats.Keys)
         {

@@ -33,14 +33,18 @@ public class RewardManager : MonoBehaviour
     #endregion
 
     [SerializeField] private List<RewardBox> rewardBoxes;
+    [SerializeField] private UIAnimations cashTextAnimation;
+
+    private InputManager inputManager;
     private TurretConstructor turretConstructor;
     private RewardCalculator calculator;
     private WaveManager waveManager;
     private UIAnimationManager animationManager;
-    public static float TotalCash{get; private set;}
+    [HideInInspector] public float TotalCash, EarnedCash, SpendedCash;
 
     private Dictionary<RewardBox, GameObject> turretsInOffer = new Dictionary<RewardBox, GameObject>();
     public GameObject ActiveSelection {get; private set;}
+    private RewardBox activeBox;
 
     public event EventHandler OnRewardSelection;
 
@@ -50,16 +54,19 @@ public class RewardManager : MonoBehaviour
         turretConstructor.Initialize();
         calculator = RewardCalculator.Main;
         animationManager = UIAnimationManager.Main;
+
+        inputManager = InputManager.Main;
+        inputManager.OnSelectionClear += ClearSelection;
     }
 
     public void InitiateReward(float rewardValue)
     {
+        EarnedCash = rewardValue;
         animationManager.InitiateUI();
-        TotalCash += rewardValue;
         GenerateOffer();
     }
 
-    private void GenerateOffer()
+    public void GenerateOffer()
     {
         foreach(RewardBox box in rewardBoxes)
         {
@@ -72,13 +79,26 @@ public class RewardManager : MonoBehaviour
 
     public void BuildSelection()
     {
-        Destroy(ActiveSelection);
-        EliminateOffer();
+        SpendedCash = ActiveSelection.GetComponent<TurretManager>().Stats[Stat.Cost];
+        cashTextAnimation.PlayReverse();
+
+        ActiveSelection.GetComponent<TrackingDevice>().StopTracking();
+        ActiveSelection = null;
+
+        activeBox.Clear();
+        activeBox = null;
+    }
+
+    public void Exit()
+    {
+        var locked = FindObjectOfType<LockButton>().locked;
+
+        if(!locked) EliminateOffer();
         animationManager.TerminateUI();
         OnRewardSelection?.Invoke(this, EventArgs.Empty);
     }
 
-    private void EliminateOffer()
+    public void EliminateOffer()
     {
         foreach(GameObject turret in turretsInOffer.Values)
         {
@@ -99,18 +119,39 @@ public class RewardManager : MonoBehaviour
         box.OnOfferSelected += SelectTurret;
         turret.transform.position = box.transform.position - Vector3.left * 100;
         turretsInOffer.Add(box, turret);
+        turret.SetActive(false);
     }
 
     private void SelectTurret(object sender, EventArgs e)
     {
-        RewardBox box = (RewardBox)sender;
-        ActiveSelection = turretsInOffer[box];
-        ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
-        foreach (SpriteRenderer renderer in ActiveSelection.GetComponentsInChildren<SpriteRenderer>())
+        if(ActiveSelection != null)
         {
-            renderer.color = Color.white;
+            ClearSelection();
         }
-        ActiveSelection.GetComponentInChildren<TurretVFXManager>().EnableSelected();
+        activeBox = (RewardBox)sender;
+        if(turretsInOffer[activeBox].GetComponent<TurretManager>().Stats[Stat.Cost] <= TotalCash)
+        {
+            ActiveSelection = turretsInOffer[activeBox];
+            ActiveSelection.SetActive(true);
+            ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
+            foreach (SpriteRenderer renderer in ActiveSelection.GetComponentsInChildren<SpriteRenderer>())
+            {
+                renderer.color = Color.white;
+            }
+            ActiveSelection.GetComponentInChildren<TurretVFXManager>().EnableSelected();
+        }
+    }
+
+    private void ClearSelection()
+    {
+        if(ActiveSelection != null) ActiveSelection.SetActive(false);
+        ActiveSelection = null;
+    }
+
+    private void ClearSelection(object sender, EventArgs e)
+    {
+        if(ActiveSelection != null) ActiveSelection.SetActive(false);
+        ActiveSelection = null;
     }
 
     private void GenerateReward(RewardBox box)

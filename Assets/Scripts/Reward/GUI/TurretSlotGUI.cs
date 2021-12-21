@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,10 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 {
     private TrackingDevice tracking;
     [SerializeField] private TurretSlot associatedSlot;
+    private RectTransform sellButton;
+    private RectTransform upgradeButton;
     private RewardManager manager;
+    private RectTransform selfRect;
 
     void Start()
     {
@@ -16,6 +20,11 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             manager = RewardManager.Main;
 
             tracking = GetComponent<TrackingDevice>();
+
+            sellButton = FindObjectOfType<SellButton>(true).GetComponent<RectTransform>();
+            upgradeButton = FindObjectOfType<UpgradeButton>(true).GetComponent<RectTransform>();
+
+            selfRect = GetComponent<RectTransform>();
         }
         
         tracking.StartTracking(associatedSlot.transform);
@@ -28,11 +37,31 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(!associatedSlot.IsOcuppied())
+        if(!associatedSlot.IsOcuppied() && manager.ActiveSelection != null)
         {
             associatedSlot.BuildTurret(manager.ActiveSelection);
             manager.BuildSelection();
         }
+        else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null)
+        {
+            ShowOptions();
+        }
+    }
+
+    private void ShowOptions()
+    {
+        sellButton.gameObject.SetActive(true);
+
+        int refund = (int)associatedSlot.occupyingTurret.GetComponent<TurretManager>().Stats[Stat.Cost] / 3;
+        if(refund < 1) refund = 1;
+
+        sellButton.GetComponent<SellButton>().SetButton(refund, associatedSlot);
+
+        upgradeButton.gameObject.SetActive(true);
+
+        sellButton.anchoredPosition = selfRect.anchoredPosition + new Vector2(0, 110);
+        upgradeButton.anchoredPosition = selfRect.anchoredPosition + new Vector2(0, 50);
+
     }
 
     public void OnPointerDown(PointerEventData eventData)

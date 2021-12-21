@@ -41,8 +41,10 @@ public class InputManager : MonoBehaviour
     public event EventHandler<MovementEventArgs> OnMovementPressed;
     public event EventHandler<RotationEventArgs> OnRotationPressed;
     public event EventHandler OnInertia;
+    public event EventHandler OnSelectionClear;
 
     private IEnumerator _waveControl;
+    private IEnumerator _rewardControl;
 
 
     void Awake()
@@ -66,6 +68,7 @@ public class InputManager : MonoBehaviour
         }
 
         _waveControl = WaveControl();
+        _rewardControl = RewardControl();
 
     }
 
@@ -73,11 +76,13 @@ public class InputManager : MonoBehaviour
     { 
         if(e.newState == GameState.OnWave)
         {
+            StopAllCoroutines();
             StartCoroutine(_waveControl);
         }
         if(e.newState == GameState.OnReward)
         {
             StopAllCoroutines();
+            StartCoroutine(_rewardControl);
         }
     }
 
@@ -147,6 +152,20 @@ public class InputManager : MonoBehaviour
         {
             TriggerMovement();
             TriggerRotation();
+            yield return new WaitForSecondsRealtime(0.001f);
+        }
+    }
+
+    private IEnumerator RewardControl()
+    {
+        while(gameObject.activeSelf)
+        {
+            if(Input.GetKeyDown(KeyCode.Mouse1)) 
+            {
+                OnSelectionClear?.Invoke(this, EventArgs.Empty);
+                FindObjectOfType<SellButton>().gameObject.SetActive(false);
+                FindObjectOfType<UpgradeButton>().gameObject.SetActive(false);
+            }
             yield return new WaitForSecondsRealtime(0.001f);
         }
     }

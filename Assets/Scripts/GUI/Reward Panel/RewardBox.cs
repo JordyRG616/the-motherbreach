@@ -17,6 +17,8 @@ public class RewardBox : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
     private WaitForSecondsRealtime waitTime = new WaitForSecondsRealtime(0.001f);
     public string weaponName {get; private set;}
     public string baseName{get; private set;}
+    private Material topMaterial;
+    private Material baseMaterial;
 
     public event EventHandler OnOfferSelected;
 
@@ -29,6 +31,11 @@ public class RewardBox : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
         baseImage.sprite = spriteRenderers[1].sprite;
         baseImage.color = spriteRenderers[1].color;
 
+        topMaterial = TopImage.material;
+        baseMaterial = baseImage.material;
+
+        RewardManager.Main.StartCoroutine(DisplayTurret());
+
         weaponName = turret.GetComponentInChildren<ActionController>().gameObject.name;
         baseName = turret.GetComponentInChildren<BaseEffectTemplate>().gameObject.name;
 
@@ -37,9 +44,34 @@ public class RewardBox : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
         Empty = false;
     }
 
+    private IEnumerator DisplayTurret()
+    {
+        float step = 0;
+
+        while(step <= 2)
+        {
+            topMaterial.SetFloat("_Mask", step);
+            baseMaterial.SetFloat("_Mask", step);
+
+            step += 0.05f;
+
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
     public void Clear()
     {
         Empty = true;
+        Color color = new Color(1, 1, 1, 0);
+        TopImage.sprite = null;
+        TopImage.color = color;
+        baseImage.sprite = null;
+        baseImage.color = color;
+
+        topMaterial.SetFloat("_Mask", 0);
+        baseMaterial.SetFloat("_Mask", 0);
+
+        statPanel.Clear();
     }
 
 
@@ -50,7 +82,7 @@ public class RewardBox : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(!infoBox.gameObject.activeSelf)
+        if(!infoBox.gameObject.activeSelf && !Empty)
         {
             infoBox.gameObject.SetActive(true);
             infoBox.GetComponent<InfoBox>().ReceiveInfo(weaponName, baseName);
@@ -68,6 +100,6 @@ public class RewardBox : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        infoBox.gameObject.SetActive(false);
+        if(infoBox.gameObject.activeSelf) infoBox.gameObject.SetActive(false);
     }
 }

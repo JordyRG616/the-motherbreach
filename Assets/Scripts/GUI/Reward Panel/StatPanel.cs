@@ -12,29 +12,13 @@ public class StatPanel : MonoBehaviour
     [SerializeField] private StatAssetList assetList;
     [SerializeField] private RectTransform mainStatsPanel;
     [SerializeField] private RectTransform specialStatsPanel;
+    private List<GameObject> activePanels = new List<GameObject>();
 
     public void ReceiveStats(GameObject turret)
     {
         var stats = turret.GetComponent<TurretManager>().Stats;
         foreach(Stat stat in stats.Keys)
         {
-            // if(stat == Stat.Cost)
-            // {
-            //     SetCost(stats[stat]);
-            // }
-            // if(stat == Stat.Health)
-            // {
-            //     BuildHealthBox(stats[stat]);
-            // }
-            // if(stat == Stat.Damage)
-            // {
-            //     BuildDamageBox(stats[stat]);
-            // }
-            // else
-            // {
-            //     BuildStatBox(stat, stats[stat]);
-            // }
-
             switch(stat)
             {
                 case Stat.Cost:
@@ -60,8 +44,12 @@ public class StatPanel : MonoBehaviour
         var icon = container.transform.Find("Icon").GetComponent<Image>();
         var valueText = container.transform.Find("Value").GetComponent<TextMeshProUGUI>();
 
+        container.GetComponent<StatBox>().SetStatName(Stat.Damage);
+
         icon.sprite = assetList.GetIcon(Stat.Damage);
         valueText.text = value.ToString();
+
+        activePanels.Add(container);
     }
 
     private void BuildHealthBox(float value)
@@ -70,8 +58,12 @@ public class StatPanel : MonoBehaviour
         var icon = container.transform.Find("Icon").GetComponent<Image>();
         var valueText = container.transform.Find("Value").GetComponent<TextMeshProUGUI>();
 
+        container.GetComponent<StatBox>().SetStatName(Stat.Health);
+
         icon.sprite = assetList.GetIcon(Stat.Health);
         valueText.text = value.ToString();
+
+        activePanels.Add(container);
     }
 
     private void SetCost(float value)
@@ -85,8 +77,22 @@ public class StatPanel : MonoBehaviour
         var icon = container.transform.Find("Icon").GetComponent<Image>();
         var valueText = container.transform.Find("Value").GetComponent<TextMeshProUGUI>();
 
+        container.GetComponent<StatBox>().SetStatName(stat);
+
         icon.sprite = assetList.GetIcon(stat);
         valueText.text = value.ToString();
+
+        activePanels.Add(container);
+    }
+
+    public void Clear()
+    {
+        foreach(GameObject panel in activePanels)
+        {
+            Destroy(panel);
+        }
+
+        SetCost(0);
     }
 }
 

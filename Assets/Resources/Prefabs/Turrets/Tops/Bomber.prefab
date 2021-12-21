@@ -35,7 +35,7 @@ GameObject:
   - component: {fileID: 1343060353}
   - component: {fileID: 1343060354}
   m_Layer: 7
-  m_Name: Bomber
+  m_Name: bomber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,8 +158,8 @@ MonoBehaviour:
   shooters:
   - {fileID: 1343060354}
   - {fileID: 1343060353}
-  cost: 0
-  health: 0
+  cost: 4
+  health: 150
 --- !u!114 &1343060353
 MonoBehaviour:
   m_ObjectHideFlags: 0

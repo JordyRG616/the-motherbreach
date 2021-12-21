@@ -82,6 +82,9 @@ public class UIAnimationManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(1 / group.GetLowestSpeed());
 
         }
+
+        interactablePanel.SetActive(false);
+
     }
 
 
