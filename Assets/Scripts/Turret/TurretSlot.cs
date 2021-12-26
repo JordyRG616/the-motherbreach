@@ -4,36 +4,33 @@ using UnityEngine;
 
 public class TurretSlot : MonoBehaviour
 {
-    private GameObject occupyingTurret;
+    public GameObject occupyingTurret{get; private set;}
+    private bool occupied = false;
 
     public bool IsOcuppied()
     {
-        if(occupyingTurret == null)
-        {
-            return false;
-        }
-
-        return true;
+        return occupied;
     }
 
     public void BuildTurret(GameObject turret)
     {
-        GameObject occupyingTurret = Instantiate(turret, Vector3.zero, transform.rotation, transform);
-        TriggerImeddiateEffect(occupyingTurret);
+        //occupyingTurret = Instantiate(turret, Vector3.zero, transform.rotation, transform);
+        // turret.transform.position = transform.position;
+        occupyingTurret = turret;
+        occupyingTurret.GetComponent<TrackingDevice>().StopTracking();
+        occupyingTurret.transform.SetParent(transform);
+        occupyingTurret.transform.rotation = transform.rotation;
+        occupyingTurret.transform.localPosition = Vector2.zero;
 
         occupyingTurret.GetComponentInChildren<TurretVFXManager>().DisableSelected();
-        occupyingTurret.transform.localPosition = Vector3.zero;
+
+        occupied = true;
     }
 
-    private static void TriggerImeddiateEffect(GameObject occupyingTurret)
+    public void Clear()
     {
-        BaseEffectTemplate effect = occupyingTurret.GetComponentInChildren<BaseEffectTemplate>();
-        effect.ReceiveWeapon(occupyingTurret.GetComponentInChildren<ActionController>());
-        if (effect.GetTrigger() == BaseEffectTrigger.Immediate)
-        {
-            effect.ApplyEffect();
-        }
-
+        occupied = false;
+        occupyingTurret = null;
     }
 
 }

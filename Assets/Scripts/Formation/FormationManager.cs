@@ -6,42 +6,26 @@ using System;
 
 public class FormationManager : MonoBehaviour
 {
-    [SerializeField] private FormationSlotsData slotsData;
-    private FormationConstructor formationConstructor;
-    private List<IManager> managers;
+    public event EventHandler OnFormationDefeat;
+    public List<EnemyManager> children {get; private set;} = new List<EnemyManager>();
 
-
-    public void Initialize()
+    void Start()
     {
-        formationConstructor = FormationConstructor.Main;
-
-        managers = GetComponents<IManager>().ToList();
-
-        Fill();
-
-        GetManager<WiggleController>().Initiate();
-        GetManager<PopulationManager>().OnPopulationEmpty += DestroyFormation;
+        children = GetComponentsInChildren<EnemyManager>().ToList();
     }
 
-    private void DestroyFormation(object sender, EventArgs e)
+    void Update()
     {
-        foreach(IManager manager in managers)
+        if(children.Count == 0)
         {
-            manager.DestroyManager();
+            OnFormationDefeat?.Invoke(this, EventArgs.Empty);
+            Destroy(gameObject);
         }
-
-        Destroy(gameObject);
     }
 
-    public T GetManager<T>()
+    public void RemoveEnemy(EnemyManager enemy)
     {
-        var manager = (T)managers.Find(x => x.GetType() == typeof(T));
-        return manager;
+        children.Remove(enemy);
     }
 
-    private void Fill()
-    {
-        formationConstructor.ConstructEnemies(slotsData.slots, this);
-    }
-    
 }

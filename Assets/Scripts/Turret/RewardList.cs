@@ -30,4 +30,9 @@ public class RewardList : ScriptableObject
         return listsByRewards[level][index];
     }
 
+    public List<GameObject> GetRewardsByLevel(RewardLevel level)
+    {
+        return listsByRewards[level];
+    }
+
 }

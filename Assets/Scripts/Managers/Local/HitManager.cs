@@ -27,7 +27,7 @@ public class HitManager : MonoBehaviour, IManager
 
     void OnParticleCollision(GameObject other)
     {
-        if(other.TryGetComponent<ActionEffect>(out ActionEffect action))
+        if(other.transform.parent.parent.TryGetComponent<ActionEffect>(out ActionEffect action))
         {
             ParticleSystem shuriken = other.GetComponent<ParticleSystem>();
             int count = shuriken.GetParticles(particles);
@@ -35,9 +35,10 @@ public class HitManager : MonoBehaviour, IManager
             ParticleSystem.Particle particle = particles.OrderBy(x => (this.transform.position - x.position).magnitude).FirstOrDefault();
             other.GetComponent<ParticleSystem>().TriggerSubEmitter(0, ref particle);
 
-            audioManager.RequestSFX(hitSFX);
+            //audioManager.RequestSFX(hitSFX);
 
-            action.ApplyEffect(this);   
+            Debug.Log(action.name);
+            action.totalEffect(this);   
         }
     }
 }

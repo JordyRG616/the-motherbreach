@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,19 +44,46 @@ public class TurretConstructor : MonoBehaviour
     }
 
 
-    private GameObject GetBase(Transform parentBlueprint, RewardLevel level)
+    private GameObject GetBase(Transform parentBlueprint, RewardLevel level, ActionController controller)
     {
-        int rdm = Random.Range(0, baseList.GetListCount(level));
-        GameObject container = Instantiate(baseList.GetRewardByLevel(level, rdm), transform.position, Quaternion.identity, parentBlueprint);
+        GameObject container = Instantiate(GetPossibleBase(controller, level, out string baseName), transform.position, Quaternion.identity, parentBlueprint);
+        container.name = baseName;
         container.transform.localPosition = Vector3.zero;
         return container;
     }
 
-    private GameObject GetTop(Transform parentBlueprint, RewardLevel level)
+    private GameObject GetPossibleBase(ActionController controller, RewardLevel level, out string name)
+    {
+        List<GameObject> possibleBases = new List<GameObject>();
+        List<WeaponClass> weapons = controller.GetClasses();
+
+        foreach(GameObject reward in baseList.GetRewardsByLevel(level))
+        {
+            foreach(WeaponClass weapon in weapons)
+            {
+                if(reward.GetComponent<BaseEffectTemplate>().GetWeaponClasses().Contains(weapon))
+                {
+                    possibleBases.Add(reward);
+                }
+            }
+        }
+
+        int rdm = Random.Range(0, possibleBases.Count);
+
+        name = possibleBases[rdm].name;
+
+        return possibleBases[rdm];
+
+    }
+
+    private GameObject GetTop(Transform parentBlueprint, RewardLevel level, out ActionController actionController)
     {
         int rdm = Random.Range(0, topList.GetListCount(level));
-        GameObject container = Instantiate(topList.GetRewardByLevel(level, rdm), transform.position, Quaternion.identity, parentBlueprint);
+        var _instance = topList.GetRewardByLevel(level, rdm);
+        GameObject container = Instantiate(_instance, transform.position, Quaternion.identity, parentBlueprint);
+        container.name = _instance.name;
         container.transform.localPosition = Vector3.zero;
+        actionController = container.GetComponent<ActionController>();
         return container;
     }
 
@@ -63,9 +91,24 @@ public class TurretConstructor : MonoBehaviour
     {
         GameObject blueprint = Instantiate(TurretTemplate, transform.position, Quaternion.identity);
 
-        GameObject _base = GetBase(blueprint.transform, baseLevel);
-        GameObject _gun = GetTop(blueprint.transform, topLevel);
+        GameObject _gun = GetTop(blueprint.transform, topLevel, out ActionController actionController);
+        GameObject _base = GetBase(blueprint.transform, baseLevel, actionController);
+
+        TriggerImeddiateEffect(blueprint);
+
+        blueprint.GetComponent<TurretManager>().Initiate();
 
         return blueprint;
+    }
+    
+    private static void TriggerImeddiateEffect(GameObject occupyingTurret)
+    {
+        BaseEffectTemplate effect = occupyingTurret.GetComponentInChildren<BaseEffectTemplate>();
+        effect.ReceiveWeapon(occupyingTurret.GetComponentInChildren<ActionController>());
+        if (effect.GetTrigger() == BaseEffectTrigger.Immediate)
+        {
+            effect.ApplyEffect();
+        }
+
     }
 }

@@ -10,18 +10,18 @@ public class EnemyAttackController : MonoBehaviour
     
     public event EventHandler<EnemyEventArgs> OnDeath;
 
-
-    private void GetTarget()
+    void Start()
     {
-        var turrets = FindObjectsOfType<TurretManager>();
-        turrets.OrderBy(x => Vector3.Distance(transform.position, x.transform.position));
-        var target = turrets.FirstOrDefault();
-        action.ReceiveTarget(target.gameObject);
+        action.Initiate();
+    }
+
+    public void SetTarget(GameObject target)
+    {
+        action.ReceiveTarget(target);
     }
 
     public void Attack()
     {
-        GetTarget();
         action.Shoot();
     }
 

@@ -4,47 +4,35 @@ using UnityEngine;
 
 public class TurretManager : MonoBehaviour
 {
-    /*
-    private TurretStats stats;
-    private BaseEffectTemplate baseEffect;
-    private ActionEffect topAction;
-    private ActionController actionController;
+    
+    public BaseEffectTemplate baseEffect {get; private set;}
+    public ActionController actionController {get; private set;}
+    public Dictionary<Stat, float> Stats {get; protected set;} = new Dictionary<Stat, float>();
 
-    void Awake()
+
+    public void Initiate()
     {
         baseEffect = GetComponentInChildren<BaseEffectTemplate>();
-        topAction = GetComponentInChildren<ActionEffect>();
         actionController = GetComponentInChildren<ActionController>();
 
-        SetStats();
-
-        //baseEffect.ActivateMainEffect(this);
+        GetStats();
         
-       // actionController.Initialize(topAction, stats.cooldown);
-    }   
+        var integrityManager = GetComponent<IntegrityManager>();
+        integrityManager.Initiate(Stats[Stat.Health]);
+    }
 
-    private void SetStats()
+    private void GetStats()
     {
-        // stats.cost = baseEffect.ReturnCost() + topAction.ReturnCost();
-        // stats.hull = baseEffect.ReturnHull() + topAction.ReturnHull();
-        // stats.cooldown = topAction.ReturnCooldown();
+        Stats.Add(Stat.Cost, baseEffect.GetCost() + actionController.GetCost());
+        Stats.Add(Stat.Health, actionController.GetHealth());
+
+        var stats = actionController.GetShooters()[0].StatSet;
+
+        foreach(Stat stat in stats.Keys)
+        {
+            Stats.Add(stat, stats[stat]);
+        }
+
     }
     
-    public void UpdateHull(float amount)
-    {
-        stats.hull += amount;
-    }
-
-    public void UpdateCooldown(float amount)
-    {
-        stats.cooldown += amount;
-    }
-    */
-}
-
-public struct TurretStats
-{
-    public int cost;
-    public float hull;
-    public float cooldown;
 }

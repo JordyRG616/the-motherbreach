@@ -41,9 +41,16 @@ public class InputManager : MonoBehaviour
     public event EventHandler<MovementEventArgs> OnMovementPressed;
     public event EventHandler<RotationEventArgs> OnRotationPressed;
     public event EventHandler OnInertia;
+    public event EventHandler OnSelectionClear;
 
     private IEnumerator _waveControl;
+    private IEnumerator _rewardControl;
 
+
+    public void Test()
+    {
+        StartCoroutine(_waveControl);
+    }
 
     void Awake()
     {
@@ -66,6 +73,9 @@ public class InputManager : MonoBehaviour
         }
 
         _waveControl = WaveControl();
+        _rewardControl = RewardControl();
+
+        Test();
 
     }
 
@@ -73,11 +83,13 @@ public class InputManager : MonoBehaviour
     { 
         if(e.newState == GameState.OnWave)
         {
+            StopAllCoroutines();
             StartCoroutine(_waveControl);
         }
         if(e.newState == GameState.OnReward)
         {
             StopAllCoroutines();
+            StartCoroutine(_rewardControl);
         }
     }
 
@@ -115,15 +127,11 @@ public class InputManager : MonoBehaviour
             Utilities.TestKey(rightKey) - Utilities.TestKey(leftKey),
             Utilities.TestKey(upKey) - Utilities.TestKey(downKey)
             );
+
         
-        if(direction.magnitude != 0)
-        {
-            OnMovementPressed?.Invoke(this, new MovementEventArgs(direction));
-        }
-        if(direction.magnitude == 0)
-        {
-            OnInertia?.Invoke(this, EventArgs.Empty);
-        }
+        OnMovementPressed?.Invoke(this, new MovementEventArgs(direction));
+        
+        
     }
 
     private void TriggerRotation()
@@ -147,6 +155,23 @@ public class InputManager : MonoBehaviour
         {
             TriggerMovement();
             TriggerRotation();
+            yield return new WaitForSecondsRealtime(0.001f);
+
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                Time.timeScale = 0;
+            }
+        }
+    }
+
+    private IEnumerator RewardControl()
+    {
+        while(gameObject.activeSelf)
+        {
+            if(Input.GetKeyDown(KeyCode.Mouse1)) 
+            {
+                OnSelectionClear?.Invoke(this, EventArgs.Empty);
+            }
             yield return new WaitForSecondsRealtime(0.001f);
         }
     }

@@ -237,10 +237,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68be72d4afedd6f49ba87ee0d5b6ce42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementStack:
-  - {fileID: 26961722}
-  - {fileID: 26961720}
-  attackTrigger: {fileID: 0}
+  speedRange: {x: 0, y: 0}
+  majorRadiusRange: {x: 0, y: 0}
+  minorRadiusRange: {x: 0, y: 0}
 --- !u!114 &26961722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,11 +288,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68be72d4afedd6f49ba87ee0d5b6ce42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementStack:
-  - {fileID: 163421611}
-  - {fileID: 163421609}
-  - {fileID: 163421610}
-  attackTrigger: {fileID: 0}
+  speedRange: {x: 0, y: 0}
+  majorRadiusRange: {x: 0, y: 0}
+  minorRadiusRange: {x: 0, y: 0}
 --- !u!114 &163421609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -719,11 +716,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68be72d4afedd6f49ba87ee0d5b6ce42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementStack:
-  - {fileID: 719739672}
-  - {fileID: 719739670}
-  - {fileID: 719739671}
-  attackTrigger: {fileID: 0}
+  speedRange: {x: 0, y: 0}
+  majorRadiusRange: {x: 0, y: 0}
+  minorRadiusRange: {x: 0, y: 0}
 --- !u!114 &719739670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1034,11 +1029,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68be72d4afedd6f49ba87ee0d5b6ce42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementStack:
-  - {fileID: 1204187005}
-  - {fileID: 1204187006}
-  - {fileID: 1204187010}
-  attackTrigger: {fileID: 0}
+  speedRange: {x: 0, y: 0}
+  majorRadiusRange: {x: 0, y: 0}
+  minorRadiusRange: {x: 0, y: 0}
 --- !u!114 &1204187010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1096,7 +1089,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1200,8 +1193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbdfc9da1456924291e3e83530033c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableEnemies:
-  - {fileID: 702847379737862102, guid: 2b0dc19d8a293614ca9085f90d33e4db, type: 3}
 --- !u!4 &1282852396
 Transform:
   m_ObjectHideFlags: 0

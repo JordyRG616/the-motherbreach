@@ -3,63 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FSM_Controller : MonoBehaviour
+public abstract class FSM_Controller : MonoBehaviour
 {
-    [SerializeField] private List<FormationState> states;
-    private int activeState = -1;
+    [SerializeField] protected FormationState entryState;
+    protected Stack<FormationState> stateHistory = new Stack<FormationState>();
+    [SerializeField] private bool generateDebugMessage;
 
-
-    void Start()
+    [ContextMenu("Generate Debug History")]
+    public void DebugHistory()
     {
-        StartCoroutine(ManageStates());
-
-        StartCoroutine(ActivateChildren());
-    }
-
-    private IEnumerator ActivateChildren()
-    {
-        var children = GetComponentsInChildren<EnemyRotationController>(true);
-
-        float step = 0;
-
-        while(step <= 1)
+        string debug = string.Empty;
+        foreach(FormationState state in stateHistory)
         {
-            Vector2 size = Vector2.Lerp(Vector2.zero, Vector2.one, step);
-
-            foreach(EnemyRotationController child in children)
-            {
-                child.transform.localScale = size;
-            }
-
-            step += 0.01f;
-
-            yield return new WaitForSecondsRealtime(0.01f);
+            debug += state.GetType().ToString() + "; ";
         }
-
+        Debug.Log(debug);
     }
 
-    private IEnumerator ManageStates()
+    protected virtual void Start()
     {
-        FormationState state;
+        SetTransitions();
 
-        while(true)
-        {
-            state = GetNextState();
-            float duration = state.GetDuration();
-            state.Enter();
-
-            yield return new WaitForSecondsRealtime(duration);
-
-            state.Exit();
-        }
+        entryState.Enter();
     }
 
-    private FormationState GetNextState()
+    public void RegisterState(FormationState state)
     {
-        activeState++;
-
-        if(activeState == states.Count) activeState = 0;
-
-        return states[activeState];
+        stateHistory.Push(state);
+        if(generateDebugMessage) Debug.Log(state.GetType().ToString());
     }
+
+    protected abstract void SetTransitions();
 }

@@ -1,33 +1,52 @@
 using System;
+using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ActionEffect : MonoBehaviour
 {
-    protected ParticleSystem shooter;
+    [SerializeField] protected ParticleSystem shooter;
+    [SerializeField] protected LayerMask targetLayer;
+    [SerializeField] protected WeaponClass weaponClass;
     protected GameObject target;
-    [SerializeField] protected ActionData data;
+    [SerializeField] protected float initialDamage;
+    [SerializeField] protected float initialRest;
+    public Dictionary<Stat, float> StatSet {get; protected set;} = new Dictionary<Stat, float>();
 
-    protected virtual void Awake()
-    {
-        shooter = GetComponent<ParticleSystem>();
-        
+    public delegate void Effect(HitManager hitManager);
+
+    public Effect totalEffect;
+
+    public virtual void Initiate()
+    {        
         shooter.Stop();
 
-        SetActionData();
+        SetData();
+
+        totalEffect += ApplyEffect;
     }
 
-    public void SetActionData()
+    public WeaponClass GetClass()
     {
-        var main = shooter.main;
-        main.startSpeed = data.Speed;
-        main.startLifetime = data.Range;
-        main.duration = data.Cooldown;
-        main.startSize = data.Size;
+        return weaponClass;
+    }
 
-        var coll = shooter.collision;
-        coll.collidesWith = data.targetLayer;
+    protected virtual void SetData()
+    {
+        StatSet.Add(Stat.Damage, initialDamage);
+        StatSet.Add(Stat.Rest, initialRest);
+
+        var col = shooter.collision;
+        col.collidesWith = targetLayer;
+    }
+
+    public virtual void SetStat(Stat statName, float value)
+    {
+        if(StatSet.ContainsKey(statName))
+        {
+            StatSet[statName] = value;
+        } 
     }
 
     public virtual void ReceiveTarget(GameObject parentTarget)
@@ -37,7 +56,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void Shoot()
     {
-        if(target != null)
+        if(target != null && !shooter.isEmitting)
         {
             shooter.Play();
         }
@@ -50,23 +69,23 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void RotateShoots(float angle)
     {
-        var main = shooter.main;
-        main.startRotation = angle * Mathf.Deg2Rad;
+        // var main = shooter.main;
+        // main.startRotation = angle * Mathf.Deg2Rad;
     }
 
     public virtual void RotateShoots()
     {
-        var parent = GetComponentInParent<Transform>();
-        float angle = - parent.rotation.eulerAngles.z;
-        var main = shooter.main;
-        main.startRotation = angle * Mathf.Deg2Rad;
+        // var parent = GetComponentInParent<Transform>();
+        // float angle = - parent.rotation.eulerAngles.z;
+        // var main = shooter.main;
+        // main.startRotation = angle * Mathf.Deg2Rad;
+    }
+
+    public ParticleSystem GetShooterSystem()
+    {
+        return shooter;
     }
 
     public abstract void ApplyEffect(HitManager hitManager);
-
-    public ActionData GetData()
-    {
-        return data;
-    }
 
 }

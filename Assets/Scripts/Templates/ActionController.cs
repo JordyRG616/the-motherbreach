@@ -7,32 +7,14 @@ using System;
 public abstract class ActionController : MonoBehaviour
 {
     [SerializeField] protected List<ActionEffect> shooters;
+    [SerializeField] protected float cost;
+    [SerializeField] protected float health;
     [SerializeField] protected List<EnemyManager> enemiesInSight = new List<EnemyManager>();
-    protected EnemyManager target;
-    protected Quaternion initialRotation;
-
-    public virtual void Awake()
-    {
-        //initialRotation = transform.rotation;
-    }
-
-    protected IEnumerator GetTarget()
-    {
-        yield return new WaitUntil(() => enemiesInSight.Count > 0);
-        target = enemiesInSight.OrderBy(x => Vector3.Distance(transform.position, x.transform.position))
-            .FirstOrDefault();
-
-        foreach(ActionEffect shooter in shooters)
-        {
-            shooter.ReceiveTarget(target.gameObject);
-        }
-
-        StartCoroutine(FollowTarget(target));
-        Activate();
-        StopCoroutine(GetTarget());
-    }
-
+    [SerializeField] protected EnemyManager target;
+  
     public abstract void Activate();
+
+    protected abstract IEnumerator ManageActivation();
 
     protected virtual void StopShooters()
     {
@@ -41,42 +23,8 @@ public abstract class ActionController : MonoBehaviour
             shooter.StopShooting();
             shooter.ReceiveTarget(null);
         }
-        
-        transform.localRotation = Quaternion.identity;
-
-        StartCoroutine(GetTarget());
     }
 
-    private IEnumerator ReturnToInitialRotation()
-    {
-        while((int)transform.localRotation.eulerAngles.z != 0)
-        {
-            transform.Rotate(0, 0, -0.1f, Space.Self);
-            yield return new WaitForSecondsRealtime(.01f);
-        }
-
-        StopCoroutine(ReturnToInitialRotation());
-    }
-
-    protected IEnumerator FollowTarget(EnemyManager target)
-    {
-        while(enemiesInSight.Contains(target))
-        {
-            Vector3 direction = target.transform.position - this.transform.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            this.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
-
-            foreach(ActionEffect shooter in shooters)
-            {
-                shooter.RotateShoots(-angle + 90f);
-            }
-
-            yield return new WaitForEndOfFrame();
-        }
-    
-        StopShooters();
-        StopCoroutine("FollowTarget");
-    }
 
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
@@ -100,6 +48,40 @@ public abstract class ActionController : MonoBehaviour
 
     public List<ActionEffect> GetShooters()
     {
+        foreach(ActionEffect shooter in shooters)
+        {
+            shooter.Initiate();
+        }
         return shooters;
+    }
+
+    public List<WeaponClass> GetClasses()
+    {
+        List<WeaponClass> container = new List<WeaponClass>();
+        
+        foreach(ActionEffect shooter in shooters)
+        {
+            if(!container.Contains(shooter.GetClass()))
+            {
+                container.Add(shooter.GetClass());
+            }
+        }
+        
+        return container;
+    }
+
+    public float GetCost()
+    {
+        return cost;
+    }
+
+    public float GetHealth()
+    {
+        return health;
+    }
+
+    public void RaiseHealthByPercentage(float percentage)
+    {
+        health *= (1 + percentage);
     }
 }

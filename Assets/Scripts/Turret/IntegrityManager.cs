@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class IntegrityManager : MonoBehaviour, IDamageable, IManager
 {
-    [SerializeField] private int maxIntegrity;
+    private float maxIntegrity;
     [SerializeField] private SpriteRenderer barRenderer;
     private float currentIntegrity;
 
-    void Awake()
+    public void Initiate(float maxHealth)
     {
+        this.maxIntegrity = maxHealth;
         currentIntegrity = maxIntegrity;
     }
 
@@ -49,5 +50,15 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
     public void DestroyManager()
     {
 
+    }
+
+    public void RaiseMaxIntegrityByAmount(float amount)
+    {
+        maxIntegrity += amount;
+    }
+
+    public void RaiseMaxIntegrityByPercentage(float percentage)
+    {
+        maxIntegrity *= (1 + percentage);
     }
 }

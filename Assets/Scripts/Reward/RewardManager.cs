@@ -32,14 +32,19 @@ public class RewardManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] private List<RewardBox> rewardBoxes;
+    [SerializeField] private UIAnimations cashTextAnimation;
 
+    private InputManager inputManager;
     private TurretConstructor turretConstructor;
     private RewardCalculator calculator;
     private WaveManager waveManager;
-    private RewardGUIManager guiManager;
+    private UIAnimationManager animationManager;
+     public float TotalCash, EarnedCash, SpendedCash;
 
-    private Dictionary<OfferBox, GameObject> turretsInOffer = new Dictionary<OfferBox, GameObject>();
+    private Dictionary<RewardBox, GameObject> turretsInOffer = new Dictionary<RewardBox, GameObject>();
     public GameObject ActiveSelection {get; private set;}
+    private RewardBox activeBox;
 
     public event EventHandler OnRewardSelection;
 
@@ -48,18 +53,26 @@ public class RewardManager : MonoBehaviour
         turretConstructor = TurretConstructor.Main;
         turretConstructor.Initialize();
         calculator = RewardCalculator.Main;
-        guiManager = RewardGUIManager.Main;
+        animationManager = UIAnimationManager.Main;
+
+        inputManager = InputManager.Main;
+        inputManager.OnSelectionClear += ClearSelection;
     }
 
-    public void InitiateReward()
+    public void InitiateReward(float rewardValue)
     {
-        guiManager.InitiateGUI();
-        GenerateOffer();
+        SpendedCash = 0;
+        EarnedCash = rewardValue;
+        animationManager.InitiateUI();
+
+        var locked = FindObjectOfType<LockButton>().locked;
+
+        if(!locked) GenerateOffer();
     }
 
-    private void GenerateOffer()
+    public void GenerateOffer()
     {
-        foreach(OfferBox box in guiManager.GetBoxes())
+        foreach(RewardBox box in rewardBoxes)
         {
             if(box.Empty == true)
             {
@@ -70,48 +83,90 @@ public class RewardManager : MonoBehaviour
 
     public void BuildSelection()
     {
-        Destroy(ActiveSelection);
-        EliminateOffer();
-        guiManager.TerminateGUI();
+        SpendedCash = ActiveSelection.GetComponent<TurretManager>().Stats[Stat.Cost];
+        cashTextAnimation.PlayReverse();
+
+        // foreach(TrackingDevice device in ActiveSelection.GetComponents<TrackingDevice>())
+        // {
+        //     Destroy(device);
+        // }
+
+        ActiveSelection = null;        
+
+        turretsInOffer.Remove(activeBox);
+        activeBox.Clear();
+        activeBox = null;
+    }
+
+    public void Exit()
+    {
+        var locked = FindObjectOfType<LockButton>().locked;
+
+        if(!locked) EliminateOffer();
+        // animationManager.TerminateUI();
         OnRewardSelection?.Invoke(this, EventArgs.Empty);
     }
 
-    private void EliminateOffer()
+    public void EliminateOffer()
     {
         foreach(GameObject turret in turretsInOffer.Values)
         {
             Destroy(turret);
         }
 
-        foreach(OfferBox box in turretsInOffer.Keys)
+        foreach(RewardBox box in turretsInOffer.Keys)
         {
+            box.OnOfferSelected -= SelectTurret;
             box.Clear();
         }
 
         turretsInOffer.Clear();
     }
 
-    private void AddToOffer(GameObject turret, OfferBox box)
+    private void AddToOffer(GameObject turret, RewardBox box)
     {
         box.ReceiveTurret(turret);
         box.OnOfferSelected += SelectTurret;
         turret.transform.position = box.transform.position - Vector3.left * 100;
         turretsInOffer.Add(box, turret);
+        turret.SetActive(false);
     }
 
     private void SelectTurret(object sender, EventArgs e)
     {
-        OfferBox box = (OfferBox)sender;
-        ActiveSelection = turretsInOffer[box];
-        ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
-        foreach (SpriteRenderer renderer in ActiveSelection.GetComponentsInChildren<SpriteRenderer>())
+        if(ActiveSelection != null)
         {
-            renderer.color = Color.white;
+            ClearSelection();
         }
-        ActiveSelection.GetComponentInChildren<TurretVFXManager>().EnableSelected();
+        activeBox = (RewardBox)sender;
+        if(turretsInOffer[activeBox].GetComponent<TurretManager>().Stats[Stat.Cost] <= TotalCash)
+        {
+            ActiveSelection = turretsInOffer[activeBox];
+            ActiveSelection.SetActive(true);
+            ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
+            foreach (SpriteRenderer renderer in ActiveSelection.GetComponentsInChildren<SpriteRenderer>())
+            {
+                renderer.color = Color.white;
+            }
+            ActiveSelection.GetComponentInChildren<TurretVFXManager>().EnableSelected();
+        }
+
+        activeBox.OnOfferSelected -= SelectTurret;
     }
 
-    private void GenerateReward(OfferBox box)
+    private void ClearSelection()
+    {
+        if(ActiveSelection != null) ActiveSelection.SetActive(false);
+        ActiveSelection = null;
+    }
+
+    private void ClearSelection(object sender, EventArgs e)
+    {
+        if(ActiveSelection != null) ActiveSelection.SetActive(false);
+        ActiveSelection = null;
+    }
+
+    private void GenerateReward(RewardBox box)
     {
         //int waveLevel = waveManager.GetWaveLevel();
         RewardLevel _base = RewardLevel.Common; //calculator.CalculateRewardLevel(waveLevel);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,18 +6,27 @@ using UnityEngine;
 public abstract class BaseEffectTemplate : MonoBehaviour
 {
     [SerializeField] protected BaseEffectTrigger trigger;
+    [SerializeField] protected List<WeaponClass> targetedClasses;
+    [SerializeField] protected float cost;
     protected ActionController associatedController;
+    protected GameManager gameManager;
 
-    public abstract void ApplyEffect();
-
-    
-    protected void UpdateControllerStats()
+    void Start()
     {
-        foreach(ActionEffect shooter in associatedController.GetShooters())
+        gameManager = GameManager.Main;
+        gameManager.OnGameStateChange += HandleEffectTrigger;
+
+    }
+
+    private void HandleEffectTrigger(object sender, GameStateEventArgs e)
+    {
+        if(e.effectTrigger == trigger)
         {
-            shooter.SetActionData();
+            ApplyEffect();
         }
     }
+
+    public abstract void ApplyEffect();
 
     public void ReceiveWeapon(ActionController weapon)
     {
@@ -26,6 +36,16 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     public BaseEffectTrigger GetTrigger()
     {
         return trigger;
+    }
+
+    public List<WeaponClass> GetWeaponClasses()
+    {
+        return targetedClasses;
+    }
+
+    public float GetCost()
+    {
+        return cost;
     }
 
 }

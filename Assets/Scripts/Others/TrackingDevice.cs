@@ -72,4 +72,10 @@ public class TrackingDevice : MonoBehaviour
         tracking = false;
         StopAllCoroutines();
     }
+
+    public void DisableAndReset()
+    {
+        transform.localPosition = Vector3.zero;
+        Destroy(this);
+    }
 }

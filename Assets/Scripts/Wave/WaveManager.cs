@@ -39,8 +39,10 @@ public class WaveManager : MonoBehaviour
     private WaveData activeWave;
     private ShipManager ship;
     private int spawnIndex;
+    private List<FormationManager> activeFormations = new List<FormationManager>();
 
-    public event EventHandler OnWaveEnd;
+    public event EventHandler<EndWaveEventArgs> OnWaveEnd;
+    private EndWaveEventArgs defaultArg = new EndWaveEventArgs();
 
     [ContextMenu("Initialize")]
     public void Initialize()
@@ -82,12 +84,15 @@ public class WaveManager : MonoBehaviour
     {
         while(spawnIndex < activeWave.availableFormations.Count)
         {
-            int qnt = UnityEngine.Random.Range(1, activeWave.level + 1);
+            int qnt = UnityEngine.Random.Range(1, activeWave.level + 2);
 
-            for(int i = 0; i <= qnt; i++)
+            for(int i = 0; i < qnt; i++)
             {
                 Vector2 spwPos = PositionToSpawn();
-                Instantiate(activeWave.availableFormations[spawnIndex], spwPos, Quaternion.identity);
+                var formation = Instantiate(activeWave.availableFormations[spawnIndex], spwPos, Quaternion.identity);
+
+                activeFormations.Add(formation.GetComponent<FormationManager>());
+                formation.GetComponent<FormationManager>().OnFormationDefeat += RemoveFormation;
 
                 spawnIndex++;
                 if(spawnIndex == activeWave.availableFormations.Count) break;
@@ -98,21 +103,29 @@ public class WaveManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(activeWave.intervalOfSpawn);
         }
 
-        yield return new WaitUntil(() => FindObjectsOfType<FormationManager>().Length == 0);
-
-        EndWave();
     }
 
-    
+    private void RemoveFormation(object sender, EventArgs e)
+    {
+        activeFormations.Remove(sender as FormationManager);
+        if(activeFormations.Count == 0) EndWave();
+    }
 
     private void EndWave()
     {
         StopAllCoroutines();
-        OnWaveEnd?.Invoke(this, EventArgs.Empty);
+        defaultArg.waveReward = activeWave.rewardValue;
+        OnWaveEnd?.Invoke(this, defaultArg);
     }
 
     public void ResetInstantiator(object sender, EventArgs e)
     {
         StartCoroutine(InstantiateFormations());
     }
+    
+}
+
+public class EndWaveEventArgs : EventArgs
+{
+    public float waveReward;
 }
