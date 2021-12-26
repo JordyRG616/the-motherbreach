@@ -63,6 +63,12 @@ public class UIAnimationManager : MonoBehaviour
 
     private IEnumerator ReverseTimeline()
     {
+        foreach(TurretSlotGUI slot in FindObjectsOfType<TurretSlotGUI>())
+        {
+            slot.DeactivateSprite();
+        }
+
+
         var reverseTimeline = Timeline.Reverse<AnimationGroup>().ToList();
 
         foreach(AnimationGroup group in reverseTimeline)

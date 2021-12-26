@@ -4,28 +4,27 @@ using UnityEngine;
 
 public class Slug : MonoBehaviour
 {
-    // private IdleState enemy;
+    private MovableEntity enemy;
 
-    // void Start()
-    // {
-    //     enemy = GetComponent<IdleState>();
-    //     StartCoroutine(SlowDown(enemy));
-    // }
+    void Start()
+    {
+        enemy = GetComponent<MovableEntity>();
+        StartCoroutine(SlowDown());
+    }
     
-    // private IEnumerator SlowDown(IdleState enemy)
-    // {
-    //     // float ogSpeed = enemy.GetSpeed();
-    //     // enemy.SetSpeed(ogSpeed * 0.7f);
+    private IEnumerator SlowDown()
+    {
+        enemy.AddDrag(0.33f);
 
-    //     // yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(2f);
 
-    //     // enemy.SetSpeed(ogSpeed);
+        enemy.RemoveDrag();
 
-    //     // Terminate();
-    // }
+        Terminate();
+    }
 
-    // private void Terminate()
-    // {
-    //     Destroy(this);
-    // }
+    private void Terminate()
+    {
+        Destroy(this);
+    }
 }

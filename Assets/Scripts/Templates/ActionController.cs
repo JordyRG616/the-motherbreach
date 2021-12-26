@@ -25,6 +25,14 @@ public abstract class ActionController : MonoBehaviour
         }
     }
 
+    public void Initiate()
+    {
+        foreach(ActionEffect shooter in shooters)
+        {
+            shooter.Initiate();
+        }
+    }
+
 
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
@@ -48,10 +56,6 @@ public abstract class ActionController : MonoBehaviour
 
     public List<ActionEffect> GetShooters()
     {
-        foreach(ActionEffect shooter in shooters)
-        {
-            shooter.Initiate();
-        }
         return shooters;
     }
 

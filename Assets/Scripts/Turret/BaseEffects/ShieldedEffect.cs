@@ -8,7 +8,7 @@ public class ShieldedEffect : BaseEffectTemplate
 
     public override void ApplyEffect()
     {
-        Instantiate(shield, Vector3.zero, Quaternion.identity, associatedController.transform);
+        Instantiate(shield, Vector3.zero, Quaternion.identity, associatedController.transform).transform.localPosition = Vector3.zero;
     }
 
 }

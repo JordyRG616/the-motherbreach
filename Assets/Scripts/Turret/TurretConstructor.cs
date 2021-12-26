@@ -84,6 +84,7 @@ public class TurretConstructor : MonoBehaviour
         container.name = _instance.name;
         container.transform.localPosition = Vector3.zero;
         actionController = container.GetComponent<ActionController>();
+        actionController.Initiate();
         return container;
     }
 

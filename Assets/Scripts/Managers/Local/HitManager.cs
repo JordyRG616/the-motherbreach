@@ -37,7 +37,6 @@ public class HitManager : MonoBehaviour, IManager
 
             //audioManager.RequestSFX(hitSFX);
 
-            Debug.Log(action.name);
             action.totalEffect(this);   
         }
     }

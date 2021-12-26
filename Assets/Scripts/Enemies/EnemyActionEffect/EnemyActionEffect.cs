@@ -6,5 +6,6 @@ public class EnemyActionEffect : ActionEffect
 {
     public override void ApplyEffect(HitManager hitManager)
     {
+        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
 }

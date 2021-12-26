@@ -54,7 +54,7 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
         currentHealth += amount;
         if(currentHealth <= 0)
         {
-            // GetComponent<CircleCollider2D>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
             vfxManager.StartCoroutine(vfxManager.LastBreath());
         }
 

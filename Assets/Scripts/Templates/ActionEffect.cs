@@ -13,6 +13,7 @@ public abstract class ActionEffect : MonoBehaviour
     [SerializeField] protected float initialDamage;
     [SerializeField] protected float initialRest;
     public Dictionary<Stat, float> StatSet {get; protected set;} = new Dictionary<Stat, float>();
+    private GameManager gameManager;
 
     public delegate void Effect(HitManager hitManager);
 
@@ -25,6 +26,16 @@ public abstract class ActionEffect : MonoBehaviour
         SetData();
 
         totalEffect += ApplyEffect;
+
+        gameManager = GameManager.Main;
+        gameManager.OnGameStateChange += ClearShots;
+    }
+
+    protected virtual void ClearShots(object sender, GameStateEventArgs e)
+    {
+        Debug.Log("working");
+        shooter.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        // shooter.Clear();
     }
 
     public WeaponClass GetClass()
@@ -88,4 +99,8 @@ public abstract class ActionEffect : MonoBehaviour
 
     public abstract void ApplyEffect(HitManager hitManager);
 
+    void OnDestroy()
+    {
+        if(gameManager != null) gameManager.OnGameStateChange -= ClearShots;
+    }
 }

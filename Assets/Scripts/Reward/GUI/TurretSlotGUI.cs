@@ -2,18 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private TrackingDevice tracking;
     [SerializeField] private TurretSlot associatedSlot;
+    [SerializeField] private Color color;
     private RectTransform sellButton;
     private RectTransform upgradeButton;
     private RewardManager manager;
     private RectTransform selfRect;
+    private Vector3 offset;
 
-    void Start()
+    void OnEnable()
     {
         if(manager == null)
         {
@@ -25,14 +28,20 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             upgradeButton = FindObjectOfType<UpgradeButton>(true).GetComponent<RectTransform>();
 
             selfRect = GetComponent<RectTransform>();
+
+            offset = new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2);
         }
+
+        if(!associatedSlot.IsOcuppied()) GetComponent<Image>().color = color;
         
-        tracking.StartTracking(associatedSlot.transform);
+        // tracking.StartTracking(associatedSlot.transform);
     }
 
-    public void DeactivateTracking()
+    public void DeactivateSprite()
     {
-        tracking.StopTracking();
+        var _color = color;
+        _color.a = 0;
+        GetComponent<Image>().color = _color;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -42,6 +51,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             var turret = manager.ActiveSelection;
             associatedSlot.BuildTurret(turret);
             manager.BuildSelection();
+            DeactivateSprite();
         }
         else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null)
         {
@@ -60,8 +70,10 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
         upgradeButton.gameObject.SetActive(true);
 
-        sellButton.anchoredPosition = selfRect.anchoredPosition + new Vector2(0, 110);
-        upgradeButton.anchoredPosition = selfRect.anchoredPosition + new Vector2(0, 50);
+        
+
+        sellButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 110) - offset;
+        upgradeButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 50) - offset;
 
     }
 
@@ -93,5 +105,10 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     public void OnPointerUp(PointerEventData eventData)
     {
+    }
+
+    void FixedUpdate()
+    {
+        GetComponent<RectTransform>().anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position);
     }
 }

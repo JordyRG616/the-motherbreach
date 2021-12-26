@@ -18,6 +18,7 @@ public class MovableEntity : MonoBehaviour
     private IEnumerator _slowDown;
 
     private bool anchored;
+    private float drag;
 
 
     void Update()
@@ -132,5 +133,18 @@ public class MovableEntity : MonoBehaviour
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawRay(transform.position, force * 5);
+    }
+
+    public void AddDrag(float percentage)
+    {
+        drag = percentage * maxSpeed;
+
+        maxSpeed -= drag;
+    }
+
+    public void RemoveDrag()
+    {
+        maxSpeed += drag;
+        drag = 0;
     }
 }

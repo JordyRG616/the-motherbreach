@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,8 +33,8 @@ public class RewardManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private List<RewardBox> rewardBoxes;
-    [SerializeField] private UIAnimations cashTextAnimation;
+    private List<RewardBox> rewardBoxes;
+    private UIAnimations cashTextAnimation;
 
     private InputManager inputManager;
     private TurretConstructor turretConstructor;
@@ -57,6 +58,9 @@ public class RewardManager : MonoBehaviour
 
         inputManager = InputManager.Main;
         inputManager.OnSelectionClear += ClearSelection;
+
+        rewardBoxes = FindObjectsOfType<RewardBox>(true).ToList();
+        cashTextAnimation = FindObjectOfType<CashTextAnimation>();
     }
 
     public void InitiateReward(float rewardValue)
@@ -163,6 +167,8 @@ public class RewardManager : MonoBehaviour
     private void ClearSelection(object sender, EventArgs e)
     {
         if(ActiveSelection != null) ActiveSelection.SetActive(false);
+        Destroy(ActiveSelection.GetComponent<TrackingDevice>());
+        activeBox.OnOfferSelected += SelectTurret;
         ActiveSelection = null;
     }
 

@@ -103,10 +103,10 @@ public class RewardGUIManager : MonoBehaviour
     private void TerminateInteractablePanel()
     {
         interactablePanel.SetActive(false);
-        foreach (TurretSlotGUI slot in slotsGUI)
-        {
-            slot.DeactivateTracking();
-        }
+        // foreach (TurretSlotGUI slot in slotsGUI)
+        // {
+        //     slot.DeactivateTracking();
+        // }
     }
 
     private IEnumerator MoveRightPanel(Vector2 targetPos)

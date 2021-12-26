@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 247059724}
   - component: {fileID: 854066348}
   m_Layer: 7
-  m_Name: spreader
+  m_Name: Spreader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,8 +102,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shooters:
   - {fileID: 854066348}
-  cost: 0
-  health: 0
+  cost: 2
+  health: 100
+  enemiesInSight: []
+  target: {fileID: 0}
   timeBetweenActivations: 5
 --- !u!114 &247059724
 MonoBehaviour:

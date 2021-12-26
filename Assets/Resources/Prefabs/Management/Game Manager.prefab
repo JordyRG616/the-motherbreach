@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 4174501789438114408}
   - component: {fileID: 4174501789438114414}
   - component: {fileID: 4174501789438114413}
+  - component: {fileID: 956126525}
+  - component: {fileID: 956126526}
+  - component: {fileID: 956126527}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -30,6 +33,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.38304, y: 5.959486, z: 1927.0251}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -46,6 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a9885b657508343a8fb19165b430d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalVolume: {fileID: 0}
+  initialCash: 25
 --- !u!114 &4174501789438114408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,5 +92,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbdfc9da1456924291e3e83530033c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableEnemies:
-  - {fileID: 702847379737862102, guid: 2b0dc19d8a293614ca9085f90d33e4db, type: 3}
+--- !u!114 &956126525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4174501789438114409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f57393cd9cbdaf74da5c18bafeacb447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 011dabcf363423b4f9122445f83a1cd7, type: 2}
+--- !u!114 &956126526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4174501789438114409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d87ec2a1ec48211439d2b755d79a88be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardBoxes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cashTextAnimation: {fileID: 0}
+  TotalCash: 0
+  EarnedCash: 0
+  SpendedCash: 0
+--- !u!114 &956126527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4174501789438114409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cd33f2a12f989649a6903e58e534d05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TurretTemplate: {fileID: 7685943198356329193, guid: 6f739c534ba724b449466a647619dac1, type: 3}
+  baseList: {fileID: 11400000, guid: c2ee08f3c72d8084a9de8469f1babd4b, type: 2}
+  topList: {fileID: 11400000, guid: 4bbec42a6be79064e964c2cfad047150, type: 2}

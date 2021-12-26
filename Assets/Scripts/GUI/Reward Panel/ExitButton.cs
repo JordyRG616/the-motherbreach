@@ -11,12 +11,14 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     [SerializeField] private RectTransform tipBox;
     private TextMeshProUGUI tipBoxText;
     private Image image;
+    private Sprite ogSprite;
     private UIAnimationManager animationManager;
 
     void Start()
     {
         animationManager = FindObjectOfType<UIAnimationManager>();
         image = GetComponent<Image>();
+        ogSprite = image.sprite;
         tipBoxText = tipBox.Find("Text").GetComponent<TextMeshProUGUI>();
     }
 
@@ -24,6 +26,12 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     {
         image.sprite = clickSprite;
         animationManager.TerminateUI();
+        Invoke("ResetSprite", 5f);
+    }
+
+    private void ResetSprite()
+    {
+        image.sprite = ogSprite;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

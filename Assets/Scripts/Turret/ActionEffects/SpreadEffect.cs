@@ -53,7 +53,11 @@ public class SpreadEffect : ActionEffect
     public override void ApplyEffect(HitManager hitManager)
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]/100);
-        var slugged = hitManager.GetComponentInParent<Slug>();
-        if (slugged == null) hitManager.transform.parent.gameObject.AddComponent<Slug>();
+        Slug slugged;
+        if (!hitManager.transform.TryGetComponent<Slug>(out slugged)) 
+        {
+            Debug.Log("working");
+            hitManager.transform.gameObject.AddComponent<Slug>();
+        }
     }
 }

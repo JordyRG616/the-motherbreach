@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,20 @@ public class TimedController : ActionController
 {
     [SerializeField] private float timeBetweenActivations;
     private WaitForSecondsRealtime wait;
+    private GameManager gameManager;
 
-    void Awake()
+    void OnEnable()
     {
-        wait = new WaitForSecondsRealtime(timeBetweenActivations);
+        gameManager = GameManager.Main;
+        gameManager.OnGameStateChange += HandleActivation;
 
-        StartCoroutine(ManageActivation());
+        wait = new WaitForSecondsRealtime(timeBetweenActivations);
+    }
+
+    private void HandleActivation(object sender, GameStateEventArgs e)
+    {
+        if(e.newState == GameState.OnReward) StopAllCoroutines();
+        if(e.newState == GameState.OnWave) StartCoroutine(ManageActivation());
     }
 
     protected override IEnumerator ManageActivation()
@@ -32,5 +41,10 @@ public class TimedController : ActionController
         {
             shooter.Shoot();
         }
+    }
+
+    void OnDisable()
+    {
+        if(gameManager !=null) gameManager.OnGameStateChange -= HandleActivation;
     }
 }
