@@ -58,10 +58,12 @@ public class CashTextAnimation : UIAnimations
 
     protected override IEnumerator Reverse()
     {
+        var ogTotal = rewardManager.TotalCash;
+        rewardManager.TotalCash -= rewardManager.SpendedCash;
+
         earnedCash.gameObject.SetActive(true);
 
         earnedCash.text = "- " + rewardManager.SpendedCash + "$";
-
 
         Color textColor  = earnedCash.color;
         textColor.a = 0;
@@ -85,10 +87,10 @@ public class CashTextAnimation : UIAnimations
         {
             
             step --;
-            rewardManager.TotalCash --;
+            ogTotal --;
 
             earnedCash.text = "- " + step + "$";
-            inPocketCash.text = "cash = " + rewardManager.TotalCash + "$";
+            inPocketCash.text = "cash = " + ogTotal + "$";
 
 
             yield return new WaitForSecondsRealtime(0.1f);

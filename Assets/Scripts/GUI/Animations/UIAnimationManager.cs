@@ -71,6 +71,7 @@ public class UIAnimationManager : MonoBehaviour
             
             foreach(UIAnimations animation in group.animations.Reverse<UIAnimations>())
             {
+                if(animation.GetType() == typeof(CashTextAnimation)) continue;
                 if(group.mode == AnimationGroup.PlayMode.Sequential && i > 0)
                 {
                     yield return sequentialTime;
@@ -84,6 +85,8 @@ public class UIAnimationManager : MonoBehaviour
         }
 
         interactablePanel.SetActive(false);
+
+        RewardManager.Main.Exit();
 
     }
 

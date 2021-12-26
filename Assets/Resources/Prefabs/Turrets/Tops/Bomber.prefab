@@ -160,6 +160,8 @@ MonoBehaviour:
   - {fileID: 1343060353}
   cost: 4
   health: 150
+  enemiesInSight: []
+  target: {fileID: 0}
 --- !u!114 &1343060353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +184,7 @@ MonoBehaviour:
   initialProjectiles: 5
   initalBulletSize: 0.5
   subShooter: {fileID: 156921858376999208}
+  fragEffect: {fileID: 1033337108}
 --- !u!114 &1343060354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +207,7 @@ MonoBehaviour:
   initialProjectiles: 5
   initalBulletSize: 0.5
   subShooter: {fileID: 6035144378192050245}
+  fragEffect: {fileID: 1531284006}
 --- !u!114 &1531284006
 MonoBehaviour:
   m_ObjectHideFlags: 0

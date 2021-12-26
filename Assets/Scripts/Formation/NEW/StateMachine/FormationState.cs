@@ -5,11 +5,17 @@ using UnityEngine;
 
 public abstract class FormationState : MonoBehaviour
 {
-    [SerializeField] protected float stateDuration;
+    protected Transform target;
+    protected List<Transition> transitions = new List<Transition>();
     private WaitForSecondsRealtime tickTime = new WaitForSecondsRealtime(0.01f);
-    private IEnumerator _tick;
     protected float step;
+    protected FSM_Controller controller;
 
+    protected virtual void Awake()
+    {
+        target = FindObjectOfType<ShipManager>().transform;
+        controller = GetComponent<FSM_Controller>();
+    }
 
     public virtual void Enter()
     {
@@ -23,8 +29,9 @@ public abstract class FormationState : MonoBehaviour
 
     protected virtual void OnStateEnter()
     {
-        _tick = Tick();
-        StartCoroutine(_tick);
+        controller.RegisterState(this);
+        step = 0;
+        StartCoroutine(Tick());
     }
 
     protected abstract void OnStateTick(float step);
@@ -40,6 +47,11 @@ public abstract class FormationState : MonoBehaviour
         {
             OnStateTick(step);
 
+            CheckTransitions();
+
+            var children = GetComponent<FormationManager>().children;
+            HandleChildren(children.ToArray(), step);
+
             step += 0.1f;
 
             yield return tickTime;
@@ -47,8 +59,37 @@ public abstract class FormationState : MonoBehaviour
 
     }
 
-    public float GetDuration()
+    protected void CheckTransitions()
     {
-        return stateDuration;
+        foreach(Transition transition in transitions)
+        {
+            if(transition.Trigger())
+            {
+                transition.Forward();
+            }
+        }
+    }
+
+    protected abstract void HandleChildren(EnemyManager[] children, float step);
+
+
+    public Transform GetTarget()
+    {
+        return target;
+    }
+
+    public void AddTransition(Transition transition)
+    {
+        transitions.Add(transition);
+    }
+
+    public void ClearTransitions()
+    {
+        transitions.Clear();
+    }
+
+    public float StepValue()
+    {
+        return step;
     }
 }

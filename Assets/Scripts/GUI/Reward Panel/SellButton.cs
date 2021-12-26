@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,12 +12,22 @@ public class SellButton : MonoBehaviour, IPointerClickHandler
     private UIAnimations cashTextAnimation;
     private RewardManager rewardManager;
     private TurretSlot cachedSlot;
+    private InputManager inputManager;
 
     void Awake()
     {
         textMesh = transform.Find("Text").GetComponent<TextMeshProUGUI>();
         cashTextAnimation = FindObjectOfType<CashTextAnimation>();
         rewardManager = RewardManager.Main;
+        inputManager = InputManager.Main;
+
+        inputManager.OnSelectionClear += Disable;
+    }
+
+    private void Disable(object sender, EventArgs e)
+    {
+        inputManager.OnSelectionClear -= Disable;
+        gameObject.SetActive(false);
     }
 
     public void SetButton(int refund, TurretSlot turretSlot)

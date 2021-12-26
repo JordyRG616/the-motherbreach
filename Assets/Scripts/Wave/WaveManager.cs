@@ -39,6 +39,7 @@ public class WaveManager : MonoBehaviour
     private WaveData activeWave;
     private ShipManager ship;
     private int spawnIndex;
+    private List<FormationManager> activeFormations = new List<FormationManager>();
 
     public event EventHandler<EndWaveEventArgs> OnWaveEnd;
     private EndWaveEventArgs defaultArg = new EndWaveEventArgs();
@@ -88,7 +89,10 @@ public class WaveManager : MonoBehaviour
             for(int i = 0; i < qnt; i++)
             {
                 Vector2 spwPos = PositionToSpawn();
-                Instantiate(activeWave.availableFormations[spawnIndex], spwPos, Quaternion.identity);
+                var formation = Instantiate(activeWave.availableFormations[spawnIndex], spwPos, Quaternion.identity);
+
+                activeFormations.Add(formation.GetComponent<FormationManager>());
+                formation.GetComponent<FormationManager>().OnFormationDefeat += RemoveFormation;
 
                 spawnIndex++;
                 if(spawnIndex == activeWave.availableFormations.Count) break;
@@ -99,9 +103,12 @@ public class WaveManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(activeWave.intervalOfSpawn);
         }
 
-        yield return new WaitUntil(() => FindObjectsOfType<FormationManager>().Length == 0);
+    }
 
-        EndWave();
+    private void RemoveFormation(object sender, EventArgs e)
+    {
+        activeFormations.Remove(sender as FormationManager);
+        if(activeFormations.Count == 0) EndWave();
     }
 
     private void EndWave()

@@ -9,8 +9,8 @@ public abstract class ActionController : MonoBehaviour
     [SerializeField] protected List<ActionEffect> shooters;
     [SerializeField] protected float cost;
     [SerializeField] protected float health;
-    protected List<EnemyManager> enemiesInSight = new List<EnemyManager>();
-    protected EnemyManager target;
+    [SerializeField] protected List<EnemyManager> enemiesInSight = new List<EnemyManager>();
+    [SerializeField] protected EnemyManager target;
   
     public abstract void Activate();
 

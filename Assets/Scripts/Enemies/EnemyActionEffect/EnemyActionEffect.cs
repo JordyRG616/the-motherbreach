@@ -6,6 +6,5 @@ public class EnemyActionEffect : ActionEffect
 {
     public override void ApplyEffect(HitManager hitManager)
     {
-        throw new System.NotImplementedException();
     }
 }

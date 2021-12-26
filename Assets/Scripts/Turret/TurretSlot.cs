@@ -15,13 +15,14 @@ public class TurretSlot : MonoBehaviour
     public void BuildTurret(GameObject turret)
     {
         //occupyingTurret = Instantiate(turret, Vector3.zero, transform.rotation, transform);
+        // turret.transform.position = transform.position;
         occupyingTurret = turret;
-        occupyingTurret.transform.position = Vector3.zero;
-        occupyingTurret.transform.rotation = transform.rotation;
+        occupyingTurret.GetComponent<TrackingDevice>().StopTracking();
         occupyingTurret.transform.SetParent(transform);
+        occupyingTurret.transform.rotation = transform.rotation;
+        occupyingTurret.transform.localPosition = Vector2.zero;
 
         occupyingTurret.GetComponentInChildren<TurretVFXManager>().DisableSelected();
-        occupyingTurret.transform.localPosition = Vector3.zero;
 
         occupied = true;
     }

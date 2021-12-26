@@ -8,6 +8,14 @@ public class BomberEffect : ActionEffect
     [SerializeField] private float initialProjectiles;
     [SerializeField] private float initalBulletSize;
     [SerializeField] private ParticleSystem subShooter;
+    [SerializeField] private ActionEffect fragEffect;
+
+    public override void Initiate()
+    {
+        base.Initiate();
+
+        fragEffect.Initiate();
+    }
 
     protected override void SetData()
     {

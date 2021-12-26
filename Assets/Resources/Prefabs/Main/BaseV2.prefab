@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 6278815087257461983}
   - component: {fileID: 6278815087257461970}
   - component: {fileID: 8102127916326074754}
+  - component: {fileID: 77645089}
   m_Layer: 7
   m_Name: BaseV2
   m_TagString: Untagged
@@ -243,11 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c53f785a5bda34e902bc8972a8ba02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 1
   rotationSpeed: 0.1
-  dragFactor: 100000000
-  dragSpeed: 20000
-  angularDraftAdjust: 30
 --- !u!114 &8102127916326074754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +257,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c04e68db9b7a1347ae6d696068488d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &77645089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278815087257461982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91bc34f51ab3f684f91a16c1ccf91a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 0.3
 --- !u!1 &6314017322409581935
 GameObject:
   m_ObjectHideFlags: 0

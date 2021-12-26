@@ -39,7 +39,8 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     {
         if(!associatedSlot.IsOcuppied() && manager.ActiveSelection != null)
         {
-            associatedSlot.BuildTurret(manager.ActiveSelection);
+            var turret = manager.ActiveSelection;
+            associatedSlot.BuildTurret(turret);
             manager.BuildSelection();
         }
         else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null)

@@ -15,17 +15,13 @@ public class EnemyAttackController : MonoBehaviour
         action.Initiate();
     }
 
-    private void GetTarget()
+    public void SetTarget(GameObject target)
     {
-        var turrets = FindObjectsOfType<TurretManager>();
-        turrets.OrderBy(x => Vector3.Distance(transform.position, x.transform.position));
-        var target = turrets.FirstOrDefault();
-        action.ReceiveTarget(target.gameObject);
+        action.ReceiveTarget(target);
     }
 
     public void Attack()
     {
-        GetTarget();
         action.Shoot();
     }
 

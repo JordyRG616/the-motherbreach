@@ -47,6 +47,11 @@ public class InputManager : MonoBehaviour
     private IEnumerator _rewardControl;
 
 
+    public void Test()
+    {
+        StartCoroutine(_waveControl);
+    }
+
     void Awake()
     {
         if (movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
@@ -69,6 +74,8 @@ public class InputManager : MonoBehaviour
 
         _waveControl = WaveControl();
         _rewardControl = RewardControl();
+
+        Test();
 
     }
 
@@ -120,15 +127,11 @@ public class InputManager : MonoBehaviour
             Utilities.TestKey(rightKey) - Utilities.TestKey(leftKey),
             Utilities.TestKey(upKey) - Utilities.TestKey(downKey)
             );
+
         
-        if(direction.magnitude != 0)
-        {
-            OnMovementPressed?.Invoke(this, new MovementEventArgs(direction));
-        }
-        if(direction.magnitude == 0)
-        {
-            OnInertia?.Invoke(this, EventArgs.Empty);
-        }
+        OnMovementPressed?.Invoke(this, new MovementEventArgs(direction));
+        
+        
     }
 
     private void TriggerRotation()
@@ -153,6 +156,11 @@ public class InputManager : MonoBehaviour
             TriggerMovement();
             TriggerRotation();
             yield return new WaitForSecondsRealtime(0.001f);
+
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                Time.timeScale = 0;
+            }
         }
     }
 
@@ -163,8 +171,6 @@ public class InputManager : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Mouse1)) 
             {
                 OnSelectionClear?.Invoke(this, EventArgs.Empty);
-                FindObjectOfType<SellButton>().gameObject.SetActive(false);
-                FindObjectOfType<UpgradeButton>().gameObject.SetActive(false);
             }
             yield return new WaitForSecondsRealtime(0.001f);
         }

@@ -5,14 +5,21 @@ using UnityEngine;
 
 public class FollowerController : ActionController
 {
-    void Awake()
+    [SerializeField] private float maxAngleVariation = 60;
+    private bool seeking;
+
+
+    void Update()
     {
-        StartCoroutine(GetTarget());
+        if(enemiesInSight.Count > 0 && !seeking)
+        {
+            GetTarget();
+        }
     }
 
-    protected IEnumerator GetTarget()
+    protected void GetTarget()
     {
-        yield return new WaitUntil(() => enemiesInSight.Count > 0);
+        // yield return new WaitUntil(() => enemiesInSight.Count > 0);
         target = enemiesInSight.OrderBy(x => Vector3.Distance(transform.position, x.transform.position))
             .FirstOrDefault();
 
@@ -21,31 +28,39 @@ public class FollowerController : ActionController
             shooter.ReceiveTarget(target.gameObject);
         }
 
+        seeking = true;
+
         StartCoroutine(FollowTarget(target));
     }
 
     protected IEnumerator FollowTarget(EnemyManager target)
     {
-        StopCoroutine(GetTarget());
-
-        var _manager = ManageActivation();
-
-        StartCoroutine(_manager);
+        StartCoroutine(ManageActivation());
 
         while(enemiesInSight.Contains(target))
         {
             Vector3 direction = target.transform.position - this.transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
             this.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+
+            if(CheckRotation()) break;
 
             yield return new WaitForEndOfFrame();
         }
-
-        StopCoroutine(_manager);
         
+        StopCoroutine(ManageActivation());
+
         StopShooters();
 
         StartCoroutine(ReturnToInitialRotation());
+    }
+
+
+    private bool CheckRotation()
+    {
+        if(transform.localRotation.eulerAngles.z > maxAngleVariation && transform.localRotation.eulerAngles.z < 360 - maxAngleVariation) return true;
+        return false;
     }
 
     protected override IEnumerator ManageActivation()
@@ -77,6 +92,6 @@ public class FollowerController : ActionController
             yield return new WaitForSecondsRealtime(.01f);
         }
 
-        StartCoroutine(GetTarget());
+        seeking = false;
     }
 }

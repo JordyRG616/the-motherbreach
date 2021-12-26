@@ -31,8 +31,11 @@ public class RewardBox : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
         baseImage.sprite = spriteRenderers[1].sprite;
         baseImage.color = spriteRenderers[1].color;
 
-        topMaterial = TopImage.material;
-        baseMaterial = baseImage.material;
+        topMaterial = new Material(TopImage.material);
+        baseMaterial = new Material(baseImage.material);
+
+        TopImage.material = topMaterial;
+        baseImage.material = baseMaterial;
 
         RewardManager.Main.StartCoroutine(DisplayTurret());
 

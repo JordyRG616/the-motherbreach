@@ -40,7 +40,7 @@ public class RewardManager : MonoBehaviour
     private RewardCalculator calculator;
     private WaveManager waveManager;
     private UIAnimationManager animationManager;
-    [HideInInspector] public float TotalCash, EarnedCash, SpendedCash;
+     public float TotalCash, EarnedCash, SpendedCash;
 
     private Dictionary<RewardBox, GameObject> turretsInOffer = new Dictionary<RewardBox, GameObject>();
     public GameObject ActiveSelection {get; private set;}
@@ -61,9 +61,13 @@ public class RewardManager : MonoBehaviour
 
     public void InitiateReward(float rewardValue)
     {
+        SpendedCash = 0;
         EarnedCash = rewardValue;
         animationManager.InitiateUI();
-        GenerateOffer();
+
+        var locked = FindObjectOfType<LockButton>().locked;
+
+        if(!locked) GenerateOffer();
     }
 
     public void GenerateOffer()
@@ -82,9 +86,14 @@ public class RewardManager : MonoBehaviour
         SpendedCash = ActiveSelection.GetComponent<TurretManager>().Stats[Stat.Cost];
         cashTextAnimation.PlayReverse();
 
-        ActiveSelection.GetComponent<TrackingDevice>().StopTracking();
-        ActiveSelection = null;
+        // foreach(TrackingDevice device in ActiveSelection.GetComponents<TrackingDevice>())
+        // {
+        //     Destroy(device);
+        // }
 
+        ActiveSelection = null;        
+
+        turretsInOffer.Remove(activeBox);
         activeBox.Clear();
         activeBox = null;
     }
@@ -94,7 +103,7 @@ public class RewardManager : MonoBehaviour
         var locked = FindObjectOfType<LockButton>().locked;
 
         if(!locked) EliminateOffer();
-        animationManager.TerminateUI();
+        // animationManager.TerminateUI();
         OnRewardSelection?.Invoke(this, EventArgs.Empty);
     }
 
@@ -107,6 +116,7 @@ public class RewardManager : MonoBehaviour
 
         foreach(RewardBox box in turretsInOffer.Keys)
         {
+            box.OnOfferSelected -= SelectTurret;
             box.Clear();
         }
 
@@ -140,6 +150,8 @@ public class RewardManager : MonoBehaviour
             }
             ActiveSelection.GetComponentInChildren<TurretVFXManager>().EnableSelected();
         }
+
+        activeBox.OnOfferSelected -= SelectTurret;
     }
 
     private void ClearSelection()
