@@ -20,16 +20,23 @@ public class SellButton : MonoBehaviour, IPointerClickHandler
         cashTextAnimation = FindObjectOfType<CashTextAnimation>();
         rewardManager = RewardManager.Main;
         inputManager = InputManager.Main;
+    }
 
+    void OnEnable()
+    {
         inputManager.OnSelectionClear += Disable;
     }
 
-    private void Disable(object sender, EventArgs e)
+    public void Disable(object sender, EventArgs e)
     {
         inputManager.OnSelectionClear -= Disable;
         gameObject.SetActive(false);
     }
-
+    public void Disable()
+    {
+        inputManager.OnSelectionClear -= Disable;
+        gameObject.SetActive(false);
+    }
     public void SetButton(int refund, TurretSlot turretSlot)
     {
         textMesh.text = "sell" + " (" + refund +"$)";

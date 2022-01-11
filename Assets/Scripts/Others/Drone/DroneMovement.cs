@@ -9,8 +9,9 @@ public class DroneMovement : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float distance;
     [SerializeField] private float lifetime;
-    private WaitForSecondsRealtime waitTime = new WaitForSecondsRealtime(0.01f);
+    private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
     public bool deployed {get; private set;}
+    private SpawnerEffect owner;
 
     public void StartMoving()
     {
@@ -22,10 +23,16 @@ public class DroneMovement : MonoBehaviour
 
     private IEnumerator Live()
     {
-        yield return new WaitForSecondsRealtime(lifetime);
+        yield return new WaitForSeconds(lifetime);
+        Die();
+    }
+
+    private void Die()
+    {
+        owner.activeDrones--;
 
         StopMoving();
-        GetComponent<DroneController>().Stop();
+        // GetComponent<DroneController>().Stop();
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
     }
@@ -59,10 +66,10 @@ public class DroneMovement : MonoBehaviour
                 transform.position += (Vector3)ReturnFollowPosition() * speed / 100;
             }
 
-            if(Vector2.Distance(target.transform.position, transform.position) <= distance)
-            {
-                transform.position += (Vector3)ReturnOrbitPosition() * speed / 100;
-            }
+            // if(Vector2.Distance(target.transform.position, transform.position) <= distance)
+            // {
+            //     transform.position += (Vector3)ReturnOrbitPosition() * speed / 100;
+            // }
 
             Rotate();
 
@@ -72,10 +79,11 @@ public class DroneMovement : MonoBehaviour
         }
     }
 
-    public void Configure(Transform target, float level)
+    public void Configure(Transform target, float level, SpawnerEffect owner)
     {
         this.target = target;
         lifetime += level * 2;
+        this.owner = owner;
     }
 
     private Vector2 ReturnFollowPosition()
@@ -110,5 +118,15 @@ public class DroneMovement : MonoBehaviour
     public float GetDistance()
     {
         return distance;
+    }
+
+    void Update()
+    {
+        if(target == null)
+        {
+            target = owner.RequestTarget();
+            if(target == null) Die();
+            if(target != null) GetComponent<DroneController>().GetTarget();
+        }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class TimedController : ActionController
 {
     [SerializeField] private float timeBetweenActivations;
-    private WaitForSecondsRealtime wait;
+    private WaitForSeconds wait;
     private GameManager gameManager;
 
     void OnEnable()
@@ -14,7 +14,7 @@ public class TimedController : ActionController
         gameManager = GameManager.Main;
         gameManager.OnGameStateChange += HandleActivation;
 
-        wait = new WaitForSecondsRealtime(timeBetweenActivations);
+        wait = new WaitForSeconds(timeBetweenActivations);
     }
 
     private void HandleActivation(object sender, GameStateEventArgs e)
@@ -31,7 +31,7 @@ public class TimedController : ActionController
 
             Activate();
 
-            yield return new WaitForSecondsRealtime(shooters[0].StatSet[Stat.Rest]);
+            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest]);
         }
     }
 

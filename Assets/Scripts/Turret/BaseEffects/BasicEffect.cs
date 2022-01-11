@@ -9,4 +9,9 @@ public class BasicEffect : BaseEffectTemplate
         
     }
 
+    public override string DescriptionText()
+    {
+        string description = "This base provides no additional effect.";
+        return description;
+    }
 }

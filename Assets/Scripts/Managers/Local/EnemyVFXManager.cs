@@ -23,11 +23,11 @@ public class EnemyVFXManager : VFXManager
         {
             instMaterial.SetFloat("_death", step);
             step += .01f;
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
         }
 
 
-        //yield return new WaitForSecondsRealtime(deathParticles.main.duration);
+        //yield return new WaitForSeconds(deathParticles.main.duration);
 
         healthController.TriggerOnDeath();
     }
@@ -40,7 +40,7 @@ public class EnemyVFXManager : VFXManager
 
         instMaterial.SetFloat("_damagePercentual", percentual);
 
-        yield return new WaitForSecondsRealtime(.15f);
+        yield return new WaitForSeconds(.15f);
 
         instMaterial.SetFloat("_Damaged", 0);
 

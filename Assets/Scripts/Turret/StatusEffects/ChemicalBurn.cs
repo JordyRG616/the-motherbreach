@@ -25,7 +25,7 @@ public class ChemicalBurn : MonoBehaviour
 
             step += 0.25f;
 
-            yield return new WaitForSecondsRealtime(0.25f);
+            yield return new WaitForSeconds(0.25f);
         }
 
         Terminate();

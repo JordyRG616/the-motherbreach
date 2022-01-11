@@ -5,8 +5,7 @@ using UnityEngine;
 public class DroneController : ActionController
 {
     private DroneMovement movement;
-    private WaitUntil waitDistance;
-    private WaitForSecondsRealtime waitTime;
+    private WaitForSeconds waitTime;
 
     public void StartComponent()
     {
@@ -17,6 +16,8 @@ public class DroneController : ActionController
     {
         movement = GetComponent<DroneMovement>();
 
+        Initiate();
+
         GetTarget();
 
         var damage = shooters[0].StatSet[Stat.Damage];
@@ -24,8 +25,7 @@ public class DroneController : ActionController
         var rest = shooters[0].StatSet[Stat.Rest];
         shooters[0].SetStat(Stat.Rest, rest + (level/10));
 
-        waitTime = new WaitForSecondsRealtime(shooters[0].StatSet[Stat.Rest]);
-        waitDistance = new WaitUntil(() => Vector2.Distance(transform.position, target.transform.position) <= movement.GetDistance());
+        waitTime = new WaitForSeconds(shooters[0].StatSet[Stat.Rest]);
     }
 
     public override void Activate()
@@ -36,27 +36,31 @@ public class DroneController : ActionController
         }
     }
 
-    private void GetTarget()
+    public void GetTarget()
     {
-        target = movement.GetTarget().GetComponent<EnemyManager>();
-        shooters[0].ReceiveTarget(target.gameObject);
+        if(movement.GetTarget() != null)
+        {
+            target = movement.GetTarget().GetComponent<EnemyManager>();
+            shooters[0].ReceiveTarget(target.gameObject);
+        } else
+        {
+            Stop();
+        }
     }
 
     protected override IEnumerator ManageActivation()
     {
-        while(true)
+        while(target != null)
         {
-            yield return waitDistance;
+            yield return new WaitUntil(() => Vector2.Distance(transform.position, target.transform.position) <= movement.GetDistance());
 
             Activate();
-
-            yield return waitTime;
-
         }
     }
 
     public void Stop()
     {
+        StopAllCoroutines();
         StopShooters();
     }
 }

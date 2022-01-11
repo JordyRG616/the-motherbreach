@@ -8,11 +8,12 @@ public class TrackingDevice : MonoBehaviour
     [Header("Check for UI Elements")]
     [SerializeField] private bool IsUI;
 
-    private bool tracking;
+    private bool trackingPointer;
+    private bool trackingObject;
 
-    private IEnumerator TrackPointer()
+    private void TrackPointer()
     {
-        while(tracking == true)
+        if(trackingPointer == true)
         {
             Vector2 viewPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos = new Vector2(viewPos.x, viewPos.y);
@@ -26,14 +27,12 @@ public class TrackingDevice : MonoBehaviour
             {
                 transform.position = mousePos;
             }
-
-            yield return new WaitForSecondsRealtime(.01f);
         }
     }
 
-    private IEnumerator TrackObject()
+    private void TrackObject()
     {
-        while(tracking == true)
+        if(trackingObject == true)
         {
             Vector2 targetPos = target.position;
             if(IsUI)
@@ -45,21 +44,18 @@ public class TrackingDevice : MonoBehaviour
             {
                 transform.position = targetPos;
             }
-            yield return new WaitForSecondsRealtime(.01f);
         }
     }
 
     public void StartTracking()
     {
-        tracking = true;
-        StartCoroutine(TrackPointer());
+        trackingPointer = true;
     }
 
     public void StartTracking(Transform target)
     {
         this.target = target;
-        tracking = true;
-        StartCoroutine(TrackObject());
+        trackingObject = true;
     }
 
     public GameObject ReturnObject()
@@ -69,13 +65,33 @@ public class TrackingDevice : MonoBehaviour
 
     public void StopTracking()
     {
-        tracking = false;
-        StopAllCoroutines();
+        trackingPointer = false;
+        trackingObject = false;
     }
 
     public void DisableAndReset()
     {
         transform.localPosition = Vector3.zero;
         Destroy(this);
+    }
+
+    void Update()
+    {
+        TrackObject();
+        TrackPointer();
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+
+        Vector2 viewPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos = new Vector2(viewPos.x, viewPos.y);
+
+        // Debug.Log(mousePos);
+
+        Gizmos.DrawWireSphere(mousePos, .5f);
+        Gizmos.DrawWireSphere(transform.position, .5f);
+
     }
 }

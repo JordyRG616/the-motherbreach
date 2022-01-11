@@ -31,7 +31,7 @@ public class EnemyWiggler : MonoBehaviour
             float shift = Mathf.Sin(wiggleAmount * Mathf.Deg2Rad);
             transform.localPosition = new Vector3(shift, 0, 0) + StartingPosition;
             wiggleAmount += 10;
-            yield return new WaitForSecondsRealtime(frequency);
+            yield return new WaitForSeconds(frequency);
         }
     }
 
@@ -42,7 +42,7 @@ public class EnemyWiggler : MonoBehaviour
             float shift = Mathf.Cos((wiggleAmount + 90) * Mathf.Deg2Rad);
             transform.localPosition =  new Vector3(shift, 0, 0) + StartingPosition;
             wiggleAmount += 10;
-            yield return new WaitForSecondsRealtime(frequency);
+            yield return new WaitForSeconds(frequency);
         }
     }
 
@@ -53,7 +53,7 @@ public class EnemyWiggler : MonoBehaviour
             float shift = Mathf.Sin(wiggleAmount * Mathf.Deg2Rad);
             transform.localPosition = new Vector3(0, shift, 0) + StartingPosition;
             wiggleAmount += 10;
-            yield return new WaitForSecondsRealtime(frequency);
+            yield return new WaitForSeconds(frequency);
         }
     }
 
@@ -64,7 +64,7 @@ public class EnemyWiggler : MonoBehaviour
             float shift = Mathf.Cos ((wiggleAmount + 90f) * Mathf.Deg2Rad );
             transform.localPosition = new Vector3(0, shift, 0) + StartingPosition;
             wiggleAmount += 10;
-            yield return new WaitForSecondsRealtime(frequency);
+            yield return new WaitForSeconds(frequency);
         }
     }
 
@@ -75,7 +75,7 @@ public class EnemyWiggler : MonoBehaviour
             float angle = (wiggleAmount * Mathf.Deg2Rad);
             transform.localPosition = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) + StartingPosition;
             wiggleAmount -= 10;
-            yield return new WaitForSecondsRealtime(frequency);
+            yield return new WaitForSeconds(frequency);
         }
     }
 
@@ -86,7 +86,7 @@ public class EnemyWiggler : MonoBehaviour
             float angle = (wiggleAmount * Mathf.Deg2Rad);
             transform.localPosition = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle))  + StartingPosition;
             wiggleAmount += 10;
-            yield return new WaitForSecondsRealtime(frequency);
+            yield return new WaitForSeconds(frequency);
         }
     }
 

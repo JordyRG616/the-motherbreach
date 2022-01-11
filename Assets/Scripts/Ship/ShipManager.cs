@@ -50,7 +50,7 @@ public class ShipManager : MonoBehaviour
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, step);
             step += .1f;
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
         }
     }
 

@@ -50,4 +50,10 @@ public class BomberEffect : ActionEffect
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
+
+    public override string DescriptionText()
+    {
+        string description = "Shoots two bombs that explodes in " + StatSet[Stat.Projectiles] + " that deals " + StatSet[Stat.Damage] + " damage on hit, each.";
+        return description;
+    }
 }

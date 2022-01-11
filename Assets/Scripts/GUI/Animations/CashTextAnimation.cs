@@ -9,8 +9,10 @@ public class CashTextAnimation : UIAnimations
     [SerializeField] private TextMeshProUGUI earnedCash;
     private RewardManager rewardManager;
 
-    void Start()
+    protected override void Awake()
     {
+        base.Awake();
+
         rewardManager = RewardManager.Main;
     }
 
@@ -18,7 +20,6 @@ public class CashTextAnimation : UIAnimations
     {
         
         earnedCash.gameObject.SetActive(true);
-
         earnedCash.text = "+ " + rewardManager.EarnedCash + "$";
 
 
@@ -34,7 +35,7 @@ public class CashTextAnimation : UIAnimations
 
             step += 0.01f;
 
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSeconds(0.01f);
             
         }
 
@@ -50,7 +51,7 @@ public class CashTextAnimation : UIAnimations
 
 
 
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         earnedCash.gameObject.SetActive(false);
@@ -77,7 +78,7 @@ public class CashTextAnimation : UIAnimations
 
             step += 0.01f;
 
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSeconds(0.01f);
             
         }
 
@@ -93,7 +94,7 @@ public class CashTextAnimation : UIAnimations
             inPocketCash.text = "cash = " + ogTotal + "$";
 
 
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         earnedCash.gameObject.SetActive(false);

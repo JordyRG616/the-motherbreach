@@ -155,7 +155,7 @@ public class InputManager : MonoBehaviour
         {
             TriggerMovement();
             TriggerRotation();
-            yield return new WaitForSecondsRealtime(0.001f);
+            yield return new WaitForSeconds(0.001f);
 
             if(Input.GetKeyDown(KeyCode.Escape))
             {
@@ -172,7 +172,7 @@ public class InputManager : MonoBehaviour
             {
                 OnSelectionClear?.Invoke(this, EventArgs.Empty);
             }
-            yield return new WaitForSecondsRealtime(0.001f);
+            yield return new WaitForSeconds(0.001f);
         }
     }
 }

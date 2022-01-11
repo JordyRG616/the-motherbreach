@@ -34,4 +34,10 @@ public class StoicEffect : BaseEffectTemplate
 
         return count;
     }
+
+    public override string DescriptionText()
+    {
+        string description = "";
+        return description;
+    }
 }

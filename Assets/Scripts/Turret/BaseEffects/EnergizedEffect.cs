@@ -45,4 +45,10 @@ public class EnergizedEffect : BaseEffectTemplate
 
         return count;
     }
+
+    public override string DescriptionText()
+    {
+        string description = "";
+        return description;
+    }
 }

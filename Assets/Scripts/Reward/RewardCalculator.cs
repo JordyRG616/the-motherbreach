@@ -31,91 +31,67 @@ public class RewardCalculator : MonoBehaviour
         }
     }
     #endregion
-    
-    Dictionary<float, RewardLevel> ranges = new Dictionary<float, RewardLevel>();
 
-    [SerializeField] private RewardLevelData data;
-    private static float _upgradeFactor;
-    public static float UpgradeFactor
+    public int ShopLevel 
     {
         get
         {
-            if(_upgradeFactor < 0)
-            {
-                return 0;
-            }
-            if(_upgradeFactor > 1)
-            {
-                return 1;
-            }
-            return _upgradeFactor;
+            return _shopLevel;
+        } 
+        private set
+        {
+            if(value < maxShopLevel) _shopLevel = value;
+            else _shopLevel = maxShopLevel;
         }
     }
-
-    void Awake()
-    {
-        GenerateRanges();
-    }
-
     
+    private int _shopLevel = 1;
+    [SerializeField] private int maxShopLevel;
+    private int expAmount;
+    private Dictionary<int, int> expRequeriment = new Dictionary<int, int>();
+    private RewardManager rewardManager;
 
-    private void GenerateRanges()
-    {   
-        ranges.Clear();
+    void Start()
+    {
+        rewardManager = RewardManager.Main;
+        InitiateExpMatrix();
+    }
 
-        for (int i = 0; i < data.rewardLevels.Count; i++)
+    private void InitiateExpMatrix()
+    {
+        expRequeriment.Add(1, 2);
+        expRequeriment.Add(2, 2);
+        expRequeriment.Add(3, 3);
+        expRequeriment.Add(4, 4);
+        expRequeriment.Add(5, 0);
+    }
+
+    public void PurchaseLevelUp()
+    { 
+        var cost = ShopLevel + 1;
+
+        if(rewardManager.TotalCash >= cost && ShopLevel < maxShopLevel)
         {
-            if(i == 0)
+            rewardManager.SpendCash(cost);
+            expAmount ++;
+            if(expAmount == expRequeriment[ShopLevel])
             {
-                ranges.Add(RangeGammaDistribution(0, data.rewardLevels[i].maxProbabilityRange), data.rewardLevels[i].type);
-            } else
-            {
-                ranges.Add(RangeGammaDistribution
-                (
-                    data.rewardLevels[i -1].maxProbabilityRange, 
-                    data.rewardLevels[i].maxProbabilityRange), 
-                    data.rewardLevels[i].type);
+                expAmount = 0;
+                ShopLevel ++;
             }
         }
-
+        
     }
 
-    public RewardLevel CalculateRewardLevel(int waveLevel)
+    public (int amount, int required) ExpInfo()
     {
-        float x = waveLevel - Random.Range(1, UpgradeFactor);
-        if(x < 0)
-        {
-            x = 0;
-        }
-        return ReturnRewardLevel(x);
+        return (expAmount, expRequeriment[ShopLevel]);
     }
 
-    private RewardLevel ReturnRewardLevel(float x)
+    public RewardLevel CalculateRewardLevel()
     {
-        foreach(float range in ranges.Keys)
-        {
-            if(x <= range)
-            {
-                return ranges[range];
-            }
-        }
-        return RewardLevel.Error;
-    }
-
-
-    private float GammaDistribution(float x)
-    {
-        float y = 1 - (Mathf.Exp(-x/2) * ((x/2) + 1));
-        return y;
-    }
-
-    private float RangeGammaDistribution(float a, float b)
-    {
-        return GammaDistribution(b) - GammaDistribution(a);
-    }  
-
-    public void UpdateUpgradeFactor(float value)
-    {
-        _upgradeFactor += value;
+        RewardLevel level = RewardLevel.Common;
+        level += ShopLevel - 1;
+        return level;
     }
 }

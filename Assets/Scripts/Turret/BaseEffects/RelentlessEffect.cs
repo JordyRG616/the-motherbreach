@@ -14,4 +14,10 @@ public class RelentlessEffect : BaseEffectTemplate
             shooter.SetStat(Stat.Rest, ogRest * percentage);
         }
     }
+
+    public override string DescriptionText()
+    {
+        string description = "";
+        return description;
+    }
 }

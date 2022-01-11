@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExpandAnimation : UIAnimations
 {
-    [SerializeField] private Vector2Int TargetScale;
+    [SerializeField] private Vector2 TargetScale;
     private Vector2 ogScale;
 
     protected override IEnumerator Forward()

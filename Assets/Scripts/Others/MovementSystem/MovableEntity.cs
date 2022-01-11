@@ -9,7 +9,7 @@ public class MovableEntity : MonoBehaviour
     private Vector2 lastDirection;
     private float speed;
     [SerializeField] private float maxSpeed;
-    private WaitForSecondsRealtime waitTime = new WaitForSecondsRealtime(0.01f);
+    private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
 
     private enum MovingState {accelerating, slowing, inert, moving}
     private MovingState state = MovingState.inert;

@@ -60,4 +60,10 @@ public class SpreadEffect : ActionEffect
             hitManager.transform.gameObject.AddComponent<Slug>();
         }
     }
+
+    public override string DescriptionText()
+    {
+        string description = "Releases a cloud for" + StatSet[Stat.Duration] + " seconds that deals " + StatSet[Stat.Damage] + " damage on contact and applies SLUG to the target";
+        return description;
+    }
 }

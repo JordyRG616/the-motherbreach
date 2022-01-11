@@ -88,12 +88,54 @@ public class TurretConstructor : MonoBehaviour
         return container;
     }
 
+    public GameObject GetTop(RewardLevel level)
+    {
+        var list = topList.GetAllRewardsBelowLevel(level);
+        int rdm = Random.Range(0, list.Count);
+        var container = Instantiate(list[rdm]);
+        container.GetComponent<ActionController>().Initiate();
+        container.SetActive(false);
+        //GameObject container = Instantiate(_instance, transform.position, Quaternion.identity);
+        return container;
+    }
+
+    public GameObject GetBase(RewardLevel level)
+    {
+        var list = baseList.GetAllRewardsBelowLevel(level);
+        int rdm = Random.Range(0, list.Count);
+        var container = Instantiate(list[rdm]);
+        container.SetActive(false);
+        //GameObject container = Instantiate(_instance, transform.position, Quaternion.identity);
+        return container;
+    }
+
     public GameObject Construct(RewardLevel baseLevel, RewardLevel topLevel)
     {
         GameObject blueprint = Instantiate(TurretTemplate, transform.position, Quaternion.identity);
 
         GameObject _gun = GetTop(blueprint.transform, topLevel, out ActionController actionController);
         GameObject _base = GetBase(blueprint.transform, baseLevel, actionController);
+
+        TriggerImeddiateEffect(blueprint);
+
+        blueprint.GetComponent<TurretManager>().Initiate();
+
+        return blueprint;
+    }
+
+    public GameObject Construct(GameObject _weapon, GameObject _base)
+    {
+        GameObject blueprint = Instantiate(TurretTemplate, transform.position, Quaternion.identity);
+        _weapon.transform.SetParent(blueprint.transform);
+        _base.transform.SetParent(blueprint.transform);
+        _weapon.SetActive(true);
+        _base.SetActive(true);
+        // _base = Instantiate(_base, Vector3.zero, Quaternion.identity, blueprint.transform);
+        // _weapon = Instantiate(_weapon, Vector3.zero, Quaternion.identity, blueprint.transform);
+
+        _base.transform.localPosition = Vector3.zero;
+        _weapon.transform.localPosition = Vector3.zero;
+
 
         TriggerImeddiateEffect(blueprint);
 

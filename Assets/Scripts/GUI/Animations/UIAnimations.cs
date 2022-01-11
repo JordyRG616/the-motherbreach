@@ -15,7 +15,7 @@ public abstract class UIAnimations : MonoBehaviour
     }
     
     protected RectTransform rect;
-    protected WaitForSecondsRealtime waitTime = new WaitForSecondsRealtime(0.01f);
+    protected WaitForSeconds waitTime = new WaitForSeconds(0.01f);
 
     protected virtual void Awake()
     {

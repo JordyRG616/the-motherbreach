@@ -12,5 +12,5 @@ public class RewardLevelData : ScriptableObject
 public struct RewardType
 {
     public RewardLevel type;
-    public float maxProbabilityRange;
+    public int requiredLevelShop;
 }

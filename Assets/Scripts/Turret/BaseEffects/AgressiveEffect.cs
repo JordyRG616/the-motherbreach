@@ -23,4 +23,9 @@ public class AgressiveEffect : BaseEffectTemplate
         }
     }
 
+    public override string DescriptionText()
+    {
+        string description = "Raises the damage of this turret in " + percentage * 100 + "%";
+        return description;
+    }
 }

@@ -87,7 +87,7 @@ public class AudioManager : MonoBehaviour
 
             step += 0.01f;
 
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
         }
     }
 }

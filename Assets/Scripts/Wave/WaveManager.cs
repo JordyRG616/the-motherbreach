@@ -97,10 +97,10 @@ public class WaveManager : MonoBehaviour
                 spawnIndex++;
                 if(spawnIndex == activeWave.availableFormations.Count) break;
 
-                yield return new WaitForSecondsRealtime(1f);
+                yield return new WaitForSeconds(1f);
             }
 
-            yield return new WaitForSecondsRealtime(activeWave.intervalOfSpawn);
+            yield return new WaitForSeconds(activeWave.intervalOfSpawn);
         }
 
     }

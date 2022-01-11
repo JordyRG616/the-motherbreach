@@ -40,4 +40,10 @@ public class ArtilleryEffect : ActionEffect
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
+
+    public override string DescriptionText()
+    {
+        string description = "Shoots " + StatSet[Stat.BurstSize] + " bullets. Each bullet deals a damage of " + StatSet[Stat.Damage] + " on hit.";
+        return description;
+    }
 }

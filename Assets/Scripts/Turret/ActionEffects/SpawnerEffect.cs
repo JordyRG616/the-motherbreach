@@ -10,6 +10,7 @@ public class SpawnerEffect : ActionEffect
     [SerializeField] private float capacity;
     [SerializeField] private float droneLevel;
     private List<GameObject> drones = new List<GameObject>();
+    public int activeDrones;
 
     protected override void SetData()
     {
@@ -40,7 +41,7 @@ public class SpawnerEffect : ActionEffect
             drones.Add(ConstructDrone());
         }
         
-        int activeDrones = 0;
+        activeDrones = 0;
 
         while(activeDrones < capacity)
         {
@@ -49,7 +50,7 @@ public class SpawnerEffect : ActionEffect
             
             activeDrones ++;
 
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSeconds(1f);
         }
         
     }
@@ -57,18 +58,30 @@ public class SpawnerEffect : ActionEffect
     private GameObject ConstructDrone()
     {
         GameObject container = Instantiate(droneTemplate, Vector3.zero, Quaternion.identity, this.transform);
-        container.GetComponent<DroneMovement>().Configure(FindTarget(), droneLevel);
+        container.GetComponent<DroneMovement>().Configure(RequestTarget(), droneLevel, this);
         container.GetComponent<DroneController>().Configure(droneLevel);
 
         return container;
     }
 
-    private Transform FindTarget()
+    public Transform RequestTarget()
     {
         var enemies = FindObjectsOfType<EnemyManager>();
 
         var enemy = enemies.OrderBy(x => Vector2.Distance(x.transform.position, transform.position)).FirstOrDefault();
 
+        if(enemy ==  null) 
+        {
+            StopAllCoroutines();
+            return null;
+        }
+
         return enemy.transform;
+    }
+
+    public override string DescriptionText()
+    {
+        string description = "Spawn up to " + StatSet[Stat.Capacity] + " drones of level " + StatSet[Stat.DroneLevel];
+        return description;
     }
 }

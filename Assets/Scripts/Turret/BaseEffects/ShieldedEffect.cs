@@ -11,4 +11,9 @@ public class ShieldedEffect : BaseEffectTemplate
         Instantiate(shield, Vector3.zero, Quaternion.identity, associatedController.transform).transform.localPosition = Vector3.zero;
     }
 
+    public override string DescriptionText()
+    {
+        string description = "";
+        return description;
+    }
 }

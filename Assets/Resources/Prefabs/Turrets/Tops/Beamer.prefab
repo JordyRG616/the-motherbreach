@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 713244325}
   - component: {fileID: 17946856}
   m_Layer: 7
-  m_Name: beamer
+  m_Name: Beamer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,7 +103,9 @@ MonoBehaviour:
   shooters:
   - {fileID: 17946856}
   cost: 2
-  health: 0
+  health: 100
+  enemiesInSight: []
+  target: {fileID: 0}
   timeBetweenActivations: 5
 --- !u!114 &713244325
 MonoBehaviour:

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,21 @@ public class TurretManager : MonoBehaviour
     public BaseEffectTemplate baseEffect {get; private set;}
     public ActionController actionController {get; private set;}
     public Dictionary<Stat, float> Stats {get; protected set;} = new Dictionary<Stat, float>();
+    public int Level 
+    {
+        get
+        {
+            return _level;
+        }
+        private set
+        {
+            if(value > 5) value = 5;
+            _level = value;
+        }
+    }
+    private int _level = 1;
+
+    public event EventHandler OnLevelUp;
 
 
     public void Initiate()
@@ -34,5 +50,10 @@ public class TurretManager : MonoBehaviour
         }
 
     }
-    
+
+    internal void LevelUp()
+    {
+        Level ++;
+        OnLevelUp?.Invoke(this, EventArgs.Empty);
+    }
 }

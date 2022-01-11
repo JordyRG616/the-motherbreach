@@ -57,6 +57,7 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             rewardManager.SpendedCash = 2;
             cashTextAnim.PlayReverse();
 
+            FindObjectOfType<BuildBox>().Clear();
             rewardManager.EliminateOffer();
             rewardManager.GenerateOffer();
         }

@@ -34,7 +34,7 @@ public class TurretVFXManager : VFXManager
     public IEnumerator TakeDamage()
     {
         instMaterial.SetFloat("_Damaged", 1f);
-        yield return new WaitForSecondsRealtime(.05f);
+        yield return new WaitForSeconds(.05f);
         instMaterial.SetFloat("_Damaged", 0f);
         StopCoroutine(TakeDamage());
     }
@@ -50,7 +50,7 @@ public class TurretVFXManager : VFXManager
         {
             instMaterial.SetFloat("_Decay", step);
             step += 0.01f;
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
 
             if(step >= .6f)
             {

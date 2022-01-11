@@ -24,7 +24,7 @@ public class UIAnimationManager : MonoBehaviour
 
     [SerializeField] private List<AnimationGroup> Timeline;
     [SerializeField] private GameObject interactablePanel;
-    private WaitForSecondsRealtime sequentialTime = new WaitForSecondsRealtime(.5f);
+    private WaitForSeconds sequentialTime = new WaitForSeconds(.5f);
 
     [ContextMenu("Play")]
     public void InitiateUI()
@@ -55,7 +55,7 @@ public class UIAnimationManager : MonoBehaviour
                 animation.Play();
             }
 
-            yield return new WaitForSecondsRealtime(1 / group.GetLowestSpeed());
+            yield return new WaitForSeconds(1 / group.GetLowestSpeed());
         }
 
         interactablePanel.SetActive(true);
@@ -86,7 +86,7 @@ public class UIAnimationManager : MonoBehaviour
                 animation.PlayReverse();
             }
 
-            yield return new WaitForSecondsRealtime(1 / group.GetLowestSpeed());
+            yield return new WaitForSeconds(1 / group.GetLowestSpeed());
 
         }
 

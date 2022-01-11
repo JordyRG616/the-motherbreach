@@ -20,7 +20,7 @@ public class CameraFollowComponent : MonoBehaviour
         while(!Mathf.Approximately(direction.magnitude, 0))
         {
             transform.position += direction * followSpeed;
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
             direction = objectToFollow.position - transform.position + new Vector3(0, 0, transform.position.z);
         }
 

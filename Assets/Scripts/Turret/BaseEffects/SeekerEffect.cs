@@ -11,4 +11,10 @@ public class SeekerEffect : BaseEffectTemplate
             shooter.GetShooterSystem().gameObject.AddComponent<SeekerEffect>();
         }
     }
+
+    public override string DescriptionText()
+    {
+        string description = "";
+        return description;
+    }
 }

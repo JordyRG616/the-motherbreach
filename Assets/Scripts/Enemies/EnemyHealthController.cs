@@ -41,7 +41,7 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
     //     {
     //         step += .01f;
     //         material.SetFloat("_death", step);
-    //         yield return new WaitForSecondsRealtime(.01f);
+    //         yield return new WaitForSeconds(.01f);
     //     } while(step < 1);
 
     //     OnDeath?.Invoke(this, new EnemyEventArgs(this));

@@ -16,7 +16,7 @@ public class Slug : MonoBehaviour
     {
         enemy.AddDrag(0.33f);
 
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSeconds(2f);
 
         enemy.RemoveDrag();
 

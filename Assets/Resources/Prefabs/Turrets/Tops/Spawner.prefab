@@ -3785,7 +3785,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 0
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -4826,7 +4826,7 @@ GameObject:
   - component: {fileID: 6133096348551807458}
   - component: {fileID: 6304654335742844667}
   m_Layer: 7
-  m_Name: spawner
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4914,8 +4914,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shooters:
   - {fileID: 6304654335742844667}
-  cost: 0
-  health: 0
+  cost: 2
+  health: 100
+  enemiesInSight: []
+  target: {fileID: 0}
   timeBetweenActivations: 5
 --- !u!114 &6133096348551807458
 MonoBehaviour:
@@ -4953,6 +4955,7 @@ MonoBehaviour:
   weaponClass: 5
   initialDamage: 0
   initialRest: 5
-  droneTemplate: {fileID: 0}
-  capacity: 0
-  droneLevel: 0
+  droneTemplate: {fileID: 6131271950453116824, guid: e6c2a55d6db9e4e4d8c96edf44e39aa0, type: 3}
+  capacity: 2
+  droneLevel: 1
+  activeDrones: 0

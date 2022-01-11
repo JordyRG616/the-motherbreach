@@ -37,4 +37,10 @@ public class BeamEffect : ActionEffect
         if (burned == null) hitManager.gameObject.AddComponent<ChemicalBurn>();
 
     }
+
+    public override string DescriptionText()
+    {
+        string description = "Releases a beam of energy for " + StatSet[Stat.Duration] + " seconds that deals " + StatSet[Stat.Damage] + " damage on contact and apply chemical burn.";
+        return description;
+    }
 }

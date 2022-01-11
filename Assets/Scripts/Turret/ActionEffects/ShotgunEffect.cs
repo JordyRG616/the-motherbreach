@@ -44,4 +44,10 @@ public class ShotgunEffect : ActionEffect
     {        
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
+
+    public override string DescriptionText()
+    {
+        string description = "Shoots " + StatSet[Stat.Projectiles] + " bullets that deals " + StatSet[Stat.Damage] + " damage each.";
+        return description;
+    }
 }

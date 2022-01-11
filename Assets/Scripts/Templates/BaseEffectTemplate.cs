@@ -28,6 +28,8 @@ public abstract class BaseEffectTemplate : MonoBehaviour
 
     public abstract void ApplyEffect();
 
+    public abstract string DescriptionText();
+
     public void ReceiveWeapon(ActionController weapon)
     {
         associatedController = weapon;

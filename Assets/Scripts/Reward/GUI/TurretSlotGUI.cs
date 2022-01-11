@@ -70,7 +70,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
         upgradeButton.gameObject.SetActive(true);
 
-        
+        upgradeButton.GetComponent<UpgradeButton>().SetButton(associatedSlot);
 
         sellButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 110) - offset;
         upgradeButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 50) - offset;

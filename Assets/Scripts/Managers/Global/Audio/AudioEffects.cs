@@ -35,7 +35,7 @@ public class AudioEffects
             musicIn.setVolume(fadeIn);
 
             step += .01f;
-            yield return new WaitForSecondsRealtime(.1f);
+            yield return new WaitForSeconds(.1f);
         }
 
         yield return new WaitUntil(() => step > 1);

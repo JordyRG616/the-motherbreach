@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class RewardList : ScriptableObject
 
     public void InitiateMatrix()
     {
+        if(listsByRewards.Count > 0) return;
         listsByRewards.Add(RewardLevel.Common, Common);
         listsByRewards.Add(RewardLevel.Uncommon, Uncommon);
         listsByRewards.Add(RewardLevel.Rare, Rare);
@@ -33,6 +35,21 @@ public class RewardList : ScriptableObject
     public List<GameObject> GetRewardsByLevel(RewardLevel level)
     {
         return listsByRewards[level];
+    }
+
+    public List<GameObject> GetAllRewardsBelowLevel(RewardLevel level)
+    {
+        var container = new List<GameObject>();
+
+        for(int i = 0; i <= ((int)level); i++)
+        {
+            foreach(GameObject reward in listsByRewards[listsByRewards.Keys.ToList()[i]])
+            {
+                container.Add(reward);
+            }
+        }
+
+        return container;
     }
 
 }

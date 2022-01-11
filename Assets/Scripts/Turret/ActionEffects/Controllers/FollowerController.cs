@@ -69,7 +69,7 @@ public class FollowerController : ActionController
         {
             Activate();
 
-            yield return new WaitForSecondsRealtime(shooters[0].StatSet[Stat.Rest]);
+            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest]);
         }
 
     }
@@ -89,7 +89,7 @@ public class FollowerController : ActionController
         {
             float sign = Mathf.Sign(transform.localRotation.eulerAngles.z - 180);
             transform.Rotate(0, 0, 1f * sign, Space.Self);
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
         }
 
         seeking = false;

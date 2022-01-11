@@ -8,4 +8,10 @@ public class EnemyActionEffect : ActionEffect
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
+
+    public override string DescriptionText()
+    {
+        string description = "";
+        return description;
+    }
 }

@@ -20,7 +20,7 @@ public abstract class ActionEffect : MonoBehaviour
     public Effect totalEffect;
 
     public virtual void Initiate()
-    {        
+    {
         shooter.Stop();
 
         SetData();
@@ -29,11 +29,13 @@ public abstract class ActionEffect : MonoBehaviour
 
         gameManager = GameManager.Main;
         gameManager.OnGameStateChange += ClearShots;
+
     }
+
+    public abstract string DescriptionText();
 
     protected virtual void ClearShots(object sender, GameStateEventArgs e)
     {
-        Debug.Log("working");
         shooter.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         // shooter.Clear();
     }

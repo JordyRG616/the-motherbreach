@@ -42,7 +42,7 @@ public class FormationAttackController : MonoBehaviour, IManager
         float _cooldown = cooldown;
         while (_cooldown >= 0)
         {
-            yield return new WaitForSecondsRealtime(.1f);
+            yield return new WaitForSeconds(.1f);
             _cooldown -= .1f;
         }
         StartCoroutine(attackPattern.Sequence(attackers));
