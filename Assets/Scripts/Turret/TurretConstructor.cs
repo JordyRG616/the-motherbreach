@@ -116,9 +116,10 @@ public class TurretConstructor : MonoBehaviour
         GameObject _gun = GetTop(blueprint.transform, topLevel, out ActionController actionController);
         GameObject _base = GetBase(blueprint.transform, baseLevel, actionController);
 
+        blueprint.GetComponent<TurretManager>().Initiate();
+
         TriggerImeddiateEffect(blueprint);
 
-        blueprint.GetComponent<TurretManager>().Initiate();
 
         return blueprint;
     }
@@ -126,20 +127,28 @@ public class TurretConstructor : MonoBehaviour
     public GameObject Construct(GameObject _weapon, GameObject _base)
     {
         GameObject blueprint = Instantiate(TurretTemplate, transform.position, Quaternion.identity);
-        _weapon.transform.SetParent(blueprint.transform);
-        _base.transform.SetParent(blueprint.transform);
-        _weapon.SetActive(true);
-        _base.SetActive(true);
-        // _base = Instantiate(_base, Vector3.zero, Quaternion.identity, blueprint.transform);
-        // _weapon = Instantiate(_weapon, Vector3.zero, Quaternion.identity, blueprint.transform);
+        
+        var manager = blueprint.GetComponent<TurretManager>();
+        var baseEffect = _base.GetComponent<BaseEffectTemplate>();
 
-        _base.transform.localPosition = Vector3.zero;
+        _weapon.SetActive(true);
+        _weapon.transform.SetParent(blueprint.transform);
         _weapon.transform.localPosition = Vector3.zero;
+        _base.SetActive(true);
+        _base.transform.SetParent(blueprint.transform);
+        _base.transform.localPosition = Vector3.zero;
+
+        manager.Initiate();
+        baseEffect.Initiate();
+
+        if(baseEffect.GetTrigger() == BaseEffectTrigger.OnLevelUp) 
+        {
+            manager.OnLevelUp += baseEffect.HandleLevelEffect;
+        }
 
 
         TriggerImeddiateEffect(blueprint);
 
-        blueprint.GetComponent<TurretManager>().Initiate();
 
         return blueprint;
     }

@@ -17,7 +17,7 @@ public class RelentlessEffect : BaseEffectTemplate
 
     public override string DescriptionText()
     {
-        string description = "";
+        string description = "Reduces the time of activation of this turret in" + percentage * 100 + "%.";
         return description;
     }
 }

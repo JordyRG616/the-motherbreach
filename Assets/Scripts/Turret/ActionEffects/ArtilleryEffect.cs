@@ -46,4 +46,11 @@ public class ArtilleryEffect : ActionEffect
         string description = "Shoots " + StatSet[Stat.BurstSize] + " bullets. Each bullet deals a damage of " + StatSet[Stat.Damage] + " on hit.";
         return description;
     }
+
+    public override void LevelUp(int toLevel)
+    {
+        var damage = StatSet[Stat.Damage];
+        damage *= 1f + (((float)toLevel * 5) / 100);
+        SetStat(Stat.Damage, damage);
+    }
 }

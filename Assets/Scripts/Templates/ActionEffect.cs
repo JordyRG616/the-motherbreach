@@ -40,6 +40,8 @@ public abstract class ActionEffect : MonoBehaviour
         // shooter.Clear();
     }
 
+    public abstract void LevelUp(int toLevel);
+
     public WeaponClass GetClass()
     {
         return weaponClass;
@@ -56,6 +58,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void SetStat(Stat statName, float value)
     {
+        value = (float)Math.Round(value, 1);
         if(StatSet.ContainsKey(statName))
         {
             StatSet[statName] = value;

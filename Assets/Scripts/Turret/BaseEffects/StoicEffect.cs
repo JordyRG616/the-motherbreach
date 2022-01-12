@@ -5,39 +5,19 @@ using UnityEngine;
 public class StoicEffect : BaseEffectTemplate
 {
     [SerializeField] private float percentage;
-    private ShipManager ship;
-
-    void Awake()
-    {
-        ship = FindObjectOfType<ShipManager>();
-    }
+    
 
     public override void ApplyEffect()
     {
         //var integrityManager = GetComponentInParent<IntegrityManager>();
-        float totalPercentage = BomberCount() * percentage;
+        float totalPercentage = turretManager.Level * percentage;
         associatedController.RaiseHealthByPercentage(totalPercentage);
     }
 
-    private int BomberCount()
-    {
-        var weapons = ship.GetWeapons();
-        int count = 0;
-
-        foreach(ActionController weapon in weapons)
-        {
-            if(weapon.GetClasses().Contains(WeaponClass.Bomber))
-            {
-                count++;
-            }
-        }
-
-        return count;
-    }
 
     public override string DescriptionText()
     {
-        string description = "";
+        string description = "Increases the health of this turret by 2% per level at the end of each wave.";
         return description;
     }
 }

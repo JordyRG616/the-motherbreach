@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,5 +43,31 @@ public class BeamEffect : ActionEffect
     {
         string description = "Releases a beam of energy for " + StatSet[Stat.Duration] + " seconds that deals " + StatSet[Stat.Damage] + " damage on contact and apply chemical burn.";
         return description;
+    }
+
+    public override void LevelUp(int toLevel)
+    {
+        if(toLevel == 3 || toLevel == 5)
+        {
+            GainDuration();
+        }
+        else
+        {
+            GainDamage();
+        }
+    }
+
+    private void GainDuration()
+    {
+        var _duration = StatSet[Stat.Duration];
+        _duration *= 1.2f;
+        SetStat(Stat.Duration, _duration);
+    }
+
+    private void GainDamage()
+    {
+        var damage = StatSet[Stat.Damage];
+        damage *= 1.1f;
+        SetStat(Stat.Damage, damage);
     }
 }

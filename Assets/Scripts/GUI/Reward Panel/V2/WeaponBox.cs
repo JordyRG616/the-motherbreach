@@ -9,6 +9,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler
     private GameObject cachedWeapon;
     [SerializeField] private Image image;
     private BuildBox buildBox;
+    private bool selected;
 
     void Start()
     {
@@ -25,7 +26,17 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        buildBox.ReceiveWeapon(cachedWeapon, this);
+        if(buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && !selected) 
+        {
+            buildBox.ReceiveWeapon(cachedWeapon, this);
+            selected = true;
+        }
+        else if(selected)
+        {
+            buildBox.ClearWeapon(out cachedWeapon);
+            image.color = Color.white;
+            selected = false;
+        }
     }
 
     public void Detach()

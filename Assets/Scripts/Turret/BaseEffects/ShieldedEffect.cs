@@ -13,7 +13,7 @@ public class ShieldedEffect : BaseEffectTemplate
 
     public override string DescriptionText()
     {
-        string description = "";
+        string description = "Spawn a force shield at the start of every wave.";
         return description;
     }
 }

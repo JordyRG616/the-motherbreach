@@ -66,4 +66,11 @@ public class SpreadEffect : ActionEffect
         string description = "Releases a cloud for" + StatSet[Stat.Duration] + " seconds that deals " + StatSet[Stat.Damage] + " damage on contact and applies SLUG to the target";
         return description;
     }
+
+    public override void LevelUp(int toLevel)
+    {
+        var duration = StatSet[Stat.Duration];
+        duration *= (toLevel * 5) / 100;
+        SetStat(Stat.Duration, duration);
+    }
 }

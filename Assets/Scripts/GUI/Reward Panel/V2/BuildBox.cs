@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class BuildBox : MonoBehaviour
 {
@@ -29,10 +30,12 @@ public class BuildBox : MonoBehaviour
             return weaponCost + baseCost;
         }
     }
+
     private WeaponBox selectedWeaponBox;
     private BaseBox selectedBaseBox;
     private GameObject selectedWeapon;
     private GameObject selectedBase;
+    public bool OnUpgrade;
 
     public void ReceiveWeapon(GameObject receveidWeapon, WeaponBox box)
     {
@@ -72,9 +75,9 @@ public class BuildBox : MonoBehaviour
         UpdateStats();
     }
     
-    private void UpdateStats()
+    public void UpdateStats()
     {
-        costText.text = TotalCost + "$";
+        costText.text = (OnUpgrade == true)? "-" : TotalCost + "$";
         if(selectedBase) baseEffect.text = selectedBase.GetComponent<BaseEffectTemplate>().DescriptionText();
         if(selectedWeapon)
         {
@@ -84,6 +87,29 @@ public class BuildBox : MonoBehaviour
         }
     }
 
+    
+    public bool CheckCompability(BaseEffectTemplate testSubject)
+    {
+        if(!selectedWeapon) return true;
+        var classes = selectedWeapon.GetComponent<ActionController>().GetClasses();
+        foreach(WeaponClass _class in classes)
+        {
+            if(!testSubject.GetWeaponClasses().Contains(_class)) return false;
+        }
+        return true;
+    }
+
+    public bool CheckCompability(ActionController testSubject)
+    {
+        if(!selectedBase) return true;
+        var classes = testSubject.GetComponent<ActionController>().GetClasses();
+        foreach(WeaponClass _class in classes)
+        {
+            if(!selectedBase.GetComponent<BaseEffectTemplate>().GetWeaponClasses().Contains(_class)) return false;
+        }
+        return true;
+    }
+
     private void ResetStats()
     {
         costText.text = "0$";
@@ -91,6 +117,7 @@ public class BuildBox : MonoBehaviour
         healthValue.text = "";
         restValue.text = "";
         weaponEffect.text = "";
+        UpdateStats();
     }
 
     public (GameObject Weapon, GameObject Base) Selections()
@@ -100,13 +127,39 @@ public class BuildBox : MonoBehaviour
 
     public void Clear()
     {
-        ResetStats();
-        selectedBaseBox.Detach();
-        selectedWeaponBox.Detach();
+        ClearBase();
+        ClearWeapon();
+    }
+
+    public void ClearWeapon()
+    {
+        if (selectedWeaponBox) selectedWeaponBox.Detach();
         selectedWeapon = null;
-        selectedBase = null;
         weaponImage.color = Color.clear;
+        ResetStats();
+    }
+
+    public void ClearWeapon(out GameObject _weapon)
+    {
+        if (selectedWeaponBox) selectedWeaponBox.Detach();
+        _weapon = selectedWeapon;
+        selectedWeapon = null;
+        weaponImage.color = Color.clear;
+        ResetStats();
+    }
+
+    public void ClearBase()
+    {
+        if (selectedBaseBox) selectedBaseBox.Detach();
+        selectedBase = null;
         baseImage.color = Color.clear;
     }
 
+    public void ClearBase(out GameObject _base)
+    {
+        if (selectedBaseBox) selectedBaseBox.Detach();
+        _base = selectedBase;
+        selectedBase = null;
+        baseImage.color = Color.clear;
+    }
 }

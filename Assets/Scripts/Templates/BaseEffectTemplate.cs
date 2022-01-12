@@ -10,12 +10,15 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     [SerializeField] protected float cost;
     protected ActionController associatedController;
     protected GameManager gameManager;
+    protected TurretManager turretManager;
 
-    void Start()
+
+    public virtual void Initiate()
     {
         gameManager = GameManager.Main;
         gameManager.OnGameStateChange += HandleEffectTrigger;
 
+        turretManager = GetComponentInParent<TurretManager>();
     }
 
     private void HandleEffectTrigger(object sender, GameStateEventArgs e)
@@ -25,6 +28,8 @@ public abstract class BaseEffectTemplate : MonoBehaviour
             ApplyEffect();
         }
     }
+
+    public virtual void HandleLevelEffect(object sender, LevelUpArgs e){}
 
     public abstract void ApplyEffect();
 

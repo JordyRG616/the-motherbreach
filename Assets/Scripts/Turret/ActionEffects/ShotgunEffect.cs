@@ -50,4 +50,24 @@ public class ShotgunEffect : ActionEffect
         string description = "Shoots " + StatSet[Stat.Projectiles] + " bullets that deals " + StatSet[Stat.Damage] + " damage each.";
         return description;
     }
+
+    public override void LevelUp(int toLevel)
+    {
+        if(toLevel == 3 || toLevel == 5) GainProjectile();
+        else GainDamage();
+    }
+
+    private void GainDamage()
+    {
+        var damage = StatSet[Stat.Damage];
+        damage *= 1.2f;
+        SetStat(Stat.Damage, damage);
+    }
+
+    private void GainProjectile()
+    {
+        var projectiles = StatSet[Stat.Projectiles];
+        projectiles += 1;
+        SetStat(Stat.Projectiles, projectiles);
+    }
 }

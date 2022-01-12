@@ -84,4 +84,24 @@ public class SpawnerEffect : ActionEffect
         string description = "Spawn up to " + StatSet[Stat.Capacity] + " drones of level " + StatSet[Stat.DroneLevel];
         return description;
     }
+
+    public override void LevelUp(int toLevel)
+    {
+        if(toLevel == 3 || toLevel == 5) GainCapacity();
+        if(toLevel == 2 || toLevel == 4) GainLevel();
+    }
+
+    private void GainLevel()
+    {
+        var droneLevel = StatSet[Stat.DroneLevel];
+        droneLevel += 1;
+        SetStat(Stat.DroneLevel, droneLevel);
+    }
+
+    private void GainCapacity()
+    {
+        var capacity = StatSet[Stat.Capacity];
+        capacity += 1;
+        SetStat(Stat.Capacity, capacity);
+    }
 }

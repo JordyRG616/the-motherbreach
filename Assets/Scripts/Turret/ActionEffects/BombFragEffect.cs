@@ -13,4 +13,9 @@ public class BombFragEffect : ActionEffect
     {
         return "";
     }
+
+    public override void LevelUp(int toLevel)
+    {
+        
+    }
 }

@@ -53,7 +53,27 @@ public class BomberEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "Shoots two bombs that explodes in " + StatSet[Stat.Projectiles] + " that deals " + StatSet[Stat.Damage] + " damage on hit, each.";
+        string description = "Shoots two bombs that explodes in " + StatSet[Stat.Projectiles] + " that deals " + GetComponentInChildren<BombFragEffect>().StatSet[Stat.Damage] + " damage on hit, each.";
         return description;
+    }
+
+    public override void LevelUp(int toLevel)
+    {
+        if(toLevel == 5) GainDamage();
+        else GainProjectile();
+    }
+
+    private void GainProjectile()
+    {
+        var projectiles = StatSet[Stat.Projectiles];
+        projectiles += 1;
+        SetStat(Stat.Projectiles, projectiles);
+    }
+
+    private void GainDamage()
+    {
+        var damage = GetComponentInChildren<BombFragEffect>().StatSet[Stat.Damage];
+        damage *= 1.5f;
+        GetComponentInChildren<BombFragEffect>().SetStat(Stat.Damage, damage);
     }
 }

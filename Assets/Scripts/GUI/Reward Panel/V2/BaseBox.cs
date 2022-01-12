@@ -9,6 +9,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler
     private GameObject cachedBase;
     [SerializeField] private Image image;
     private BuildBox buildBox;
+    private bool selected;
 
     void Start()
     {
@@ -25,7 +26,17 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        buildBox.ReceiveBase(cachedBase, this);
+        if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && !selected) 
+        {
+            buildBox.ReceiveBase(cachedBase, this);
+            selected = true;
+        }
+        else if(selected)
+        {
+            buildBox.ClearBase(out cachedBase);
+            image.color = Color.white;
+            selected = false;
+        }
     }
 
     public void Detach()

@@ -14,4 +14,8 @@ public class EnemyActionEffect : ActionEffect
         string description = "";
         return description;
     }
+
+    public override void LevelUp(int toLevel)
+    {
+    }
 }

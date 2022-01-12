@@ -21,15 +21,17 @@ public class TurretManager : MonoBehaviour
             _level = value;
         }
     }
-    private int _level = 1;
+    private int _level = 0;
 
-    public event EventHandler OnLevelUp;
+    public event EventHandler<LevelUpArgs> OnLevelUp;
 
 
     public void Initiate()
     {
         baseEffect = GetComponentInChildren<BaseEffectTemplate>();
         actionController = GetComponentInChildren<ActionController>();
+
+        OnLevelUp += actionController.HandleLevelUp;
 
         GetStats();
         
@@ -51,9 +53,19 @@ public class TurretManager : MonoBehaviour
 
     }
 
-    internal void LevelUp()
+    public void LevelUp()
     {
         Level ++;
-        OnLevelUp?.Invoke(this, EventArgs.Empty);
+        OnLevelUp?.Invoke(this, new LevelUpArgs(Level));
+    }
+}
+
+public class LevelUpArgs : EventArgs
+{
+    public int toLevel;
+
+    public LevelUpArgs(int level)
+    {
+        toLevel = level;
     }
 }

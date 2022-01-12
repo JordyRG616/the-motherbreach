@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class IncendiaryEffect : BaseEffectTemplate
 {
-    private ShipManager ship;
-
-    void Awake()
+    public override void HandleLevelEffect(object sender, LevelUpArgs e)
     {
-        ship = FindObjectOfType<ShipManager>();
-        
-        StartCoroutine(WaitForTrigger());
+        if(e.toLevel == 3)
+        {
+            foreach(ActionEffect shooter in associatedController.GetShooters())
+            {
+                shooter.totalEffect += AddBurn;
+            }
+        }
     }
 
     public override void ApplyEffect()
     {
-        foreach(ActionEffect shooter in associatedController.GetShooters())
-        {
-            shooter.totalEffect += AddBurn;
-        }
+        // foreach(ActionEffect shooter in associatedController.GetShooters())
+        // {
+        //     shooter.totalEffect += AddBurn;
+        // }
     }
 
     public void AddBurn(HitManager hitManager)
@@ -33,32 +35,10 @@ public class IncendiaryEffect : BaseEffectTemplate
         
     }
 
-    private IEnumerator WaitForTrigger()
-    {
-        yield return new WaitUntil(() => BeamerCount() >= 4);
-
-        ApplyEffect();
-    }
-
-    private int BeamerCount()
-    {
-        var weapons = ship.GetWeapons();
-        int count = 0;
-
-        foreach(ActionController weapon in weapons)
-        {
-            if(weapon.GetClasses().Contains(WeaponClass.Beamer))
-            {
-                count++;
-            }
-        }
-
-        return count;
-    }
 
     public override string DescriptionText()
     {
-        string description = "";
+        string description = "At level 3, add CHEMICAL BURN effect to this turret.";
         return description;
     }
 }

@@ -33,6 +33,13 @@ public abstract class ActionController : MonoBehaviour
         }
     }
 
+    public void HandleLevelUp(object sender, LevelUpArgs e)
+    {
+        foreach(ActionEffect shooter in shooters)
+        {
+            shooter.LevelUp(e.toLevel);
+        }
+    }
 
     public virtual void OnTriggerEnter2D(Collider2D other)
     {

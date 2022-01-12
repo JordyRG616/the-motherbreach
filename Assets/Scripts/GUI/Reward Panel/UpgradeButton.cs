@@ -15,6 +15,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     private InputManager inputManager;
     private TurretSlot clickedSlot;
     private BuildBox buildBox;
+    private BuildButton buildButton;
     private bool onUpgrade;
 
 
@@ -24,6 +25,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         ogSprite = image.sprite;
 
         buildBox = FindObjectOfType<BuildBox>();
+        buildButton = FindObjectOfType<BuildButton>();
 
         inputManager = InputManager.Main;
     }
@@ -43,14 +45,26 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         inputManager.OnSelectionClear -= Disable;
         gameObject.SetActive(false);
-        if(onUpgrade) buildBox.Clear();
+        if(onUpgrade) 
+        {
+            buildBox.Clear(); 
+            buildBox.OnUpgrade = false;
+            buildButton.mode = BuildButton.ButtonMode.BUILD;
+            onUpgrade = false;
+        }
     }
 
     public void Disable()
     {
         inputManager.OnSelectionClear -= Disable;
         gameObject.SetActive(false);
-        if(onUpgrade) buildBox.Clear();
+        if(onUpgrade) 
+        {
+            buildBox.Clear(); 
+            buildBox.OnUpgrade = false;
+            buildButton.mode = BuildButton.ButtonMode.BUILD;
+            onUpgrade = false;
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -77,6 +91,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
             RewardManager.Main.SpendCash(cost);
             turretManager.LevelUp();
             textMesh.text = "upgrade (" + cost + "$)";
+            buildBox.UpdateStats();
         }
     }
 
@@ -92,11 +107,12 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         var _weapon = clickedSlot.occupyingTurret.GetComponentInChildren<ActionController>().gameObject;
         var _base = clickedSlot.occupyingTurret.GetComponentInChildren<BaseEffectTemplate>().gameObject;
 
+        buildBox.OnUpgrade = true;
         buildBox.ReceiveWeapon(_weapon);
         buildBox.ReceiveBase(_base);
 
         FindObjectOfType<SellButton>().Disable();
-        FindObjectOfType<BuildButton>().mode = BuildButton.ButtonMode.DONE;
+        buildButton.mode = BuildButton.ButtonMode.DONE;
 
         var cost = clickedSlot.occupyingTurret.GetComponent<TurretManager>().Level + 1;
 
