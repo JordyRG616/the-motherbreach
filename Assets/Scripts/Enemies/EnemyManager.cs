@@ -6,10 +6,13 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour, IManager
 {
     private FormationManager owner;
+    private EnemyAttackController attackController;
 
     void Start()
     {
         owner = GetComponentInParent<FormationManager>();
+        attackController = GetComponent<EnemyAttackController>();
+        attackController.SetTarget(FindObjectOfType<ShipManager>().gameObject);
     }
 
     public void DestroyManager()
@@ -18,4 +21,13 @@ public class EnemyManager : MonoBehaviour, IManager
         Destroy(this);
     }
 
+    public void OpenFire()
+    {
+        attackController.Attack();
+    }
+
+    public void CeaseFire()
+    {
+        attackController.Stop();
+    }
 }

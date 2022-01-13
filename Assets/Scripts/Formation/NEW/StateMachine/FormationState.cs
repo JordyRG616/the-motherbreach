@@ -49,7 +49,7 @@ public abstract class FormationState : MonoBehaviour
 
             CheckTransitions();
 
-            var children = GetComponent<FormationManager>().children;
+            var children = GetComponent<FormationManager>().Children;
             HandleChildren(children.ToArray(), step);
 
             step += 0.1f;

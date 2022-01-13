@@ -7,16 +7,14 @@ using System;
 public class FormationManager : MonoBehaviour
 {
     public event EventHandler OnFormationDefeat;
-    public List<EnemyManager> children {get; private set;} = new List<EnemyManager>();
+    public List<EnemyManager> Children {get; private set;} = new List<EnemyManager>();
 
-    void Start()
-    {
-        children = GetComponentsInChildren<EnemyManager>().ToList();
-    }
 
     void Update()
     {
-        if(children.Count == 0)
+        Children = GetComponentsInChildren<EnemyManager>().ToList();
+
+        if(Children.Count == 0)
         {
             OnFormationDefeat?.Invoke(this, EventArgs.Empty);
             Destroy(gameObject);
@@ -25,7 +23,7 @@ public class FormationManager : MonoBehaviour
 
     public void RemoveEnemy(EnemyManager enemy)
     {
-        children.Remove(enemy);
+        Children.Remove(enemy);
     }
 
 }
