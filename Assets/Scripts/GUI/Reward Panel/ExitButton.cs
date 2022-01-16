@@ -13,6 +13,9 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     private Image image;
     private Sprite ogSprite;
     private UIAnimationManager animationManager;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
+    [SerializeField] [FMODUnity.EventRef] private string clicksSFX;
 
     void Start()
     {
@@ -24,8 +27,9 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        AudioManager.Main.RequestGUIFX(clicksSFX);
         image.sprite = clickSprite;
-        animationManager.TerminateUI();
+        animationManager.Reverse();
         Invoke("ResetSprite", 5f);
     }
 
@@ -36,6 +40,8 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        AudioManager.Main.RequestGUIFX(hoverSFX);
+        GetComponent<ShaderAnimation>().Play();
         tipBoxText.text = "next wave";
         tipBox.gameObject.SetActive(true);
     }

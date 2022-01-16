@@ -6,6 +6,13 @@ using UnityEngine.UI;
 public abstract class UIAnimations : MonoBehaviour
 {
     [SerializeField] protected float AnimationSpeed = 1;
+    public abstract bool Done {get; protected set;}
+    [SerializeField] protected bool PlaySFX;
+    [SerializeField] [FMODUnity.EventRef] protected string OnStartSFX;
+    [SerializeField] protected bool PlayReverseSFX;
+    [SerializeField] [FMODUnity.EventRef] protected string OnReverseSFX;
+
+
     public float Speed 
     {
         get
@@ -15,7 +22,7 @@ public abstract class UIAnimations : MonoBehaviour
     }
     
     protected RectTransform rect;
-    protected WaitForSeconds waitTime = new WaitForSeconds(0.01f);
+    protected WaitForSecondsRealtime waitTime = new WaitForSecondsRealtime(0.01f);
 
     protected virtual void Awake()
     {
@@ -32,7 +39,7 @@ public abstract class UIAnimations : MonoBehaviour
         StartCoroutine(Reverse());
     }
 
-    protected abstract IEnumerator Forward();
-    protected abstract IEnumerator Reverse();
+    public abstract IEnumerator Forward();
+    public abstract IEnumerator Reverse();
 
 }

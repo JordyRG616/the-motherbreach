@@ -7,6 +7,8 @@ public class FadeAnimation : UIAnimations
 {
     private Image image;
 
+    public override bool Done { get; protected set; }
+
     protected override void Awake()
     {
         image = GetComponent<Image>();
@@ -14,7 +16,7 @@ public class FadeAnimation : UIAnimations
         base.Awake();
     }
 
-    protected override IEnumerator Forward()
+    public override IEnumerator Forward()
     {
         float step = 0;
 
@@ -28,9 +30,13 @@ public class FadeAnimation : UIAnimations
             step += AnimationSpeed / 100;
             yield return waitTime;
         }
+
+        yield return new WaitForEndOfFrame();
+
+        Done = true;
     }
 
-    protected override IEnumerator Reverse()
+    public override IEnumerator Reverse()
     {
         float step = 0;
 

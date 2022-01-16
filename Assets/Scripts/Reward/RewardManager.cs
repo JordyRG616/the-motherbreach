@@ -49,6 +49,8 @@ public class RewardManager : MonoBehaviour
     public GameObject ActiveSelection {get; private set;}
 
     public event EventHandler OnRewardSelection;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string buildSFX;
 
 
     public void Initialize()
@@ -72,7 +74,7 @@ public class RewardManager : MonoBehaviour
     {
         SpendedCash = 0;
         EarnCash(rewardValue);
-        animationManager.InitiateUI();
+        animationManager.Play();
 
         var locked = FindObjectOfType<LockButton>().locked;
 
@@ -110,6 +112,8 @@ public class RewardManager : MonoBehaviour
     {
         SpendCash(ActiveSelection.GetComponent<TurretManager>().Stats[Stat.Cost]);
 
+        AudioManager.Main.RequestGUIFX(buildSFX);
+
         ActiveSelection = null;
         buildBox.Clear();
     }
@@ -143,7 +147,10 @@ public class RewardManager : MonoBehaviour
         {
             renderer.color = Color.white;
         }
-        ActiveSelection.GetComponentInChildren<TurretVFXManager>().EnableSelected();
+        foreach(TurretVFXManager vfx in ActiveSelection.GetComponentsInChildren<TurretVFXManager>())
+        {
+            vfx.EnableSelected();
+        }
 
     }
 

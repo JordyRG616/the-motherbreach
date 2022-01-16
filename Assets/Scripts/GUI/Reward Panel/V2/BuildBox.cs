@@ -21,6 +21,7 @@ public class BuildBox : MonoBehaviour
     [Header("Descriptions")]
     [SerializeField] private TextMeshProUGUI weaponEffect;
     [SerializeField] private TextMeshProUGUI baseEffect;
+    
 
     private float weaponCost, baseCost;
     private float TotalCost
@@ -42,6 +43,7 @@ public class BuildBox : MonoBehaviour
         selectedWeapon = receveidWeapon;
         weaponImage.sprite = selectedWeapon.GetComponent<SpriteRenderer>().sprite;
         weaponImage.color = Color.white;
+        weaponImage.GetComponent<UIAnimations>().Play();
         selectedWeaponBox = box;
         weaponCost = selectedWeapon.GetComponent<ActionController>().GetCost();
         UpdateStats();
@@ -52,6 +54,7 @@ public class BuildBox : MonoBehaviour
         selectedWeapon = receveidWeapon;
         weaponImage.sprite = selectedWeapon.GetComponent<SpriteRenderer>().sprite;
         weaponImage.color = Color.white;
+        weaponImage.GetComponent<UIAnimations>().Play();
         weaponCost = selectedWeapon.GetComponent<ActionController>().GetCost();
         UpdateStats();
     }
@@ -61,6 +64,7 @@ public class BuildBox : MonoBehaviour
         selectedBase = receveidBase;
         baseImage.sprite = selectedBase.GetComponent<SpriteRenderer>().sprite;
         baseImage.color = Color.white;
+        baseImage.GetComponent<UIAnimations>().Play();
         selectedBaseBox = box;
         baseCost = selectedBase.GetComponent<BaseEffectTemplate>().GetCost();
         UpdateStats();
@@ -71,6 +75,7 @@ public class BuildBox : MonoBehaviour
         selectedBase = receveidBase;
         baseImage.sprite = selectedBase.GetComponent<SpriteRenderer>().sprite;
         baseImage.color = Color.white;
+        baseImage.GetComponent<UIAnimations>().Play();
         baseCost = selectedBase.GetComponent<BaseEffectTemplate>().GetCost();
         UpdateStats();
     }
@@ -134,6 +139,7 @@ public class BuildBox : MonoBehaviour
     public void ClearWeapon()
     {
         if (selectedWeaponBox) selectedWeaponBox.Detach();
+        selectedWeaponBox = null;
         selectedWeapon = null;
         weaponImage.color = Color.clear;
         ResetStats();
@@ -142,6 +148,7 @@ public class BuildBox : MonoBehaviour
     public void ClearWeapon(out GameObject _weapon)
     {
         if (selectedWeaponBox) selectedWeaponBox.Detach();
+        selectedWeaponBox = null;
         _weapon = selectedWeapon;
         selectedWeapon = null;
         weaponImage.color = Color.clear;
@@ -151,6 +158,7 @@ public class BuildBox : MonoBehaviour
     public void ClearBase()
     {
         if (selectedBaseBox) selectedBaseBox.Detach();
+        selectedBaseBox = null;
         selectedBase = null;
         baseImage.color = Color.clear;
     }
@@ -158,8 +166,19 @@ public class BuildBox : MonoBehaviour
     public void ClearBase(out GameObject _base)
     {
         if (selectedBaseBox) selectedBaseBox.Detach();
+        selectedBaseBox = null;
         _base = selectedBase;
         selectedBase = null;
         baseImage.color = Color.clear;
+    }
+
+    public bool CheckWeaponBox(WeaponBox checkTarget)
+    {
+        return selectedWeaponBox == checkTarget;
+    }
+
+    public bool CheckBaseBox(BaseBox checkTarget)
+    {
+        return selectedBaseBox == checkTarget;
     }
 }

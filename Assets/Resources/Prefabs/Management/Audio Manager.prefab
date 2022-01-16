@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.929144, y: 0.24667934, z: -5.991457}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3018682489856898822}
   m_Father: {fileID: 0}
@@ -45,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicTrack:
-    trackVolume: 1
+    trackVolume: 0
     maxChannels: 2
     invoker: {fileID: 3018682489552691877}
   SFXTrack:
@@ -54,7 +55,7 @@ MonoBehaviour:
     invoker: {fileID: 3018682489552691877}
   GUITrack:
     trackVolume: 1
-    maxChannels: 1
+    maxChannels: 4
     invoker: {fileID: 3018682489552691877}
 --- !u!1 &3018682489856898820
 GameObject:
@@ -83,6 +84,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3018682489552691876}
   m_RootOrder: 0
@@ -106,6 +108,9 @@ MonoBehaviour:
   - eventName: Momentum
     unique: 1
     eventPath: event:/Music/Momentum
+  - eventName: Title
+    unique: 1
+    eventPath: event:/Music/Title song
   SFXEvents:
   - eventName: EnemyDeath
     unique: 0
@@ -128,4 +133,34 @@ MonoBehaviour:
   - eventName: Spawn
     unique: 0
     eventPath: event:/SFX/Spawn
-  GUIEvents: []
+  GUIEvents:
+  - eventName: Title_ButtonMouseEnter
+    unique: 0
+    eventPath: event:/UI/Title/Title_ButtonMouseEnter
+  - eventName: Title_Click1
+    unique: 0
+    eventPath: event:/UI/Title/Title_Click1
+  - eventName: Title_Click2
+    unique: 0
+    eventPath: event:/UI/Title/Title_Click2
+  - eventName: Title_Options
+    unique: 0
+    eventPath: event:/UI/Title/Title_Options
+  - eventName: Title_Options2
+    unique: 0
+    eventPath: event:/UI/Title/Title_Options2
+  - eventName: Title_OptionsBack
+    unique: 0
+    eventPath: event:/UI/Title/Title_OptionsBack
+  - eventName: Title_StartGame
+    unique: 0
+    eventPath: event:/UI/Title/Title_StartGame
+  - eventName: Reward_PanelSlide
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_PanelSlide
+  - eventName: Reward_PanelClose
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_PanelClose
+  - eventName: Reward_Slide
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_Slide

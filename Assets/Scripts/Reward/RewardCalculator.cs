@@ -50,6 +50,9 @@ public class RewardCalculator : MonoBehaviour
     private int expAmount;
     private Dictionary<int, int> expRequeriment = new Dictionary<int, int>();
     private RewardManager rewardManager;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string expGained;
+    [SerializeField] [FMODUnity.EventRef] private string levelGained;
 
     void Start()
     {
@@ -78,9 +81,13 @@ public class RewardCalculator : MonoBehaviour
             {
                 expAmount = 0;
                 ShopLevel ++;
+                AudioManager.Main.RequestGUIFX(levelGained);
+                return;
             }
+            AudioManager.Main.RequestGUIFX(expGained);
+            return;
         }
-        
+        AudioManager.Main.PlayInvalidSelection();
     }
 
     public (int amount, int required) ExpInfo()

@@ -66,9 +66,9 @@ public class AudioTrack
 
     public void StopAudio(EventInstance audioInstance)
     {
+        activeChannels.Remove(audioInstance);
         audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         audioInstance.release();
-        activeChannels.Remove(audioInstance);
     }
 
     public void StopAudio(int audioID)
@@ -76,9 +76,9 @@ public class AudioTrack
         if(activeChannels.Count > audioID)
         {
             EventInstance audioInstance = activeChannels.ElementAt(audioID).Key;
+            activeChannels.Remove(audioInstance);
             audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             audioInstance.release();
-            activeChannels.Remove(audioInstance);
         }
     }
 

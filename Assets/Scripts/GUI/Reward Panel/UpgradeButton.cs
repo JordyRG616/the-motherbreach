@@ -6,10 +6,13 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
+public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler
 {
     [SerializeField] private Sprite clickSprite;
     [SerializeField] private TextMeshProUGUI textMesh;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
+    [SerializeField] [FMODUnity.EventRef] private string upgradeSFX;
     private Sprite ogSprite;
     private Image image;
     private InputManager inputManager;
@@ -88,11 +91,14 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
         if(RewardManager.Main.TotalCash >= cost && turretManager.Level < 5) 
         {
+            AudioManager.Main.RequestGUIFX(upgradeSFX);
             RewardManager.Main.SpendCash(cost);
             turretManager.LevelUp();
             textMesh.text = "upgrade (" + cost + "$)";
             buildBox.UpdateStats();
+            return;
         }
+        AudioManager.Main.PlayInvalidSelection();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -119,5 +125,10 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         textMesh.text = "UPGRADE (" + cost + "$)";
 
         onUpgrade = true;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        AudioManager.Main.RequestGUIFX(hoverSFX);
     }
 }

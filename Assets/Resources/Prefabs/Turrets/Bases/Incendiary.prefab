@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4087144358287478726}
   - component: {fileID: 5650093040656436329}
   - component: {fileID: 6317303262422662917}
+  - component: {fileID: 3785563513873653665}
   m_Layer: 7
   m_Name: Incendiary
   m_TagString: Untagged
@@ -53,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: df8a1bd73b70a4348b731a61b77c338a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,3 +101,20 @@ MonoBehaviour:
   trigger: 6
   targetedClasses: 00000000010000000400000002000000
   cost: 0
+--- !u!114 &3785563513873653665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604402440299492591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f05bc59d464b0a46a89ba9849806b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refMaterial: {fileID: 2100000, guid: df8a1bd73b70a4348b731a61b77c338a, type: 2}
+  deathParticles: {fileID: 0}
+  deathSFX: 
+  invalidSelectionColor: {r: 0.9911022, g: 0, b: 0.07618539, a: 1}
+  validSelectionColor: {r: 0.0033465356, g: 0.9911022, b: 0.084376216, a: 1}

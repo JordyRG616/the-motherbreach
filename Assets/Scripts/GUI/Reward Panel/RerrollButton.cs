@@ -15,6 +15,10 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private Image image;
     private RewardManager rewardManager;
     private Sprite ogSprite;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
+    [SerializeField] [FMODUnity.EventRef] private string clicksSFX;
+    private int offerTimelineIndex;
 
     void Start()
     {
@@ -28,6 +32,8 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        AudioManager.Main.RequestGUIFX(hoverSFX);
+        GetComponent<ShaderAnimation>().Play();
         tipBoxText.text = "reset (2$)";
         tipBox.gameObject.SetActive(true);
     }
@@ -52,6 +58,7 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if(rewardManager.TotalCash >= 2 && !locked)
         {
+            AudioManager.Main.RequestGUIFX(clicksSFX);
             image.sprite = clickSprite;
 
             rewardManager.SpendedCash = 2;
@@ -60,7 +67,9 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             FindObjectOfType<BuildBox>().Clear();
             rewardManager.EliminateOffer();
             rewardManager.GenerateOffer();
+            return;
         }
+        AudioManager.Main.PlayInvalidSelection();
     }
 
     public void OnPointerUp(PointerEventData eventData)

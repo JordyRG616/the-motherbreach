@@ -7,22 +7,29 @@ public class SlideAnimation : UIAnimations
 {
     [SerializeField] private Vector2 distance;
     private Vector2 ogPosition;
-    protected override IEnumerator Forward()
+
+    public override bool Done { get; protected set; }
+
+    public override IEnumerator Forward()
     {
         ogPosition = rect.anchoredPosition;
 
         float step = 0;
 
-        while(step <= 1 + (AnimationSpeed/100))
+        while(step <= AnimationSpeed + (AnimationSpeed/100))
         {
-            Vector2 _position = Vector2.Lerp(Vector2.zero, distance, step);
+            Vector2 _position = Vector2.Lerp(Vector2.zero, distance, step / AnimationSpeed);
             rect.anchoredPosition = _position + ogPosition;
             step += AnimationSpeed / 100;
             yield return waitTime;
         }
+
+        yield return new WaitForEndOfFrame();
+
+        Done = true;
     }
 
-    protected override IEnumerator Reverse()
+    public override IEnumerator Reverse()
     {
         ogPosition = rect.anchoredPosition;
 

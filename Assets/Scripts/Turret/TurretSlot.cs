@@ -22,7 +22,11 @@ public class TurretSlot : MonoBehaviour
         occupyingTurret.transform.rotation = transform.rotation;
         occupyingTurret.transform.localPosition = Vector2.zero;
 
-        occupyingTurret.GetComponentInChildren<TurretVFXManager>().DisableSelected();
+        foreach(TurretVFXManager vfx in occupyingTurret.GetComponentsInChildren<VFXManager>())
+        {   
+            vfx.DisableSelected();
+            vfx.InitiateBuild();
+        }
 
         occupied = true;
     }

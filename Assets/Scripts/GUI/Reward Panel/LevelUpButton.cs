@@ -12,6 +12,9 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     [SerializeField] private RectTransform expAmount;
     [SerializeField] private TextMeshProUGUI lvlText;
     [SerializeField] private RectTransform tipBox;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
+    
     private TextMeshProUGUI tipText;
     private Sprite ogSprite;
     private Image image;
@@ -59,6 +62,8 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        GetComponent<ShaderAnimation>().Play();
+        AudioManager.Main.RequestGUIFX(hoverSFX);
         tipText.text = "level up (" + (rewardCalculator.ShopLevel + 1) + "$)" ;
         tipBox.gameObject.SetActive(true);
     }

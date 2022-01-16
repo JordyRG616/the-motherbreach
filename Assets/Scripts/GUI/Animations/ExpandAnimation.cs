@@ -7,8 +7,17 @@ public class ExpandAnimation : UIAnimations
     [SerializeField] private Vector2 TargetScale;
     private Vector2 ogScale;
 
-    protected override IEnumerator Forward()
+    public override bool Done { get; protected set; }
+
+    public override IEnumerator Forward()
     {
+        int index = int.MaxValue;
+
+        if(PlaySFX) 
+        {
+            AudioManager.Main.RequestGUIFX(OnStartSFX, out index);
+        }
+
         float step = 0;
 
         ogScale = rect.localScale;
@@ -20,9 +29,19 @@ public class ExpandAnimation : UIAnimations
             step += AnimationSpeed / 100;
             yield return waitTime;
         }
+
+        yield return new WaitForEndOfFrame();
+
+        Done = true;
+
+        if(PlaySFX) 
+        {
+            AudioManager.Main.StopGUIFX(index);
+        }
+
     }
 
-    protected override IEnumerator Reverse()
+    public override IEnumerator Reverse()
     {
         float step = 0;
 

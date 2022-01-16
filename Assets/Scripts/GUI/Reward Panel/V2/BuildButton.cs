@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System;
 
-public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
 {
     public enum ButtonMode {BUILD, DONE};
 
@@ -17,7 +17,10 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private Image image;
     private RewardManager rewardManager;
     private BuildBox buildBox;
-    public ButtonMode mode = ButtonMode.BUILD;
+    [HideInInspector] public ButtonMode mode = ButtonMode.BUILD;
+    [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
+    [SerializeField] [FMODUnity.EventRef] private string clickSFX;
+
 
 
     void Start()
@@ -39,13 +42,18 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void Done()
     {
+        AudioManager.Main.RequestGUIFX(clickSFX);
         FindObjectOfType<UpgradeButton>().Disable();
     }
 
     private void Build()
     {
         if (buildBox.Selections().Weapon != null && buildBox.Selections().Base != null)
+        {
+            AudioManager.Main.RequestGUIFX(clickSFX);
             rewardManager.SetSelection(buildBox.Selections().Weapon, buildBox.Selections().Base);
+        }
+        else AudioManager.Main.PlayInvalidSelection();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -57,5 +65,10 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     void Update()
     {
         textMesh.text = mode.ToString();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        AudioManager.Main.RequestGUIFX(hoverSFX);
     }
 }

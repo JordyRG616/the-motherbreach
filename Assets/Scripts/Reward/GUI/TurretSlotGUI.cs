@@ -52,11 +52,14 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             associatedSlot.BuildTurret(turret);
             manager.BuildSelection();
             DeactivateSprite();
+            return;
         }
         else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null)
         {
             ShowOptions();
+            return;
         }
+        AudioManager.Main.PlayInvalidSelection();
     }
 
     private void ShowOptions()
@@ -88,7 +91,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             manager.ActiveSelection.transform.rotation = associatedSlot.transform.rotation;
             if(!associatedSlot.IsOcuppied())
             {
-                manager.ActiveSelection.GetComponentInChildren<TurretVFXManager>().SetSelectedColor(true);
+                foreach(TurretVFXManager vfx in manager.ActiveSelection.GetComponentsInChildren<TurretVFXManager>()) vfx.SetSelectedColor(true);
             }
         }
     }

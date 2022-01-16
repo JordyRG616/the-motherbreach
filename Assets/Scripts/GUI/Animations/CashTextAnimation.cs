@@ -9,6 +9,8 @@ public class CashTextAnimation : UIAnimations
     [SerializeField] private TextMeshProUGUI earnedCash;
     private RewardManager rewardManager;
 
+    public override bool Done { get; protected set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -16,8 +18,11 @@ public class CashTextAnimation : UIAnimations
         rewardManager = RewardManager.Main;
     }
 
-    protected override IEnumerator Forward()
+    public override IEnumerator Forward()
     {
+        int index = int.MaxValue;
+
+
         
         earnedCash.gameObject.SetActive(true);
         earnedCash.text = "+ " + rewardManager.EarnedCash + "$";
@@ -41,6 +46,11 @@ public class CashTextAnimation : UIAnimations
 
         step = rewardManager.EarnedCash;
 
+        if(PlaySFX) 
+        {
+            AudioManager.Main.RequestGUIFX(OnStartSFX, out index);
+        }
+
         while(step > 0)
         {
             step --;
@@ -55,10 +65,22 @@ public class CashTextAnimation : UIAnimations
         }
 
         earnedCash.gameObject.SetActive(false);
+
+        yield return new WaitForEndOfFrame();
+
+        Done = true;
+
+        if(PlaySFX) 
+        {
+            AudioManager.Main.StopGUIFX(index);
+        }
     }
 
-    protected override IEnumerator Reverse()
+    public override IEnumerator Reverse()
     {
+        int index = int.MaxValue;
+
+
         var ogTotal = rewardManager.TotalCash;
         rewardManager.TotalCash -= rewardManager.SpendedCash;
 
@@ -83,6 +105,11 @@ public class CashTextAnimation : UIAnimations
         }
 
         step = rewardManager.SpendedCash;
+        
+        if(PlayReverseSFX) 
+        {
+            AudioManager.Main.RequestGUIFX(OnReverseSFX, out index);
+        }
 
         while(step > 0)
         {
@@ -98,5 +125,12 @@ public class CashTextAnimation : UIAnimations
         }
 
         earnedCash.gameObject.SetActive(false);
+
+        if(PlayReverseSFX) 
+        {
+            AudioManager.Main.StopGUIFX(index);
+        }
     }
+
+    
 }

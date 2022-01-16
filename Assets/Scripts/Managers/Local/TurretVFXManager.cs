@@ -7,8 +7,8 @@ public class TurretVFXManager : VFXManager
     
     [SerializeField] private Color invalidSelectionColor;
     [SerializeField] private Color validSelectionColor;
-    
-    
+    private bool activeSelection;
+
     public void EnableSelected()
     {
         SetSelectedColor(false);
@@ -22,12 +22,31 @@ public class TurretVFXManager : VFXManager
 
     public void SetSelectedColor(bool selected)
     {
+        activeSelection = !selected;
+
         if(selected == false)
         {
             instMaterial.SetColor("_SelectedColor", invalidSelectionColor);
         } else
         {
             instMaterial.SetColor("_SelectedColor", validSelectionColor);
+        }
+    }
+
+    public void InitiateBuild()
+    {
+        StartCoroutine(Build());
+    }
+
+    private IEnumerator Build()
+    {
+        float step = 0;
+
+        while (step <= 1.5f)
+        {
+            instMaterial.SetFloat("_Build", step / 1.5f);
+            step += 0.015f;
+            yield return new WaitForSecondsRealtime(0.01f);
         }
     }
 
@@ -58,5 +77,13 @@ public class TurretVFXManager : VFXManager
             }
         }
 
+    }
+
+    void Update()
+    {
+        if(activeSelection && Input.GetMouseButtonDown(0))
+        {
+            audioManager.PlayInvalidSelection();
+        }
     }
 }

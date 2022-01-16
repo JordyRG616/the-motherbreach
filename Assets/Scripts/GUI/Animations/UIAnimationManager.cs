@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,16 +25,16 @@ public class UIAnimationManager : MonoBehaviour
 
     [SerializeField] private List<AnimationGroup> Timeline;
     [SerializeField] private GameObject interactablePanel;
-    private WaitForSeconds sequentialTime = new WaitForSeconds(.5f);
+    private float elapsedTime;
 
     [ContextMenu("Play")]
-    public void InitiateUI()
+    public void Play()
     {
         StartCoroutine(PlayTimeline());
     }
 
     [ContextMenu("Terminate")]
-    public void TerminateUI()
+    public void Reverse()
     {
         StartCoroutine(ReverseTimeline());
         
@@ -44,21 +45,22 @@ public class UIAnimationManager : MonoBehaviour
         foreach(AnimationGroup group in Timeline)
         {
             int i = 0;
-
-            foreach(UIAnimations animation in group.animations)
+            for(i = 0; i < group.animations.Count - 1; i++)
             {
-                if(group.mode == AnimationGroup.PlayMode.Sequential && i > 0)
+                group.animations[i].Play();
+
+
+                if(group.mode == AnimationGroup.PlayMode.Sequential)
                 {
-                    yield return sequentialTime;
+                    yield return new WaitForSecondsRealtime(group.interval);
                 }
-                i++;
-                animation.Play();
+                
             }
 
-            yield return new WaitForSeconds(1 / group.GetLowestSpeed());
+            yield return StartCoroutine(group.animations[i].Forward());
         }
 
-        interactablePanel.SetActive(true);
+        if(interactablePanel) interactablePanel.SetActive(true);
     }
 
     private IEnumerator ReverseTimeline()
@@ -78,25 +80,59 @@ public class UIAnimationManager : MonoBehaviour
             foreach(UIAnimations animation in group.animations.Reverse<UIAnimations>())
             {
                 if(animation.GetType() == typeof(CashTextAnimation)) continue;
+
                 if(group.mode == AnimationGroup.PlayMode.Sequential && i > 0)
                 {
-                    yield return sequentialTime;
+                    yield return new WaitForSecondsRealtime(group.interval);
                 }
                 i++;
                 animation.PlayReverse();
             }
 
-            yield return new WaitForSeconds(1 / group.GetLowestSpeed());
+            yield return new WaitUntil(() => group.IsDone());
 
         }
 
-        interactablePanel.SetActive(false);
+        if(interactablePanel) interactablePanel.SetActive(false);
 
-        RewardManager.Main.Exit();
+        if(GameManager.Main.gameState == GameState.OnReward) RewardManager.Main.Exit();
 
     }
 
+    internal void PlayGroup(object offerTimelineIndex)
+    {
+        throw new System.NotImplementedException();
+    }
 
+    void Update()
+    {
+        elapsedTime += Time.deltaTime;
+    }
+
+    public void PlayGroup(int index)
+    {
+        var group = Timeline[index];
+
+        _PlayGroup(group);
+    }
+
+    private IEnumerator _PlayGroup(AnimationGroup group)
+    {
+        int i = 0;
+        for(i = 0; i < group.animations.Count - 1; i++)
+        {
+            group.animations[i].Play();
+
+
+            if(group.mode == AnimationGroup.PlayMode.Sequential)
+            {
+                yield return new WaitForSecondsRealtime(group.interval);
+            }
+            
+        }
+
+        yield return StartCoroutine(group.animations[i].Forward());
+    }
 }
 
 [System.Serializable]
@@ -105,11 +141,15 @@ public struct AnimationGroup
     public enum PlayMode {Simultaneous, Sequential}
 
     public PlayMode mode;
+    public float interval;
     public List<UIAnimations> animations;
 
-    public float GetLowestSpeed()
+    public bool IsDone()
     {
-        var orderedList = animations.OrderBy(x => x.Speed);
-        return orderedList.FirstOrDefault().Speed;
+        foreach(UIAnimations animation in animations)
+        {
+            if(animation.Done) return true;
+        }
+        return false;
     }
 }

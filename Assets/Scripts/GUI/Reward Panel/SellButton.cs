@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SellButton : MonoBehaviour, IPointerClickHandler
+public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
 {
     private TextMeshProUGUI textMesh;
     private int refund;
@@ -13,6 +13,9 @@ public class SellButton : MonoBehaviour, IPointerClickHandler
     private RewardManager rewardManager;
     private TurretSlot cachedSlot;
     private InputManager inputManager;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
+    [SerializeField] [FMODUnity.EventRef] private string sellSFX;
 
     void Awake()
     {
@@ -46,6 +49,8 @@ public class SellButton : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        AudioManager.Main.RequestGUIFX(sellSFX);
+
         rewardManager.EarnedCash = refund;
         cashTextAnimation.Play();
 
@@ -54,5 +59,10 @@ public class SellButton : MonoBehaviour, IPointerClickHandler
 
         gameObject.SetActive(false);
         FindObjectOfType<UpgradeButton>().gameObject.SetActive(false);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        AudioManager.Main.RequestGUIFX(hoverSFX);
     }
 }

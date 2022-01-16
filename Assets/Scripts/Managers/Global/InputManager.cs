@@ -32,9 +32,9 @@ public class InputManager : MonoBehaviour
     }
     #endregion
 
-
-    [SerializeField] private MovementControlScheme movementScheme = MovementControlScheme.None;
-    [SerializeField] private RotationControlScheme rotationScheme = RotationControlScheme.None;
+    [SerializeField] [FMODUnity.EventRef] private string clearSFX;
+    private MovementControlScheme movementScheme = MovementControlScheme.None;
+    private RotationControlScheme rotationScheme = RotationControlScheme.None;
     private KeyCode leftKey, rightKey, upKey, downKey; // MOVEMENT RELATED KEYCODES
     private KeyCode rotateRight, rotateLeft; // ROTATION RELATED KEYCODES
 
@@ -84,41 +84,56 @@ public class InputManager : MonoBehaviour
         if(e.newState == GameState.OnWave)
         {
             StopAllCoroutines();
+            OnSelectionClear -= PlaySFX;
             StartCoroutine(_waveControl);
         }
         if(e.newState == GameState.OnReward)
         {
             StopAllCoroutines();
+            OnSelectionClear += PlaySFX;
             StartCoroutine(_rewardControl);
         }
     }
 
-    private void initializeQEScheme()
+    private void PlaySFX(object sender, EventArgs e)
+    {
+        AudioManager.Main.RequestGUIFX(clearSFX);
+    }
+
+    public void initializeQEScheme()
     {
         rotateRight = KeyCode.Q;
         rotateLeft = KeyCode.E;
+
+        rotationScheme = RotationControlScheme.QE;
     }
 
-    private void initializeMouseScheme()
+    public void initializeMouseScheme()
     {
         rotateRight = KeyCode.Mouse0;
         rotateLeft = KeyCode.Mouse1;
+
+        rotationScheme = RotationControlScheme.Mouse;
     }
 
-    private void initializeArrowScheme()
+    public void initializeArrowScheme()
     {
         leftKey = KeyCode.LeftArrow;
         rightKey = KeyCode.RightArrow;
         upKey = KeyCode.UpArrow;
         downKey = KeyCode.DownArrow;
+
+        movementScheme = MovementControlScheme.Arrows;
     }
 
-    private void initializeWASDScheme()
+    public void initializeWASDScheme()
     {
         leftKey = KeyCode.A;
         rightKey = KeyCode.D;
         upKey = KeyCode.W;
         downKey = KeyCode.S;
+
+        movementScheme = MovementControlScheme.WASD;
     }
 
     private void TriggerMovement()

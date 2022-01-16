@@ -45,16 +45,35 @@ public class GameManager : MonoBehaviour
     private AudioManager audioManager;
 
     [SerializeField] private GameObject globalVolume;
+    [SerializeField] private UIAnimations fadePanelAnimation;
     [SerializeField] private float initialCash;
 
+    void Start()
+    {
+        if(gameState == GameState.OnTitle)
+        {
+            audioManager = AudioManager.Main;
+            audioManager.Initialize();
+            audioManager.RequestMusic("Title");
+        }
+    }
 
     [ContextMenu("Start Game")]
     public void StartGameLoop()
     {
         DontDestroyOnLoad(gameObject);
 
+        StartCoroutine(FadeScenes());
+    }
+
+    private IEnumerator FadeScenes()
+    {
+        yield return StartCoroutine(fadePanelAnimation.Forward());
+
         SceneManager.LoadScene(1);
         SceneManager.sceneLoaded += LateStart;
+
+        // yield return StartCoroutine(fadePanelAnimation.Reverse());
     }
 
     private void LateStart(Scene scene, LoadSceneMode mode)
@@ -70,8 +89,6 @@ public class GameManager : MonoBehaviour
         inputManager = InputManager.Main;
         OnGameStateChange += inputManager.HandleWaveControl;
 
-        audioManager = AudioManager.Main;
-        audioManager.Initialize();
         audioManager.RequestMusic();
 
         EndWaveEventArgs initialArgs = new EndWaveEventArgs();
