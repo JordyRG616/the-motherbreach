@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
@@ -32,11 +33,13 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public void Disable(object sender, EventArgs e)
     {
+        if(!gameObject.activeSelf) return;
         inputManager.OnSelectionClear -= Disable;
         gameObject.SetActive(false);
     }
     public void Disable()
     {
+        if(!gameObject.activeSelf) return;
         inputManager.OnSelectionClear -= Disable;
         gameObject.SetActive(false);
     }
@@ -49,20 +52,44 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        StartCoroutine(Sell());
+    }
+
+    private IEnumerator Sell()
+    {
+        var vfx = GetComponentInChildren<ParticleSystem>();
+        vfx.Play();
         AudioManager.Main.RequestGUIFX(sellSFX);
+
 
         rewardManager.EarnedCash = refund;
         cashTextAnimation.Play();
 
+        GetComponentInChildren<TextMeshProUGUI>().gameObject.SetActive(false);
+        GetComponent<Image>().enabled = false;
+
+        cachedSlot.GetComponentInChildren<ParticleSystem>().Stop();
         Destroy(cachedSlot.occupyingTurret);
         cachedSlot.Clear();
 
-        gameObject.SetActive(false);
         FindObjectOfType<UpgradeButton>().gameObject.SetActive(false);
+        
+        yield return new WaitUntil(() => !vfx.IsAlive());
+
+        GetComponentInChildren<TextMeshProUGUI>(true).gameObject.SetActive(true);
+        GetComponent<Image>().enabled = true;
+
+        gameObject.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        GetComponent<ShaderAnimation>().Play();
         AudioManager.Main.RequestGUIFX(hoverSFX);
+    }
+
+    void OnDisable()
+    {
+        inputManager.OnSelectionClear -= Disable;
     }
 }

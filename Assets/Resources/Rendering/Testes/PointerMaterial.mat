@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TurretUI_Offer
-  m_Shader: {fileID: -6465566751694194690, guid: d0ba2a94c4b1be749bd9cd332304e776, type: 3}
+  m_Name: PointerMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: f0102aa7b8f638345a8bd1ced5247704, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,8 +19,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Border:
+        m_Texture: {fileID: 2800000, guid: b6a87b974f1aa084a9567c286dd7fb03, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ScrollingTex:
+        m_Texture: {fileID: 2800000, guid: 46eedd8b31d77dd4fbad03ebe34f282f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -37,8 +45,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Mask: 2
-    - _Size: 0.025
+    - _BorderSize: 2
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

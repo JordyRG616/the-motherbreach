@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TrackingDevice : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class TrackingDevice : MonoBehaviour
 
     private void TrackPointer()
     {
+        if(EventSystem.current.IsPointerOverGameObject())
+        {
+            if(EventSystem.current.currentSelectedGameObject == null) return;
+        }
         if(trackingPointer == true)
         {
             Vector2 viewPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

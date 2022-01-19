@@ -40,6 +40,7 @@ public class BuildBox : MonoBehaviour
 
     public void ReceiveWeapon(GameObject receveidWeapon, WeaponBox box)
     {
+        if(selectedWeaponBox) selectedWeaponBox.Unselect ();
         selectedWeapon = receveidWeapon;
         weaponImage.sprite = selectedWeapon.GetComponent<SpriteRenderer>().sprite;
         weaponImage.color = Color.white;
@@ -51,6 +52,7 @@ public class BuildBox : MonoBehaviour
 
     public void ReceiveWeapon(GameObject receveidWeapon)
     {
+        if(selectedWeaponBox) selectedWeaponBox.Unselect();
         selectedWeapon = receveidWeapon;
         weaponImage.sprite = selectedWeapon.GetComponent<SpriteRenderer>().sprite;
         weaponImage.color = Color.white;
@@ -61,6 +63,7 @@ public class BuildBox : MonoBehaviour
 
     public void ReceiveBase(GameObject receveidBase, BaseBox box)
     {
+        if(selectedBaseBox) selectedBaseBox.Unselect();
         selectedBase = receveidBase;
         baseImage.sprite = selectedBase.GetComponent<SpriteRenderer>().sprite;
         baseImage.color = Color.white;
@@ -72,6 +75,7 @@ public class BuildBox : MonoBehaviour
 
     public void ReceiveBase(GameObject receveidBase)
     {
+        if(selectedBaseBox) selectedBaseBox.Unselect();
         selectedBase = receveidBase;
         baseImage.sprite = selectedBase.GetComponent<SpriteRenderer>().sprite;
         baseImage.color = Color.white;

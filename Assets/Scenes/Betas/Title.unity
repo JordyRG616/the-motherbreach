@@ -25670,6 +25670,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 4174501789438114414, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: pointer
+      value: 
+      objectReference: {fileID: 8910371888955587756, guid: a5abfa8843f4d8f46adec754f33289ce, type: 3}
+    - target: {fileID: 4174501789438114414, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: distanceToSpawn
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 4174501789438114415, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -25714,7 +25722,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4174501789438114413, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
 --- !u!1 &1336616459
 GameObject:

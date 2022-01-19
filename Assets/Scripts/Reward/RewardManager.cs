@@ -74,6 +74,7 @@ public class RewardManager : MonoBehaviour
     {
         SpendedCash = 0;
         EarnCash(rewardValue);
+        Camera.main.GetComponent<Animator>().enabled = true;
         animationManager.Play();
 
         var locked = FindObjectOfType<LockButton>().locked;
@@ -141,6 +142,7 @@ public class RewardManager : MonoBehaviour
     public void SetSelection(GameObject _weapon, GameObject _base)
     {
         ActiveSelection = turretConstructor.Construct(_weapon, _base);
+        // ActiveSelection.transform.position = Vector3.zero;
         ActiveSelection.SetActive(true);
         ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
         foreach (SpriteRenderer renderer in ActiveSelection.GetComponentsInChildren<SpriteRenderer>())

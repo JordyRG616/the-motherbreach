@@ -46,6 +46,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     public void Disable(object sender, EventArgs e)
     {
+        if(clickedSlot) clickedSlot.GetComponentInChildren<ParticleSystem>().Stop();
         inputManager.OnSelectionClear -= Disable;
         gameObject.SetActive(false);
         if(onUpgrade) 
@@ -59,6 +60,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     public void Disable()
     {
+        clickedSlot.GetComponentInChildren<ParticleSystem>().Stop();
         inputManager.OnSelectionClear -= Disable;
         gameObject.SetActive(false);
         if(onUpgrade) 
@@ -91,6 +93,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
         if(RewardManager.Main.TotalCash >= cost && turretManager.Level < 5) 
         {
+            GetComponentInChildren<ParticleSystem>().Play();
             AudioManager.Main.RequestGUIFX(upgradeSFX);
             RewardManager.Main.SpendCash(cost);
             turretManager.LevelUp();
@@ -127,8 +130,14 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         onUpgrade = true;
     }
 
+    void OnDisable()
+    {
+        inputManager.OnSelectionClear -= Disable;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
+        GetComponent<ShaderAnimation>().Play();
         AudioManager.Main.RequestGUIFX(hoverSFX);
     }
 }

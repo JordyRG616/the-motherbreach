@@ -153,9 +153,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 97
-        y: 60
+        y: 59
         width: 30
-        height: 33
+        height: 34
       alignment: 5
       pivot: {x: 1, y: 0.5}
       border: {x: 7, y: 8, z: 8, w: 7}
@@ -174,14 +174,24 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 97
-        y: 95
+        y: 94
         width: 30
-        height: 33
+        height: 34
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 6, y: 8, z: 7, w: 7}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -10, y: 16.5}
+        - {x: -15, y: 11.5}
+        - {x: -15, y: -16.5}
+        - {x: 11, y: -16.5}
+        - {x: 15, y: -12.5}
+        - {x: 15, y: 16.5}
+      - - {x: -10, y: 11.5}
+        - {x: 11, y: 11.5}
+        - {x: 11, y: -12.5}
+        - {x: -10, y: -12.5}
       tessellationDetail: 0
       bones: []
       spriteID: 32f48e7f42798ef4ea4077e071d65885

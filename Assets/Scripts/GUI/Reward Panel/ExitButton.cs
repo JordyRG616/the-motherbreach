@@ -27,10 +27,20 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        StartCoroutine(ExitReward());
+    }
+
+    private IEnumerator ExitReward()
+    {
         AudioManager.Main.RequestGUIFX(clicksSFX);
         image.sprite = clickSprite;
-        animationManager.Reverse();
-        Invoke("ResetSprite", 5f);
+        Invoke("ResetSprite", .1f);
+
+        yield return StartCoroutine(animationManager.ReverseTimeline());
+
+
+        RewardManager.Main.Exit();
+        Camera.main.GetComponent<Animator>().enabled = false;
     }
 
     private void ResetSprite()

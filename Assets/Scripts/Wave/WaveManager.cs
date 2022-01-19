@@ -35,6 +35,7 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField] private WaveList listOfWaves;
     [SerializeField] private float distanceToSpawn;
+    [SerializeField] private GameObject pointer;
     private Queue<WaveData> dataQueue  = new Queue<WaveData>();
     private WaveData activeWave;
     private ShipManager ship;
@@ -93,6 +94,9 @@ public class WaveManager : MonoBehaviour
 
                 activeFormations.Add(formation.GetComponent<FormationManager>());
                 formation.GetComponent<FormationManager>().OnFormationDefeat += RemoveFormation;
+
+                var formationPointer = Instantiate(pointer, Vector3.zero, Quaternion.identity);
+                formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(formation.transform);
 
                 spawnIndex++;
                 if(spawnIndex == activeWave.availableFormations.Count) break;

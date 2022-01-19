@@ -17,6 +17,8 @@ public class StandartAnimation : UIAnimations
 
     public override IEnumerator Forward()
     {
+        if(PlaySFX) AudioManager.Main.RequestGUIFX(OnStartSFX, out var index);
+
         animator.SetTrigger(firstTrigger);
         yield return new WaitForSecondsRealtime(animator.GetCurrentAnimatorStateInfo(0).length);
 
@@ -27,6 +29,8 @@ public class StandartAnimation : UIAnimations
 
     public override IEnumerator Reverse()
     {
+        if(PlayReverseSFX) AudioManager.Main.RequestGUIFX(OnReverseSFX, out var index);
+
         animator.SetTrigger(secondTrigger);
         yield return new WaitForEndOfFrame();
 

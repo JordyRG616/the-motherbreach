@@ -28,6 +28,6 @@ public class FXAnimation : UIAnimations
 
     public override IEnumerator Reverse()
     {
-        throw new System.NotImplementedException();
+        yield return null;
     }
 }

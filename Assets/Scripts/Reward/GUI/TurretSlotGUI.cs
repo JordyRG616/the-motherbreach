@@ -15,12 +15,20 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     private RewardManager manager;
     private RectTransform selfRect;
     private Vector3 offset;
+    private InputManager inputManager;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string clickSFX;
+    private ParticleSystem selectedVFX;
 
     void OnEnable()
     {
         if(manager == null)
         {
             manager = RewardManager.Main;
+            inputManager = InputManager.Main;
+            inputManager.OnSelectionClear += StopVFX;
+
+            selectedVFX = associatedSlot.GetComponentInChildren<ParticleSystem>(true);
 
             tracking = GetComponent<TrackingDevice>();
 
@@ -35,6 +43,11 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
         if(!associatedSlot.IsOcuppied()) GetComponent<Image>().color = color;
         
         // tracking.StartTracking(associatedSlot.transform);
+    }
+
+    public void StopVFX(object sender, EventArgs e)
+    {
+        selectedVFX.Stop();
     }
 
     public void DeactivateSprite()
@@ -56,6 +69,8 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
         }
         else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null)
         {
+            AudioManager.Main.RequestGUIFX(clickSFX);
+            selectedVFX.Play();
             ShowOptions();
             return;
         }
@@ -86,6 +101,8 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        EventSystem.current.SetSelectedGameObject(gameObject);
+
         if(manager.ActiveSelection != null)
         {
             manager.ActiveSelection.transform.rotation = associatedSlot.transform.rotation;
@@ -98,10 +115,12 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        EventSystem.current.SetSelectedGameObject(null);
+
         if(manager.ActiveSelection != null)
         {
             manager.ActiveSelection.transform.rotation = Quaternion.identity;
-            manager.ActiveSelection.GetComponentInChildren<TurretVFXManager>().SetSelectedColor(false);
+            foreach(TurretVFXManager vfx in manager.ActiveSelection.GetComponentsInChildren<TurretVFXManager>()) vfx.SetSelectedColor(false);
 
         }
     }

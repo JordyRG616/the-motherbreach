@@ -14,6 +14,10 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     [SerializeField] private RectTransform tipBox;
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
+    [Header("VFX")]
+    [SerializeField] private ParticleSystem expBarVFX;
+    private float requiredHeight;
+    private float amountHeight;
     
     private TextMeshProUGUI tipText;
     private Sprite ogSprite;
@@ -25,7 +29,10 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         image = GetComponent<Image>();
         ogSprite = image.sprite;
         rewardCalculator = FindObjectOfType<RewardCalculator>();
+        expAmount.sizeDelta = new Vector2(expAmount.sizeDelta.x, 0);
+        expBar.sizeDelta = new Vector2(expBar.sizeDelta.x, 0);
         UpdateExpGui();
+
 
         tipText = tipBox.Find("Text").GetComponent<TextMeshProUGUI>();
     }
@@ -40,11 +47,12 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     private void UpdateExpGui()
     {
         lvlText.text = "lvl" + rewardCalculator.ShopLevel;
-        var requiredHeight = (rewardCalculator.ExpInfo().required * 12) + 4;
-        expBar.sizeDelta = new Vector2(expBar.sizeDelta.x, requiredHeight);
-        var amountHeight = (rewardCalculator.ExpInfo().amount * 12) + 4;
-        expAmount.sizeDelta = new Vector2(expAmount.sizeDelta.x, amountHeight);
+        requiredHeight = (rewardCalculator.ExpInfo().required * 12) + 4;
+        // expBar.sizeDelta = new Vector2(expBar.sizeDelta.x, requiredHeight);
+        amountHeight = (rewardCalculator.ExpInfo().amount * 12) + 4;
+        // expAmount.sizeDelta = new Vector2(expAmount.sizeDelta.x, amountHeight);
     }
+
 
     public void OnPointerUp(PointerEventData eventData)
     {
@@ -53,10 +61,40 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     private void Update()
     {
-        if(tipBox.gameObject.activeSelf)
+        if (tipBox.gameObject.activeSelf)
         {
-            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
+            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0);
             tipBox.anchoredPosition = mousePos;
+        }
+
+        HandleExpBar();
+
+        if(Mathf.Approximately(expBar.sizeDelta.y, expAmount.sizeDelta.y))
+        {
+            rewardCalculator.LevelUp();
+            UpdateExpGui();
+        }
+    }
+
+    private void HandleExpBar()
+    {
+        if (expBar.sizeDelta.y < requiredHeight)
+        {
+            expBar.sizeDelta += new Vector2(0, Time.deltaTime * 10);
+        }
+        if (expAmount.sizeDelta.y < amountHeight)
+        {
+            expBarVFX.Play();
+            expAmount.sizeDelta += new Vector2(0, Time.deltaTime * 10);
+        }
+        if (expBar.sizeDelta.y >= requiredHeight)
+        {
+            expBar.sizeDelta = new Vector2(expBar.sizeDelta.x, requiredHeight);
+        }
+        if (expAmount.sizeDelta.y >= amountHeight)
+        {
+            expBarVFX.Stop();
+            expAmount.sizeDelta = new Vector2(expAmount.sizeDelta.x, amountHeight);
         }
     }
 

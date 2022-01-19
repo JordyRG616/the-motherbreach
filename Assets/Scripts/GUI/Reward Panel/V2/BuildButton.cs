@@ -14,7 +14,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     [SerializeField] private Sprite clickedSprite;
     private Sprite ogSprite;
     private TextMeshProUGUI textMesh;
-    private Image image;
+    [SerializeField] private Image image;
     private RewardManager rewardManager;
     private BuildBox buildBox;
     [HideInInspector] public ButtonMode mode = ButtonMode.BUILD;
@@ -25,8 +25,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     void Start()
     {
-        textMesh = GetComponentInChildren<TextMeshProUGUI>();
-        image = GetComponent<Image>();
+        textMesh = image.GetComponentInChildren<TextMeshProUGUI>();
         ogSprite = image.sprite;
         buildBox = FindObjectOfType<BuildBox>();
         rewardManager = RewardManager.Main;
@@ -69,6 +68,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        image.GetComponent<ShaderAnimation>().Play();
         AudioManager.Main.RequestGUIFX(hoverSFX);
     }
 }

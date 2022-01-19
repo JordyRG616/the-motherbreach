@@ -35,10 +35,29 @@ public class ShaderAnimation : UIAnimations
             yield return waitTime;
         }
 
+        yield return new WaitForEndOfFrame();
+
+        if(PlaySFX) AudioManager.Main.StopGUIFX(index);
     }
 
     public override IEnumerator Reverse()
     {
-        yield return waitTime;
+        float step = 0;
+        int index = 0;
+
+        if(PlayReverseSFX) AudioManager.Main.RequestGUIFX(OnReverseSFX, out index);
+
+        while(step <= AnimationSpeed)
+        {
+            _material.SetFloat(variableName, 1 - (step * maxTime / AnimationSpeed));
+
+            step += AnimationSpeed / 100;
+
+            yield return waitTime;
+        }
+
+        yield return new WaitForEndOfFrame();
+
+        if(PlayReverseSFX) AudioManager.Main.StopGUIFX(index);
     }
 }

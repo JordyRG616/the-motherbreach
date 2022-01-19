@@ -40,7 +40,7 @@ public class UIAnimationManager : MonoBehaviour
         
     }
 
-    private IEnumerator PlayTimeline()
+    public IEnumerator PlayTimeline()
     {
         foreach(AnimationGroup group in Timeline)
         {
@@ -63,7 +63,7 @@ public class UIAnimationManager : MonoBehaviour
         if(interactablePanel) interactablePanel.SetActive(true);
     }
 
-    private IEnumerator ReverseTimeline()
+    public IEnumerator ReverseTimeline()
     {
         foreach(TurretSlotGUI slot in FindObjectsOfType<TurretSlotGUI>())
         {
@@ -75,64 +75,34 @@ public class UIAnimationManager : MonoBehaviour
 
         foreach(AnimationGroup group in reverseTimeline)
         {
-             int i = 0;
-            
-            foreach(UIAnimations animation in group.animations.Reverse<UIAnimations>())
-            {
-                if(animation.GetType() == typeof(CashTextAnimation)) continue;
+            int i = 0;
 
-                if(group.mode == AnimationGroup.PlayMode.Sequential && i > 0)
+            for(i = 0; i < group.animations.Count - 1; i++)
+            {
+                group.animations[i].PlayReverse();
+
+
+                if(group.mode == AnimationGroup.PlayMode.Sequential)
                 {
                     yield return new WaitForSecondsRealtime(group.interval);
                 }
-                i++;
-                animation.PlayReverse();
+                
             }
 
-            yield return new WaitUntil(() => group.IsDone());
+            yield return StartCoroutine(group.animations[i].Reverse());
 
         }
 
         if(interactablePanel) interactablePanel.SetActive(false);
 
-        if(GameManager.Main.gameState == GameState.OnReward) RewardManager.Main.Exit();
+        // if(GameManager.Main.gameState == GameState.OnReward) RewardManager.Main.Exit();
 
     }
-
-    internal void PlayGroup(object offerTimelineIndex)
-    {
-        throw new System.NotImplementedException();
-    }
-
     void Update()
     {
         elapsedTime += Time.deltaTime;
     }
 
-    public void PlayGroup(int index)
-    {
-        var group = Timeline[index];
-
-        _PlayGroup(group);
-    }
-
-    private IEnumerator _PlayGroup(AnimationGroup group)
-    {
-        int i = 0;
-        for(i = 0; i < group.animations.Count - 1; i++)
-        {
-            group.animations[i].Play();
-
-
-            if(group.mode == AnimationGroup.PlayMode.Sequential)
-            {
-                yield return new WaitForSecondsRealtime(group.interval);
-            }
-            
-        }
-
-        yield return StartCoroutine(group.animations[i].Forward());
-    }
 }
 
 [System.Serializable]

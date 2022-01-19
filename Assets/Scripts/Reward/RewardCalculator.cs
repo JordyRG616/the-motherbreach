@@ -77,17 +77,20 @@ public class RewardCalculator : MonoBehaviour
         {
             rewardManager.SpendCash(cost);
             expAmount ++;
-            if(expAmount == expRequeriment[ShopLevel])
-            {
-                expAmount = 0;
-                ShopLevel ++;
-                AudioManager.Main.RequestGUIFX(levelGained);
-                return;
-            }
             AudioManager.Main.RequestGUIFX(expGained);
             return;
         }
         AudioManager.Main.PlayInvalidSelection();
+    }
+
+    public void LevelUp()
+    {
+        if(expAmount == expRequeriment[ShopLevel])
+        {
+            expAmount = 0;
+            ShopLevel++;
+            AudioManager.Main.RequestGUIFX(levelGained);
+        }
     }
 
     public (int amount, int required) ExpInfo()
