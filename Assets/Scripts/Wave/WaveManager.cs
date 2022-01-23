@@ -68,9 +68,6 @@ public class WaveManager : MonoBehaviour
             activeWave = dataQueue.Dequeue();
             spawnIndex = 0;
             StartCoroutine(InstantiateFormations());
-        } else
-        { 
-            Debug.Log("Victory");
         }
     }
 
@@ -96,7 +93,7 @@ public class WaveManager : MonoBehaviour
                 formation.GetComponent<FormationManager>().OnFormationDefeat += RemoveFormation;
 
                 var formationPointer = Instantiate(pointer, Vector3.zero, Quaternion.identity);
-                formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(formation.transform);
+                formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(formation.transform.Find("Head"));
 
                 spawnIndex++;
                 if(spawnIndex == activeWave.availableFormations.Count) break;

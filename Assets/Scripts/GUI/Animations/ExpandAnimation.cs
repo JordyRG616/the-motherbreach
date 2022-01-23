@@ -17,11 +17,11 @@ public class ExpandAnimation : UIAnimations
         if(PlaySFX) AudioManager.Main.RequestGUIFX(OnStartSFX, out index);
         ogScale = rect.localScale;
 
-        while(step <= 1 + (AnimationSpeed/100))
+        while(step <= 1 + (duration/100))
         {
             Vector2 _scale = Vector2.Lerp(ogScale, TargetScale, step);
             rect.localScale = _scale;
-            step += AnimationSpeed / 100;
+            step += animationSpeed;
             yield return waitTime;
         }
 
@@ -39,11 +39,11 @@ public class ExpandAnimation : UIAnimations
 
         if(PlayReverseSFX) AudioManager.Main.RequestGUIFX(OnReverseSFX, out index);
 
-        while(step <= 1 + (AnimationSpeed/100))
+        while(step <= 1 + (duration/100))
         {
             Vector2 _scale = Vector2.Lerp(TargetScale, ogScale, step);
             rect.localScale = _scale;
-            step += AnimationSpeed / 100;
+            step += animationSpeed;
             yield return waitTime;
         }
 

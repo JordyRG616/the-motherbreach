@@ -11,6 +11,7 @@ public class EnemyManager : MonoBehaviour, IManager
     void Start()
     {
         owner = GetComponentInParent<FormationManager>();
+        owner.RegisterChildren(this);
         attackController = GetComponent<EnemyAttackController>();
         attackController.SetTarget(FindObjectOfType<ShipManager>().gameObject);
     }

@@ -7,11 +7,14 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
     private float maxIntegrity;
     [SerializeField] private SpriteRenderer barRenderer;
     private float currentIntegrity;
+    private VFXManager vfxManager;
+    [SerializeField] [FMODUnity.EventRef] private string onHitSFX;
 
     public void Initiate(float maxHealth)
     {
         this.maxIntegrity = maxHealth;
         currentIntegrity = maxIntegrity;
+        vfxManager = GetComponentInChildren<TurretVFXManager>();
     }
 
     public void DestroyDamageable()
@@ -21,7 +24,7 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
             manager.DestroyManager();
         }
 
-        GetComponentInChildren<TurretVFXManager>().StartCoroutine(GetComponentInChildren<TurretVFXManager>().Die(gameObject));
+        vfxManager.StartCoroutine(GetComponentInChildren<TurretVFXManager>().Die(gameObject));
 
         // Destroy(gameObject);
     }
@@ -31,7 +34,8 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
         currentIntegrity += amount;
         if(amount < 0)
         {
-            GetComponentInChildren<TurretVFXManager>().StartCoroutine(GetComponentInChildren<TurretVFXManager>().TakeDamage());
+            AudioManager.Main.RequestSFX(onHitSFX);
+            vfxManager.StartCoroutine(GetComponentInChildren<TurretVFXManager>().TakeDamage());
         }
         if(currentIntegrity <= 0)
         {

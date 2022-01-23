@@ -34,6 +34,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioTrack SFXTrack;
     [SerializeField] private AudioTrack GUITrack;
 
+    void Awake()
+    {
+        if(_instance != null) Destroy(gameObject);
+    }
+
     public void Initialize()
     {
         effects = new AudioEffects(this);
@@ -43,16 +48,18 @@ public class AudioManager : MonoBehaviour
 
     public void RequestMusic()
     {
-        if(musicTrack.AudioIsPlaying()) CrossfadeMusics();
-        else musicTrack.ReceiveAudio(library.GetMusic(), true);
+        // if(musicTrack.AudioIsPlaying()) CrossfadeMusics();
+        // else 
+        musicTrack.ReceiveAudio(library.GetMusic(), true);
 
         StartCoroutine(Playlist());
     }
 
     public void RequestMusic(string musicName)
     {
-        if(musicTrack.AudioIsPlaying()) CrossfadeMusics(musicName);
-        else musicTrack.ReceiveAudio(library.GetMusic(musicName), true);
+        // if(musicTrack.AudioIsPlaying()) CrossfadeMusics(musicName);
+        // else 
+        musicTrack.ReceiveAudio(library.GetMusic(musicName), true);
     }
 
     private IEnumerator Playlist()
@@ -132,6 +139,8 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+
+    /// <param name="track">Music, SFX or GUI</param>
     public AudioTrack GetAudioTrack(string track)
     {
         switch(track)

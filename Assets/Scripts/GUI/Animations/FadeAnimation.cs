@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class FadeAnimation : UIAnimations
 {
     private Image image;
+    [SerializeField] private float targetedAlpha = 1;
 
     public override bool Done { get; protected set; }
 
@@ -24,12 +25,12 @@ public class FadeAnimation : UIAnimations
         if(PlaySFX) AudioManager.Main.RequestGUIFX(OnStartSFX, out index);
         Color color =  image.color;
 
-        while(step <= 1 + (AnimationSpeed/100))
+        while(step <= 1 + (duration/100))
         {
-            float _alpha = Mathf.Lerp(0, 1, step);
+            float _alpha = Mathf.Lerp(0, targetedAlpha, step);
             color.a = _alpha;
             image.color = color;
-            step += AnimationSpeed / 100;
+            step += animationSpeed;
             yield return waitTime;
         }
 
@@ -48,12 +49,12 @@ public class FadeAnimation : UIAnimations
         if(PlayReverseSFX) AudioManager.Main.RequestGUIFX(OnReverseSFX, out index);
         Color color =  image.color;
 
-        while(step <= 1 + (AnimationSpeed/100))
+        while(step <= 1 + (duration/100))
         {
-            float _alpha = Mathf.Lerp(1, 0, step);
+            float _alpha = Mathf.Lerp(targetedAlpha, 0, step);
             color.a = _alpha;
             image.color = color;
-            step += AnimationSpeed / 100;
+            step += animationSpeed;
             yield return waitTime;
         }
 

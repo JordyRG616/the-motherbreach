@@ -22,4 +22,4 @@ public enum BaseEffectTrigger {Immediate, StartOfWave, EndOfWave, OnDestruction,
 public enum WeaponClass {Artillery, Shotgun, Bomber, Beamer, Spreader, Spawner}
 
 //. GAME STATE
-public enum GameState {OnWave, OnReward, OnTitle}
+public enum GameState {OnWave, OnReward, OnTitle, OnPause}

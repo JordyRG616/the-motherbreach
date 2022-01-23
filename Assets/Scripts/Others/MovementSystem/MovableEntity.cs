@@ -27,7 +27,7 @@ public class MovableEntity : MonoBehaviour
         {
             force = Vector2.zero;
         }
-        transform.position += (Vector3)force * speed / 10;
+        transform.position += (Vector3)force * speed / 10 * Time.timeScale;
     }
 
     public void ApplyForce(Vector2 direction)

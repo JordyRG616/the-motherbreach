@@ -27,7 +27,7 @@ public class SpreadEffect : ActionEffect
 
     private void SetDuration()
     {
-        var main = shooter.main;
+        var main = shooterParticle.main;
         Vector2 minMax = new Vector2();
         minMax.x = durationModifier + main.startLifetime.constantMin;
         minMax.y = durationModifier + main.startLifetime.constantMax;
@@ -37,7 +37,7 @@ public class SpreadEffect : ActionEffect
 
     private void SetBulletSize()
     {
-        var main = shooter.main;
+        var main = shooterParticle.main;
         Vector2 minMax = new Vector2();
         minMax.x = durationModifier + main.startSize.constantMin;
         minMax.y = durationModifier + main.startSize.constantMax;
@@ -47,7 +47,7 @@ public class SpreadEffect : ActionEffect
 
     public override void Shoot()
     {
-        shooter.Play();
+        shooterParticle.Play();
     }
 
     public override void ApplyEffect(HitManager hitManager)

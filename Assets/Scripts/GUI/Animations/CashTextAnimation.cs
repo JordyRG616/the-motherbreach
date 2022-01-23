@@ -35,7 +35,7 @@ public class CashTextAnimation : UIAnimations
             earnedCash.color = textColor;
             textColor.a = Mathf.Lerp(0, 1, step);
 
-            step += 0.01f;
+            step += animationSpeed;
 
             yield return new WaitForSeconds(0.01f);
             
@@ -89,7 +89,7 @@ public class CashTextAnimation : UIAnimations
             earnedCash.color = textColor;
             textColor.a = Mathf.Lerp(0, 1, step);
 
-            step += 0.01f;
+            step += animationSpeed;
 
             yield return new WaitForSeconds(0.01f);
             

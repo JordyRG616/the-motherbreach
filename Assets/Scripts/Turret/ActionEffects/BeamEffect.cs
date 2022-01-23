@@ -22,13 +22,13 @@ public class BeamEffect : ActionEffect
 
     private void SetDuration()
     {
-        var main = shooter.main;
+        var main = shooterParticle.main;
         main.duration = StatSet[Stat.Duration];
     }
 
     public override void Shoot()
     {
-        shooter.Play();
+        shooterParticle.Play();
     }
 
     public override void ApplyEffect(HitManager hitManager)

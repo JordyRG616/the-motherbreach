@@ -26,13 +26,13 @@ public class ArtilleryEffect : ActionEffect
 
     private void SetBulletSpeed()
     {
-        var main = shooter.main;
+        var main = shooterParticle.main;
         main.startSpeed = StatSet[Stat.BulletSpeed];
     }
 
     private void SetBurstSize()
     {
-        var main = shooter.main;
+        var main = shooterParticle.main;
         main.duration = StatSet[Stat.BurstSize];
     }
 

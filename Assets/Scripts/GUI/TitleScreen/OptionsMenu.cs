@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -35,6 +36,23 @@ public class OptionsMenu : MonoBehaviour
             case OptionTab.Video:
             break;
         }
+    }
+
+    public void ExitGame()
+    {
+        GameManager.Main.ExitGame();
+    }
+
+    public void BackToTitle()
+    {
+        Destroy(GameManager.Main.gameObject);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
+    }
+
+    public void UnPause()
+    {
+        InputManager.Main.UnPause();
     }
 
 }

@@ -42,6 +42,7 @@ public class InputManager : MonoBehaviour
     public event EventHandler<RotationEventArgs> OnRotationPressed;
     public event EventHandler OnInertia;
     public event EventHandler OnSelectionClear;
+    public event EventHandler OnGamePaused;
 
     private IEnumerator _waveControl;
     private IEnumerator _rewardControl;
@@ -78,6 +79,7 @@ public class InputManager : MonoBehaviour
         Test();
 
     }
+
 
     public void HandleWaveControl(object sender, GameStateEventArgs e)
     { 
@@ -166,22 +168,26 @@ public class InputManager : MonoBehaviour
 
     private IEnumerator WaveControl()
     {
-        while(gameObject.activeSelf)
+        while(true)
         {
-            TriggerMovement();
-            TriggerRotation();
-            yield return new WaitForSeconds(0.001f);
+            if(!GameManager.Main.onPause)
+            {
+                TriggerMovement();
+                TriggerRotation();
+            }
 
             if(Input.GetKeyDown(KeyCode.Escape))
             {
-                Time.timeScale = 0;
+                OnGamePaused?.Invoke(this, EventArgs.Empty);
             }
+
+            yield return new WaitForSeconds(0.001f);
         }
     }
 
     private IEnumerator RewardControl()
     {
-        while(gameObject.activeSelf)
+        while(true)
         {
             if(Input.GetKeyDown(KeyCode.Mouse1)) 
             {
@@ -189,6 +195,11 @@ public class InputManager : MonoBehaviour
             }
             yield return new WaitForSeconds(0.001f);
         }
+    }
+
+    public void UnPause()
+    {
+        OnGamePaused?.Invoke(this, EventArgs.Empty);
     }
 }
 

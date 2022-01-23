@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 
 public abstract class UIAnimations : MonoBehaviour
 {
-    [SerializeField] protected float AnimationSpeed = 1;
+    [FormerlySerializedAs("AnimationsSpeed")] [SerializeField] protected float duration = 1;
+    [SerializeField] [Range(0.01f, 0.1f)] protected float animationSpeed = 0.01f;
     public abstract bool Done {get; protected set;}
     [SerializeField] protected bool PlaySFX;
     [SerializeField] [FMODUnity.EventRef] protected string OnStartSFX;
@@ -17,7 +19,7 @@ public abstract class UIAnimations : MonoBehaviour
     {
         get
         {
-            return AnimationSpeed;
+            return duration;
         }
     }
     
@@ -26,6 +28,7 @@ public abstract class UIAnimations : MonoBehaviour
 
     protected virtual void Awake()
     {
+        StopAllCoroutines();
         rect = GetComponent<RectTransform>();
     }
 

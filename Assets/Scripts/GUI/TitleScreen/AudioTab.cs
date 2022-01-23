@@ -6,10 +6,16 @@ using UnityEngine.UI;
 public class AudioTab : MonoBehaviour
 {
     private AudioManager audioManager;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider vfxSlider;
+    [SerializeField] private Slider guiSlider;
 
     void Start()
     {
         audioManager = AudioManager.Main;
+        musicSlider.value = audioManager.GetAudioTrack("Music").trackVolume;
+        vfxSlider.value = audioManager.GetAudioTrack("SFX").trackVolume;
+        guiSlider.value = audioManager.GetAudioTrack("GUI").trackVolume;
     }
 
     public void ShowTab()

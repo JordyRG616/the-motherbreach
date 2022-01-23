@@ -39,14 +39,18 @@ public class GameManager : MonoBehaviour
     private GameStateEventArgs toReward = new GameStateEventArgs(GameState.OnReward);
     private GameStateEventArgs toWave = new GameStateEventArgs(GameState.OnWave);
 
+
+    private GameStateEventArgs toPause = new GameStateEventArgs(GameState.OnPause);
+
     private RewardManager rewardManager;
     private WaveManager waveManager;
     private InputManager inputManager;
     private AudioManager audioManager;
 
-    [SerializeField] private GameObject globalVolume;
     [SerializeField] private UIAnimations fadePanelAnimation;
+    private UIAnimationManager pauseAnimation;
     [SerializeField] private float initialCash;
+    public bool onPause {get; private set;}
 
     void Start()
     {
@@ -75,6 +79,7 @@ public class GameManager : MonoBehaviour
 
         // yield return StartCoroutine(fadePanelAnimation.Reverse());
     }
+    
 
     private void LateStart(Scene scene, LoadSceneMode mode)
     {
@@ -88,6 +93,9 @@ public class GameManager : MonoBehaviour
 
         inputManager = InputManager.Main;
         OnGameStateChange += inputManager.HandleWaveControl;
+        inputManager.OnGamePaused += HandleOptionsMenu;
+
+        pauseAnimation = GameObject.FindGameObjectWithTag("PauseAnimation").GetComponent<UIAnimationManager>();
 
         audioManager.RequestMusic();
 
@@ -105,7 +113,6 @@ public class GameManager : MonoBehaviour
         gameState = GameState.OnWave;
         OnGameStateChange?.Invoke(this, toWave);
         waveManager.StartNextWave();
-        audioManager.HandleMusicVolume(0.7f);
     }
 
     private void InitiateRewardPhase(object sender, EndWaveEventArgs e)
@@ -114,17 +121,38 @@ public class GameManager : MonoBehaviour
         gameState = GameState.OnReward;
         OnGameStateChange?.Invoke(this, toReward);
         rewardManager.InitiateReward(e.waveReward);
-        audioManager.HandleMusicVolume(-0.7f);
     }
 
-    public void ShowOptionsMenu()
+    public void HandleOptionsMenu(object sender, EventArgs e)
     {
-        Debug.Log("options menu not implemented");
+        if(onPause) StartCoroutine(Hide());
+        
+        else StartCoroutine(Show());
+    }
+
+    private IEnumerator Show()
+    {
+        onPause = true;
+        Time.timeScale = 0;
+        yield return StartCoroutine(pauseAnimation.PlayTimeline());
+    }
+
+
+    private IEnumerator Hide()
+    {
+        onPause = false;
+        yield return StartCoroutine(pauseAnimation.ReverseTimeline());
+        Time.timeScale = 1;
     }
 
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void GameOver()
+    {
+        SceneManager.LoadScene(2);
     }
 }
 

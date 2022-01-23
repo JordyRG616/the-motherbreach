@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class HitManager : MonoBehaviour, IManager
 {    
-    [SerializeField] [FMODUnity.EventRef] private string hitSFX;
     public IDamageable HealthInterface{get; private set;}
     private ParticleSystem.Particle[] particles;
     private AudioManager audioManager;

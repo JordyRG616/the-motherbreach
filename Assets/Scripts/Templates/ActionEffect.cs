@@ -6,7 +6,7 @@ using UnityEngine;
 
 public abstract class ActionEffect : MonoBehaviour
 {
-    [SerializeField] protected ParticleSystem shooter;
+    [SerializeField] protected ParticleSystem shooterParticle;
     [SerializeField] protected LayerMask targetLayer;
     [SerializeField] protected WeaponClass weaponClass;
     protected GameObject target;
@@ -14,14 +14,17 @@ public abstract class ActionEffect : MonoBehaviour
     [SerializeField] protected float initialRest;
     public Dictionary<Stat, float> StatSet {get; protected set;} = new Dictionary<Stat, float>();
     private GameManager gameManager;
+    [SerializeField] [FMODUnity.EventRef] private string onShootSFX;
 
     public delegate void Effect(HitManager hitManager);
 
     public Effect totalEffect;
+    private bool shooting;
+    private int cacheCount = 0;
 
     public virtual void Initiate()
     {
-        shooter.Stop();
+        shooterParticle.Stop();
 
         SetData();
 
@@ -36,7 +39,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     protected virtual void ClearShots(object sender, GameStateEventArgs e)
     {
-        shooter.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        shooterParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         // shooter.Clear();
     }
 
@@ -52,7 +55,7 @@ public abstract class ActionEffect : MonoBehaviour
         StatSet.Add(Stat.Damage, initialDamage);
         StatSet.Add(Stat.Rest, initialRest);
 
-        var col = shooter.collision;
+        var col = shooterParticle.collision;
         col.collidesWith = targetLayer;
     }
 
@@ -72,15 +75,34 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void Shoot()
     {
-        if(target != null && !shooter.isEmitting)
+        if(target != null && !shooterParticle.isEmitting)
         {
-            shooter.Play();
+            shooting = true;
+            shooterParticle.Play();
         }
+    }
+
+    protected virtual void ManageSFX()
+    {
+        if(shooting)
+        {
+            if(cacheCount < shooterParticle.particleCount)
+            {  
+                AudioManager.Main.RequestSFX(onShootSFX);
+            }
+            cacheCount = shooterParticle.particleCount;
+        }
+    }
+
+    void Update()
+    {
+        ManageSFX();
     }
 
     public virtual void StopShooting()
     {
-        shooter.Stop();
+        shooting = false;
+        shooterParticle.Stop();
     }
 
     public virtual void RotateShoots(float angle)
@@ -99,7 +121,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     public ParticleSystem GetShooterSystem()
     {
-        return shooter;
+        return shooterParticle;
     }
 
     public abstract void ApplyEffect(HitManager hitManager);

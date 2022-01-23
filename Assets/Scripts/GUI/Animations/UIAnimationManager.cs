@@ -6,23 +6,6 @@ using UnityEngine;
 
 public class UIAnimationManager : MonoBehaviour
 {
-    #region Singleton
-    private static UIAnimationManager _instance;
-    public static UIAnimationManager Main
-    {
-        get
-        {
-            if(_instance == null)
-            {
-                _instance = FindObjectOfType<UIAnimationManager>();
-            }
-
-            return _instance;
-        }
-    }
-    #endregion
-
-
     [SerializeField] private List<AnimationGroup> Timeline;
     [SerializeField] private GameObject interactablePanel;
     private float elapsedTime;

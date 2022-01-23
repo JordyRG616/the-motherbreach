@@ -42,7 +42,7 @@ public class BomberEffect : ActionEffect
 
     private void SetBulletSize()
     {
-        var main = shooter.main;
+        var main = shooterParticle.main;
         main.startSize = StatSet[Stat.BulletSize];
     }
 

@@ -42,10 +42,10 @@ public class TurretVFXManager : VFXManager
     {
         float step = 0;
 
-        while (step <= 1.5f)
+        while (step <= 1f)
         {
-            instMaterial.SetFloat("_Build", step / 1.5f);
-            step += 0.015f;
+            instMaterial.SetFloat("_Build", step / 1f);
+            step += 0.01f;
             yield return new WaitForSecondsRealtime(0.01f);
         }
     }

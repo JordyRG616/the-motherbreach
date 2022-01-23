@@ -50,10 +50,10 @@ public abstract class FormationMovementController : MonoBehaviour
     protected virtual IEnumerator OpenFire()
     {
         var enemies = GetComponentInParent<FormationManager>().Children;
-        foreach(EnemyManager enemy in enemies)
+        foreach(EnemyManager enemy in GetComponentInParent<FormationManager>().Children)
         {
             enemy.OpenFire();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
         }
     }
     

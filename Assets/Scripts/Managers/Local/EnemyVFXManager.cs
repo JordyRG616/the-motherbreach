@@ -17,17 +17,20 @@ public class EnemyVFXManager : VFXManager
 
         deathParticles.Play();
 
-        audioManager.RequestSFX(deathSFX);
+        GetComponentInChildren<TrailRenderer>().emitting = false;
 
-        while(step <= 1)
+        GetComponent<Collider2D>().enabled = false;
+
+        while(step <= 2)
         {
-            instMaterial.SetFloat("_death", step);
+            instMaterial.SetFloat("_death", step / 2);
+            GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.clear, step / 2);
             step += .01f;
             yield return new WaitForSeconds(.01f);
         }
 
-
-        //yield return new WaitForSeconds(deathParticles.main.duration);
+    //yield return new WaitForSeconds(deathParticles.main.duration);
+        audioManager.RequestSFX(deathSFX);
 
         healthController.TriggerOnDeath();
     }

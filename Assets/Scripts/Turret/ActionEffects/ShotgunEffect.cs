@@ -29,13 +29,13 @@ public class ShotgunEffect : ActionEffect
     private void SetProjectileCount()
     {
         var newBurst = new ParticleSystem.Burst(0.0001f, StatSet[Stat.Projectiles]);
-        shooter.emission.SetBurst(0, newBurst);
+        shooterParticle.emission.SetBurst(0, newBurst);
 
     }
 
     private void SetBulletSpeed()
     {
-        var main = shooter.main;
+        var main = shooterParticle.main;
         main.startSpeed = StatSet[Stat.BulletSpeed];
     }
 

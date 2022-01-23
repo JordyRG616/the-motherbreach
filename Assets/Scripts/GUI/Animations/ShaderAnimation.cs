@@ -26,11 +26,11 @@ public class ShaderAnimation : UIAnimations
 
         if(PlaySFX) AudioManager.Main.RequestGUIFX(OnStartSFX, out index);
 
-        while(step <= AnimationSpeed)
+        while(step <= duration)
         {
-            _material.SetFloat(variableName, step * maxTime / AnimationSpeed);
+            _material.SetFloat(variableName, step * maxTime / duration);
 
-            step += AnimationSpeed / 100;
+            step += animationSpeed;
 
             yield return waitTime;
         }
@@ -47,11 +47,11 @@ public class ShaderAnimation : UIAnimations
 
         if(PlayReverseSFX) AudioManager.Main.RequestGUIFX(OnReverseSFX, out index);
 
-        while(step <= AnimationSpeed)
+        while(step <= duration)
         {
-            _material.SetFloat(variableName, 1 - (step * maxTime / AnimationSpeed));
+            _material.SetFloat(variableName, 1 - (step * maxTime / duration));
 
-            step += AnimationSpeed / 100;
+            step += animationSpeed;
 
             yield return waitTime;
         }

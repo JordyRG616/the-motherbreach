@@ -12,13 +12,16 @@ public class FormationManager : MonoBehaviour
 
     void Update()
     {
-        Children = GetComponentsInChildren<EnemyManager>().ToList();
-
         if(Children.Count == 0)
         {
             OnFormationDefeat?.Invoke(this, EventArgs.Empty);
             Destroy(gameObject);
         }
+    }
+
+    internal void RegisterChildren(EnemyManager enemyManager)
+    {
+        Children.Add(enemyManager);
     }
 
     public void RemoveEnemy(EnemyManager enemy)

@@ -16,10 +16,14 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
     [SerializeField] [FMODUnity.EventRef] private string clicksSFX;
+    [Header("End of wave animations")]
+    [SerializeField] private UIAnimations upperTextAnimation;
+    [SerializeField] private UIAnimations lowerTextAnimation;
 
     void Start()
     {
-        animationManager = FindObjectOfType<UIAnimationManager>();
+        animationManager = GameObject.FindGameObjectWithTag("RewardAnimation").GetComponent<UIAnimationManager>();
+
         image = GetComponent<Image>();
         ogSprite = image.sprite;
         tipBoxText = tipBox.Find("Text").GetComponent<TextMeshProUGUI>();
@@ -38,9 +42,20 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
         yield return StartCoroutine(animationManager.ReverseTimeline());
 
+        yield return PlayEndWaveAnimation();
 
         RewardManager.Main.Exit();
-        Camera.main.GetComponent<Animator>().enabled = false;
+        // Camera.main.GetComponent<Animator>().enabled = false;
+    }
+
+    private IEnumerator PlayEndWaveAnimation()
+    {
+        yield return StartCoroutine(upperTextAnimation.Forward());
+
+        upperTextAnimation.PlayReverse();
+        yield return StartCoroutine(lowerTextAnimation.Forward());
+
+        lowerTextAnimation.PlayReverse();
     }
 
     private void ResetSprite()

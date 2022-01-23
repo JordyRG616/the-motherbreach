@@ -58,7 +58,7 @@ public class RewardManager : MonoBehaviour
         turretConstructor = TurretConstructor.Main;
         turretConstructor.Initialize();
         calculator = RewardCalculator.Main;
-        animationManager = UIAnimationManager.Main;
+        animationManager = GameObject.FindGameObjectWithTag("RewardAnimation").GetComponent<UIAnimationManager>();
 
         buildBox = FindObjectOfType<BuildBox>();
 
@@ -74,7 +74,7 @@ public class RewardManager : MonoBehaviour
     {
         SpendedCash = 0;
         EarnCash(rewardValue);
-        Camera.main.GetComponent<Animator>().enabled = true;
+        ShipManager.Main.transform.rotation = Quaternion.identity;
         animationManager.Play();
 
         var locked = FindObjectOfType<LockButton>().locked;
