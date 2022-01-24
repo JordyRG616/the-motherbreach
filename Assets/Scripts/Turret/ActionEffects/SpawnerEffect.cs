@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class SpawnerEffect : ActionEffect
 {
@@ -81,7 +82,7 @@ public class SpawnerEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "Spawn up to " + StatSet[Stat.Capacity] + " drones of level " + StatSet[Stat.DroneLevel];
+        string description = "spawn up to " + StatColorHandler.StatPaint(StatSet[Stat.Capacity].ToString()) + " drones of level " + StatColorHandler.StatPaint(StatSet[Stat.DroneLevel].ToString());
         return description;
     }
 

@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class SpreadEffect : ActionEffect
 {
@@ -54,16 +55,16 @@ public class SpreadEffect : ActionEffect
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]/100);
         Slug slugged;
-        if (!hitManager.transform.TryGetComponent<Slug>(out slugged)) 
+        if (!hitManager.transform.parent.TryGetComponent<Slug>(out slugged)) 
         {
             Debug.Log("working");
-            hitManager.transform.gameObject.AddComponent<Slug>();
+            hitManager.transform.parent.gameObject.AddComponent<Slug>();
         }
     }
 
     public override string DescriptionText()
     {
-        string description = "Releases a cloud for" + StatSet[Stat.Duration] + " seconds that deals " + StatSet[Stat.Damage] + " damage on contact and applies SLUG to the target";
+        string description = "releases a cloud for" + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and applies " + KeywordHandler.KeywordPaint(Keyword.Slug) + " to the target";
         return description;
     }
 

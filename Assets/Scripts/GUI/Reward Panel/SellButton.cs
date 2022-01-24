@@ -33,15 +33,15 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public void Disable(object sender, EventArgs e)
     {
-        if(!gameObject.activeSelf) return;
-        inputManager.OnSelectionClear -= Disable;
-        gameObject.SetActive(false);
+        Disable();
     }
     public void Disable()
     {
+        if(cachedSlot ==  null) return;
         if(!gameObject.activeSelf) return;
         inputManager.OnSelectionClear -= Disable;
         gameObject.SetActive(false);
+        cachedSlot = null;
     }
     public void SetButton(int refund, TurretSlot turretSlot)
     {

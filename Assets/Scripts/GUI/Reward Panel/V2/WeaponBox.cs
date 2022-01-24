@@ -12,6 +12,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     [SerializeField] private Image image;
     private BuildBox buildBox;
     private bool selected;
+    private RectTransform statInfoBox;
 
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
@@ -34,6 +35,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         _material = new Material(GetComponent<Image>().material);
         GetComponent<Image>().material = _material;
         light2D = GetComponentInChildren<Light2D>();
+        statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
     }
 
     public void GenerateNewWeapon(RewardLevel level)
@@ -53,7 +55,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             AudioManager.Main.PlayInvalidSelection();
             return;
         }
-        if(buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && !buildBox.CheckWeaponBox(this)) 
+        if(buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && !buildBox.CheckWeaponBox(this) && !buildBox.OnUpgrade) 
         {
             activeVFX.Play();
             light2D.color = selectedColor;
@@ -77,7 +79,13 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     {
         light2D.color = notSelectable;
         if(cachedWeapon == null) return;
-        if(buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && cachedWeapon) light2D.color = selectable;
+        if(buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && cachedWeapon && !buildBox.OnUpgrade) light2D.color = selectable;
+
+        if(statInfoBox.gameObject.activeSelf)
+        {
+            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
+            statInfoBox.anchoredPosition = mousePos;
+        }
     }
 
     public void Unselect()
@@ -102,6 +110,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     public void OnPointerExit(PointerEventData eventData)
     {
         _material.SetInt("_Moving", 0);
+        statInfoBox.gameObject.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -109,5 +118,13 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         if(cachedWeapon == null) return;
         _material.SetInt("_Moving", 1);
         AudioManager.Main.RequestGUIFX(hoverSFX);
+
+        var text = "<size=150%><lowercase>" + cachedWeapon.name;
+
+        if(!statInfoBox.gameObject.activeSelf)
+        {
+            statInfoBox.gameObject.SetActive(true);
+            statInfoBox.GetComponent<StatInfoBox>().SetText(text, 100);
+        }
     }
 }

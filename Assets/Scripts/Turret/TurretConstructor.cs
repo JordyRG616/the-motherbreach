@@ -82,6 +82,7 @@ public class TurretConstructor : MonoBehaviour
         var _instance = topList.GetRewardByLevel(level, rdm);
         GameObject container = Instantiate(_instance, transform.position, Quaternion.identity, parentBlueprint);
         container.name = _instance.name;
+        container.name = _instance.name;
         container.transform.localPosition = Vector3.zero;
         actionController = container.GetComponent<ActionController>();
         actionController.Initiate();
@@ -93,6 +94,7 @@ public class TurretConstructor : MonoBehaviour
         var list = topList.GetAllRewardsBelowLevel(level);
         int rdm = Random.Range(0, list.Count);
         var container = Instantiate(list[rdm]);
+        container.name = list[rdm].name;
         container.GetComponent<ActionController>().Initiate();
         container.SetActive(false);
         //GameObject container = Instantiate(_instance, transform.position, Quaternion.identity);
@@ -104,6 +106,7 @@ public class TurretConstructor : MonoBehaviour
         var list = baseList.GetAllRewardsBelowLevel(level);
         int rdm = Random.Range(0, list.Count);
         var container = Instantiate(list[rdm]);
+        container.name = list[rdm].name;
         container.SetActive(false);
         //GameObject container = Instantiate(_instance, transform.position, Quaternion.identity);
         return container;

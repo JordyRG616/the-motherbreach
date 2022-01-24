@@ -11,6 +11,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
     [SerializeField] private Image image;
     private BuildBox buildBox;
     private bool selected;
+    private RectTransform statInfoBox;
 
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
@@ -32,7 +33,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
         _material = new Material(GetComponent<Image>().material);
         GetComponent<Image>().material = _material;
         light2D = GetComponentInChildren<Light2D>();
-
+        statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
     }
 
     public void GenerateNewBase(RewardLevel level)
@@ -52,7 +53,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
             AudioManager.Main.PlayInvalidSelection();
             return;
         }
-        if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && !buildBox.CheckBaseBox(this)) 
+        if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && !buildBox.CheckBaseBox(this) && !buildBox.OnUpgrade) 
         {
             activeVFX.Play();
             light2D.color = selectedColor;
@@ -76,7 +77,13 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
     {
         light2D.color = notSelectable;
         if(cachedBase == null) return;
-        if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>())) light2D.color = selectable;
+        if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && cachedBase && !buildBox.OnUpgrade) light2D.color = selectable;
+
+        if(statInfoBox.gameObject.activeSelf)
+        {
+            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
+            statInfoBox.anchoredPosition = mousePos;
+        }
     }
     
     public void Unselect()
@@ -102,6 +109,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
     public void OnPointerExit(PointerEventData eventData)
     {
         _material.SetInt("_Moving", 0);
+        statInfoBox.gameObject.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -109,5 +117,13 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
         if(cachedBase == null) return;
         _material.SetInt("_Moving", 1);
         AudioManager.Main.RequestGUIFX(hoverSFX);
+
+        var text = "<size=150%><lowercase>" + cachedBase.name;
+
+        if(!statInfoBox.gameObject.activeSelf)
+        {
+            statInfoBox.gameObject.SetActive(true);
+            statInfoBox.GetComponent<StatInfoBox>().SetText(text, 100);
+        }
     }
 }

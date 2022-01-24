@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class ShieldedEffect : BaseEffectTemplate
 {
@@ -13,7 +14,7 @@ public class ShieldedEffect : BaseEffectTemplate
 
     public override string DescriptionText()
     {
-        string description = "Spawn a force shield at the start of every wave.";
+        string description = "spawn a " + KeywordHandler.KeywordPaint(Keyword.Shield) + " at the start of every wave";
         return description;
     }
 }

@@ -112,6 +112,7 @@ public class RewardManager : MonoBehaviour
     public void BuildSelection()
     {
         SpendCash(ActiveSelection.GetComponent<TurretManager>().Stats[Stat.Cost]);
+        ShipManager.Main.RegisterTurret(ActiveSelection.GetComponent<TurretManager>());
 
         AudioManager.Main.RequestGUIFX(buildSFX);
 
@@ -129,6 +130,7 @@ public class RewardManager : MonoBehaviour
 
     public void EliminateOffer()
     {
+        buildBox.Clear();
         foreach(WeaponBox weaponBox in weaponBoxes)
         {
             weaponBox.Clear();

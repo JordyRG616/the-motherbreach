@@ -18,6 +18,7 @@ public class EnemyVFXManager : VFXManager
         deathParticles.Play();
 
         GetComponentInChildren<TrailRenderer>().emitting = false;
+        GetComponent<EnemyAttackController>().Stop();
 
         GetComponent<Collider2D>().enabled = false;
 

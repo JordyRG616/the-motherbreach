@@ -138,14 +138,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601709d415b3d6c488723dc22e4bed30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooterParticle: {fileID: 0}
+  shooterParticle: {fileID: 612703159599540919}
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 5
+  weaponClass: 4
+  keyword: 1
   initialDamage: 25
   initialRest: 5
-  onShootSFX: 
+  onShootSFX: event:/SFX/NEW/Spreader1
   durationModifier: 0
   bulletSizeModifier: 0
 --- !u!1001 &1382815829147838119
@@ -347,5 +348,10 @@ PrefabInstance:
 --- !u!4 &2668083994481667022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
+  m_PrefabInstance: {fileID: 1620448784068790949}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &612703159599540919 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
   m_PrefabInstance: {fileID: 1620448784068790949}
   m_PrefabAsset: {fileID: 0}

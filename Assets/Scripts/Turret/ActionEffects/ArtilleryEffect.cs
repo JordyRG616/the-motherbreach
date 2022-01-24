@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class ArtilleryEffect : ActionEffect
 {
@@ -43,7 +44,7 @@ public class ArtilleryEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "Shoots " + StatSet[Stat.BurstSize] + " bullets. Each bullet deals a damage of " + StatSet[Stat.Damage] + " on hit.";
+        string description = "shoots " + StatColorHandler.HealthPaint(StatSet[Stat.BurstSize].ToString()) + " bullets. Each bullet deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
         return description;
     }
 

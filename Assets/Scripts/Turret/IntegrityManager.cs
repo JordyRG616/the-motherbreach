@@ -51,6 +51,12 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
         barRenderer.material.SetFloat("_healthPercentual", percentual);
     }
 
+    public void HealToFull()
+    {
+        currentIntegrity = maxIntegrity;
+        UpdateHealthBar();
+    }
+
     public void DestroyManager()
     {
 

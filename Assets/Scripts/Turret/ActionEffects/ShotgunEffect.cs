@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class ShotgunEffect : ActionEffect
 {
@@ -47,7 +48,7 @@ public class ShotgunEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "Shoots " + StatSet[Stat.Projectiles] + " bullets that deals " + StatSet[Stat.Damage] + " damage each.";
+        string description = "shoots " + StatColorHandler.StatPaint(StatSet[Stat.Projectiles].ToString()) + " bullets that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage each";
         return description;
     }
 

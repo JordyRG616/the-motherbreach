@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class Slug : MonoBehaviour
 {
-    private MovableEntity enemy;
+    private FormationMovementController enemy;
 
     void Start()
     {
-        enemy = GetComponent<MovableEntity>();
+        enemy = GetComponentInChildren<FormationMovementController>();
         StartCoroutine(SlowDown());
     }
     
     private IEnumerator SlowDown()
     {
-        enemy.AddDrag(0.33f);
+        enemy.AddSpeedModifier(-0.33f);
 
         yield return new WaitForSeconds(2f);
 
-        enemy.RemoveDrag();
+        enemy.AddSpeedModifier(0);
 
         Terminate();
     }

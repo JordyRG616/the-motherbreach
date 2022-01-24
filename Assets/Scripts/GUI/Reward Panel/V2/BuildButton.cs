@@ -34,7 +34,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     public void OnPointerDown(PointerEventData eventData)
     {
         image.sprite = clickedSprite;
-        textMesh.color = Color.white;
+        // textMesh.color = Color.white;
         if(mode == ButtonMode.BUILD) Build();
         if (mode == ButtonMode.DONE) Done();
     }
@@ -58,7 +58,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     public void OnPointerUp(PointerEventData eventData)
     {
         image.sprite = ogSprite;
-        textMesh.color = Color.black;
+        // textMesh.color = Color.black;
     }
 
     void Update()

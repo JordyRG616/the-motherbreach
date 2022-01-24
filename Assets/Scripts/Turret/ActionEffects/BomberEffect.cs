@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class BomberEffect : ActionEffect
 {
@@ -53,7 +54,7 @@ public class BomberEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "Shoots two bombs that explodes in " + StatSet[Stat.Projectiles] + " that deals " + GetComponentInChildren<BombFragEffect>().StatSet[Stat.Damage] + " damage on hit, each.";
+        string description = "shoots two bombs that explodes in " + StatColorHandler.StatPaint(StatSet[Stat.Projectiles].ToString()) + " projectiles that deals " + StatColorHandler.DamagePaint(GetComponentInChildren<BombFragEffect>().StatSet[Stat.Damage].ToString()) + " damage on hit, each";
         return description;
     }
 

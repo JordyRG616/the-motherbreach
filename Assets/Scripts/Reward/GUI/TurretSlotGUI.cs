@@ -81,7 +81,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     {
         sellButton.gameObject.SetActive(true);
 
-        int refund = (int)associatedSlot.occupyingTurret.GetComponent<TurretManager>().Stats[Stat.Cost] / 3;
+        int refund = (int)associatedSlot.occupyingTurret.GetComponent<TurretManager>().Level;
         if(refund < 1) refund = 1;
 
         sellButton.GetComponent<SellButton>().SetButton(refund, associatedSlot);

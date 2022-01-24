@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
+using StringHandler;
 
 public class BuildBox : MonoBehaviour
 {
@@ -36,7 +36,15 @@ public class BuildBox : MonoBehaviour
     private BaseBox selectedBaseBox;
     private GameObject selectedWeapon;
     private GameObject selectedBase;
+    private List<Keyword> keywords = new List<Keyword>();
+    private RectTransform statInfoBox;
     public bool OnUpgrade;
+
+
+    void Start()
+    {
+        statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
+    }
 
     public void ReceiveWeapon(GameObject receveidWeapon, WeaponBox box)
     {
@@ -86,13 +94,19 @@ public class BuildBox : MonoBehaviour
     
     public void UpdateStats()
     {
+        keywords.Clear();
         costText.text = (OnUpgrade == true)? "-" : TotalCost + "$";
-        if(selectedBase) baseEffect.text = selectedBase.GetComponent<BaseEffectTemplate>().DescriptionText();
+        if(selectedBase) 
+        {
+            baseEffect.text = selectedBase.GetComponent<BaseEffectTemplate>().DescriptionText(out var baseKeyword);
+            if(baseKeyword != Keyword.None) keywords.Add(baseKeyword);
+        }
         if(selectedWeapon)
         {
             healthValue.text = selectedWeapon.GetComponent<ActionController>().GetHealth().ToString();
             restValue.text = selectedWeapon.GetComponent<ActionEffect>().StatSet[Stat.Rest].ToString();
-            weaponEffect.text = selectedWeapon.GetComponent<ActionEffect>().DescriptionText();
+            weaponEffect.text = selectedWeapon.GetComponent<ActionEffect>().DescriptionText(out var weaponKeyword);
+            if(weaponKeyword != Keyword.None) keywords.Add(weaponKeyword);
         }
     }
 
@@ -184,5 +198,36 @@ public class BuildBox : MonoBehaviour
     public bool CheckBaseBox(BaseBox checkTarget)
     {
         return selectedBaseBox == checkTarget;
+    }
+
+    public void ShowKeywordInfo()
+    {
+        if(keywords.Count == 0) return;
+        var text = string.Empty;
+
+        foreach(Keyword keyword in keywords)
+        {
+            text += KeywordHandler.KeywordDescription(keyword);
+        }
+
+        if(!statInfoBox.gameObject.activeSelf)
+        {
+            statInfoBox.gameObject.SetActive(true);
+            statInfoBox.GetComponent<StatInfoBox>().SetText(text);
+        }
+    }
+
+    public void HideKeywordInfo()
+    {
+        statInfoBox.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(statInfoBox.gameObject.activeSelf)
+        {
+            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
+            statInfoBox.anchoredPosition = mousePos;
+        }
     }
 }

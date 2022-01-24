@@ -8,6 +8,8 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     [SerializeField] protected BaseEffectTrigger trigger;
     [SerializeField] protected List<WeaponClass> targetedClasses;
     [SerializeField] protected float cost;
+    [SerializeField] protected Keyword keyword;
+
     protected ActionController associatedController;
     protected GameManager gameManager;
     protected TurretManager turretManager;
@@ -34,6 +36,12 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     public abstract void ApplyEffect();
 
     public abstract string DescriptionText();
+    public virtual string DescriptionText(out Keyword keyword)
+    {
+        keyword = this.keyword;
+        return DescriptionText();
+    }
+
 
     public void ReceiveWeapon(ActionController weapon)
     {

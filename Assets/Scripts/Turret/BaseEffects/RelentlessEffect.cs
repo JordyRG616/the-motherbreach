@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class RelentlessEffect : BaseEffectTemplate
 {
@@ -17,7 +18,7 @@ public class RelentlessEffect : BaseEffectTemplate
 
     public override string DescriptionText()
     {
-        string description = "Reduces the time of activation of this turret in" + percentage * 100 + "%.";
+        string description = "reduces the " + StatColorHandler.RestPaint("rest") + " of this turret in " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "%";
         return description;
     }
 }

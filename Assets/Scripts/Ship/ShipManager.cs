@@ -26,31 +26,26 @@ public class ShipManager : MonoBehaviour
 
     void Awake()
     {
-        // gameManager = GameManager.Main;
-        // gameManager.OnGameStateChange += HandleRotationReset;
+        gameManager = GameManager.Main;
+        gameManager.OnGameStateChange += HealTurrets;
+        gameManager.OnGameStateChange += HandleAnchor;
     }
 
-    private void HandleRotationReset(object sender, GameStateEventArgs e)
+    private void HandleAnchor(object sender, GameStateEventArgs e)
+    {
+        if(e.newState == GameState.OnReward) GetComponent<MovableEntity>().Anchor();
+        else GetComponent<MovableEntity>().LiftAnchor();
+
+    }
+
+    private void HealTurrets(object sender, GameStateEventArgs e)
     {
         if(e.newState == GameState.OnReward)
         {
-            StartCoroutine(ResetRotation());
-        }
-        if(e.newState == GameState.OnWave)
-        {
-            StopAllCoroutines();
-        }
-    }
-
-    private IEnumerator ResetRotation()
-    {
-        float step = 0;
-
-        while(step < 1)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, step);
-            step += .1f;
-            yield return new WaitForSeconds(.01f);
+            foreach(TurretManager turret in turrets)
+            {
+                turret.integrityManager.HealToFull();
+            }
         }
     }
 
@@ -76,6 +71,11 @@ public class ShipManager : MonoBehaviour
         }
 
         return container;
+    }
+
+    public void RegisterTurret(TurretManager turret)
+    {
+        turrets.Add(turret);
     }
 
 }

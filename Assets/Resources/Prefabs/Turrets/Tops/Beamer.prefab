@@ -138,14 +138,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d9e809d58bd554ea5d1f244d91070d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooterParticle: {fileID: 0}
+  shooterParticle: {fileID: 2232729688128952297}
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   weaponClass: 3
+  keyword: 2
   initialDamage: 5
   initialRest: 5
-  onShootSFX: 
+  onShootSFX: event:/SFX/NEW/Beam1
   duration: 4
 --- !u!1001 &133691387
 PrefabInstance:
@@ -651,6 +652,11 @@ PrefabInstance:
 --- !u!4 &3709292449981109904 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}
+  m_PrefabInstance: {fileID: 133691387}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2232729688128952297 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2232729688115175442, guid: 2a5e471ca932e814e939b58fb418a2aa, type: 3}
   m_PrefabInstance: {fileID: 133691387}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8198278619539297652

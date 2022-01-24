@@ -9,6 +9,7 @@ public abstract class ActionEffect : MonoBehaviour
     [SerializeField] protected ParticleSystem shooterParticle;
     [SerializeField] protected LayerMask targetLayer;
     [SerializeField] protected WeaponClass weaponClass;
+    [SerializeField] protected Keyword keyword;
     protected GameObject target;
     [SerializeField] protected float initialDamage;
     [SerializeField] protected float initialRest;
@@ -24,7 +25,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void Initiate()
     {
-        shooterParticle.Stop();
+        shooterParticle.Stop(true);
 
         SetData();
 
@@ -36,6 +37,11 @@ public abstract class ActionEffect : MonoBehaviour
     }
 
     public abstract string DescriptionText();
+    public virtual string DescriptionText(out Keyword keyword)
+    {
+        keyword = this.keyword;
+        return DescriptionText();
+    }
 
     protected virtual void ClearShots(object sender, GameStateEventArgs e)
     {
@@ -78,7 +84,7 @@ public abstract class ActionEffect : MonoBehaviour
         if(target != null && !shooterParticle.isEmitting)
         {
             shooting = true;
-            shooterParticle.Play();
+            shooterParticle.Play(true);
         }
     }
 
@@ -102,7 +108,7 @@ public abstract class ActionEffect : MonoBehaviour
     public virtual void StopShooting()
     {
         shooting = false;
-        shooterParticle.Stop();
+        shooterParticle.Stop(true);
     }
 
     public virtual void RotateShoots(float angle)

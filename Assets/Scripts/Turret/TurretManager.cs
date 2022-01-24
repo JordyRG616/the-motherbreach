@@ -9,6 +9,8 @@ public class TurretManager : MonoBehaviour
     public BaseEffectTemplate baseEffect {get; private set;}
     public ActionController actionController {get; private set;}
     public Dictionary<Stat, float> Stats {get; protected set;} = new Dictionary<Stat, float>();
+    public IntegrityManager integrityManager {get; private set;}
+
     public int Level 
     {
         get
@@ -35,7 +37,7 @@ public class TurretManager : MonoBehaviour
 
         GetStats();
         
-        var integrityManager = GetComponent<IntegrityManager>();
+        integrityManager = GetComponent<IntegrityManager>();
         integrityManager.Initiate(Stats[Stat.Health]);
     }
 

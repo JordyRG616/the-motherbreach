@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class BeamEffect : ActionEffect
 {
@@ -41,7 +42,7 @@ public class BeamEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "Releases a beam of energy for " + StatSet[Stat.Duration] + " seconds that deals " + StatSet[Stat.Damage] + " damage on contact and apply chemical burn.";
+        string description = "releases a beam of energy for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and apply " + KeywordHandler.KeywordPaint(Keyword.Burn);
         return description;
     }
 

@@ -17,6 +17,13 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     private Image image;
     private InputManager inputManager;
     private TurretSlot clickedSlot;
+    public TurretSlot slot
+    {
+        get 
+        {
+            return clickedSlot;
+        }
+    }
     private BuildBox buildBox;
     private BuildButton buildButton;
     private bool onUpgrade;
@@ -40,36 +47,42 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     public void SetButton(TurretSlot slot)
     {
+        Disable();
+        gameObject.SetActive(true);
         clickedSlot = slot;
         textMesh.text = "MODIFY";
     }
 
     public void Disable(object sender, EventArgs e)
     {
-        if(clickedSlot) clickedSlot.GetComponentInChildren<ParticleSystem>().Stop();
+        if(clickedSlot == null) return;
+        clickedSlot.GetComponentInChildren<ParticleSystem>().Stop();
         inputManager.OnSelectionClear -= Disable;
         gameObject.SetActive(false);
+        clickedSlot = null;
         if(onUpgrade) 
         {
             buildBox.Clear(); 
             buildBox.OnUpgrade = false;
             buildButton.mode = BuildButton.ButtonMode.BUILD;
-            onUpgrade = false;
         }
+        onUpgrade = false;
     }
 
     public void Disable()
     {
+        if(clickedSlot == null) return;
         clickedSlot.GetComponentInChildren<ParticleSystem>().Stop();
         inputManager.OnSelectionClear -= Disable;
         gameObject.SetActive(false);
+        clickedSlot = null;
         if(onUpgrade) 
         {
             buildBox.Clear(); 
             buildBox.OnUpgrade = false;
             buildButton.mode = BuildButton.ButtonMode.BUILD;
-            onUpgrade = false;
         }
+        onUpgrade = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -125,7 +138,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
         var cost = clickedSlot.occupyingTurret.GetComponent<TurretManager>().Level + 1;
 
-        textMesh.text = "UPGRADE (" + cost + "$)";
+        textMesh.text = "upgrade (" + cost + "$)";
 
         onUpgrade = true;
     }

@@ -7,6 +7,14 @@ public abstract class FormationMovement : MonoBehaviour
     protected FormationManager formationMovement;
     protected List<EnemyManager> enemies = new List<EnemyManager>();
     public abstract EnemyMovementType Type {get; protected set;}
+    public float speedModifier;
+    private float _speedModifier
+    {
+        get
+        {
+            return 1 + speedModifier;
+        }
+    }
 
     protected virtual void Start()
     {

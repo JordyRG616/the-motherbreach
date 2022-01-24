@@ -5263,6 +5263,7 @@ MonoBehaviour:
   OnStartSFX: 
   PlayReverseSFX: 0
   OnReverseSFX: 
+  targetedAlpha: 1
 --- !u!114 &336320430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13178,7 +13179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489552691877, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: musicTrack.trackVolume
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: GUIEvents.Array.size

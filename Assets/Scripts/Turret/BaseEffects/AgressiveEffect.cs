@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class AgressiveEffect : BaseEffectTemplate
 {
@@ -25,7 +26,7 @@ public class AgressiveEffect : BaseEffectTemplate
 
     public override string DescriptionText()
     {
-        string description = "Raises the damage of this turret in " + percentage * 100 + "%";
+        string description = "raises the " + StatColorHandler.DamagePaint("damage") + " of this turret in " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "%";
         return description;
     }
 }
