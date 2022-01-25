@@ -36,6 +36,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private WaveList listOfWaves;
     [SerializeField] private float distanceToSpawn;
     [SerializeField] private GameObject pointer;
+    [SerializeField] [FMODUnity.EventRef] private string onFormationSpawnSFX; 
     private Queue<WaveData> dataQueue  = new Queue<WaveData>();
     private WaveData activeWave;
     private ShipManager ship;
@@ -94,6 +95,7 @@ public class WaveManager : MonoBehaviour
 
                 var formationPointer = Instantiate(pointer, Vector3.zero, Quaternion.identity);
                 formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(formation.transform.Find("Head"));
+                AudioManager.Main.RequestSFX(onFormationSpawnSFX);
 
                 spawnIndex++;
                 if(spawnIndex == activeWave.availableFormations.Count) break;

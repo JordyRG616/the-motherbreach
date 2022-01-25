@@ -8,7 +8,7 @@ public class ArtilleryEffect : ActionEffect
     [SerializeField] private float initialBulletSpeed;
     [SerializeField] private float initialBurstSize;
 
-    protected override void SetData()
+    public override void SetData()
     {
         StatSet.Add(Stat.BulletSpeed, initialBulletSpeed);
         SetBulletSpeed();

@@ -10,15 +10,17 @@ public class ShipDamageController : MonoBehaviour, IDamageable
 {
     [SerializeField] private float maxHealth;
     [SerializeField] private Light2D blinkingLight;
-    [SerializeField] private Color damageColor;
+    [SerializeField] [ColorUsage(true, true)] private Color damageColor;
+    [SerializeField] private float damageIntensity;
     private Color ogColor;
     [SerializeField] [FMODUnity.EventRef] private string onHitSFX;
     [Header("UI")]
     [SerializeField] private RectTransform fill;
     [SerializeField] private TextMeshProUGUI textMesh;
     private Queue<IEnumerator> enqueuedUpdates = new Queue<IEnumerator>();
+    private float ogIntensity;
 
-    private WaitForSeconds waitTime = new WaitForSeconds(0.1f);
+    private WaitForSeconds waitTime = new WaitForSeconds(0.15f);
 
     private float currentHealth;
 
@@ -26,6 +28,7 @@ public class ShipDamageController : MonoBehaviour, IDamageable
     {
         currentHealth = maxHealth;
         ogColor = blinkingLight.color;
+        ogIntensity = blinkingLight.intensity;
         StartCoroutine(ManageGUIUpdate());
     }
 
@@ -75,10 +78,12 @@ public class ShipDamageController : MonoBehaviour, IDamageable
     private IEnumerator Blink()
     {
         blinkingLight.color = damageColor;
+        blinkingLight.intensity = damageIntensity;
 
         yield return waitTime;
 
         blinkingLight.color = ogColor;
+        blinkingLight.intensity = ogIntensity;
     }
 
     public void UpdateHealthBar()

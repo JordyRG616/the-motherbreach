@@ -17,6 +17,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   weaponClass: 0
+  keyword: 0
   initialDamage: 10
   initialRest: 0
   onShootSFX: event:/SFX/NEW/Shoot 1
@@ -183,9 +184,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   weaponClass: 2
+  keyword: 0
   initialDamage: 15
   initialRest: 5
-  onShootSFX: event:/SFX/NEW/Shoot 2
+  onShootSFX: event:/SFX/NEW/BomberShoot
   initialProjectiles: 5
   initalBulletSize: 0.5
   subShooter: {fileID: 156921858376999208}
@@ -207,9 +209,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   weaponClass: 2
+  keyword: 0
   initialDamage: 15
   initialRest: 5
-  onShootSFX: event:/SFX/NEW/Shoot 2
+  onShootSFX: event:/SFX/NEW/BomberShoot
   initialProjectiles: 5
   initalBulletSize: 0.5
   subShooter: {fileID: 6035144378192050245}
@@ -231,6 +234,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   weaponClass: 0
+  keyword: 0
   initialDamage: 10
   initialRest: 0
   onShootSFX: event:/SFX/NEW/Shoot 1

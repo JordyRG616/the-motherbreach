@@ -5126,8 +5126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   refMaterial: {fileID: 2100000, guid: fabe78c187155b14eaa20de6d80dd1ea, type: 2}
   deathParticles: {fileID: 4408332397351928307}
-  deathSFX: event:/SFX/EnemyDeath
-  onHitSFX: event:/SFX/NEW/Shoot 1
+  deathSFX: event:/SFX/NEW/EnemyDeath
+  onHitSFX: event:/SFX/NEW/EnemyHit
   healthController: {fileID: 6390329837503872522}
 --- !u!114 &2773553571261130901
 MonoBehaviour:
@@ -5146,6 +5146,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   weaponClass: 0
+  keyword: 0
   initialDamage: 10
   initialRest: 0
   onShootSFX: event:/SFX/NEW/Shoot 2

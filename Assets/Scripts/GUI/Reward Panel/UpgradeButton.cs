@@ -89,7 +89,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         if(!onUpgrade)
         {
-            SendToBuildBox();
+            SetUpgradeOption();
         }
         else
         {
@@ -122,23 +122,16 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         image.sprite = ogSprite;
     }
 
-    private void SendToBuildBox()
+    private void SetUpgradeOption()
     {
         image.sprite = clickSprite;
-        
-        var _weapon = clickedSlot.occupyingTurret.GetComponentInChildren<ActionController>().gameObject;
-        var _base = clickedSlot.occupyingTurret.GetComponentInChildren<BaseEffectTemplate>().gameObject;
-
-        buildBox.OnUpgrade = true;
-        buildBox.ReceiveWeapon(_weapon);
-        buildBox.ReceiveBase(_base);
-
-        FindObjectOfType<SellButton>().Disable();
-        buildButton.mode = BuildButton.ButtonMode.DONE;
 
         var cost = clickedSlot.occupyingTurret.GetComponent<TurretManager>().Level + 1;
 
         textMesh.text = "upgrade (" + cost + "$)";
+
+        FindObjectOfType<SellButton>().Disable();
+        buildButton.mode = BuildButton.ButtonMode.DONE;
 
         onUpgrade = true;
     }

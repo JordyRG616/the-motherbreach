@@ -111,13 +111,14 @@ public class RewardManager : MonoBehaviour
 
     public void BuildSelection()
     {
+        buildBox.Clear();
+        turretConstructor.TriggerImeddiateEffect(ActiveSelection);
         SpendCash(ActiveSelection.GetComponent<TurretManager>().Stats[Stat.Cost]);
         ShipManager.Main.RegisterTurret(ActiveSelection.GetComponent<TurretManager>());
 
         AudioManager.Main.RequestGUIFX(buildSFX);
 
         ActiveSelection = null;
-        buildBox.Clear();
     }
 
     public void Exit()

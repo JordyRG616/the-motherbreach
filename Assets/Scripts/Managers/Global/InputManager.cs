@@ -47,12 +47,6 @@ public class InputManager : MonoBehaviour
     private IEnumerator _waveControl;
     private IEnumerator _rewardControl;
 
-
-    public void Test()
-    {
-        StartCoroutine(_waveControl);
-    }
-
     void Awake()
     {
         if (movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
@@ -73,28 +67,25 @@ public class InputManager : MonoBehaviour
             initializeMouseScheme();
         }
 
-        _waveControl = WaveControl();
-        _rewardControl = RewardControl();
-
-        Test();
-
+        // _waveControl = WaveControl();
+        // _rewardControl = RewardControl();
     }
 
 
     public void HandleWaveControl(object sender, GameStateEventArgs e)
     { 
-        if(e.newState == GameState.OnWave)
-        {
-            StopAllCoroutines();
-            OnSelectionClear -= PlaySFX;
-            StartCoroutine(_waveControl);
-        }
-        if(e.newState == GameState.OnReward)
-        {
-            StopAllCoroutines();
-            OnSelectionClear += PlaySFX;
-            StartCoroutine(_rewardControl);
-        }
+        // if(e.newState == GameState.OnWave)
+        // {
+        //     StopAllCoroutines();
+        //     OnSelectionClear -= PlaySFX;
+        //     StartCoroutine(_waveControl);
+        // }
+        // if(e.newState == GameState.OnReward)
+        // {
+        //     StopAllCoroutines();
+        //     OnSelectionClear += PlaySFX;
+        //     StartCoroutine(_rewardControl);
+        // }
     }
 
     private void PlaySFX(object sender, EventArgs e)
@@ -166,40 +157,39 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private IEnumerator WaveControl()
+    private void WaveControl()
     {
-        while(true)
+        
+        if(!GameManager.Main.onPause)
         {
-            if(!GameManager.Main.onPause)
-            {
-                TriggerMovement();
-                TriggerRotation();
-            }
-
-            if(Input.GetKeyDown(KeyCode.Escape))
-            {
-                OnGamePaused?.Invoke(this, EventArgs.Empty);
-            }
-
-            yield return new WaitForSeconds(0.001f);
+            TriggerMovement();
+            TriggerRotation();
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnGamePaused?.Invoke(this, EventArgs.Empty);
+        }
+
     }
 
-    private IEnumerator RewardControl()
+    private void RewardControl()
     {
-        while(true)
+        if(Input.GetKeyDown(KeyCode.Mouse1)) 
         {
-            if(Input.GetKeyDown(KeyCode.Mouse1)) 
-            {
-                OnSelectionClear?.Invoke(this, EventArgs.Empty);
-            }
-            yield return new WaitForSeconds(0.001f);
+            OnSelectionClear?.Invoke(this, EventArgs.Empty);
         }
     }
 
     public void UnPause()
     {
         OnGamePaused?.Invoke(this, EventArgs.Empty);
+    }
+
+    void Update()
+    {
+        if(GameManager.Main.gameState == GameState.OnWave) WaveControl();
+        if(GameManager.Main.gameState == GameState.OnReward) RewardControl();
     }
 }
 

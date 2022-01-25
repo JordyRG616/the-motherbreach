@@ -121,9 +121,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   refMaterial: {fileID: 2100000, guid: df8a1bd73b70a4348b731a61b77c338a, type: 2}
-  deathParticles: {fileID: 0}
-  deathSFX: event:/SFX/Explosion
-  onHitSFX: 
+  deathParticles: {fileID: 2556727036231226850}
+  deathSFX: event:/SFX/NEW/TurretExplosion
+  onHitSFX: event:/SFX/NEW/TurretHit
   invalidSelectionColor: {r: 0.9911022, g: 0, b: 0.07618539, a: 1}
   validSelectionColor: {r: 0.0033465356, g: 0.9911022, b: 0.084376216, a: 1}
 --- !u!114 &17946856
@@ -147,6 +147,7 @@ MonoBehaviour:
   initialDamage: 5
   initialRest: 5
   onShootSFX: event:/SFX/NEW/Beam1
+  singleSFX: 1
   duration: 4
 --- !u!1001 &133691387
 PrefabInstance:
@@ -723,5 +724,10 @@ PrefabInstance:
 --- !u!4 &2556727036231226852 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5962048229035131024, guid: 9109541d47bc63d439066f3fc2737ec9, type: 3}
+  m_PrefabInstance: {fileID: 8198278619539297652}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2556727036231226850 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5962048229035131030, guid: 9109541d47bc63d439066f3fc2737ec9, type: 3}
   m_PrefabInstance: {fileID: 8198278619539297652}
   m_PrefabAsset: {fileID: 0}

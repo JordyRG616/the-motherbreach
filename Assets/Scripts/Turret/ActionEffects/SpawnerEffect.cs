@@ -13,7 +13,7 @@ public class SpawnerEffect : ActionEffect
     private List<GameObject> drones = new List<GameObject>();
     public int activeDrones;
 
-    protected override void SetData()
+    public override void SetData()
     {
         StatSet.Add(Stat.Capacity, capacity);
         StatSet.Add(Stat.DroneLevel, droneLevel);

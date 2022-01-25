@@ -9,7 +9,7 @@ public class SpreadEffect : ActionEffect
     [SerializeField] private float durationModifier;
     [SerializeField] private float bulletSizeModifier;
 
-    protected override void SetData()
+    public override void SetData()
     {
         StatSet.Add(Stat.BulletSize, bulletSizeModifier);
         SetBulletSize();
@@ -29,11 +29,12 @@ public class SpreadEffect : ActionEffect
     private void SetDuration()
     {
         var main = shooterParticle.main;
-        Vector2 minMax = new Vector2();
-        minMax.x = durationModifier + main.startLifetime.constantMin;
-        minMax.y = durationModifier + main.startLifetime.constantMax;
-        ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
-        main.startLifetime = curve;
+        var lifetime = main.startLifetime;
+        // Vector2 minMax = new Vector2();
+        lifetime.constantMin = StatSet[Stat.Duration] + main.startLifetime.constantMin;
+        lifetime.constantMax = StatSet[Stat.Duration] + main.startLifetime.constantMax;
+        main.startLifetime = lifetime;
+        // ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
     }
 
     private void SetBulletSize()
@@ -48,7 +49,18 @@ public class SpreadEffect : ActionEffect
 
     public override void Shoot()
     {
+        StartCoroutine(PlaySFX(shooterParticle.main.duration));
         shooterParticle.Play();
+    }
+
+    private IEnumerator PlaySFX(float duration)
+    {
+        Debug.Log(duration);
+        AudioManager.Main.RequestSFX(onShootSFX, out var instance);
+
+        yield return new WaitForSeconds(duration + 1);
+
+        AudioManager.Main.StopSFX(instance);
     }
 
     public override void ApplyEffect(HitManager hitManager)
@@ -57,21 +69,27 @@ public class SpreadEffect : ActionEffect
         Slug slugged;
         if (!hitManager.transform.parent.TryGetComponent<Slug>(out slugged)) 
         {
-            Debug.Log("working");
             hitManager.transform.parent.gameObject.AddComponent<Slug>();
         }
     }
 
+    private float MeanLifetime()
+    {
+        var min = shooterParticle.main.startLifetime.constantMin;
+        var max = shooterParticle.main.startLifetime.constantMax;
+        return (min + max) / 2;
+    }
+
     public override string DescriptionText()
     {
-        string description = "releases a cloud for" + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and applies " + KeywordHandler.KeywordPaint(Keyword.Slug) + " to the target";
+        string description = "releases a cloud that lasts around " + StatColorHandler.StatPaint(MeanLifetime().ToString()) + " seconds and deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and applies " + KeywordHandler.KeywordPaint(Keyword.Slug) + " to the target";
         return description;
     }
 
     public override void LevelUp(int toLevel)
     {
         var duration = StatSet[Stat.Duration];
-        duration *= (toLevel * 5) / 100;
+        duration += 0.5f;
         SetStat(Stat.Duration, duration);
     }
 }

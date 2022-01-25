@@ -149,14 +149,10 @@ public class TurretConstructor : MonoBehaviour
             manager.OnLevelUp += baseEffect.HandleLevelEffect;
         }
 
-
-        TriggerImeddiateEffect(blueprint);
-
-
         return blueprint;
     }
     
-    private static void TriggerImeddiateEffect(GameObject occupyingTurret)
+    public void TriggerImeddiateEffect(GameObject occupyingTurret)
     {
         BaseEffectTemplate effect = occupyingTurret.GetComponentInChildren<BaseEffectTemplate>();
         effect.ReceiveWeapon(occupyingTurret.GetComponentInChildren<ActionController>());

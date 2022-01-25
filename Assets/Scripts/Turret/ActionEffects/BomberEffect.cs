@@ -18,7 +18,7 @@ public class BomberEffect : ActionEffect
         fragEffect.Initiate();
     }
 
-    protected override void SetData()
+    public override void SetData()
     {
         StatSet.Add(Stat.Projectiles, initialProjectiles);
         SetProjectiles();

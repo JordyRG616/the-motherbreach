@@ -9,7 +9,7 @@ public class ShotgunEffect : ActionEffect
     [SerializeField] private float initialbulletSpeed;
     [SerializeField] private float initialProjectiles;
 
-    protected override void SetData()
+    public override void SetData()
     {
         StatSet.Add(Stat.BulletSpeed ,initialbulletSpeed);
         SetBulletSpeed();

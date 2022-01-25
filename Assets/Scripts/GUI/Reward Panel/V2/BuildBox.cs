@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,11 +39,12 @@ public class BuildBox : MonoBehaviour
     private List<Keyword> keywords = new List<Keyword>();
     private RectTransform statInfoBox;
     public bool OnUpgrade;
-
+    private bool previewOn;
 
     void Start()
     {
         statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
+        InputManager.Main.OnSelectionClear += Unselect;
     }
 
     public void ReceiveWeapon(GameObject receveidWeapon, WeaponBox box)
@@ -96,6 +97,18 @@ public class BuildBox : MonoBehaviour
     {
         keywords.Clear();
         costText.text = (OnUpgrade == true)? "-" : TotalCost + "$";
+        if(selectedWeapon && selectedBase && !OnUpgrade)
+        {
+            var _base = selectedBase.GetComponent<BaseEffectTemplate>();
+            var _weapon = selectedWeapon.GetComponent<ActionController>();
+
+            _base.ReceiveWeapon(_weapon);
+            if(_base.previewable) 
+            {
+                _base.ApplyEffect();
+                previewOn = true;
+            }
+        }
         if(selectedBase) 
         {
             baseEffect.text = selectedBase.GetComponent<BaseEffectTemplate>().DescriptionText(out var baseKeyword);
@@ -152,11 +165,31 @@ public class BuildBox : MonoBehaviour
     {
         ClearBase();
         ClearWeapon();
+        OnUpgrade = false;
+    }
+
+    public void Unselect(object sender, EventArgs e)
+    {
+        if(selectedWeaponBox) 
+        {
+            selectedWeaponBox.Unselect();
+            selectedWeaponBox = null;
+        }
+        if(selectedBaseBox) 
+        {
+            selectedBaseBox.Unselect();
+            selectedBaseBox = null;
+        }
+        Clear();
     }
 
     public void ClearWeapon()
     {
-        if (selectedWeaponBox) selectedWeaponBox.Detach();
+        if (selectedWeaponBox) 
+        {
+            selectedWeapon.GetComponent<ActionController>().Reset();
+            selectedWeaponBox.Detach();
+        }
         selectedWeaponBox = null;
         selectedWeapon = null;
         weaponImage.color = Color.clear;
@@ -165,7 +198,11 @@ public class BuildBox : MonoBehaviour
 
     public void ClearWeapon(out GameObject _weapon)
     {
-        if (selectedWeaponBox) selectedWeaponBox.Detach();
+        if (selectedWeaponBox) 
+        {
+            selectedWeapon.GetComponent<ActionController>().Reset();
+            selectedWeaponBox.Detach();
+        }
         selectedWeaponBox = null;
         _weapon = selectedWeapon;
         selectedWeapon = null;
@@ -176,18 +213,30 @@ public class BuildBox : MonoBehaviour
     public void ClearBase()
     {
         if (selectedBaseBox) selectedBaseBox.Detach();
+        if (selectedWeaponBox) 
+        {
+            selectedWeapon.GetComponent<ActionController>().Reset();
+            // selectedWeaponBox.Detach();
+        }
         selectedBaseBox = null;
         selectedBase = null;
         baseImage.color = Color.clear;
+        ResetStats();
     }
 
     public void ClearBase(out GameObject _base)
     {
         if (selectedBaseBox) selectedBaseBox.Detach();
+        if (selectedWeaponBox) 
+        {
+            selectedWeapon.GetComponent<ActionController>().Reset();
+            // selectedWeaponBox.Detach();
+        }
         selectedBaseBox = null;
         _base = selectedBase;
         selectedBase = null;
         baseImage.color = Color.clear;
+        ResetStats();
     }
 
     public bool CheckWeaponBox(WeaponBox checkTarget)

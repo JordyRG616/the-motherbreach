@@ -28,13 +28,11 @@ public class HitManager : MonoBehaviour, IManager
     {
         if(other.transform.parent.parent.TryGetComponent<ActionEffect>(out ActionEffect action))
         {
-            ParticleSystem shuriken = other.GetComponent<ParticleSystem>();
-            int count = shuriken.GetParticles(particles);
+            // ParticleSystem shuriken = other.GetComponent<ParticleSystem>();
+            // int count = shuriken.GetParticles(particles);
 
-            ParticleSystem.Particle particle = particles.OrderBy(x => (this.transform.position - x.position).magnitude).FirstOrDefault();
-            other.GetComponent<ParticleSystem>().TriggerSubEmitter(0, ref particle);
-
-            //audioManager.RequestSFX(hitSFX);
+            // ParticleSystem.Particle particle = particles.OrderBy(x => (this.transform.position - x.position).magnitude).FirstOrDefault();
+            // other.GetComponent<ParticleSystem>().TriggerSubEmitter(0, ref particle);
 
             action.totalEffect(this);   
         }

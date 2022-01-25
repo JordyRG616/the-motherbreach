@@ -88,10 +88,16 @@ public class AudioManager : MonoBehaviour
     {
         SFXTrack.ReceiveAudio(library.GetSFX(eventPath));
     }
-
-    public void StopSFX(string eventPath)
+    
+    public void RequestSFX(string eventPath, out FMOD.Studio.EventInstance instance)
     {
-        SFXTrack.StopAudio(library.GetSFX(eventPath));
+        instance = library.GetSFX(eventPath);
+        SFXTrack.ReceiveAudio(instance);
+    }
+
+    public void StopSFX(FMOD.Studio.EventInstance instance)
+    {
+        SFXTrack.StopAudio(instance);
     }
 
     public void RequestGUIFX(string eventPath, out int index)

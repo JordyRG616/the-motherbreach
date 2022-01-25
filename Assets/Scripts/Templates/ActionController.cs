@@ -66,6 +66,15 @@ public abstract class ActionController : MonoBehaviour
         return shooters;
     }
 
+    public void Reset()
+    {
+        foreach(ActionEffect shooter in shooters)
+        {
+            shooter.StatSet.Clear();
+            shooter.SetData();
+        }
+    }
+
     public List<WeaponClass> GetClasses()
     {
         List<WeaponClass> container = new List<WeaponClass>();

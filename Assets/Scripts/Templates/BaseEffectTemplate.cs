@@ -9,6 +9,7 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     [SerializeField] protected List<WeaponClass> targetedClasses;
     [SerializeField] protected float cost;
     [SerializeField] protected Keyword keyword;
+    public bool previewable;
 
     protected ActionController associatedController;
     protected GameManager gameManager;

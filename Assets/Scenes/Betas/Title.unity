@@ -5258,7 +5258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 1
-  animationSpeed: 0.01
+  animationSpeed: 0.1
   PlaySFX: 0
   OnStartSFX: 
   PlayReverseSFX: 0
@@ -12426,6 +12426,10 @@ PrefabInstance:
       value: event:/UI/Reward/Reward_BuildTurret
       objectReference: {fileID: 0}
     - target: {fileID: 1644674205525352627, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: initialCash
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644674205525352627, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: fadePanelAnimation
       value: 
       objectReference: {fileID: 336320429}
@@ -12444,6 +12448,10 @@ PrefabInstance:
     - target: {fileID: 4174501789438114414, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: distanceToSpawn
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4174501789438114414, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: onFormationSpawnSFX
+      value: event:/SFX/NEW/FormationSpawn
       objectReference: {fileID: 0}
     - target: {fileID: 4174501789438114415, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: m_RootOrder
@@ -13001,7 +13009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 1
-  animationSpeed: 0.01
+  animationSpeed: 0.1
   PlaySFX: 0
   OnStartSFX: 
   PlayReverseSFX: 0
@@ -13187,7 +13195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.size
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[1].eventName
@@ -13367,35 +13375,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[10].eventName
-      value: Spawn
+      value: BomberShot
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[10].eventPath
-      value: event:/SFX/Spawn
+      value: event:/SFX/NEW/BomberShoot
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[11].eventName
-      value: Spawn
+      value: EnemyDeath
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[11].eventPath
-      value: event:/SFX/Spawn
+      value: event:/SFX/NEW/EnemyDeath
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[12].eventName
-      value: Spawn
+      value: FormationSpawn
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[12].eventPath
-      value: event:/SFX/Spawn
+      value: event:/SFX/NEW/FormationSpawn
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[13].eventName
-      value: Spawn
+      value: ShieldHit
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[13].eventPath
-      value: event:/SFX/Spawn
+      value: event:/SFX/NEW/ShieldHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[14].eventName
+      value: ShipHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[14].eventPath
+      value: event:/SFX/NEW/ShipHit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 144cdf219fff9284087740c026fd8404, type: 3}

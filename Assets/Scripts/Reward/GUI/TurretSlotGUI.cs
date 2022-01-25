@@ -19,6 +19,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string clickSFX;
     private ParticleSystem selectedVFX;
+    private BuildBox buildBox;
 
     void OnEnable()
     {
@@ -27,6 +28,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             manager = RewardManager.Main;
             inputManager = InputManager.Main;
             inputManager.OnSelectionClear += StopVFX;
+            buildBox = FindObjectOfType<BuildBox>();
 
             selectedVFX = associatedSlot.GetComponentInChildren<ParticleSystem>(true);
 
@@ -71,10 +73,21 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
         {
             AudioManager.Main.RequestGUIFX(clickSFX);
             selectedVFX.Play();
+            SendToBuildBox();
             ShowOptions();
             return;
         }
         AudioManager.Main.PlayInvalidSelection();
+    }
+
+    private void SendToBuildBox()
+    {   
+        var _weapon = associatedSlot.occupyingTurret.GetComponentInChildren<ActionController>().gameObject;
+        var _base = associatedSlot.occupyingTurret.GetComponentInChildren<BaseEffectTemplate>().gameObject;
+
+        buildBox.OnUpgrade = true;
+        buildBox.ReceiveWeapon(_weapon);
+        buildBox.ReceiveBase(_base);
     }
 
     private void ShowOptions()

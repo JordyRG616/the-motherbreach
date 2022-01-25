@@ -15,12 +15,13 @@ public abstract class ActionEffect : MonoBehaviour
     [SerializeField] protected float initialRest;
     public Dictionary<Stat, float> StatSet {get; protected set;} = new Dictionary<Stat, float>();
     private GameManager gameManager;
-    [SerializeField] [FMODUnity.EventRef] private string onShootSFX;
+    [SerializeField] [FMODUnity.EventRef] protected string onShootSFX;
 
     public delegate void Effect(HitManager hitManager);
 
     public Effect totalEffect;
     private bool shooting;
+    [SerializeField] protected bool singleSFX;
     private int cacheCount = 0;
 
     public virtual void Initiate()
@@ -56,8 +57,9 @@ public abstract class ActionEffect : MonoBehaviour
         return weaponClass;
     }
 
-    protected virtual void SetData()
+    public virtual void SetData()
     {
+        // StatSet.Clear();
         StatSet.Add(Stat.Damage, initialDamage);
         StatSet.Add(Stat.Rest, initialRest);
 
@@ -90,7 +92,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     protected virtual void ManageSFX()
     {
-        if(shooting)
+        if(shooting && !singleSFX)
         {
             if(cacheCount < shooterParticle.particleCount)
             {  

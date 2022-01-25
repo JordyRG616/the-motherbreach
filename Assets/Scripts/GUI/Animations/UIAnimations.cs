@@ -7,12 +7,13 @@ using UnityEngine.Serialization;
 public abstract class UIAnimations : MonoBehaviour
 {
     [FormerlySerializedAs("AnimationsSpeed")] [SerializeField] protected float duration = 1;
-    [SerializeField] [Range(0.01f, 0.1f)] protected float animationSpeed = 0.01f;
+    [SerializeField] [Range(0.01f, 0.5f)] protected float animationSpeed = 0.1f;
     public abstract bool Done {get; protected set;}
     [SerializeField] protected bool PlaySFX;
     [SerializeField] [FMODUnity.EventRef] protected string OnStartSFX;
     [SerializeField] protected bool PlayReverseSFX;
     [SerializeField] [FMODUnity.EventRef] protected string OnReverseSFX;
+    private static float globalSpeedModifier = 0.25f;
 
 
     public float Speed 
@@ -30,6 +31,7 @@ public abstract class UIAnimations : MonoBehaviour
     {
         StopAllCoroutines();
         rect = GetComponent<RectTransform>();
+        animationSpeed *= globalSpeedModifier;
     }
 
     public void Play()

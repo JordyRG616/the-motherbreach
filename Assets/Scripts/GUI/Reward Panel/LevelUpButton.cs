@@ -80,12 +80,12 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         if (expBar.sizeDelta.y < requiredHeight)
         {
-            expBar.sizeDelta += new Vector2(0, Time.deltaTime * 10);
+            expBar.sizeDelta += new Vector2(0, Time.deltaTime * 100);
         }
         if (expAmount.sizeDelta.y < amountHeight)
         {
             expBarVFX.Play();
-            expAmount.sizeDelta += new Vector2(0, Time.deltaTime * 10);
+            expAmount.sizeDelta += new Vector2(0, Time.deltaTime * 100);
         }
         if (expBar.sizeDelta.y >= requiredHeight)
         {

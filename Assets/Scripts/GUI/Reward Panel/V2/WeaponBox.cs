@@ -64,7 +64,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             selected = true;
             return;
         }
-        if(buildBox.CheckWeaponBox(this))
+        else if(buildBox.CheckWeaponBox(this))
         {
             AudioManager.Main.RequestGUIFX(returnSFX);
             buildBox.ClearWeapon(out cachedWeapon);
@@ -72,7 +72,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             selected = false;
             return;
         } 
-        if(!buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>())) AudioManager.Main.PlayInvalidSelection();
+        AudioManager.Main.PlayInvalidSelection();
     }
 
     void Update()

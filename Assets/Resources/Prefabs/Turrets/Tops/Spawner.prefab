@@ -4933,9 +4933,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   refMaterial: {fileID: 2100000, guid: df8a1bd73b70a4348b731a61b77c338a, type: 2}
-  deathParticles: {fileID: 0}
-  deathSFX: event:/SFX/Explosion
-  onHitSFX: 
+  deathParticles: {fileID: 7030326641605505884}
+  deathSFX: event:/SFX/NEW/TurretExplosion
+  onHitSFX: event:/SFX/NEW/TurretHit
   invalidSelectionColor: {r: 0.9911022, g: 0, b: 0.07618539, a: 1}
   validSelectionColor: {r: 0.0033465356, g: 0.9911022, b: 0.084376216, a: 1}
 --- !u!114 &6304654335742844667
@@ -4955,9 +4955,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   weaponClass: 5
+  keyword: 0
   initialDamage: 0
   initialRest: 5
   onShootSFX: event:/SFX/NEW/Shoot 2
+  singleSFX: 1
   droneTemplate: {fileID: 6131271950453116824, guid: e6c2a55d6db9e4e4d8c96edf44e39aa0, type: 3}
   capacity: 2
   droneLevel: 1
@@ -5026,5 +5028,10 @@ PrefabInstance:
 --- !u!4 &7030326641605505882 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5962048229035131024, guid: 9109541d47bc63d439066f3fc2737ec9, type: 3}
+  m_PrefabInstance: {fileID: 3687831902950962122}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &7030326641605505884 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5962048229035131030, guid: 9109541d47bc63d439066f3fc2737ec9, type: 3}
   m_PrefabInstance: {fileID: 3687831902950962122}
   m_PrefabAsset: {fileID: 0}

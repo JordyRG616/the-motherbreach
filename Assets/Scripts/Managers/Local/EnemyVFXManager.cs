@@ -16,6 +16,7 @@ public class EnemyVFXManager : VFXManager
         float step = 0;
 
         deathParticles.Play();
+        audioManager.RequestSFX(deathSFX);
 
         GetComponentInChildren<TrailRenderer>().emitting = false;
         GetComponent<EnemyAttackController>().Stop();
@@ -31,7 +32,6 @@ public class EnemyVFXManager : VFXManager
         }
 
     //yield return new WaitForSeconds(deathParticles.main.duration);
-        audioManager.RequestSFX(deathSFX);
 
         healthController.TriggerOnDeath();
     }
