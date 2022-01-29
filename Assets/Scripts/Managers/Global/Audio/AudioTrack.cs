@@ -66,6 +66,7 @@ public class AudioTrack
 
     public void StopAudio(EventInstance audioInstance)
     {
+        if(!activeChannels.Keys.Contains(audioInstance)) return;
         activeChannels.Remove(audioInstance);
         audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         audioInstance.release();
@@ -79,6 +80,23 @@ public class AudioTrack
             activeChannels.Remove(audioInstance);
             audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             audioInstance.release();
+        }
+    }
+
+    public void PauseAudio()
+    {
+        foreach(EventInstance instance in activeChannels.Keys)
+        {
+            instance.setPaused(true);
+        }
+    }
+
+    
+    public void UnpauseAudio()
+    {
+        foreach(EventInstance instance in activeChannels.Keys)
+        {
+            instance.setPaused(false);
         }
     }
 

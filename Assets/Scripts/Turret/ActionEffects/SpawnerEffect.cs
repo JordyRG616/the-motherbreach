@@ -46,9 +46,13 @@ public class SpawnerEffect : ActionEffect
 
         while(activeDrones < capacity)
         {
+            drones[activeDrones].transform.rotation = transform.parent.rotation;
             drones[activeDrones].GetComponent<DroneMovement>().StartMoving();
             drones[activeDrones].GetComponent<DroneController>().StartComponent();
+
             
+            AudioManager.Main.RequestSFX(onShootSFX);
+
             activeDrones ++;
 
             yield return new WaitForSeconds(1f);

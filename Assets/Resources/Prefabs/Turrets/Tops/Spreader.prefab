@@ -245,6 +245,10 @@ PrefabInstance:
       value: 1.79
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
+      propertyPath: TriggerModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: NoiseModule.strength.scalar
       value: 1
       objectReference: {fileID: 0}
@@ -258,7 +262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: CollisionModule.m_Bounce.scalar
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: InitialModule.startSpeed.scalar

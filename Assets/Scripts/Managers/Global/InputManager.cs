@@ -44,10 +44,8 @@ public class InputManager : MonoBehaviour
     public event EventHandler OnSelectionClear;
     public event EventHandler OnGamePaused;
 
-    private IEnumerator _waveControl;
-    private IEnumerator _rewardControl;
 
-    void Awake()
+    void Start()
     {
         if (movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
         {
@@ -131,14 +129,19 @@ public class InputManager : MonoBehaviour
 
     private void TriggerMovement()
     {
-        Vector2 direction = new Vector2(
-            Utilities.TestKey(rightKey) - Utilities.TestKey(leftKey),
-            Utilities.TestKey(upKey) - Utilities.TestKey(downKey)
-            );
+        // Vector2 direction = new Vector2(
+        //     Utilities.TestKey(rightKey) - Utilities.TestKey(leftKey),
+        //     Utilities.TestKey(upKey) - Utilities.TestKey(downKey)
+        //     );
+        if(Input.GetKey(KeyCode.Mouse0))
+        {
+            var pointerPos = Input.mousePosition;
+            pointerPos -= new Vector3(720, 360, pointerPos.z);
+            // var direction = pointerPos - transform.position;
+            // direction.z = 0;
 
-        
-        OnMovementPressed?.Invoke(this, new MovementEventArgs(direction));
-        
+            OnMovementPressed?.Invoke(this, new MovementEventArgs(pointerPos.normalized));
+        }
         
     }
 
@@ -159,7 +162,6 @@ public class InputManager : MonoBehaviour
 
     private void WaveControl()
     {
-        
         if(!GameManager.Main.onPause)
         {
             TriggerMovement();

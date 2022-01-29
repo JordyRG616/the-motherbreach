@@ -38,6 +38,7 @@ public abstract class FormationMovementController : MonoBehaviour
     protected void RegisterMovement(EnemyMovementType movementType)
     {
         if(currentMovement == movementType) return;
+        Debug.Log(movementType);
         doMove = null;
         var movement =  movements.Find(x => x.Type == movementType);
         movement.Initiate();

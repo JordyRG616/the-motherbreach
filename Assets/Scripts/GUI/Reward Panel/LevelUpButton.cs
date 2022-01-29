@@ -46,7 +46,7 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     private void UpdateExpGui()
     {
-        lvlText.text = "lvl" + rewardCalculator.ShopLevel;
+        lvlText.text = "tier <size=110%>" + rewardCalculator.ShopLevel;
         requiredHeight = (rewardCalculator.ExpInfo().required * 12) + 4;
         // expBar.sizeDelta = new Vector2(expBar.sizeDelta.x, requiredHeight);
         amountHeight = (rewardCalculator.ExpInfo().amount * 12) + 4;

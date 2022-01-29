@@ -8,14 +8,16 @@ public abstract class VFXManager : MonoBehaviour, IManager
     [SerializeField] protected ParticleSystem deathParticles;
     [SerializeField] [FMODUnity.EventRef] protected string deathSFX;
     [SerializeField] [FMODUnity.EventRef] protected string onHitSFX;
+    private FMOD.Studio.EventInstance audioInstance;
 
     protected AudioManager audioManager;
 
     protected Material instMaterial;
 
-    public void PlayHifEffect()
+    public void PlayHitEffect()
     {
-        audioManager.RequestSFX(onHitSFX);
+        audioManager.StopSFX(audioInstance);
+        audioManager.RequestSFX(onHitSFX, out audioInstance);
     }
 
     protected virtual void Awake()

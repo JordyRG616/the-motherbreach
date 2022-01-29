@@ -6,7 +6,6 @@ using UnityEngine;
 public class HitManager : MonoBehaviour, IManager
 {    
     public IDamageable HealthInterface{get; private set;}
-    private ParticleSystem.Particle[] particles;
     private AudioManager audioManager;
 
     public void DestroyManager()
@@ -20,8 +19,6 @@ public class HitManager : MonoBehaviour, IManager
         audioManager = AudioManager.Main;
 
         HealthInterface = GetComponent<IDamageable>();
-
-        particles = new ParticleSystem.Particle[1000];
     }
 
     void OnParticleCollision(GameObject other)

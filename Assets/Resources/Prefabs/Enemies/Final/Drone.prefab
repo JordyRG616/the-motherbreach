@@ -5150,6 +5150,7 @@ MonoBehaviour:
   initialDamage: 10
   initialRest: 0
   onShootSFX: event:/SFX/NEW/Shoot 2
+  singleSFX: 0
 --- !u!114 &4566361403983738285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5772,14 +5773,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6390329837503872513}
     m_Modifications:
-    - target: {fileID: 1494708072, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1494708072, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 0.15
-      objectReference: {fileID: 0}
     - target: {fileID: 3709292450076844395, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
       propertyPath: m_RootOrder
       value: 0

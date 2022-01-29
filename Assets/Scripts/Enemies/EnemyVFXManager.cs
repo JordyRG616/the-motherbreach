@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyVFXManager : VFXManager
 {
     [SerializeField] private EnemyHealthController healthController;
+    private FMOD.Studio.EventInstance audioInstance;
 
     protected override void Awake()
     {
@@ -16,7 +17,8 @@ public class EnemyVFXManager : VFXManager
         float step = 0;
 
         deathParticles.Play();
-        audioManager.RequestSFX(deathSFX);
+        audioManager.StopSFX(audioInstance);
+        audioManager.RequestSFX(deathSFX, out audioInstance);
 
         GetComponentInChildren<TrailRenderer>().emitting = false;
         GetComponent<EnemyAttackController>().Stop();

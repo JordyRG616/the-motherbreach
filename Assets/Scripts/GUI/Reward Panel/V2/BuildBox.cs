@@ -11,6 +11,8 @@ public class BuildBox : MonoBehaviour
     [SerializeField] private Image weaponImage;
     [SerializeField] private Image baseImage;
     
+    [Header("Name text")]
+    [SerializeField] private TextMeshProUGUI nameText;
     [Header("Cost Text")]
     [SerializeField] private TextMeshProUGUI costText;
 
@@ -21,7 +23,7 @@ public class BuildBox : MonoBehaviour
     [Header("Descriptions")]
     [SerializeField] private TextMeshProUGUI weaponEffect;
     [SerializeField] private TextMeshProUGUI baseEffect;
-    
+    [SerializeField] private TextMeshProUGUI baseTrigger;
 
     private float weaponCost, baseCost;
     private float TotalCost
@@ -97,21 +99,32 @@ public class BuildBox : MonoBehaviour
     {
         keywords.Clear();
         costText.text = (OnUpgrade == true)? "-" : TotalCost + "$";
-        if(selectedWeapon && selectedBase && !OnUpgrade)
+        nameText.text = "";
+        baseTrigger.text = "";
+        if(selectedWeapon && selectedBase)
         {
-            var _base = selectedBase.GetComponent<BaseEffectTemplate>();
-            var _weapon = selectedWeapon.GetComponent<ActionController>();
+            if(!OnUpgrade){
+                var _base = selectedBase.GetComponent<BaseEffectTemplate>();
+                var _weapon = selectedWeapon.GetComponent<ActionController>();
 
-            _base.ReceiveWeapon(_weapon);
-            if(_base.previewable) 
+                _base.ReceiveWeapon(_weapon);
+                if(_base.previewable) 
+                {
+                    _base.ApplyEffect();
+                    previewOn = true;
+                }
+
+                nameText.text = "</uppercase>" + _base.name + " " + _weapon.name + "<lowercase> \n level <size=125%>0";
+            } else
             {
-                _base.ApplyEffect();
-                previewOn = true;
+                nameText.text = "</uppercase>" + selectedBase.name + " " + selectedWeapon.name + "<lowercase> \n level <size=125%>" + selectedWeapon.GetComponentInParent<TurretManager>().Level;
             }
         }
         if(selectedBase) 
         {
-            baseEffect.text = selectedBase.GetComponent<BaseEffectTemplate>().DescriptionText(out var baseKeyword);
+            var _base = selectedBase.GetComponent<BaseEffectTemplate>();
+            baseEffect.text = _base.DescriptionText(out var baseKeyword);
+            baseTrigger.text = GetTriggerText(_base.GetTrigger());
             if(baseKeyword != Keyword.None) keywords.Add(baseKeyword);
         }
         if(selectedWeapon)
@@ -123,7 +136,31 @@ public class BuildBox : MonoBehaviour
         }
     }
 
-    
+    private string GetTriggerText(BaseEffectTrigger baseEffectTrigger)
+    {
+        var container = string.Empty;
+        switch(baseEffectTrigger)
+        {
+            case BaseEffectTrigger.Immediate:
+                container = "when constructed:";
+            break;
+            case BaseEffectTrigger.EndOfWave:
+                container = "at the end of each wave:";
+            break;
+            case BaseEffectTrigger.StartOfWave:
+                container = "at the start of each wave:";
+            break;
+            case BaseEffectTrigger.OnDestruction:
+                container = "when destructed:";
+            break;
+            case BaseEffectTrigger.OnLevelUp:
+                container = "when upgraded:";
+            break;
+        }
+
+        return container;
+    }
+
     public bool CheckCompability(BaseEffectTemplate testSubject)
     {
         if(!selectedWeapon) return true;
@@ -153,6 +190,8 @@ public class BuildBox : MonoBehaviour
         healthValue.text = "";
         restValue.text = "";
         weaponEffect.text = "";
+        nameText.text = "";
+        baseTrigger.text = "";
         UpdateStats();
     }
 

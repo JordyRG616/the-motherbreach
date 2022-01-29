@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraFollowComponent : MonoBehaviour
 {
-    [SerializeField] private Transform objectToFollow;
+    public Transform objectToFollow;
     [SerializeField] private float followDistance;
     [SerializeField] private float followSpeed;
     private bool following;

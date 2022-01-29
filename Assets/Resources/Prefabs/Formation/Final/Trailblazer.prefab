@@ -59,10 +59,11 @@ GameObject:
   - component: {fileID: 9043303713731774755}
   - component: {fileID: 9043303713731774752}
   - component: {fileID: 9043303713731774753}
-  - component: {fileID: 9043303713731774754}
   - component: {fileID: 9043303713731774758}
   - component: {fileID: 9043303713731774759}
   - component: {fileID: 9043303713731774757}
+  - component: {fileID: 2226563776667702252}
+  - component: {fileID: 202851270522432703}
   m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
@@ -120,25 +121,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movements:
   - {fileID: 9043303713731774757}
-  - {fileID: 9043303713731774754}
-  attackingMovements: 8
+  - {fileID: 2226563776667702252}
+  - {fileID: 202851270522432703}
+  attackingMovements: 16
   splitTime: 6.2831855
-  splitCooldown: 7
+  fleeTime: 2
   distanceToSplit: 30
---- !u!114 &9043303713731774754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9043303713731774764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83d9cbb75d1251b419d3f78d9beac9d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  force: 10
-  distance: 0.2
 --- !u!231 &9043303713731774758
 SpringJoint2D:
   m_ObjectHideFlags: 0
@@ -191,8 +179,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e1decc8fe40b94b9f12c3f876c6300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.5
+  speedModifier: 0
+  speed: 0.7
   eccentricity: 10
+--- !u!114 &2226563776667702252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9043303713731774764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aac5f39670fa294e876c82402b6d03d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedModifier: 0
+  speed: 5
+--- !u!114 &202851270522432703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9043303713731774764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46b073aee13a8841875c6a6d49ad70f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedModifier: 0
+  eccentricity: 1
+  speed: 5
 --- !u!1 &9043303713898056825
 GameObject:
   m_ObjectHideFlags: 0
@@ -5080,6 +5098,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6498165479843956197}
     m_Modifications:
+    - target: {fileID: 2773553571261130901, guid: c43b1af9ee61a214682bcbc839515803, type: 3}
+      propertyPath: onShootSFX
+      value: event:/SFX/NEW/Burner
+      objectReference: {fileID: 0}
     - target: {fileID: 6390329837503872513, guid: c43b1af9ee61a214682bcbc839515803, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -5147,6 +5169,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6498165479843956197}
     m_Modifications:
+    - target: {fileID: 2773553571261130901, guid: c43b1af9ee61a214682bcbc839515803, type: 3}
+      propertyPath: onShootSFX
+      value: event:/SFX/NEW/Burner
+      objectReference: {fileID: 0}
     - target: {fileID: 6390329837503872513, guid: c43b1af9ee61a214682bcbc839515803, type: 3}
       propertyPath: m_RootOrder
       value: 3

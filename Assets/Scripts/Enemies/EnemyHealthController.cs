@@ -10,6 +10,7 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
     private float currentHealth;
 
     public event EventHandler<EnemyEventArgs> OnDeath;
+    public event EventHandler OnDamage;
 
     void Start()
     {
@@ -52,7 +53,12 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
     public void UpdateHealth(float amount)
     {
         currentHealth += amount;
-        if(amount < 0) vfxManager.PlayHifEffect();
+        if(amount < 0)
+        {
+            vfxManager.PlayHitEffect();
+            OnDamage?.Invoke(this, EventArgs.Empty);
+        } 
+            
         if(currentHealth <= 0)
         {
             GetComponent<Collider2D>().enabled = false;
@@ -67,7 +73,10 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
         vfxManager.StartCoroutine(vfxManager.UpdateHealthBar(currentHealth, maxHealth));
     }
 
-    
+    public float GetHealthPercentage()
+    {
+        return currentHealth / maxHealth;
+    }
 
     // public void UpdateHealthBar()
     // {

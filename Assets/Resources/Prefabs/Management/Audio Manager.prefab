@@ -51,11 +51,11 @@ MonoBehaviour:
     invoker: {fileID: 3018682489552691877}
   SFXTrack:
     trackVolume: 1
-    maxChannels: 16
+    maxChannels: 32
     invoker: {fileID: 3018682489552691877}
   GUITrack:
     trackVolume: 1
-    maxChannels: 4
+    maxChannels: 16
     invoker: {fileID: 3018682489552691877}
 --- !u!1 &3018682489856898820
 GameObject:
@@ -115,24 +115,48 @@ MonoBehaviour:
   - eventName: EnemyDeath
     unique: 0
     eventPath: event:/SFX/EnemyDeath
-  - eventName: Explosion
+  - eventName: TurretExplosion
     unique: 0
-    eventPath: event:/SFX/Explosion
-  - eventName: Hit1
+    eventPath: event:/SFX/NEW/TurretExplosion
+  - eventName: TurretHit
     unique: 0
-    eventPath: event:/SFX/Hit1
-  - eventName: Hit2
+    eventPath: event:/SFX/NEW/TurretHit
+  - eventName: EnemyHit
     unique: 0
-    eventPath: event:/SFX/Hit2
+    eventPath: event:/SFX/NEW/EnemyHit
   - eventName: Shoot1
     unique: 0
-    eventPath: event:/SFX/Shoot1
+    eventPath: event:/SFX/NEW/Shoot 1
   - eventName: Shoot2
     unique: 0
-    eventPath: event:/SFX/Shoot2
+    eventPath: event:/SFX/NEW/Shoot 2
   - eventName: Spawn
     unique: 0
     eventPath: event:/SFX/Spawn
+  - eventName: Beam1
+    unique: 0
+    eventPath: event:/SFX/NEW/Beam1
+  - eventName: Burner
+    unique: 0
+    eventPath: event:/SFX/NEW/Burner
+  - eventName: Spreader1
+    unique: 0
+    eventPath: event:/SFX/NEW/Spreader1
+  - eventName: BomberShot
+    unique: 0
+    eventPath: event:/SFX/NEW/BomberShoot
+  - eventName: EnemyDeath
+    unique: 0
+    eventPath: event:/SFX/NEW/EnemyDeath
+  - eventName: FormationSpawn
+    unique: 0
+    eventPath: event:/SFX/NEW/FormationSpawn
+  - eventName: ShieldHit
+    unique: 0
+    eventPath: event:/SFX/NEW/ShieldHit
+  - eventName: ShipHit
+    unique: 0
+    eventPath: event:/SFX/NEW/ShipHit
   GUIEvents:
   - eventName: Title_ButtonMouseEnter
     unique: 0
@@ -164,3 +188,48 @@ MonoBehaviour:
   - eventName: Reward_Slide
     unique: 0
     eventPath: event:/UI/Reward/Reward_Slide
+  - eventName: Reward_BuildBoxFill
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_BuildBoxFill
+  - eventName: Reward_ButtonClick
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_ButtonClick
+  - eventName: Reward_ButtonHover
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_ButtonHover
+  - eventName: Reward_CashEarned
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_CashEarned
+  - eventName: Reward_CashExpended
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_CashExpended
+  - eventName: Reward_UpgradeTurret
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_UpgradeTurret
+  - eventName: Reward_Unlock
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_Unlock
+  - eventName: Reward_Sell
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_Sell
+  - eventName: Reward_Lock
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_Lock
+  - eventName: Reward_LevelGained
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_LevelGained
+  - eventName: Reward_InvalidSelection
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_InvalidSelection
+  - eventName: Reward_ExpGained
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_ExpGained
+  - eventName: Reward_ClearSelection
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_ClearSelection
+  - eventName: Reward_OfferClick
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_OfferClick
+  - eventName: Reward_BuildTurret
+    unique: 0
+    eventPath: event:/UI/Reward/Reward_BuildTurret

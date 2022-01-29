@@ -48,5 +48,6 @@ public enum EnemyMovementType
         Fixed = 1, 
         Flee = 2, 
         Orbit = 4,
-        Split = 8
+        Split = 8,
+        TrueOrbit = 16
     }

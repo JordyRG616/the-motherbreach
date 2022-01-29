@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1195522291
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 4fab0ffa0dd676a4dbc9c05e5335d850, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -138,9 +138,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   weaponClass: 0
+  keyword: 0
   initialDamage: 5
   initialRest: 3
   onShootSFX: event:/SFX/NEW/Shoot 1
+  singleSFX: 0
   initialBulletSpeed: 15
   initialBurstSize: 2
 --- !u!1001 &4944032572987789757

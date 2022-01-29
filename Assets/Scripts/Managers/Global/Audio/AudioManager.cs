@@ -100,6 +100,11 @@ public class AudioManager : MonoBehaviour
         SFXTrack.StopAudio(instance);
     }
 
+    public bool IsPlayingSFX(FMOD.Studio.EventInstance instance)
+    {
+        return SFXTrack.activeChannels.Keys.Contains(instance);
+    }
+
     public void RequestGUIFX(string eventPath, out int index)
     {
         GUITrack.ReceiveAudio(library.GetGUISound(eventPath), true);
@@ -144,7 +149,6 @@ public class AudioManager : MonoBehaviour
             yield return new WaitForSeconds(.01f);
         }
     }
-
 
     /// <param name="track">Music, SFX or GUI</param>
     public AudioTrack GetAudioTrack(string track)

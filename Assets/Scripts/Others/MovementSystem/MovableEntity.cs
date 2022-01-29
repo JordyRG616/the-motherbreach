@@ -58,11 +58,6 @@ public class MovableEntity : MonoBehaviour
         lastDirection = direction;
     }
 
-    internal void AccelerationOverride(object movement)
-    {
-        throw new NotImplementedException();
-    }
-
     public void ApplyCrudeForce(Vector2 direction)
     {
         force += direction;
@@ -84,10 +79,10 @@ public class MovableEntity : MonoBehaviour
     private IEnumerator Accelerate()
     {
         state = MovingState.accelerating;
-
+        
         while(speed <= maxSpeed)
         {
-            speed += 0.01f;
+            speed += 0.1f;
 
             yield return waitTime;
         }

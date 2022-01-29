@@ -23,19 +23,19 @@ public class ShipManager : MonoBehaviour
 
     private GameManager gameManager;
     private List<TurretManager> turrets = new List<TurretManager>();
+    [SerializeField] private Transform controller;
 
     void Awake()
     {
         gameManager = GameManager.Main;
         gameManager.OnGameStateChange += HealTurrets;
-        gameManager.OnGameStateChange += HandleAnchor;
+        // gameManager.OnGameStateChange += HandleAnchor;
     }
 
     private void HandleAnchor(object sender, GameStateEventArgs e)
     {
         if(e.newState == GameState.OnReward) GetComponent<MovableEntity>().Anchor();
         else GetComponent<MovableEntity>().LiftAnchor();
-
     }
 
     private void HealTurrets(object sender, GameStateEventArgs e)
@@ -49,33 +49,19 @@ public class ShipManager : MonoBehaviour
         }
     }
 
-    public List<BaseEffectTemplate> GetBases()
-    {
-        List<BaseEffectTemplate> container = new List<BaseEffectTemplate>();
-
-        foreach(TurretManager turret in turrets)
-        {
-            container.Add(turret.baseEffect);
-        }
-
-        return container;
-    }
-
-    public List<ActionController> GetWeapons()
-    {
-        List<ActionController> container = new List<ActionController>();
-
-        foreach(TurretManager turret in turrets)
-        {
-            container.Add(turret.actionController);
-        }
-
-        return container;
-    }
-
     public void RegisterTurret(TurretManager turret)
     {
         turrets.Add(turret);
     }
 
+    internal void RemoveTurret(TurretManager turretManager)
+    {
+        turrets.Remove(turretManager);
+    }
+    
+    void Update()
+    {
+        transform.position = controller.position;
+        transform.rotation = controller.rotation;
+    }
 }

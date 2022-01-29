@@ -113,8 +113,10 @@ public class RewardManager : MonoBehaviour
     {
         buildBox.Clear();
         turretConstructor.TriggerImeddiateEffect(ActiveSelection);
-        SpendCash(ActiveSelection.GetComponent<TurretManager>().Stats[Stat.Cost]);
-        ShipManager.Main.RegisterTurret(ActiveSelection.GetComponent<TurretManager>());
+        var manager = ActiveSelection.GetComponent<TurretManager>();
+        SpendCash(manager.Stats[Stat.Cost]);
+        ShipManager.Main.RegisterTurret(manager);
+
 
         AudioManager.Main.RequestGUIFX(buildSFX);
 
@@ -173,7 +175,6 @@ public class RewardManager : MonoBehaviour
         ActiveSelection.GetComponentInChildren<BaseEffectTemplate>().gameObject.SetActive(false);
         ActiveSelection.GetComponentInChildren<BaseEffectTemplate>(true).transform.parent = null;
         Destroy(ActiveSelection);
-        Debug.Log(ActiveSelection);
     }
 
 }

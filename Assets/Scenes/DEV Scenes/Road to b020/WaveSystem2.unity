@@ -155,6 +155,7 @@ MonoBehaviour:
   listOfWaves: {fileID: 11400000, guid: bfa0575bb92f7e04f88b32e5490ce83a, type: 2}
   distanceToSpawn: 40
   pointer: {fileID: 0}
+  onFormationSpawnSFX: 
 --- !u!4 &308485258
 Transform:
   m_ObjectHideFlags: 0
@@ -954,7 +955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224141779869304799, guid: f1c19a3cd2b9c2848925c6ab2fef2eaf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1c19a3cd2b9c2848925c6ab2fef2eaf, type: 3}

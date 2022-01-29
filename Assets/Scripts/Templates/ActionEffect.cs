@@ -83,7 +83,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void Shoot()
     {
-        if(target != null && !shooterParticle.isEmitting)
+        if(target != null && !shooterParticle.isPlaying)
         {
             shooting = true;
             shooterParticle.Play(true);

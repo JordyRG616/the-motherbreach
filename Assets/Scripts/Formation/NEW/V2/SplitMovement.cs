@@ -33,30 +33,39 @@ public class SplitMovement : FormationMovement
     public override void DoMovement(Rigidbody2D body, Vector3 target)
     {
         body.velocity = Vector2.zero;
-        step += Time.fixedDeltaTime;
-        // Debug.Log(step);
-        foreach(SpringJoint2D joint in joints)
-        {
-            if(step <= 2 * Mathf.PI) joint.distance += Mathf.Sin(step) * distance;
-        }
+        direction = (target - transform.position).normalized;
+        // direction = Vector2.Perpendicular(direction);
 
-        if(direction == Vector2.zero) direction = (target - transform.position).normalized;
-
-        body.AddForce(direction * force, ForceMode2D.Impulse);
-
-        var sign = -1;
-
-        foreach(EnemyManager enemy in enemies)
-        {
-            if(step <= Mathf.PI) 
-            {
-                var _body = enemy.GetComponent<Rigidbody2D>();
-                // _body.velocity = Vector2.zero;
-                _body.AddForce((direction + Vector2.Perpendicular(direction) * sign * 2) * 10);
-                sign *= -1;
-            }
-        }
-
-        RotateChildren(direction);
+        body.AddForce(direction * force, ForceMode2D.Impulse);       
     }
+
+    // public override void DoMovement(Rigidbody2D body, Vector3 target)
+    // {
+    //     body.velocity = Vector2.zero;
+    //     step += Time.fixedDeltaTime;
+    //     // Debug.Log(step);
+    //     foreach(SpringJoint2D joint in joints)
+    //     {
+    //         if(step <= 2 * Mathf.PI) joint.distance += Mathf.Sin(step) * distance;
+    //     }
+
+    //     if(direction == Vector2.zero) direction = (target - transform.position).normalized;
+
+    //     body.AddForce(direction * force, ForceMode2D.Impulse);
+
+    //     var sign = -1;
+
+    //     foreach(EnemyManager enemy in enemies)
+    //     {
+    //         if(step <= Mathf.PI) 
+    //         {
+    //             var _body = enemy.GetComponent<Rigidbody2D>();
+    //             // _body.velocity = Vector2.zero;
+    //             _body.AddForce((direction + Vector2.Perpendicular(direction) * sign * 2) * 10);
+    //             sign *= -1;
+    //         }
+    //     }
+
+    //     RotateChildren(direction);
+    // }
 }

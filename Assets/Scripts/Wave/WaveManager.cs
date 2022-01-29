@@ -37,6 +37,9 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float distanceToSpawn;
     [SerializeField] private GameObject pointer;
     [SerializeField] [FMODUnity.EventRef] private string onFormationSpawnSFX; 
+    private UIAnimations endOfWaveAnimation;
+    private ParticleSystem endOfWaveVFX;
+    [SerializeField] [FMODUnity.EventRef] private string endOfWaveSFX;
     private Queue<WaveData> dataQueue  = new Queue<WaveData>();
     private WaveData activeWave;
     private ShipManager ship;
@@ -49,6 +52,9 @@ public class WaveManager : MonoBehaviour
     [ContextMenu("Initialize")]
     public void Initialize()
     {
+        endOfWaveAnimation = GameObject.Find("End of wave text").GetComponent<UIAnimations>();
+        endOfWaveVFX = GameObject.Find("End of wave VFX").GetComponent<ParticleSystem>();
+
         ship = ShipManager.Main;
         GenerateDataQueue();
     }
@@ -67,6 +73,7 @@ public class WaveManager : MonoBehaviour
         if(dataQueue.Count > 0)
         {
             activeWave = dataQueue.Dequeue();
+            activeWave.SetQueue();
             spawnIndex = 0;
             StartCoroutine(InstantiateFormations());
         }
@@ -81,14 +88,16 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator InstantiateFormations()
     {
-        while(spawnIndex < activeWave.availableFormations.Count)
+        while(activeWave.breachQueue.Count > 0)
         {
-            int qnt = UnityEngine.Random.Range(1, activeWave.level + 2);
+            var breach = activeWave.breachQueue.Dequeue();
+            breach.SetQueue();
+            Vector2 spwPos = PositionToSpawn();
 
-            for(int i = 0; i < qnt; i++)
+            while(breach.formationQueue.Count > 0)
             {
-                Vector2 spwPos = PositionToSpawn();
-                var formation = Instantiate(activeWave.availableFormations[spawnIndex], spwPos, Quaternion.identity);
+                if(!breach.spawnInSamePosition) spwPos = PositionToSpawn();
+                var formation = Instantiate(breach.formationQueue.Dequeue(), spwPos, Quaternion.identity);
 
                 activeFormations.Add(formation.GetComponent<FormationManager>());
                 formation.GetComponent<FormationManager>().OnFormationDefeat += RemoveFormation;
@@ -97,13 +106,10 @@ public class WaveManager : MonoBehaviour
                 formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(formation.transform.Find("Head"));
                 AudioManager.Main.RequestSFX(onFormationSpawnSFX);
 
-                spawnIndex++;
-                if(spawnIndex == activeWave.availableFormations.Count) break;
-
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(breach.intervalOfSpawn);
             }
 
-            yield return new WaitForSeconds(activeWave.intervalOfSpawn);
+            yield return new WaitForSeconds(breach.intervalTillNextWave);
         }
 
     }
@@ -111,11 +117,17 @@ public class WaveManager : MonoBehaviour
     private void RemoveFormation(object sender, EventArgs e)
     {
         activeFormations.Remove(sender as FormationManager);
-        if(activeFormations.Count == 0) EndWave();
+        if(activeFormations.Count == 0) StartCoroutine(EndWave());
     }
 
-    private void EndWave()
+    private IEnumerator EndWave()
     {
+        endOfWaveVFX.Play();
+        // AudioManager.Main.RequestGUIFX(endOfWaveSFX);
+        yield return StartCoroutine(endOfWaveAnimation.Forward());
+
+        endOfWaveAnimation.PlayReverse();
+
         StopAllCoroutines();
         defaultArg.waveReward = activeWave.rewardValue;
         OnWaveEnd?.Invoke(this, defaultArg);

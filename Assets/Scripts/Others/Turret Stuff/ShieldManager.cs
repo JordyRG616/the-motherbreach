@@ -39,7 +39,7 @@ public class ShieldManager : MonoBehaviour, IDamageable
 
     public void UpdateHealthBar()
     {
-    }
 
+    }
     
 }

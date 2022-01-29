@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator Show()
     {
         onPause = true;
+        audioManager.GetAudioTrack("SFX").PauseAudio();
         Time.timeScale = 0;
         yield return StartCoroutine(pauseAnimation.PlayTimeline());
     }
@@ -141,8 +142,9 @@ public class GameManager : MonoBehaviour
     private IEnumerator Hide()
     {
         onPause = false;
-        yield return StartCoroutine(pauseAnimation.ReverseTimeline());
+        audioManager.GetAudioTrack("SFX").UnpauseAudio();
         Time.timeScale = 1;
+        yield return StartCoroutine(pauseAnimation.ReverseTimeline());
     }
 
     public void ExitGame()

@@ -29,6 +29,7 @@ public class DroneMovement : MonoBehaviour
 
     private void Die()
     {
+        transform.parent = owner.transform;
         owner.activeDrones--;
 
         StopMoving();
@@ -57,6 +58,7 @@ public class DroneMovement : MonoBehaviour
             yield return waitTime;
         }
 
+        transform.parent = null;
         step = 0;
 
         while(true)

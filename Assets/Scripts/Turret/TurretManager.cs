@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretManager : MonoBehaviour
+public class TurretManager : MonoBehaviour, IManager
 {
     
     public BaseEffectTemplate baseEffect {get; private set;}
@@ -59,6 +59,11 @@ public class TurretManager : MonoBehaviour
     {
         Level ++;
         OnLevelUp?.Invoke(this, new LevelUpArgs(Level));
+    }
+
+    public void DestroyManager()
+    {
+        GetComponentInParent<ShipManager>().RemoveTurret(this);
     }
 }
 
