@@ -40,7 +40,7 @@ public class DroneController : ActionController
     {
         if(movement.GetTarget() != null)
         {
-            target = movement.GetTarget().GetComponent<EnemyManager>();
+            target = movement.GetTarget().GetComponent<TargetableComponent>();
             shooters[0].ReceiveTarget(target.gameObject);
         } else
         {

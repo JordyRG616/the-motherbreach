@@ -37,6 +37,10 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
             AudioManager.Main.RequestSFX(onHitSFX);
             vfxManager.StartCoroutine(GetComponentInChildren<TurretVFXManager>().TakeDamage());
         }
+        if(currentIntegrity > maxIntegrity)
+        {
+            currentIntegrity = maxIntegrity;
+        }
         if(currentIntegrity <= 0)
         {
             DestroyDamageable();
@@ -70,5 +74,10 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
     public void RaiseMaxIntegrityByPercentage(float percentage)
     {
         maxIntegrity *= (1 + percentage);
+    }
+
+    public float GetCurrentIntegrity()
+    {
+        return currentIntegrity;
     }
 }

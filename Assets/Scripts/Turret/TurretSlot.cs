@@ -9,7 +9,7 @@ public class TurretSlot : MonoBehaviour
 
     public bool IsOcuppied()
     {
-        return occupied;
+        return occupyingTurret != null;
     }
 
     public void BuildTurret(GameObject turret)

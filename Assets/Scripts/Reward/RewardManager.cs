@@ -45,6 +45,7 @@ public class RewardManager : MonoBehaviour
     private UIAnimationManager animationManager;
     public float TotalCash, EarnedCash, SpendedCash;
     private BuildBox buildBox;
+    private TutorialManager tutorialManager;
 
     public GameObject ActiveSelection {get; private set;}
 
@@ -61,6 +62,7 @@ public class RewardManager : MonoBehaviour
         animationManager = GameObject.FindGameObjectWithTag("RewardAnimation").GetComponent<UIAnimationManager>();
 
         buildBox = FindObjectOfType<BuildBox>();
+        tutorialManager = FindObjectOfType<TutorialManager>();
 
         inputManager = InputManager.Main;
         inputManager.OnSelectionClear += ClearSelection;
@@ -68,6 +70,8 @@ public class RewardManager : MonoBehaviour
         weaponBoxes = FindObjectsOfType<WeaponBox>(true).ToList();
         baseBoxes = FindObjectsOfType<BaseBox>(true).ToList();
         cashTextAnimation = FindObjectOfType<CashTextAnimation>();
+
+        AudioManager.Main.RequestMusic("Reward Song 2");
     }
 
     public void InitiateReward(float rewardValue)
@@ -75,7 +79,16 @@ public class RewardManager : MonoBehaviour
         SpendedCash = 0;
         EarnCash(rewardValue);
         ShipManager.Main.transform.rotation = Quaternion.identity;
+        var ship = FindObjectOfType<ShipController>();
+        ship.StopFX();
+        ship.transform.rotation = Quaternion.identity;
+        ship.GetComponent<Rigidbody2D>().Sleep();
         animationManager.Play();
+        
+        AudioManager.Main.GetAudioTrack("SFX").PauseAudio();
+        AudioManager.Main.GetAudioTrack("Music").PauseAudio();
+        AudioManager.Main.GetAudioTrack("Special").UnpauseAudio();
+
 
         var locked = FindObjectOfType<LockButton>().locked;
 
@@ -111,6 +124,7 @@ public class RewardManager : MonoBehaviour
 
     public void BuildSelection()
     {
+        tutorialManager.TriggerPosBuildTutorial();
         buildBox.Clear();
         turretConstructor.TriggerImeddiateEffect(ActiveSelection);
         var manager = ActiveSelection.GetComponent<TurretManager>();
@@ -125,6 +139,10 @@ public class RewardManager : MonoBehaviour
 
     public void Exit()
     {
+        AudioManager.Main.GetAudioTrack("SFX").UnpauseAudio();
+        AudioManager.Main.GetAudioTrack("Special").PauseAudio();
+        AudioManager.Main.GetAudioTrack("Music").UnpauseAudio();
+
         var locked = FindObjectOfType<LockButton>().locked;
 
         if(!locked) EliminateOffer();

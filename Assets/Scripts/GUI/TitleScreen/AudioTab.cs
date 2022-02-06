@@ -31,6 +31,8 @@ public class AudioTab : MonoBehaviour
     public void HandleMusicVolume(float volume)
     {
         var track = audioManager.GetAudioTrack("Music");
+        var secondTrack = audioManager.GetAudioTrack("Special");
+        secondTrack.trackVolume = volume;
         track.trackVolume = volume;
     }
 

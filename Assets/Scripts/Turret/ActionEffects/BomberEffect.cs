@@ -49,13 +49,19 @@ public class BomberEffect : ActionEffect
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
+        // hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
 
     public override string DescriptionText()
     {
-        string description = "shoots two bombs that explodes in " + StatColorHandler.StatPaint(StatSet[Stat.Projectiles].ToString()) + " projectiles that deals " + StatColorHandler.DamagePaint(GetComponentInChildren<BombFragEffect>().StatSet[Stat.Damage].ToString()) + " damage on hit, each";
+        string description = "shoots two bombs that explodes in " + StatColorHandler.StatPaint(StatSet[Stat.Projectiles].ToString()) + " projectiles that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit, each";
         return description;
+    }
+
+    public override string upgradeText(int nextLevel)
+    {
+        if(nextLevel == 5) return StatColorHandler.StatPaint("next level:") + " damage + 50%";
+        else return StatColorHandler.StatPaint("next level:") + " projectiles + 1";
     }
 
     public override void LevelUp(int toLevel)
@@ -71,7 +77,7 @@ public class BomberEffect : ActionEffect
         SetStat(Stat.Projectiles, projectiles);
     }
 
-    private void GainDamage()
+    public void GainDamage()
     {
         var damage = GetComponentInChildren<BombFragEffect>().StatSet[Stat.Damage];
         damage *= 1.5f;

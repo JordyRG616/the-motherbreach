@@ -7,6 +7,10 @@ TagManager:
   - SecCamera
   - RewardAnimation
   - PauseAnimation
+  - FirstBar
+  - SecondBar
+  - ThirdBar
+  - BarFill
   layers:
   - Default
   - TransparentFX
@@ -49,6 +53,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemies
+    uniqueID: 4183718459
     locked: 0
   - name: VFX
     uniqueID: 443927703

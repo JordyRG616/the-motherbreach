@@ -38,7 +38,6 @@ public abstract class FormationMovementController : MonoBehaviour
     protected void RegisterMovement(EnemyMovementType movementType)
     {
         if(currentMovement == movementType) return;
-        Debug.Log(movementType);
         doMove = null;
         var movement =  movements.Find(x => x.Type == movementType);
         movement.Initiate();
@@ -51,9 +50,10 @@ public abstract class FormationMovementController : MonoBehaviour
     protected virtual IEnumerator OpenFire()
     {
         var enemies = GetComponentInParent<FormationManager>().Children;
-        foreach(EnemyManager enemy in enemies)
+        for(int i = 0; i < enemies.Count; i++)
         {
-            enemy.OpenFire();
+            if(enemies[i] == null) continue;
+            enemies[i].OpenFire();
             yield return new WaitForSeconds(1f);
         }
     }

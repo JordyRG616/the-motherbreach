@@ -75,9 +75,9 @@ MonoBehaviour:
   - {fileID: 1893178835161390430}
   - {fileID: 1893178835161390423}
   attackingMovements: 3
-  distanceToAttack: 25
-  distanceToFlee: 20
-  durationOfFlee: 0.8
+  distanceToAttack: 20
+  distanceToFlee: 15
+  durationOfFlee: 0.5
 --- !u!114 &1893178835161390431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,8 +91,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedModifier: 0
-  speed: 1
-  eccentricity: 2.5
+  speed: 1.5
+  eccentricity: 3.5
 --- !u!114 &1893178835161390430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,6 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedModifier: 0
   allowInertia: 0
+  fixChildren: 1
 --- !u!114 &1893178835161390423
 MonoBehaviour:
   m_ObjectHideFlags: 0

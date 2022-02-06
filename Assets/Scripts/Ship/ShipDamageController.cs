@@ -54,18 +54,32 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         }
     }
 
+    public void UpdateHealthNoEffects(float amount)
+    {
+        currentHealth += amount;
+        if(currentHealth <= 0)
+        {
+            GameManager.Main.GameOver();
+            return;
+        }
+        if(amount < 0)
+        {
+            var newUpdate = UpdateGUI();
+            enqueuedUpdates.Enqueue(newUpdate);
+        }
+    }
+
     private IEnumerator UpdateGUI()
     {
         float step = 0;
         var percentage = currentHealth / maxHealth;
         var ogScale = fill.localScale.x;
+        textMesh.text = currentHealth.ToString("0");
 
         while(step <= 1)
         {
             var scaleX = Mathf.Lerp(ogScale, percentage, step);
             fill.localScale = new Vector2(scaleX, fill.localScale.y);
-
-            textMesh.text = (scaleX * maxHealth).ToString("0");
 
             step += 0.1f;
 

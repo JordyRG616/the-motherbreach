@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,13 @@ public class BossAttackController : MonoBehaviour
 {
     [SerializeField] private List<ActionEffect> weaponry;
 
+    void Start()
+    {
+        foreach(ActionEffect weapon in weaponry)
+        {
+            weapon.Initiate();
+        }
+    }
 
     public void ActivateWeapons(List<WeaponClass> classesToActivate)
     {
@@ -25,5 +33,11 @@ public class BossAttackController : MonoBehaviour
         {
             weapon.StopShooting();
         }
+    }
+
+    public List<ActionEffect> RetrieveWeapons(WeaponClass classToRetrive)
+    {
+        var container = weaponry.FindAll(x => x.GetClass() == classToRetrive).ToList();
+        return container;
     }
 }

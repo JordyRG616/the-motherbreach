@@ -92,6 +92,9 @@
 		<property name="length">
 			<value>0.45000000000000001</value>
 		</property>
+		<relationship name="modulators">
+			<destination>{5391d3c7-db42-4ed0-ba4a-9702b156eb3f}</destination>
+		</relationship>
 		<relationship name="fadeOutCurve">
 			<destination>{ddc19f1c-75a7-402b-9c6e-8c5da1d509a2}</destination>
 		</relationship>
@@ -119,10 +122,19 @@
 	<object class="MixerBusEffectChain" id="{cd2b8e03-4d0f-4a21-9467-93ea0049b3af}">
 		<relationship name="effects">
 			<destination>{c0c55448-7b94-4ed5-8470-8de43689edb5}</destination>
+			<destination>{b5b82529-d3cb-4310-8738-3e19b3812d20}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{5302ee56-3336-4c95-9dc2-0abacd971c7f}" />
 	<object class="MixerBusFader" id="{9e1c9986-846c-40de-be2a-bc3ce88e155e}" />
+	<object class="RandomizerModulator" id="{5391d3c7-db42-4ed0-ba4a-9702b156eb3f}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>pitch</value>
+		</property>
+		<property name="amount">
+			<value>2.5</value>
+		</property>
+	</object>
 	<object class="FadeCurve" id="{ddc19f1c-75a7-402b-9c6e-8c5da1d509a2}">
 		<relationship name="startPoint">
 			<destination>{93e10393-bb13-4df8-a1d8-cc9b19478892}</destination>
@@ -138,6 +150,14 @@
 	</object>
 	<object class="MixerBusPanner" id="{16201b02-b4af-490c-8480-e78bcc4e9699}" />
 	<object class="MixerBusFader" id="{c0c55448-7b94-4ed5-8470-8de43689edb5}" />
+	<object class="FlangerEffect" id="{b5b82529-d3cb-4310-8738-3e19b3812d20}">
+		<property name="rate">
+			<value>0.699999988</value>
+		</property>
+		<relationship name="modulators">
+			<destination>{8e15e149-e832-4b39-a6df-8a891a8062c9}</destination>
+		</relationship>
+	</object>
 	<object class="AutomationPoint" id="{93e10393-bb13-4df8-a1d8-cc9b19478892}">
 		<property name="position">
 			<value>0.40000000000000002</value>
@@ -158,4 +178,12 @@
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{cf291c26-a826-4d19-b575-8b025c624ac5}" />
+	<object class="RandomizerModulator" id="{8e15e149-e832-4b39-a6df-8a891a8062c9}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>rate</value>
+		</property>
+		<property name="amount">
+			<value>7.5</value>
+		</property>
+	</object>
 </objects>

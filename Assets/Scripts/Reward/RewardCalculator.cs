@@ -90,6 +90,7 @@ public class RewardCalculator : MonoBehaviour
             expAmount = 0;
             ShopLevel++;
             AudioManager.Main.RequestGUIFX(levelGained);
+            FindObjectOfType<RerrollButton>().Reroll();
         }
     }
 

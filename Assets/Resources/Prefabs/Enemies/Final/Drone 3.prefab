@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bd17f79f92aed5945a8fd3fcac4ed45a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6e5f8b2ef7587f9428eb3e4d6087be7b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -133,7 +133,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.142857, y: 2.142857}
+    oldSize: {x: 1.5, y: 1.5}
     newSize: {x: 3.2, y: 3.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -201,7 +201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a1945ee5ee02ce449bc8f6011edf1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitSFX: event:/SFX/Hit2
 --- !u!114 &6390329837503872522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +214,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 0
 --- !u!114 &6390329837503872525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +229,9 @@ MonoBehaviour:
   refMaterial: {fileID: 2100000, guid: fabe78c187155b14eaa20de6d80dd1ea, type: 2}
   deathParticles: {fileID: 4408332397351928307}
   deathSFX: event:/SFX/EnemyDeath
+  onHitSFX: 
   healthController: {fileID: 6390329837503872522}
+  damageSFX: {fileID: 0}
 --- !u!114 &2773553571261130901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,13 +244,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f800eddc59722e44594e94f40b79b716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooter: {fileID: 5067461020153202873}
+  shooterParticle: {fileID: 0}
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
   weaponClass: 0
+  keyword: 0
   initialDamage: 10
   initialRest: 0
+  onShootSFX: 
+  singleSFX: 0
 --- !u!1001 &6390329837161951959
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -435,10 +438,5 @@ PrefabInstance:
 --- !u!4 &7770133180850522560 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
-  m_PrefabInstance: {fileID: 6390329838154819755}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &5067461020153202873 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 2232729688115175442, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
   m_PrefabInstance: {fileID: 6390329838154819755}
   m_PrefabAsset: {fileID: 0}

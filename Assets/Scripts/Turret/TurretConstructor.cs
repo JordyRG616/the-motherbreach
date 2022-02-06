@@ -36,6 +36,9 @@ public class TurretConstructor : MonoBehaviour
     [SerializeField] private GameObject TurretTemplate;
     [SerializeField] private RewardList baseList;
     [SerializeField] private RewardList topList;
+    private int lastRdmBase = int.MaxValue;
+    private int lastRdmWeapon = int.MaxValue;
+
 
     public void Initialize()
     {
@@ -79,6 +82,11 @@ public class TurretConstructor : MonoBehaviour
     private GameObject GetTop(Transform parentBlueprint, RewardLevel level, out ActionController actionController)
     {
         int rdm = Random.Range(0, topList.GetListCount(level));
+        // while(rdm == lastRdmWeapon)
+        // {
+        //     rdm = Random.Range(0, topList.GetListCount(level));
+        // }
+
         var _instance = topList.GetRewardByLevel(level, rdm);
         GameObject container = Instantiate(_instance, transform.position, Quaternion.identity, parentBlueprint);
         container.name = _instance.name;
@@ -93,6 +101,12 @@ public class TurretConstructor : MonoBehaviour
     {
         var list = topList.GetAllRewardsBelowLevel(level);
         int rdm = Random.Range(0, list.Count);
+        if(rdm == lastRdmWeapon)
+        {
+            rdm = Random.Range(0, list.Count);
+        }
+        lastRdmWeapon = rdm;
+
         var container = Instantiate(list[rdm]);
         container.name = list[rdm].name;
         container.GetComponent<ActionController>().Initiate();
@@ -105,6 +119,12 @@ public class TurretConstructor : MonoBehaviour
     {
         var list = baseList.GetAllRewardsBelowLevel(level);
         int rdm = Random.Range(0, list.Count);
+        if(rdm == lastRdmBase)
+        {
+            rdm = Random.Range(0, list.Count);
+        }
+        lastRdmBase = rdm;
+
         var container = Instantiate(list[rdm]);
         container.name = list[rdm].name;
         container.SetActive(false);

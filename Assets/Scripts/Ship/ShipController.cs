@@ -29,6 +29,7 @@ public class ShipController : MonoBehaviour
     
     private void MoveShip(object sender, MovementEventArgs e)
     {
+        if(UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
         var angle = Mathf.Atan2(-e.direction.y, -e.direction.x) * Mathf.Rad2Deg;
         foreach(ParticleSystem burner in burners)
         {
@@ -48,11 +49,16 @@ public class ShipController : MonoBehaviour
 
         if(Input.GetKeyUp(KeyCode.Mouse0) && GameManager.Main.gameState == GameState.OnWave && !GameManager.Main.onPause)
         {
-            AudioManager.Main.StopSFX(_instance);
-            foreach(ParticleSystem burner in burners)
-            {
-                burner.Stop();
-            }
+            StopFX();
+        }
+    }
+
+    public void StopFX()
+    {
+        AudioManager.Main.StopSFX(_instance);
+        foreach (ParticleSystem burner in burners)
+        {
+            burner.Stop();
         }
     }
 

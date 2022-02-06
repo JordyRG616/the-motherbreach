@@ -17,5 +17,6 @@ public class EnemyActionEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
+        
     }
 }

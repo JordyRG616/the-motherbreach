@@ -37,9 +37,15 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     public abstract void ApplyEffect();
 
     public abstract string DescriptionText();
-    public virtual string DescriptionText(out Keyword keyword)
+    public virtual string DescriptionText(out Keyword keyword, WeaponClass weaponClass = WeaponClass.Default)
     {
         keyword = this.keyword;
+        if(weaponClass != WeaponClass.Default) return DescriptionTextByClass(weaponClass);
+        else return DescriptionText();
+    }
+
+    public virtual string DescriptionTextByClass(WeaponClass weaponClass)
+    {
         return DescriptionText();
     }
 
@@ -64,4 +70,8 @@ public abstract class BaseEffectTemplate : MonoBehaviour
         return cost;
     }
 
+    void OnDisable()
+    {
+        if(associatedController != null) gameManager.OnGameStateChange -= HandleEffectTrigger;
+    }
 }

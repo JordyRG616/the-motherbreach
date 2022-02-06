@@ -61,14 +61,19 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             AudioManager.Main.RequestGUIFX(clicksSFX);
             image.sprite = clickSprite;
 
-            rewardManager.SpendedCash = 2;
+            rewardManager.SpendedCash = 2;  
             cashTextAnim.PlayReverse();
 
-            rewardManager.EliminateOffer();
-            rewardManager.GenerateOffer();
+            Reroll();
             return;
         }
         AudioManager.Main.PlayInvalidSelection();
+    }
+
+    public void Reroll()
+    {
+        rewardManager.EliminateOffer();
+        rewardManager.GenerateOffer();
     }
 
     public void OnPointerUp(PointerEventData eventData)

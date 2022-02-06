@@ -45,15 +45,21 @@ public class WaveManager : MonoBehaviour
     private ShipManager ship;
     private int spawnIndex;
     private List<FormationManager> activeFormations = new List<FormationManager>();
+    private List<BossController> activeBosses = new List<BossController>();
+    private TutorialManager tutorialManager;
 
     public event EventHandler<EndWaveEventArgs> OnWaveEnd;
     private EndWaveEventArgs defaultArg = new EndWaveEventArgs();
 
-    [ContextMenu("Initialize")]
+
     public void Initialize()
     {
         endOfWaveAnimation = GameObject.Find("End of wave text").GetComponent<UIAnimations>();
         endOfWaveVFX = GameObject.Find("End of wave VFX").GetComponent<ParticleSystem>();
+
+        tutorialManager = FindObjectOfType<TutorialManager>();
+
+        AudioManager.Main.RequestMusic();
 
         ship = ShipManager.Main;
         GenerateDataQueue();
@@ -70,6 +76,8 @@ public class WaveManager : MonoBehaviour
     [ContextMenu("Next")]
     public void StartNextWave()
     {
+        FindObjectOfType<ShipController>().GetComponent<Rigidbody2D>().WakeUp();
+
         if(dataQueue.Count > 0)
         {
             activeWave = dataQueue.Dequeue();
@@ -88,25 +96,43 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator InstantiateFormations()
     {
+        yield return StartCoroutine(tutorialManager.ShowWaveTutorial());
+
         while(activeWave.breachQueue.Count > 0)
         {
             var breach = activeWave.breachQueue.Dequeue();
             breach.SetQueue();
             Vector2 spwPos = PositionToSpawn();
 
-            while(breach.formationQueue.Count > 0)
+            if(breach.bossWave)
             {
-                if(!breach.spawnInSamePosition) spwPos = PositionToSpawn();
-                var formation = Instantiate(breach.formationQueue.Dequeue(), spwPos, Quaternion.identity);
+                while(breach.formationQueue.Count > 0)
+                {
+                    if(!breach.spawnInSamePosition) spwPos = PositionToSpawn();
+                    var boss = Instantiate(breach.formationQueue.Dequeue(), spwPos, Quaternion.identity);
 
-                activeFormations.Add(formation.GetComponent<FormationManager>());
-                formation.GetComponent<FormationManager>().OnFormationDefeat += RemoveFormation;
+                    activeBosses.Add(boss.GetComponent<BossController>());
 
-                var formationPointer = Instantiate(pointer, Vector3.zero, Quaternion.identity);
-                formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(formation.transform.Find("Head"));
-                AudioManager.Main.RequestSFX(onFormationSpawnSFX);
+                    var formationPointer = Instantiate(pointer, boss.transform.position, Quaternion.identity);
+                    formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(boss.transform);
+                }
+            }
+            else
+            {
+                while(breach.formationQueue.Count > 0)
+                {
+                    if(!breach.spawnInSamePosition) spwPos = PositionToSpawn();
+                    var formation = Instantiate(breach.formationQueue.Dequeue(), spwPos, Quaternion.identity);
 
-                yield return new WaitForSeconds(breach.intervalOfSpawn);
+                    activeFormations.Add(formation.GetComponent<FormationManager>());
+                    formation.GetComponent<FormationManager>().OnFormationDefeat += RemoveFormation;
+
+                    var formationPointer = Instantiate(pointer, formation.transform.position, Quaternion.identity);
+                    formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(formation.transform.Find("Head"));
+                    AudioManager.Main.RequestSFX(onFormationSpawnSFX);
+
+                    yield return new WaitForSeconds(breach.intervalOfSpawn);
+                }
             }
 
             yield return new WaitForSeconds(breach.intervalTillNextWave);
@@ -117,13 +143,20 @@ public class WaveManager : MonoBehaviour
     private void RemoveFormation(object sender, EventArgs e)
     {
         activeFormations.Remove(sender as FormationManager);
-        if(activeFormations.Count == 0) StartCoroutine(EndWave());
+        if(activeFormations.Count == 0 && activeBosses.Count == 0) StartCoroutine(EndWave());
+    }
+
+    internal void RemoveBoss(BossController bossController)
+    {
+        activeBosses.Remove(bossController);
+        if(activeBosses.Count == 0 && activeFormations.Count == 0) StartCoroutine(EndWave());
     }
 
     private IEnumerator EndWave()
     {
         endOfWaveVFX.Play();
-        // AudioManager.Main.RequestGUIFX(endOfWaveSFX);
+        // AudioManager.Main.StopMusicTrack();
+        AudioManager.Main.RequestGUIFX(endOfWaveSFX);
         yield return StartCoroutine(endOfWaveAnimation.Forward());
 
         endOfWaveAnimation.PlayReverse();

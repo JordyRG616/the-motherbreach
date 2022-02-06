@@ -31,6 +31,7 @@ public class AudioManager : MonoBehaviour
     private AudioEffects effects;
     
     [SerializeField] private AudioTrack musicTrack;
+    [SerializeField] private AudioTrack uniqueMusicTrack;
     [SerializeField] private AudioTrack SFXTrack;
     [SerializeField] private AudioTrack GUITrack;
 
@@ -59,7 +60,7 @@ public class AudioManager : MonoBehaviour
     {
         // if(musicTrack.AudioIsPlaying()) CrossfadeMusics(musicName);
         // else 
-        musicTrack.ReceiveAudio(library.GetMusic(musicName), true);
+        uniqueMusicTrack.ReceiveAudio(library.GetMusic(musicName), true);
     }
 
     private IEnumerator Playlist()
@@ -71,7 +72,20 @@ public class AudioManager : MonoBehaviour
 
     public void StopMusicTrack()
     {
-        musicTrack.StopAudio(0);
+        for (int i = 0; i < uniqueMusicTrack.activeChannels.Count; i++)
+        {
+            uniqueMusicTrack.StopAudio(i);
+        }
+
+        // for (int i = 0; i < musicTrack.activeChannels.Count; i++)
+        // {
+        //     musicTrack.StopAudio(i);
+        // }
+    }
+
+    private void StopUniqueTrack()
+    {
+        
     }
 
     public void CrossfadeMusics()
@@ -150,7 +164,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    /// <param name="track">Music, SFX or GUI</param>
+    /// <param name="track">Music, Special, SFX or GUI</param>
     public AudioTrack GetAudioTrack(string track)
     {
         switch(track)
@@ -161,6 +175,8 @@ public class AudioManager : MonoBehaviour
                 return SFXTrack;
             case "GUI":
                 return GUITrack;
+            case "Special":
+                return uniqueMusicTrack;
             default:
                 return null;
         }

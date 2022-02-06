@@ -33,7 +33,7 @@ public class FollowerController : ActionController
         StartCoroutine(FollowTarget(target));
     }
 
-    protected IEnumerator FollowTarget(EnemyManager target)
+    protected IEnumerator FollowTarget(TargetableComponent target)
     {
         StartCoroutine(ManageActivation());
 

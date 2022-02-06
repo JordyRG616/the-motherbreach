@@ -20,8 +20,11 @@ public enum WigglePattern
 public enum RewardLevel {Common, Uncommon, Rare, Unique, Error}
 public enum Stat {Health, Cost, Damage, Rest, BulletSpeed, BurstSize, Projectiles, BulletSize, Duration, Capacity, DroneLevel}
 public enum BaseEffectTrigger {Immediate, StartOfWave, EndOfWave, OnDestruction, None, Special, OnLevelUp}
-public enum WeaponClass {Artillery, Shotgun, Bomber, Beamer, Spreader, Spawner}
+public enum WeaponClass {Artillery, Shotgun, Bomber, Beamer, Spreader, Spawner, Healer, Default, Enhancer}
 public enum Keyword {None, Slug, Burn, Shield}
 
 //. GAME STATE
 public enum GameState {OnWave, OnReward, OnTitle, OnPause}
+
+//. GENERAL
+public enum Direction {Up, Down, Right, Left, None}

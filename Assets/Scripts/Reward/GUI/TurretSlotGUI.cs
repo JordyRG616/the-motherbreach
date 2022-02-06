@@ -69,7 +69,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             DeactivateSprite();
             return;
         }
-        else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null)
+        else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null && !buildBox.OnUpgrade)
         {
             AudioManager.Main.RequestGUIFX(clickSFX);
             selectedVFX.Play();

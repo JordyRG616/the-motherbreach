@@ -49,8 +49,12 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         if (buildBox.Selections().Weapon != null && buildBox.Selections().Base != null)
         {
-            AudioManager.Main.RequestGUIFX(clickSFX);
-            rewardManager.SetSelection(buildBox.Selections().Weapon, buildBox.Selections().Base);
+            if(rewardManager.TotalCash >= buildBox.TotalCost)
+            {
+                AudioManager.Main.RequestGUIFX(clickSFX);
+                rewardManager.SetSelection(buildBox.Selections().Weapon, buildBox.Selections().Base);
+            }
+            else AudioManager.Main.PlayInvalidSelection();
         }
         else AudioManager.Main.PlayInvalidSelection();
     }

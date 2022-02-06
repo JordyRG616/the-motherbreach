@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler
+public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Sprite clickSprite;
     [SerializeField] private TextMeshProUGUI textMesh;
@@ -27,6 +27,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     private BuildBox buildBox;
     private BuildButton buildButton;
     private bool onUpgrade;
+    private RectTransform infoBox;
 
 
     void Awake()
@@ -38,6 +39,8 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         buildButton = FindObjectOfType<BuildButton>();
 
         inputManager = InputManager.Main;
+
+        infoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
     }
 
     void OnEnable()
@@ -90,6 +93,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         if(!onUpgrade)
         {
             SetUpgradeOption();
+            SetUpgradeText();
         }
         else
         {
@@ -104,17 +108,25 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         var turretManager = clickedSlot.occupyingTurret.GetComponent<TurretManager>();
         var cost = turretManager.Level + 1;
 
-        if(RewardManager.Main.TotalCash >= cost && turretManager.Level < 5) 
+        if(RewardManager.Main.TotalCash >= cost && turretManager.Level < 5)
         {
             GetComponentInChildren<ParticleSystem>().Play();
             AudioManager.Main.RequestGUIFX(upgradeSFX);
             RewardManager.Main.SpendCash(cost);
             turretManager.LevelUp();
-            textMesh.text = "upgrade (" + cost + "$)";
             buildBox.UpdateStats();
+            cost = turretManager.Level + 1;
+            SetButtonText(cost);
+            SetUpgradeText();
             return;
         }
         AudioManager.Main.PlayInvalidSelection();
+    }
+
+    private void SetButtonText(int cost)
+    {
+        if(cost < 6) textMesh.text = "upgrade (" + cost + "$)";
+        else textMesh.text = "max. level";
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -128,7 +140,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
         var cost = clickedSlot.occupyingTurret.GetComponent<TurretManager>().Level + 1;
 
-        textMesh.text = "upgrade (" + cost + "$)";
+        SetButtonText(cost);
 
         FindObjectOfType<SellButton>().Disable();
         buildButton.mode = BuildButton.ButtonMode.DONE;
@@ -145,5 +157,26 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         GetComponent<ShaderAnimation>().Play();
         AudioManager.Main.RequestGUIFX(hoverSFX);
+
+        if (!onUpgrade) return;
+
+        SetUpgradeText();
+    }
+
+    private void SetUpgradeText()
+    {
+        var action = clickedSlot.occupyingTurret.GetComponent<TurretManager>().actionController;
+        var level = clickedSlot.occupyingTurret.GetComponent<TurretManager>().Level;
+        var text = action.GetShooters()[0].upgradeText(level + 1);
+        text = "<size=125%>" + text;
+
+        infoBox.gameObject.SetActive(true);
+        infoBox.GetComponent<StatInfoBox>().SetText(text);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        infoBox.gameObject.SetActive(false);
+
     }
 }

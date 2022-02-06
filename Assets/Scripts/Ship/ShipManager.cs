@@ -24,11 +24,20 @@ public class ShipManager : MonoBehaviour
     private GameManager gameManager;
     private List<TurretManager> turrets = new List<TurretManager>();
     [SerializeField] private Transform controller;
+    private ActionEffect beam;
+    private Camera cam;
+    [SerializeField] private float beamSelfDamage;
 
     void Awake()
     {
         gameManager = GameManager.Main;
         gameManager.OnGameStateChange += HealTurrets;
+
+        cam = Camera.main;
+
+        beam = GetComponent<ActionEffect>();
+        beam.Initiate();
+        beam.ReceiveTarget(gameObject);
         // gameManager.OnGameStateChange += HandleAnchor;
     }
 
@@ -63,5 +72,35 @@ public class ShipManager : MonoBehaviour
     {
         transform.position = controller.position;
         transform.rotation = controller.rotation;
+
+        if(gameManager.gameState == GameState.OnWave)
+        {
+            RotateBeam();
+
+            if(Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                beam.Shoot();
+            }
+
+            if(Input.GetKey(KeyCode.Mouse1))
+            {
+                GetComponent<ShipDamageController>().UpdateHealthNoEffects(-Time.deltaTime * beamSelfDamage);
+            }
+
+            if(Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                beam.StopShooting();
+                beam.GetShooterSystem().Clear(true);
+            }
+        }
+    }
+
+    private void RotateBeam()
+    {
+        var shooter = beam.GetShooterSystem().transform;
+        var direction = (transform.position - cam.ScreenToWorldPoint(Input.mousePosition)).normalized;
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        shooter.rotation = Quaternion.Euler(0, 0, angle + 90f);
     }
 }

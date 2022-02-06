@@ -32,7 +32,7 @@ public class EnemyAttackController : MonoBehaviour
 
     void Update()
     {
-        action.RotateShoots(transform.rotation.eulerAngles.z);
+        // action.RotateShoots(transform.rotation.eulerAngles.z);
     }
     
 }

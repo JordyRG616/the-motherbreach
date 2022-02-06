@@ -18,11 +18,13 @@ MonoBehaviour:
     - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
     - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
     intervalOfSpawn: 1
-    intervalTillNextWave: 5
+    intervalTillNextWave: 15
     spawnInSamePosition: 0
+    bossWave: 0
   - availableFormations:
     - {fileID: 4461862019773174273, guid: 20399db21b627e6458473f314a0dac94, type: 3}
     intervalOfSpawn: 0
     intervalTillNextWave: 0
     spawnInSamePosition: 0
-  rewardValue: 5
+    bossWave: 0
+  rewardValue: 6

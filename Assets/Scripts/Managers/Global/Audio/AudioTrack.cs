@@ -13,6 +13,7 @@ public class AudioTrack
     [SerializeField] private int maxChannels;
     [SerializeField] private MonoBehaviour invoker;
     public Dictionary<EventInstance, IEnumerator> activeChannels = new Dictionary<EventInstance, IEnumerator>();
+    public bool paused {get; private set;}
 
     public void ReceiveAudio(EventInstance audioInstance, bool unique = false)
     {
@@ -89,6 +90,7 @@ public class AudioTrack
         {
             instance.setPaused(true);
         }
+        paused = true;
     }
 
     
@@ -98,6 +100,7 @@ public class AudioTrack
         {
             instance.setPaused(false);
         }
+        paused = false;
     }
 
     public bool AudioIsPlaying(EventInstance audioInstance)

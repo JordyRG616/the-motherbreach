@@ -14,8 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breaches:
   - availableFormations:
-    - {fileID: 6498165479843956198, guid: 6b639f24e93c02742b8e376c98847d6a, type: 3}
+    - {fileID: 4461862019773174273, guid: 20399db21b627e6458473f314a0dac94, type: 3}
     intervalOfSpawn: 0
+    intervalTillNextWave: 7
+    spawnInSamePosition: 0
+    bossWave: 0
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
+    intervalOfSpawn: 0.7
+    intervalTillNextWave: 20
+    spawnInSamePosition: 0
+    bossWave: 0
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: 20399db21b627e6458473f314a0dac94, type: 3}
+    - {fileID: 4461862019773174273, guid: 20399db21b627e6458473f314a0dac94, type: 3}
+    intervalOfSpawn: 1
     intervalTillNextWave: 0
     spawnInSamePosition: 0
-  rewardValue: 0
+    bossWave: 0
+  rewardValue: 12

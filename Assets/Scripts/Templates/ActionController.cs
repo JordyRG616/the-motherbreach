@@ -9,8 +9,8 @@ public abstract class ActionController : MonoBehaviour
     [SerializeField] protected List<ActionEffect> shooters;
     [SerializeField] protected float cost;
     [SerializeField] protected float health;
-    [SerializeField] protected List<EnemyManager> enemiesInSight = new List<EnemyManager>();
-    [SerializeField] protected EnemyManager target;
+    [SerializeField] protected List<TargetableComponent> enemiesInSight = new List<TargetableComponent>();
+    [SerializeField] protected TargetableComponent target;
   
     public abstract void Activate();
 
@@ -43,7 +43,7 @@ public abstract class ActionController : MonoBehaviour
 
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.TryGetComponent<EnemyManager>(out EnemyManager enemy))
+        if(other.TryGetComponent<TargetableComponent>(out TargetableComponent enemy))
         {
             enemiesInSight.Add(enemy);
         }
@@ -51,7 +51,7 @@ public abstract class ActionController : MonoBehaviour
 
     public virtual void OnTriggerExit2D(Collider2D other)
     {
-        if(other.TryGetComponent<EnemyManager>(out EnemyManager enemy))
+        if(other.TryGetComponent<TargetableComponent>(out TargetableComponent enemy))
         {
             if(enemiesInSight.Contains(enemy))
             {

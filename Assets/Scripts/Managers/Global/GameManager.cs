@@ -97,12 +97,14 @@ public class GameManager : MonoBehaviour
 
         pauseAnimation = GameObject.FindGameObjectWithTag("PauseAnimation").GetComponent<UIAnimationManager>();
 
-        audioManager.RequestMusic();
+        // audioManager.RequestMusic();
 
         EndWaveEventArgs initialArgs = new EndWaveEventArgs();
         initialArgs.waveReward = initialCash;
         gameState = GameState.OnReward;
         InitiateRewardPhase(this, initialArgs);
+
+        FindObjectOfType<TutorialManager>().ShowSkipWindow();
 
         SceneManager.sceneLoaded -= LateStart;
     }

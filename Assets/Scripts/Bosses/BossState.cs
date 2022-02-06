@@ -10,6 +10,16 @@ public abstract class BossState : MonoBehaviour
     protected BossAttackController actionController;
     protected Transform ship;
     public string animatorTrigger;
+    public bool ignoreAnimation;
+    [SerializeField] protected float speed;
+    public float speedMultiplier;
+    protected float speedModifier
+    {
+        get
+        {
+            return 1 + speedMultiplier;
+        }
+    }
 
 
     protected virtual void Awake()

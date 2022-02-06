@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public abstract class ActionEffect : MonoBehaviour
 {
@@ -14,15 +15,20 @@ public abstract class ActionEffect : MonoBehaviour
     [SerializeField] protected float initialDamage;
     [SerializeField] protected float initialRest;
     public Dictionary<Stat, float> StatSet {get; protected set;} = new Dictionary<Stat, float>();
-    private GameManager gameManager;
+    protected GameManager gameManager;
     [SerializeField] [FMODUnity.EventRef] protected string onShootSFX;
+    protected FMOD.Studio.EventInstance sfxInstance;
 
     public delegate void Effect(HitManager hitManager);
 
     public Effect totalEffect;
     private bool shooting;
     [SerializeField] protected bool singleSFX;
-    private int cacheCount = 0;
+    private int cachedCount = 0;
+    private int count = 0;
+    private ParticleSystem.Particle[] particles = new ParticleSystem.Particle[50];
+    private List<ParticleSystem.Particle> particlesList = new List<ParticleSystem.Particle>();
+
 
     public virtual void Initiate()
     {
@@ -42,6 +48,11 @@ public abstract class ActionEffect : MonoBehaviour
     {
         keyword = this.keyword;
         return DescriptionText();
+    }
+
+    public virtual string upgradeText(int nextLevel)
+    {
+        return "";
     }
 
     protected virtual void ClearShots(object sender, GameStateEventArgs e)
@@ -83,8 +94,9 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void Shoot()
     {
-        if(target != null && !shooterParticle.isPlaying)
+        if(target != null && !shooterParticle.isEmitting)
         {
+            if(singleSFX) AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
             shooting = true;
             shooterParticle.Play(true);
         }
@@ -92,39 +104,44 @@ public abstract class ActionEffect : MonoBehaviour
 
     protected virtual void ManageSFX()
     {
-        if(shooting && !singleSFX)
+        if(!singleSFX && shooterParticle.isEmitting)
         {
-            if(cacheCount < shooterParticle.particleCount)
-            {  
-                AudioManager.Main.RequestSFX(onShootSFX);
+            count = shooterParticle.particleCount; //shooterParticle.GetParticles(particles);
+
+            if(cachedCount < count)
+            { 
+                for(int i = 0; i <= count - cachedCount; i++)
+                {
+                    Invoke("PlaySFX", i/10);
+                }
+
             }
-            cacheCount = shooterParticle.particleCount;
+
+            cachedCount = count;
         }
     }
 
-    void Update()
+    private void PlaySFX()
+    {
+        AudioManager.Main.RequestSFX(onShootSFX);
+    }
+
+    void FixedUpdate()
     {
         ManageSFX();
     }
 
     public virtual void StopShooting()
     {
+        if(singleSFX) AudioManager.Main.StopSFX(sfxInstance);
         shooting = false;
         shooterParticle.Stop(true);
     }
 
-    public virtual void RotateShoots(float angle)
-    {
-        // var main = shooter.main;
-        // main.startRotation = angle * Mathf.Deg2Rad;
-    }
-
     public virtual void RotateShoots()
     {
-        // var parent = GetComponentInParent<Transform>();
-        // float angle = - parent.rotation.eulerAngles.z;
-        // var main = shooter.main;
-        // main.startRotation = angle * Mathf.Deg2Rad;
+        var main = shooterParticle.main;
+        main.startRotation = -transform.parent.rotation.z - transform.rotation.z;
     }
 
     public ParticleSystem GetShooterSystem()
@@ -132,10 +149,17 @@ public abstract class ActionEffect : MonoBehaviour
         return shooterParticle;
     }
 
+    public virtual void Update()
+    {
+        if(transform.parent != null) RotateShoots();
+    }
+
     public abstract void ApplyEffect(HitManager hitManager);
 
     void OnDestroy()
     {
+        // if(AudioManager.Main.IsPlayingSFX(sfxInstance)) AudioManager.Main.StopSFX(sfxInstance);
+
         if(gameManager != null) gameManager.OnGameStateChange -= ClearShots;
     }
 }

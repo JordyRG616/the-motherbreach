@@ -5534,7 +5534,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 5545648}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
@@ -12430,7 +12430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1644674205525352627, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: initialCash
-      value: 50
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1644674205525352627, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: fadePanelAnimation
@@ -12449,8 +12449,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8910371888955587756, guid: a5abfa8843f4d8f46adec754f33289ce, type: 3}
     - target: {fileID: 4174501789438114414, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: endOfWaveSFX
+      value: event:/SFX/NEW/WaveClear
+      objectReference: {fileID: 0}
+    - target: {fileID: 4174501789438114414, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: distanceToSpawn
-      value: 60
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 4174501789438114414, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: onFormationSpawnSFX
@@ -13181,8 +13185,320 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489552691877, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: GUITrack.trackVolume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489552691877, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXTrack.maxChannels
       value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489552691877, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXTrack.trackVolume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489552691877, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicTrack.trackVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489552691877, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: uniqueMusicTrack.invoker
+      value: 
+      objectReference: {fileID: 601141063}
+    - target: {fileID: 3018682489552691877, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: uniqueMusicTrack.maxChannels
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489552691877, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: uniqueMusicTrack.trackVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: GUIEvents.Array.size
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.size
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[0].unique
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[1].unique
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[2].unique
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[3].unique
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[4].unique
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[5].unique
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[1].unique
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[2].unique
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[3].unique
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[4].unique
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[5].unique
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[6].unique
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[7].unique
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[0].eventName
+      value: Inertia
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[0].eventPath
+      value: event:/Music/Inertia
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[1].eventName
+      value: Momentum
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[1].eventPath
+      value: event:/Music/Momentum
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[2].eventName
+      value: The Chorus
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[2].eventPath
+      value: event:/Music/The Chorus
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[3].eventName
+      value: Under Red Stars
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[3].eventPath
+      value: event:/Music/Under Red Stars
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[4].eventName
+      value: Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[4].eventPath
+      value: event:/Music/Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[5].eventName
+      value: Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[5].eventPath
+      value: event:/Music/Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[6].eventName
+      value: Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[6].eventPath
+      value: event:/Music/Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: GUIEvents.Array.data[25].eventName
+      value: WaveClear
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: GUIEvents.Array.data[25].eventPath
+      value: event:/SFX/NEW/WaveClear
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[15].eventName
+      value: Burner2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[15].eventPath
+      value: event:/SFX/NEW/Burner2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[16].eventName
+      value: BossHit 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[16].eventPath
+      value: event:/SFX/NEW/BossHit 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[17].eventName
+      value: TurretHeal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[17].eventPath
+      value: event:/SFX/NEW/TurretHeal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[18].eventName
+      value: Shoot 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[18].eventPath
+      value: event:/SFX/NEW/Shoot 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[19].eventName
+      value: Shoot 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[19].eventPath
+      value: event:/SFX/NEW/Shoot 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[0].eventName
+      value: Title
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[0].eventPath
+      value: event:/Music/Title song
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[1].eventName
+      value: Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[1].eventPath
+      value: event:/Music/Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[2].eventName
+      value: Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[2].eventPath
+      value: event:/Music/Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[3].eventName
+      value: Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[3].eventPath
+      value: event:/Music/Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[4].eventName
+      value: Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[4].eventPath
+      value: event:/Music/Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[5].eventName
+      value: Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[5].eventPath
+      value: event:/Music/Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[6].eventName
+      value: Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[6].eventPath
+      value: event:/Music/Reward Song 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[7].eventName
+      value: Under Red Stars
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[7].eventPath
+      value: event:/Music/Under Red Stars
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[0].playlistEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[1].playlistEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[2].playlistEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[3].playlistEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[4].playlistEvent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: playlist.Array.data[5].playlistEvent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: GUIEvents.Array.data[25].playlistEvent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[0].playlistEvent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[1].playlistEvent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[2].playlistEvent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[3].playlistEvent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[4].playlistEvent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: musicEvents.Array.data[5].playlistEvent
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 144cdf219fff9284087740c026fd8404, type: 3}

@@ -26,7 +26,7 @@ public class BuildBox : MonoBehaviour
     [SerializeField] private TextMeshProUGUI baseTrigger;
 
     private float weaponCost, baseCost;
-    private float TotalCost
+    public float TotalCost
     {
         get
         {
@@ -123,7 +123,9 @@ public class BuildBox : MonoBehaviour
         if(selectedBase) 
         {
             var _base = selectedBase.GetComponent<BaseEffectTemplate>();
-            baseEffect.text = _base.DescriptionText(out var baseKeyword);
+            Keyword baseKeyword;
+            if(selectedWeapon) baseEffect.text = _base.DescriptionText(out baseKeyword, selectedWeapon.GetComponent<ActionController>().GetClasses()[0]);
+            else baseEffect.text = _base.DescriptionText(out baseKeyword);
             baseTrigger.text = GetTriggerText(_base.GetTrigger());
             if(baseKeyword != Keyword.None) keywords.Add(baseKeyword);
         }
@@ -232,6 +234,7 @@ public class BuildBox : MonoBehaviour
         selectedWeaponBox = null;
         selectedWeapon = null;
         weaponImage.color = Color.clear;
+        weaponCost = 0;
         ResetStats();
     }
 
@@ -246,6 +249,7 @@ public class BuildBox : MonoBehaviour
         _weapon = selectedWeapon;
         selectedWeapon = null;
         weaponImage.color = Color.clear;
+        weaponCost = 0;
         ResetStats();
     }
 
@@ -260,6 +264,7 @@ public class BuildBox : MonoBehaviour
         selectedBaseBox = null;
         selectedBase = null;
         baseImage.color = Color.clear;
+        baseCost = 0;
         ResetStats();
     }
 
@@ -275,6 +280,7 @@ public class BuildBox : MonoBehaviour
         _base = selectedBase;
         selectedBase = null;
         baseImage.color = Color.clear;
+        baseCost = 0;
         ResetStats();
     }
 

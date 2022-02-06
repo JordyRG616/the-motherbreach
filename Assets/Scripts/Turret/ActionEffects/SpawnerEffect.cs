@@ -90,6 +90,13 @@ public class SpawnerEffect : ActionEffect
         return description;
     }
 
+    public override string upgradeText(int nextLevel)
+    {
+        if(nextLevel == 3 || nextLevel == 5) return StatColorHandler.StatPaint("next level:") + " capacity + 1";
+        if(nextLevel == 2 || nextLevel == 4) return StatColorHandler.StatPaint("next level:") + " drone level + 1";
+        return "no bonus next level";
+    }
+
     public override void LevelUp(int toLevel)
     {
         if(toLevel == 3 || toLevel == 5) GainCapacity();

@@ -6,15 +6,43 @@ using UnityEngine;
 public class InterceptorController : BossController
 {
     [SerializeField] private float range;
-    [SerializeField] private float timeToSpecial;
+    [SerializeField] private float disengageDistance;
+    [SerializeField] private float disengageTime;
+    [SerializeField] private int attacksToSpecial;
+    private int attacksMade;
+    [SerializeField] private float offenseDuration;
     private float timer;
+    private float runningTimer;
     private bool countTimer;
     private bool specialOn;
+    private bool running;
+    private bool secondPhaseActivated;
+    private bool thirdPhaseActivated;
+    [Header("Second Phase Upgrades")]
+    [SerializeField] private float emissionModifier;
+    [SerializeField] private float orbitSpeedModifier;
+    [Header("Third Phase Upgrade")]
+    [SerializeField] private float specialDurationModifier;
+
 
     protected override void ManageStates(int order)
     {
+        if(running)
+        {
+            if(runningTimer < disengageTime) return;
+            runningTimer = 0;
+            timer = 0;
+            countTimer = false;
+            running = false;
+            return;
+        } 
         var distance = Vector2.Distance(ship.position, transform.position);
-        switch(order)
+        if(distance <= disengageDistance && !specialOn)
+        {
+            Disengage();
+            return;
+        }
+        switch (order)
         {
             case 0:
                 FirstPhase(distance);
@@ -26,6 +54,15 @@ public class InterceptorController : BossController
                 SecondPhase(distance);
             break;
         }
+    }
+
+    private void Disengage()
+    {
+        running = true;
+        countTimer = false;
+        timer = 0;
+        var disengageState = GetComponent<Interceptor_Disengage>();
+        ChangeStates(disengageState);
     }
 
     protected override void PhaseUpgrade(int order)
@@ -59,42 +96,63 @@ public class InterceptorController : BossController
 
     private void SecondPhaseUpgrade()
     {
-        throw new NotImplementedException();
+        if(secondPhaseActivated) return;
+        Disengage();
+        var weaponsToUpgrade = GetComponent<BossAttackController>().RetrieveWeapons(WeaponClass.Artillery);
+        foreach(ActionEffect weapon in weaponsToUpgrade)
+        {
+            var emission = weapon.GetShooterSystem().emission;
+            emission.rateOverTimeMultiplier += emissionModifier;
+        }
+        GetComponent<Interceptor_AttackState>().speedMultiplier = orbitSpeedModifier;
+        GetComponent<Interceptor_Disengage>().offensiveRetreat = true;
+        GetComponent<Interceptor_Disengage>().ignoreAnimation = true;
+        disengageTime /= 2;
+        secondPhaseActivated = true;
     }
 
     private void SecondPhase(float distance)
     {
-        if (timer >= timeToSpecial * 2)
+        if (timer >= offenseDuration)
         {
             specialOn = false;
-            timer = 0;
-            var disengageState = activePhase.states.Find(t => t.stateName == "Disengage");
-            ChangeStates(disengageState);
+            Disengage();
+            return;
         }
-        if (distance > range && !specialOn)
+        if (distance > range && countTimer == false)
         {
             countTimer = false;
             var moveState = activePhase.states.Find(t => t.stateName == "Move");
             ChangeStates(moveState);
+            return;
         }
-        if (distance <= range - 5 && !specialOn)
+        if (distance <= range - 5 && countTimer == false)
         {
-            var attackState = activePhase.states.Find(t => t.stateName == "Attack");
-            ChangeStates(attackState);
-
+            timer = 0;
             countTimer = true;
-            if (timer >= timeToSpecial && !specialOn)
+
+            if(attacksMade == attacksToSpecial)
             {
                 var specialState = activePhase.states.Find(t => t.stateName == "Special");
                 ChangeStates(specialState);
                 specialOn = true;
+                attacksMade = 0;
+            }
+            else 
+            {
+                var attackState = activePhase.states.Find(t => t.stateName == "Attack");
+                ChangeStates(attackState);
+                attacksMade++;
             }
         }
     }
 
     private void ThirdPhaseUpgrade()
     {
-        throw new NotImplementedException();
+        if(thirdPhaseActivated) return;
+        Disengage();
+        offenseDuration *= specialDurationModifier; 
+        thirdPhaseActivated = true;
     }
 
 
@@ -103,6 +161,10 @@ public class InterceptorController : BossController
         if(countTimer) 
         {
             timer += Time.deltaTime;
+        }
+        if(running)
+        {
+            runningTimer += Time.deltaTime;
         }
         base.Update();
     }

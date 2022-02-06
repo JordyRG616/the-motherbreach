@@ -65,9 +65,18 @@ public class SpreadEffect : ActionEffect
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]/100);
+        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
         Slug slugged;
-        if (!hitManager.transform.parent.TryGetComponent<Slug>(out slugged)) 
+
+        if(hitManager.TryGetComponent<BossController>(out var boss))
+        {
+            if(!hitManager.gameObject.TryGetComponent<Slug>(out slugged)) 
+            {
+                hitManager.gameObject.AddComponent<Slug>();
+            }
+            return;
+        }
+        else if(!hitManager.transform.parent.TryGetComponent<Slug>(out slugged)) 
         {
             hitManager.transform.parent.gameObject.AddComponent<Slug>();
         }
@@ -84,6 +93,11 @@ public class SpreadEffect : ActionEffect
     {
         string description = "releases a cloud that lasts around " + StatColorHandler.StatPaint(MeanLifetime().ToString()) + " seconds and deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and applies " + KeywordHandler.KeywordPaint(Keyword.Slug) + " to the target";
         return description;
+    }
+
+    public override string upgradeText(int nextLevel)
+    {
+        return StatColorHandler.StatPaint("next level:") + " duration + 0.5s";
     }
 
     public override void LevelUp(int toLevel)

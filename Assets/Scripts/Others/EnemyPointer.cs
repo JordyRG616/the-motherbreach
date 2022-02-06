@@ -66,6 +66,9 @@ public class EnemyPointer : MonoBehaviour
             transform.position = ship.transform.position + CalculatePosition(position);
             pointer.rotation = CalculateRotation(position);
             icon.position = anchor.position;
+        } else
+        {
+            Destroy(gameObject);
         }
     }
 

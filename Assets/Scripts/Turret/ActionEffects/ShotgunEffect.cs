@@ -52,6 +52,12 @@ public class ShotgunEffect : ActionEffect
         return description;
     }
 
+    public override string upgradeText(int nextLevel)
+    {
+        if(nextLevel == 3 || nextLevel == 5) return StatColorHandler.StatPaint("next level:") + " projectiles + 1";
+        else return StatColorHandler.StatPaint("next level:") + " damage + 20%";
+    }
+
     public override void LevelUp(int toLevel)
     {
         if(toLevel == 3 || toLevel == 5) GainProjectile();

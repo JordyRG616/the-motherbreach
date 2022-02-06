@@ -38,6 +38,26 @@ public abstract class FormationMovement : MonoBehaviour
         }
     }
 
+    protected virtual void FixChildren()
+    {
+        foreach(EnemyManager enemy in enemies)
+        {
+            enemy.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
+    }
+
+    protected virtual void RotateChildren(Vector2 direction, float angleVariation)
+    {
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        var sign = 1;
+
+        foreach(EnemyManager enemy in enemies)
+        {
+            enemy.transform.rotation = Quaternion.Euler(0, 0, angle - 90f + (sign * angleVariation));
+            sign *= -1;
+        }
+    }
+
     public abstract void DoMovement(Rigidbody2D body, Vector3 target);
 }
 
@@ -49,5 +69,6 @@ public enum EnemyMovementType
         Flee = 2, 
         Orbit = 4,
         Split = 8,
-        TrueOrbit = 16
+        TrueOrbit = 16,
+        Cone = 32
     }

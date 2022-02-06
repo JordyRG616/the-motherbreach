@@ -6,7 +6,7 @@ using UnityEngine;
 public class ChemicalBurn : MonoBehaviour
 {
     private HitManager hitManager;
-    private float damage = 1.5f;
+    private float damage = 3f;
 
     void Start()
     {

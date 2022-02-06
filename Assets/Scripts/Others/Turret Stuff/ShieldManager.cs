@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,12 +11,24 @@ public class ShieldManager : MonoBehaviour, IDamageable
     [SerializeField] [FMODUnity.EventRef] private string onHitSFX;
     private Material _material;
     private Color ogColor;
+    private GameManager gameManager;
 
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
+        gameManager.OnGameStateChange += DestroyShield;
+
         currentHealth = maxHealth;
         _material = new Material(GetComponent<SpriteRenderer>().material);
         GetComponent<SpriteRenderer>().material = _material;
+    }
+
+    private void DestroyShield(object sender, GameStateEventArgs e)
+    {
+        if(e.newState == GameState.OnReward)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void DestroyDamageable()

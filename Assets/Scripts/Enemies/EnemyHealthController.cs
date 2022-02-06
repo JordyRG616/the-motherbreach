@@ -33,23 +33,7 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
         OnDeath?.Invoke(this, new EnemyEventArgs(this));
         Destroy(gameObject);
     }
-
-    // private IEnumerator LastBreath()
-    // {
-    //     float step = 0;
-
-    //     do
-    //     {
-    //         step += .01f;
-    //         material.SetFloat("_death", step);
-    //         yield return new WaitForSeconds(.01f);
-    //     } while(step < 1);
-
-    //     OnDeath?.Invoke(this, new EnemyEventArgs(this));
-
-    //     Destroy(gameObject);
-    // }
-
+    
     public void UpdateHealth(float amount)
     {
         currentHealth += amount;
@@ -62,6 +46,7 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
         if(currentHealth <= 0)
         {
             GetComponent<Collider2D>().enabled = false;
+            GetComponent<EnemyManager>().CeaseFire();
             vfxManager.StartCoroutine(vfxManager.LastBreath());
         }
 
@@ -77,11 +62,4 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
     {
         return currentHealth / maxHealth;
     }
-
-    // public void UpdateHealthBar()
-    // {
-    //     float percentual = Mathf.Min(1 - currentHealth / maxHealth, 1);
-
-    //     material.SetFloat("_damagePercentual", percentual);
-    // }
 }

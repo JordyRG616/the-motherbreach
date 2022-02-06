@@ -7,6 +7,7 @@ using StringHandler;
 public class BeamEffect : ActionEffect
 {
     [SerializeField] private float duration;
+    private FMOD.Studio.EventInstance instance;
 
     public override void SetData()
     {
@@ -29,7 +30,8 @@ public class BeamEffect : ActionEffect
 
     public override void Shoot()
     {
-        StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
+        // StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
+        AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
         shooterParticle.Play();
     }
 
@@ -44,7 +46,7 @@ public class BeamEffect : ActionEffect
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]/100);
+        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
         var burned = hitManager.GetComponent<ChemicalBurn>();
         if (burned == null) hitManager.gameObject.AddComponent<ChemicalBurn>();
 
@@ -54,6 +56,13 @@ public class BeamEffect : ActionEffect
     {
         string description = "releases a beam of energy for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and apply " + KeywordHandler.KeywordPaint(Keyword.Burn);
         return description;
+    }
+
+    public override string upgradeText(int nextLevel)
+    {
+        if(nextLevel == 3 || nextLevel == 5) return StatColorHandler.StatPaint("next level:") + " duration + 20%";
+        else return StatColorHandler.StatPaint("next level:") + " damage + 10%";
+        
     }
 
     public override void LevelUp(int toLevel)

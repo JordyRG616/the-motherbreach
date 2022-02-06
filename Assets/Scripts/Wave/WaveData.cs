@@ -37,6 +37,7 @@ public struct Breach
     public float intervalOfSpawn;
     public float intervalTillNextWave;
     public bool spawnInSamePosition;
+    public bool bossWave;
 
     public Queue<GameObject> formationQueue;
     // {

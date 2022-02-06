@@ -7,6 +7,7 @@ public class HitManager : MonoBehaviour, IManager
 {    
     public IDamageable HealthInterface{get; private set;}
     private AudioManager audioManager;
+    private float iFrameWindow;
 
     public void DestroyManager()
     {
@@ -23,15 +24,27 @@ public class HitManager : MonoBehaviour, IManager
 
     void OnParticleCollision(GameObject other)
     {
-        if(other.transform.parent.parent.TryGetComponent<ActionEffect>(out ActionEffect action))
+        if(other.TryGetComponent<EffectMediator>(out EffectMediator action))
         {
-            // ParticleSystem shuriken = other.GetComponent<ParticleSystem>();
-            // int count = shuriken.GetParticles(particles);
-
-            // ParticleSystem.Particle particle = particles.OrderBy(x => (this.transform.position - x.position).magnitude).FirstOrDefault();
-            // other.GetComponent<ParticleSystem>().TriggerSubEmitter(0, ref particle);
-
-            action.totalEffect(this);   
+            if(iFrameWindow >= 0.05f)
+            {
+                action.PassTarget(this);
+                iFrameWindow = 0;
+            }
         }
+    }
+
+    public void ReceiveTriggetEffect(EffectMediator mediator)
+    {
+        if(iFrameWindow >= 0.05f)
+        {
+            mediator.PassTarget(this);
+            iFrameWindow = 0;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        iFrameWindow += Time.fixedDeltaTime;
     }
 }

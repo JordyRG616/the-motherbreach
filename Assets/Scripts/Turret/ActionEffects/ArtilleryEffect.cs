@@ -44,8 +44,13 @@ public class ArtilleryEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "shoots " + StatColorHandler.HealthPaint(StatSet[Stat.BurstSize].ToString()) + " bullets. Each bullet deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
+        string description = "shoots " + StatColorHandler.StatPaint(StatSet[Stat.BurstSize].ToString()) + " bullets. Each bullet deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
         return description;
+    }
+
+    public override string upgradeText(int nextLevel)
+    {
+        return StatColorHandler.StatPaint("next level:") + " damage +" + (nextLevel * 5) + "%";
     }
 
     public override void LevelUp(int toLevel)
