@@ -102,11 +102,11 @@ public class RewardManager : MonoBehaviour
         
         foreach(WeaponBox weaponBox in weaponBoxes)
         {
-            weaponBox.GenerateNewWeapon(_top);
+            weaponBox.GenerateNewWeapon();
         }
         foreach(BaseBox baseBox in baseBoxes)
         {
-            baseBox.GenerateNewBase(_base);
+            baseBox.GenerateNewBase();
         }
     }
 
@@ -126,7 +126,7 @@ public class RewardManager : MonoBehaviour
     {
         tutorialManager.TriggerPosBuildTutorial();
         buildBox.Clear();
-        turretConstructor.TriggerImeddiateEffect(ActiveSelection);
+        turretConstructor.HandleBaseEffect(ActiveSelection);
         var manager = ActiveSelection.GetComponent<TurretManager>();
         SpendCash(manager.Stats[Stat.Cost]);
         ShipManager.Main.RegisterTurret(manager);

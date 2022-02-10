@@ -9,8 +9,8 @@ public abstract class ActionController : MonoBehaviour
     [SerializeField] protected List<ActionEffect> shooters;
     [SerializeField] protected float cost;
     [SerializeField] protected float health;
-    [SerializeField] protected List<TargetableComponent> enemiesInSight = new List<TargetableComponent>();
-    [SerializeField] protected TargetableComponent target;
+    protected List<TargetableComponent> enemiesInSight = new List<TargetableComponent>();
+    public TargetableComponent target;
   
     public abstract void Activate();
 
@@ -103,5 +103,23 @@ public abstract class ActionController : MonoBehaviour
     public void RaiseHealthByPercentage(float percentage)
     {
         health *= (1 + percentage);
+    }
+
+    public List<Stat> GetStatsOnShooters()
+    {
+        var container = new List<Stat>();
+
+        foreach(ActionEffect shooter in shooters)
+        {
+            foreach(Stat stat in shooter.StatSet.Keys)
+            {
+                if(!container.Contains(stat))
+                {
+                    container.Add(stat);
+                }
+            }
+        }
+
+        return container;
     }
 }

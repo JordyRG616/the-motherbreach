@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8282533198441144508}
   - component: {fileID: -2103075129626543201}
   m_Layer: 7
-  m_Name: Veteran
+  m_Name: veteran
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1195522291
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: fea4c0fa4fd98ca4f9254d41a28964cb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,7 +100,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: 0
   targetedClasses: 000000000200000005000000
-  cost: 0
+  targetStats: 0
+  targetedStats: 
+  cost: 3
+  keyword: 0
+  previewable: 0
 --- !u!114 &-2103075129626543201
 MonoBehaviour:
   m_ObjectHideFlags: 0

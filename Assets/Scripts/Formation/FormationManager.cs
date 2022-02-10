@@ -10,7 +10,7 @@ public class FormationManager : MonoBehaviour
     public List<EnemyManager> Children {get; private set;} = new List<EnemyManager>();
 
 
-    void Update()
+    public virtual void Update()
     {
         if(Children.Count == 0)
         {

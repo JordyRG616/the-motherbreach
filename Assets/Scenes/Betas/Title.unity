@@ -12422,15 +12422,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 956126525, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: maxShopLevel
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 956126525, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: initialBases.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 956126525, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: initialWeapons.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 956126525, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: initialBases.Array.data[0]
+      value: 
+      objectReference: {fileID: 7604402440299492591, guid: f7d7ba915b8afdd4c99fc07dcb98b474, type: 3}
+    - target: {fileID: 956126525, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: initialWeapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 5443480414947530925, guid: e49686bf2b9269f4bb6f81b677c13e46, type: 3}
+    - target: {fileID: 956126525, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: initialWeapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 5443480414947530925, guid: d1c10ce56b0eb084196165501709f18c, type: 3}
     - target: {fileID: 956126526, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: buildSFX
       value: event:/UI/Reward/Reward_BuildTurret
       objectReference: {fileID: 0}
     - target: {fileID: 1644674205525352627, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: initialCash
-      value: 6
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1644674205525352627, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: fadePanelAnimation

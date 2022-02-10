@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 4247093993300818633}
   - component: {fileID: 6822257003082243038}
   m_Layer: 7
-  m_Name: Enhancer
+  m_Name: enhancer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -233,9 +233,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shooters:
   - {fileID: 6822257003082243038}
-  cost: 2
+  cost: 3
   health: 120
-  enemiesInSight: []
   target: {fileID: 0}
   timeBetweenActivations: 3
   playerLayer:

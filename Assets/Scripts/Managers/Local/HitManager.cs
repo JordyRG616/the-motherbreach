@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System;
 using UnityEngine;
 
 public class HitManager : MonoBehaviour, IManager
@@ -9,9 +9,13 @@ public class HitManager : MonoBehaviour, IManager
     private AudioManager audioManager;
     private float iFrameWindow;
 
+    public event EventHandler OnHit;
+    public event EventHandler OnDeath;
+
     public void DestroyManager()
     {
         GetComponent<Collider2D>().enabled = false;
+        OnDeath?.Invoke(this, EventArgs.Empty);
         Destroy(this);
     }
 
@@ -29,6 +33,7 @@ public class HitManager : MonoBehaviour, IManager
             if(iFrameWindow >= 0.05f)
             {
                 action.PassTarget(this);
+                OnHit?.Invoke(this, EventArgs.Empty);
                 iFrameWindow = 0;
             }
         }

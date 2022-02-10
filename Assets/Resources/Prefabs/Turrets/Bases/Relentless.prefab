@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4087144358287478726}
   - component: {fileID: 5650093040656436329}
-  - component: {fileID: 5404445727896657894}
-  - component: {fileID: 278616392282308974}
+  - component: {fileID: 4832151348188174012}
+  - component: {fileID: 5930935584664958035}
   m_Layer: 7
-  m_Name: Relentless
+  m_Name: relentless
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: -1195522291
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 649646ad08015fd428b7887afd174aa6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b9cfe77547a381848abca028c41e4555, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5404445727896657894
+--- !u!114 &4832151348188174012
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,16 +95,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 7604402440299492591}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09631584d4a397443bb7cab74ad6750c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2749268f3ceeb0349852d4cc998f3b23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: 0
-  targetedClasses: 0000000001000000020000000300000004000000050000000600000008000000
+  trigger: 6
+  targetedClasses: 000000000100000002000000
+  targetStats: 1
+  targetedStats: 0b0000000600000005000000
   cost: 2
   keyword: 0
-  previewable: 1
-  percentage: 0.66
---- !u!114 &278616392282308974
+  previewable: 0
+  percentage: 0.025
+--- !u!114 &5930935584664958035
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

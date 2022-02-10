@@ -36,9 +36,9 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
         statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
     }
 
-    public void GenerateNewBase(RewardLevel level)
+    public void GenerateNewBase()
     {
-        cachedBase = TurretConstructor.Main.GetBase(level);
+        cachedBase = TurretConstructor.Main.GetBase();
         var sprite = cachedBase.GetComponent<SpriteRenderer>().sprite;
         image.sprite = sprite;
         image.color = Color.white;

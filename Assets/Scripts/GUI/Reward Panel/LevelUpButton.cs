@@ -44,6 +44,12 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         UpdateExpGui();
     }
 
+    public void GainExp()
+    {
+        rewardCalculator.GainExp();
+        UpdateExpGui();
+    }
+
     private void UpdateExpGui()
     {
         lvlText.text = "tier <size=110%>" + rewardCalculator.ShopLevel;
@@ -69,9 +75,9 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
         HandleExpBar();
 
-        if(Mathf.Approximately(expBar.sizeDelta.y, expAmount.sizeDelta.y))
+        if(Mathf.Approximately(expBar.sizeDelta.y, expAmount.sizeDelta.y) && expAmount.sizeDelta.y > 0)
         {
-            rewardCalculator.LevelUp();
+            rewardCalculator.InitiateChoice();
             UpdateExpGui();
         }
     }

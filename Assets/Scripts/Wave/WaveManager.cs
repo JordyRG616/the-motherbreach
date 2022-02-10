@@ -44,8 +44,8 @@ public class WaveManager : MonoBehaviour
     private WaveData activeWave;
     private ShipManager ship;
     private int spawnIndex;
-    private List<FormationManager> activeFormations = new List<FormationManager>();
-    private List<BossController> activeBosses = new List<BossController>();
+    public List<FormationManager> activeFormations {get; private set;} = new List<FormationManager>();
+    public List<BossController> activeBosses {get; private set;} = new List<BossController>();
     private TutorialManager tutorialManager;
 
     public event EventHandler<EndWaveEventArgs> OnWaveEnd;
@@ -159,7 +159,9 @@ public class WaveManager : MonoBehaviour
         AudioManager.Main.RequestGUIFX(endOfWaveSFX);
         yield return StartCoroutine(endOfWaveAnimation.Forward());
 
-        endOfWaveAnimation.PlayReverse();
+        yield return StartCoroutine(endOfWaveAnimation.Reverse());
+
+        FindObjectOfType<LevelUpButton>().GainExp();
 
         StopAllCoroutines();
         defaultArg.waveReward = activeWave.rewardValue;

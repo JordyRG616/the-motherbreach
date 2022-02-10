@@ -38,9 +38,9 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
     }
 
-    public void GenerateNewWeapon(RewardLevel level)
+    public void GenerateNewWeapon()
     {
-        cachedWeapon = TurretConstructor.Main.GetTop(level);
+        cachedWeapon = TurretConstructor.Main.GetTop();
         var sprite = cachedWeapon.GetComponent<SpriteRenderer>().sprite;
         image.sprite = sprite;
         image.color = Color.white;
@@ -124,7 +124,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         if(!statInfoBox.gameObject.activeSelf)
         {
             statInfoBox.gameObject.SetActive(true);
-            statInfoBox.GetComponent<StatInfoBox>().SetText(text, 100);
+            statInfoBox.GetComponent<StatInfoBox>().SetText(text, 200);
         }
     }
 }

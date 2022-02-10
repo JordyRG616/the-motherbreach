@@ -58,6 +58,7 @@ public class TurretManager : MonoBehaviour, IManager
     public void LevelUp()
     {
         Level ++;
+        integrityManager.RaiseMaxIntegrityByPercentage(.1f);
         OnLevelUp?.Invoke(this, new LevelUpArgs(Level));
     }
 

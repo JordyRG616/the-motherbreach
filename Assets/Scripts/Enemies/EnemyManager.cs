@@ -7,11 +7,16 @@ public class EnemyManager : MonoBehaviour, IManager
 {
     private FormationManager owner;
     private EnemyAttackController attackController;
+    private bool attacking;
 
     void Start()
     {
-        owner = GetComponentInParent<FormationManager>();
-        owner.RegisterChildren(this);
+        if(transform.parent != null)
+        {
+            owner = GetComponentInParent<FormationManager>();
+            owner.RegisterChildren(this);
+        }
+
         attackController = GetComponent<EnemyAttackController>();
         attackController.SetTarget(FindObjectOfType<ShipManager>().gameObject);
     }
@@ -24,11 +29,15 @@ public class EnemyManager : MonoBehaviour, IManager
 
     public void OpenFire()
     {
+        if(attacking) return;
         attackController.Attack();
+        attacking = true;
     }
 
     public void CeaseFire()
     {
+        if(!attacking) return;
         attackController.Stop();
+        attacking = false;
     }
 }

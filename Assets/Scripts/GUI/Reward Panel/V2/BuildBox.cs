@@ -103,9 +103,10 @@ public class BuildBox : MonoBehaviour
         baseTrigger.text = "";
         if(selectedWeapon && selectedBase)
         {
+            var _base = selectedBase.GetComponent<BaseEffectTemplate>();
+            var _weapon = selectedWeapon.GetComponent<ActionController>();
+
             if(!OnUpgrade){
-                var _base = selectedBase.GetComponent<BaseEffectTemplate>();
-                var _weapon = selectedWeapon.GetComponent<ActionController>();
 
                 _base.ReceiveWeapon(_weapon);
                 if(_base.previewable) 
@@ -118,13 +119,31 @@ public class BuildBox : MonoBehaviour
             } else
             {
                 nameText.text = "</uppercase>" + selectedBase.name + " " + selectedWeapon.name + "<lowercase> \n level <size=125%>" + selectedWeapon.GetComponentInParent<TurretManager>().Level;
+
             }
         }
         if(selectedBase) 
         {
             var _base = selectedBase.GetComponent<BaseEffectTemplate>();
             Keyword baseKeyword;
-            if(selectedWeapon) baseEffect.text = _base.DescriptionText(out baseKeyword, selectedWeapon.GetComponent<ActionController>().GetClasses()[0]);
+            if(selectedWeapon)
+            {
+                var _weapon = selectedWeapon.GetComponent<ActionController>();
+                baseEffect.text = _base.DescriptionText(out baseKeyword, _weapon.GetClasses()[0]);
+                if(_base.targetStats)
+                {
+                    var container = "";
+                    foreach(Stat stat in _weapon.GetStatsOnShooters())
+                    {
+                        if(_base.StatIsTarget(stat))
+                        {
+                            container += _base.DescriptionTextByStat(stat) + "\n";
+                        }
+                    }
+
+                    baseEffect.text = container;
+                }
+            }
             else baseEffect.text = _base.DescriptionText(out baseKeyword);
             baseTrigger.text = GetTriggerText(_base.GetTrigger());
             if(baseKeyword != Keyword.None) keywords.Add(baseKeyword);
@@ -158,6 +177,9 @@ public class BuildBox : MonoBehaviour
             case BaseEffectTrigger.OnLevelUp:
                 container = "when upgraded:";
             break;
+            case BaseEffectTrigger.OnHit:
+                container = "when hit:";
+            break;
         }
 
         return container;
@@ -165,24 +187,27 @@ public class BuildBox : MonoBehaviour
 
     public bool CheckCompability(BaseEffectTemplate testSubject)
     {
+        if(!testSubject.targetStats) return true;
         if(!selectedWeapon) return true;
-        var classes = selectedWeapon.GetComponent<ActionController>().GetClasses();
-        foreach(WeaponClass _class in classes)
+        var stats = selectedWeapon.GetComponent<ActionController>().GetStatsOnShooters();
+        foreach(Stat stat in stats)
         {
-            if(!testSubject.GetWeaponClasses().Contains(_class)) return false;
+            if(testSubject.StatIsTarget(stat)) return true;
         }
-        return true;
+        return false;
     }
 
     public bool CheckCompability(ActionController testSubject)
     {
         if(!selectedBase) return true;
-        var classes = testSubject.GetComponent<ActionController>().GetClasses();
-        foreach(WeaponClass _class in classes)
+        var _base = selectedBase.GetComponent<BaseEffectTemplate>();
+        if(!_base.targetStats) return true;
+        var stats = testSubject.GetComponent<ActionController>().GetStatsOnShooters();
+        foreach(Stat stat in stats)
         {
-            if(!selectedBase.GetComponent<BaseEffectTemplate>().GetWeaponClasses().Contains(_class)) return false;
+            if(_base.StatIsTarget(stat)) return true;
         }
-        return true;
+        return false;
     }
 
     private void ResetStats()

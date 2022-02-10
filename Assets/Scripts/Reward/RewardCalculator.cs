@@ -32,6 +32,10 @@ public class RewardCalculator : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] private List<GameObject> initialWeapons;
+    public List<GameObject> weapons {get; private set;} = new List<GameObject>();
+    [SerializeField] private List<GameObject> initialBases;
+    public List<GameObject> bases {get; private set;} = new List<GameObject>();
     public int ShopLevel 
     {
         get
@@ -53,10 +57,15 @@ public class RewardCalculator : MonoBehaviour
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string expGained;
     [SerializeField] [FMODUnity.EventRef] private string levelGained;
+    private bool choosing;
 
     void Start()
     {
         rewardManager = RewardManager.Main;
+
+        weapons = initialWeapons;
+        bases = initialBases;
+
         InitiateExpMatrix();
     }
 
@@ -66,7 +75,7 @@ public class RewardCalculator : MonoBehaviour
         expRequeriment.Add(2, 2);
         expRequeriment.Add(3, 3);
         expRequeriment.Add(4, 4);
-        expRequeriment.Add(5, 0);
+        expRequeriment.Add(5, 4);
     }
 
     public void PurchaseLevelUp()
@@ -76,22 +85,48 @@ public class RewardCalculator : MonoBehaviour
         if(rewardManager.TotalCash >= cost && ShopLevel < maxShopLevel)
         {
             rewardManager.SpendCash(cost);
-            expAmount ++;
-            AudioManager.Main.RequestGUIFX(expGained);
+            GainExp();
             return;
         }
         AudioManager.Main.PlayInvalidSelection();
     }
 
-    public void LevelUp()
+    public void GainExp()
     {
+        expAmount++;
+        AudioManager.Main.RequestGUIFX(expGained);
+    }
+
+    public void InitiateChoice()
+    {
+        if(choosing == true) return;
         if(expAmount == expRequeriment[ShopLevel])
         {
-            expAmount = 0;
-            ShopLevel++;
-            AudioManager.Main.RequestGUIFX(levelGained);
-            FindObjectOfType<RerrollButton>().Reroll();
+            PackOfferManager.Main.IniatiatePackChoice();
+            choosing = true;
         }
+    }
+
+    public void LevelUp()
+    {
+        expAmount = 0;
+        ShopLevel++;
+        AudioManager.Main.RequestGUIFX(levelGained);
+        FindObjectOfType<RerrollButton>().Reroll();
+        choosing = false;
+    }
+
+    public void ReceiveRewards(List<GameObject> rewards)
+    {
+        foreach(GameObject reward in rewards)
+        {
+            if(reward.TryGetComponent<ActionController>(out var controller))
+                weapons.Add(reward);
+            if(reward.TryGetComponent<BaseEffectTemplate>(out var effect))
+                bases.Add(reward);
+        }
+
+        LevelUp();
     }
 
     public (int amount, int required) ExpInfo()

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5404445727896657894}
   - component: {fileID: -164785287716550091}
   m_Layer: 7
-  m_Name: Agressive
+  m_Name: agressive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,7 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: 0
   targetedClasses: 00000000010000000200000003000000040000000500000006000000
-  cost: 3
+  targetStats: 1
+  targetedStats: 02000000
+  cost: 2
   keyword: 0
   previewable: 1
   percentage: 0.33

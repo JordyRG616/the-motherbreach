@@ -33,7 +33,10 @@ public class SupportController : ActionController
 
             Activate();
 
-            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest]);
+            float duration = 0;
+            if(shooters[0].StatSet.ContainsKey(Stat.Duration)) duration = shooters[0].StatSet[Stat.Duration];
+
+            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest] + duration);
         }
     }
 

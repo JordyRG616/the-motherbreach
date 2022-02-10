@@ -103,4 +103,9 @@ public class ShipManager : MonoBehaviour
 
         shooter.rotation = Quaternion.Euler(0, 0, angle + 90f);
     }
+
+    public int GetTurretCount()
+    {
+        return turrets.Count;
+    }
 }

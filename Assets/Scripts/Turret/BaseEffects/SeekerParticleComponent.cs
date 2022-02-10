@@ -17,26 +17,29 @@ public class SeekerParticleComponent : MonoBehaviour
         main.simulationSpace = ParticleSystemSimulationSpace.World;
 
         particles = new ParticleSystem.Particle[_particleSystem.main.maxParticles];
-        GetTarget();
+
+        StartCoroutine(GetTarget());
     }
 
-    private void GetTarget()
+    private IEnumerator GetTarget()
     {
-        var enemies = FindObjectsOfType<EnemyManager>();
-        target = enemies.OrderBy
-        (
-            x => Vector3.Distance(x.transform.position, transform.position)
-        ).FirstOrDefault().transform;
+        while(target == null)
+        {
+            yield return new WaitUntil(() => _particleSystem.isEmitting);
+
+            target = GetComponentInParent<ActionController>().target.transform;
+        }
     }
 
     void LateUpdate()
     {
+        if(target == null) return;
         int count = _particleSystem.GetParticles(particles);
 
         for(int i = 0; i < count; i++)
         {
             Vector3 direction = target.position - particles[i].position;
-            particles[i].velocity += direction.normalized / direction.magnitude;
+            particles[i].velocity += direction.normalized / particles[i].velocity.magnitude;
         }
 
         _particleSystem.SetParticles(particles);
@@ -48,5 +51,6 @@ public class SeekerParticleComponent : MonoBehaviour
         Vector3 direction = target.position - particle.position;
         particle.velocity = Vector3.zero;
     }
+
 
 }

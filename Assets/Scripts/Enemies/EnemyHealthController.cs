@@ -7,7 +7,7 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
 {
     [SerializeField] private int maxHealth;
     private EnemyVFXManager vfxManager;
-    private float currentHealth;
+    public float currentHealth {get; private set;}
 
     public event EventHandler<EnemyEventArgs> OnDeath;
     public event EventHandler OnDamage;
@@ -47,6 +47,7 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
         {
             GetComponent<Collider2D>().enabled = false;
             GetComponent<EnemyManager>().CeaseFire();
+            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             vfxManager.StartCoroutine(vfxManager.LastBreath());
         }
 

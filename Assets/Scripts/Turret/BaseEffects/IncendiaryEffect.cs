@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IncendiaryEffect : BaseEffectTemplate
 {
-    public override void HandleLevelEffect(object sender, LevelUpArgs e)
+    public override void HandleLevelTrigger(object sender, LevelUpArgs e)
     {
         if(e.toLevel == 3)
         {

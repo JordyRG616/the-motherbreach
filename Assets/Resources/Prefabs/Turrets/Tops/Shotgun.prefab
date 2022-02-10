@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 2138977644}
   - component: {fileID: 3534781280390107309}
   m_Layer: 7
-  m_Name: Shotgun
+  m_Name: shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,7 +154,6 @@ MonoBehaviour:
   - {fileID: 3534781280390107309}
   cost: 2
   health: 100
-  enemiesInSight: []
   target: {fileID: 0}
   maxAngleVariation: 60
 --- !u!114 &3534781280390107309
@@ -5339,6 +5338,10 @@ PrefabInstance:
     - target: {fileID: 2232729688115175442, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
       propertyPath: VelocityModule.y.maxCurve.m_Curve.Array.data[0].value
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
       propertyPath: VelocityModule.y.maxCurve.m_Curve.Array.data[0].inSlope

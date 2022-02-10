@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5404445727896657894}
   - component: {fileID: -3797112813671984278}
   m_Layer: 7
-  m_Name: Stoic
+  m_Name: stoic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1195522291
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f9089a6d162acad429db1fca4bfaf340, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,7 +100,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: 2
   targetedClasses: 000000000100000002000000030000000400000005000000
-  cost: 0
+  targetStats: 0
+  targetedStats: 
+  cost: 3
+  keyword: 0
+  previewable: 0
   percentage: 0.02
 --- !u!114 &-3797112813671984278
 MonoBehaviour:

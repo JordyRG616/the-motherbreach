@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1263470744379315937}
   - component: {fileID: -2124456290301222452}
   - component: {fileID: -7005680236428361042}
-  - component: {fileID: 1560200900}
+  - component: {fileID: 1880527639318156469}
   m_Layer: 7
-  m_Name: Lancer
+  m_Name: lancer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,10 +122,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shooters:
-  - {fileID: 1560200900}
-  cost: 3
+  - {fileID: 1880527639318156469}
+  cost: 5
   health: 100
-  enemiesInSight: []
   target: {fileID: 0}
   maxAngleVariation: 60
 --- !u!70 &-7005680236428361042
@@ -144,7 +143,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 11}
   m_Size: {x: 16, y: 24}
   m_Direction: 0
---- !u!114 &1560200900
+--- !u!114 &1880527639318156469
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,7 +152,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5443480414947530925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd66aa09ac839b94aa1c2a59c558dbbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e1ef7ba5a8c8844d888eebc76500a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shooterParticle: {fileID: 8207642890551599406}
@@ -162,12 +161,12 @@ MonoBehaviour:
     m_Bits: 64
   weaponClass: 0
   keyword: 0
-  initialDamage: 25
-  initialRest: 5
-  onShootSFX: event:/SFX/NEW/Shoot 2
+  initialDamage: 15
+  initialRest: 4
+  onShootSFX: event:/SFX/NEW/Shoot 1
   singleSFX: 0
-  initialBulletSpeed: 15
-  initialBurstSize: 2
+  initialBulletSpeed: 20
+  initialBulletSize: 1.2
 --- !u!114 &1658999303363344943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e574a70fd0d3c447a84b01ac7ad5263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  singleHit: 1
 --- !u!114 &4565091971899424661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c939bacfd2e7145b0a1487dccbb973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  associatedEffect: {fileID: 1560200900}
+  associatedEffect: {fileID: 1880527639318156469}
 --- !u!1 &8962512383701107946
 GameObject:
   m_ObjectHideFlags: 0

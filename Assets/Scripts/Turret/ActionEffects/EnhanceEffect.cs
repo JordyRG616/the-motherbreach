@@ -68,7 +68,7 @@ public class EnhanceEffect : ActionEffect
 
     public override string upgradeText(int nextLevel)
     {
-        if(nextLevel < 5) return StatColorHandler.StatPaint("next level:") + " heals + 15%";
+        if(nextLevel < 5) return StatColorHandler.StatPaint("next level:") + " percentage + 3%";
         else return StatColorHandler.StatPaint("next level:") + " triggers one more time";
         
     }
@@ -77,9 +77,7 @@ public class EnhanceEffect : ActionEffect
     {
         if(toLevel < 5)
         {
-            var value = StatSet[Stat.Damage];
-            value *= 1.15f;
-            SetStat(Stat.Damage, value);
+            percentage += .03f;
         }
         else
         {

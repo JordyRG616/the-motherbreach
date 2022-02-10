@@ -7,6 +7,8 @@ public abstract class BaseEffectTemplate : MonoBehaviour
 {
     [SerializeField] protected BaseEffectTrigger trigger;
     [SerializeField] protected List<WeaponClass> targetedClasses;
+    public bool targetStats;
+    [SerializeField] protected List<Stat> targetedStats;
     [SerializeField] protected float cost;
     [SerializeField] protected Keyword keyword;
     public bool previewable;
@@ -32,11 +34,20 @@ public abstract class BaseEffectTemplate : MonoBehaviour
         }
     }
 
-    public virtual void HandleLevelEffect(object sender, LevelUpArgs e){}
+    public virtual void HandleLevelTrigger(object sender, LevelUpArgs e)
+    {
+        ApplyEffect();
+    }
+
+    public virtual void HandleHealthTrigger(object sender, EventArgs e)
+    {
+        ApplyEffect();
+    }
 
     public abstract void ApplyEffect();
 
     public abstract string DescriptionText();
+    
     public virtual string DescriptionText(out Keyword keyword, WeaponClass weaponClass = WeaponClass.Default)
     {
         keyword = this.keyword;
@@ -45,6 +56,11 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     }
 
     public virtual string DescriptionTextByClass(WeaponClass weaponClass)
+    {
+        return DescriptionText();
+    }
+    
+    public virtual string DescriptionTextByStat(Stat stat)
     {
         return DescriptionText();
     }
@@ -73,5 +89,11 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     void OnDisable()
     {
         if(associatedController != null) gameManager.OnGameStateChange -= HandleEffectTrigger;
+    }
+
+    public bool StatIsTarget(Stat stat)
+    {
+        if(targetedStats.Contains(stat)) return true;
+        else return false;
     }
 }

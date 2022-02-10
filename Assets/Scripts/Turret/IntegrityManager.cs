@@ -69,11 +69,13 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
     public void RaiseMaxIntegrityByAmount(float amount)
     {
         maxIntegrity += amount;
+        HealToFull();
     }
 
     public void RaiseMaxIntegrityByPercentage(float percentage)
     {
         maxIntegrity *= (1 + percentage);
+        HealToFull();
     }
 
     public float GetCurrentIntegrity()

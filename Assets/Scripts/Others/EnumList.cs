@@ -18,8 +18,8 @@ public enum WigglePattern
 
 //. TURRET/REWARD RELATED
 public enum RewardLevel {Common, Uncommon, Rare, Unique, Error}
-public enum Stat {Health, Cost, Damage, Rest, BulletSpeed, BurstSize, Projectiles, BulletSize, Duration, Capacity, DroneLevel}
-public enum BaseEffectTrigger {Immediate, StartOfWave, EndOfWave, OnDestruction, None, Special, OnLevelUp}
+public enum Stat {Health, Cost, Damage, Rest, BulletSpeed, BurstSize, Projectiles, BulletSize, Duration, Capacity, DroneLevel, Rate, FuseTime}
+public enum BaseEffectTrigger {Immediate, StartOfWave, EndOfWave, OnDestruction, None, Special, OnLevelUp, OnHit}
 public enum WeaponClass {Artillery, Shotgun, Bomber, Beamer, Spreader, Spawner, Healer, Default, Enhancer}
 public enum Keyword {None, Slug, Burn, Shield}
 

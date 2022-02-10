@@ -167,6 +167,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         var action = clickedSlot.occupyingTurret.GetComponent<TurretManager>().actionController;
         var level = clickedSlot.occupyingTurret.GetComponent<TurretManager>().Level;
+        if(level >= 5) return;
         var text = action.GetShooters()[0].upgradeText(level + 1);
         text = "<size=125%>" + text;
 
