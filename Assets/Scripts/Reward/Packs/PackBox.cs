@@ -13,12 +13,12 @@ public class PackBox : MonoBehaviour
     [SerializeField] private GameObject componentBox;
     [SerializeField] private Color weaponColor;
     [SerializeField] private Color baseColor;
+    [SerializeField] private Color artifactColor;
     private Pack storagedPack;
 
 
     public void ConfigureBox(Pack pack)
     {
-        Debug.Log("called");
         storagedPack = pack;
         nameMesh.text = pack.name;
         iconImage.sprite = pack.icon;
@@ -55,9 +55,19 @@ public class PackBox : MonoBehaviour
 
     private GameObject NewComponentBox(GameObject component)
     {
-        var color = component.TryGetComponent<ActionController>(out var controller) ? weaponColor : baseColor;
+        Color color;
+        Sprite sprite;
+
+        if(component.TryGetComponent<Artifact>(out var artifact))
+        {
+            color = artifactColor;
+            sprite = artifact.icon;
+        } else
+        {
+            color = component.TryGetComponent<ActionController>(out var controller) ? weaponColor : baseColor;
+            sprite = component.GetComponent<SpriteRenderer>().sprite;
+        } 
         var container = Instantiate(componentBox, Vector3.zero, Quaternion.identity, componentsPanel);
-        var sprite = component.GetComponent<SpriteRenderer>().sprite;
         container.GetComponent<ComponentBox>().ConfigureBox(component.name, sprite, color);
         return container;
     }

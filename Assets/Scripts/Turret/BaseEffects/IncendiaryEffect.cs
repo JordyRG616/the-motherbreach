@@ -1,44 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class IncendiaryEffect : BaseEffectTemplate
 {
-    public override void HandleLevelTrigger(object sender, LevelUpArgs e)
-    {
-        if(e.toLevel == 3)
-        {
-            foreach(ActionEffect shooter in associatedController.GetShooters())
-            {
-                shooter.totalEffect += AddBurn;
-            }
-        }
-    }
-
     public override void ApplyEffect()
     {
-        // foreach(ActionEffect shooter in associatedController.GetShooters())
-        // {
-        //     shooter.totalEffect += AddBurn;
-        // }
+        foreach(ActionEffect shooter in associatedController.GetShooters())
+        {
+            shooter.totalEffect += AddBurn;
+        }
     }
 
     public void AddBurn(HitManager hitManager)
     {
-        if(hitManager.TryGetComponent<ChemicalBurn>(out ChemicalBurn burn))
-        {
-            return;
-        } else
-        {
-            hitManager.gameObject.AddComponent<ChemicalBurn>();
-        }
-        
+        ApplyStatusEffect<Acid>(hitManager, 2f, new float[] {associatedController.GetShooters()[0].StatSet[Stat.Damage] / 10, .1f});
     }
 
 
     public override string DescriptionText()
     {
-        string description = "At level 3, add CHEMICAL BURN effect to this turret.";
+        string description = "on hit, this turret applies " + KeywordHandler.KeywordPaint(Keyword.Acid);
         return description;
     }
 }

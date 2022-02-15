@@ -9,6 +9,7 @@ public abstract class ActionController : MonoBehaviour
     [SerializeField] protected List<ActionEffect> shooters;
     [SerializeField] protected float cost;
     [SerializeField] protected float health;
+    protected float _health;
     protected List<TargetableComponent> enemiesInSight = new List<TargetableComponent>();
     public TargetableComponent target;
   
@@ -27,6 +28,8 @@ public abstract class ActionController : MonoBehaviour
 
     public void Initiate()
     {
+        _health = health;
+
         foreach(ActionEffect shooter in shooters)
         {
             shooter.Initiate();
@@ -68,6 +71,8 @@ public abstract class ActionController : MonoBehaviour
 
     public void Reset()
     {
+        health = _health;
+
         foreach(ActionEffect shooter in shooters)
         {
             shooter.StatSet.Clear();

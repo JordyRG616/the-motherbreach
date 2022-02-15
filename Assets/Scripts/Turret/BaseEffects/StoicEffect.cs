@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class StoicEffect : BaseEffectTemplate
 {
-    [SerializeField] private float percentage;
+    [SerializeField] [Range(0, 1)] private float percentage;
     
 
     public override void ApplyEffect()
     {
-        //var integrityManager = GetComponentInParent<IntegrityManager>();
-        float totalPercentage = turretManager.Level * percentage;
-        associatedController.RaiseHealthByPercentage(totalPercentage);
+        associatedController.RaiseHealthByPercentage(percentage);
     }
 
 
     public override string DescriptionText()
     {
-        string description = "Increases the health of this turret by 2% per level at the end of each wave.";
+        string description = "Increases the health of this turret by " + percentage * 100 + "%";
         return description;
     }
 }

@@ -29,4 +29,12 @@ public class FormationManager : MonoBehaviour
         Children.Remove(enemy);
     }
 
+    public void Terminate()
+    {
+        foreach(EnemyManager child in Children)
+        {
+            var health = child.GetComponent<EnemyHealthController>();
+            health.UpdateHealth(-health.currentHealth);
+        }
+    }
 }

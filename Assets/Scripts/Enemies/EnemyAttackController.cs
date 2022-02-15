@@ -4,9 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackController : MonoBehaviour
+public class EnemyAttackController : ActionController
 {
     [SerializeField] private ActionEffect action;
+    public bool Sleeping;
     
     public event EventHandler<EnemyEventArgs> OnDeath;
 
@@ -32,7 +33,15 @@ public class EnemyAttackController : MonoBehaviour
 
     void Update()
     {
-        // action.RotateShoots(transform.rotation.eulerAngles.z);
+        if(Sleeping) Stop();
     }
-    
+
+    public override void Activate()
+    {
+    }
+
+    protected override IEnumerator ManageActivation()
+    {
+        yield return null;
+    }
 }

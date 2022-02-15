@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class BaseEffectTemplate : MonoBehaviour
 {
-    [SerializeField] protected BaseEffectTrigger trigger;
+    [SerializeField] protected EffectTrigger trigger;
     [SerializeField] protected List<WeaponClass> targetedClasses;
     public bool targetStats;
     [SerializeField] protected List<Stat> targetedStats;
@@ -36,10 +36,11 @@ public abstract class BaseEffectTemplate : MonoBehaviour
 
     public virtual void HandleLevelTrigger(object sender, LevelUpArgs e)
     {
+        Debug.Log("triggered");
         ApplyEffect();
     }
 
-    public virtual void HandleHealthTrigger(object sender, EventArgs e)
+    public virtual void HandleCommonTrigger(object sender, EventArgs e)
     {
         ApplyEffect();
     }
@@ -71,7 +72,7 @@ public abstract class BaseEffectTemplate : MonoBehaviour
         associatedController = weapon;
     }
 
-    public BaseEffectTrigger GetTrigger()
+    public EffectTrigger GetTrigger()
     {
         return trigger;
     }
@@ -89,11 +90,37 @@ public abstract class BaseEffectTemplate : MonoBehaviour
     void OnDisable()
     {
         if(associatedController != null) gameManager.OnGameStateChange -= HandleEffectTrigger;
+
+        switch(GetTrigger())
+        {
+            case EffectTrigger.OnLevelUp:
+                turretManager.OnLevelUp -= HandleLevelTrigger;
+            break;
+            case EffectTrigger.OnHit:
+                turretManager.GetComponent<HitManager>().OnHit -= HandleCommonTrigger;
+            break;
+            case EffectTrigger.OnDestruction:
+                turretManager.GetComponent<HitManager>().OnDeath -= HandleCommonTrigger;
+            break;
+            case EffectTrigger.OnTurretSell:
+                FindObjectOfType<SellButton>(true).OnTurretSell -= HandleCommonTrigger;
+            break;
+            case EffectTrigger.OnTurretBuild:
+                RewardManager.Main.OnTurretBuild -= HandleCommonTrigger;
+            break;
+        }
     }
 
     public bool StatIsTarget(Stat stat)
     {
         if(targetedStats.Contains(stat)) return true;
         else return false;
+    }
+
+    protected virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
+    {   
+        if(target.IsUnderEffect<T>()) return;
+        var effect = target.gameObject.AddComponent<T>();
+        effect.Initialize(target, duration, parameters);
     }
 }

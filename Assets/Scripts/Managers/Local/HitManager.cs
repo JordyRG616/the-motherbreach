@@ -8,14 +8,16 @@ public class HitManager : MonoBehaviour, IManager
     public IDamageable HealthInterface{get; private set;}
     private AudioManager audioManager;
     private float iFrameWindow;
+    private List<StatusEffect> effects = new List<StatusEffect>();
+    public GameObject lastAttacker {get; private set;}
 
-    public event EventHandler OnHit;
-    public event EventHandler OnDeath;
+    public event EventHandler<HitEventArgs> OnHit;
+    public event EventHandler<HitEventArgs> OnDeath;
 
     public void DestroyManager()
     {
         GetComponent<Collider2D>().enabled = false;
-        OnDeath?.Invoke(this, EventArgs.Empty);
+        OnDeath?.Invoke(this, new HitEventArgs(lastAttacker));
         Destroy(this);
     }
 
@@ -32,18 +34,21 @@ public class HitManager : MonoBehaviour, IManager
         {
             if(iFrameWindow >= 0.05f)
             {
-                action.PassTarget(this);
-                OnHit?.Invoke(this, EventArgs.Empty);
+                action.PassTarget(this, out var damage);
+                lastAttacker = action.associatedEffect.GetComponent<ActionController>().gameObject;
+                OnHit?.Invoke(this, new HitEventArgs(damage, lastAttacker));
                 iFrameWindow = 0;
             }
         }
     }
 
-    public void ReceiveTriggetEffect(EffectMediator mediator)
+    public void ReceiveTriggerEffect(EffectMediator mediator)
     {
         if(iFrameWindow >= 0.05f)
         {
-            mediator.PassTarget(this);
+            mediator.PassTarget(this, out var damage);
+            lastAttacker = mediator.associatedEffect.gameObject;
+            OnHit?.Invoke(this, new HitEventArgs(damage, lastAttacker));
             iFrameWindow = 0;
         }
     }
@@ -51,5 +56,22 @@ public class HitManager : MonoBehaviour, IManager
     void FixedUpdate()
     {
         iFrameWindow += Time.fixedDeltaTime;
+    }
+
+    public void ReceiveEffect(StatusEffect effect)
+    {
+        effects.Add(effect);
+    }
+
+    public void RemoveEffect(StatusEffect effect)
+    {
+        effects.Remove(effect);
+    }
+
+    public bool IsUnderEffect<T>() where T : StatusEffect
+    {
+        var status = GetComponent<T>();
+        if(status == null) return false;
+        return true;
     }
 }

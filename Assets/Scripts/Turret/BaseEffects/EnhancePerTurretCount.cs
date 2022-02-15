@@ -28,7 +28,12 @@ public class EnhancePerTurretCount : BaseEffectTemplate
 
     public override string DescriptionText()
     {
-        return "";
+        string container = "";
+        foreach(Stat stat in targetedStats)
+        {
+            container += stat.ToString() + "/";
+        }
+        return "raises the " + container + " by " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "% per turret on the ship";
     }
 
     public override string DescriptionTextByStat(Stat stat)

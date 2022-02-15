@@ -52,6 +52,7 @@ public class SupportController : ActionController
     public IntegrityManager GetTarget()
     {
         GetNeighbouringTurrets();
+        if(turrets.Count == 0) return null;
         var target = turrets.OrderBy(x => x.GetCurrentIntegrity());
         return target.First();
     }
@@ -72,6 +73,7 @@ public class SupportController : ActionController
                 turrets.Add(integrityManager);
             }
         }
+        turrets.Remove(GetComponentInParent<IntegrityManager>());
     }
 
     public override void OnTriggerEnter2D(Collider2D other)

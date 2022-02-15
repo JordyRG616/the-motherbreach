@@ -36,7 +36,7 @@ public class TriggerTypeShooter : MonoBehaviour
                 {
                     ps.trigger.RemoveCollider(j);
                 }
-                else col.GetComponent<HitManager>().ReceiveTriggetEffect(mediator);
+                else col.GetComponent<HitManager>().ReceiveTriggerEffect(mediator);
             }
         }
     }
@@ -44,6 +44,7 @@ public class TriggerTypeShooter : MonoBehaviour
     private void GetEnemies()
     {
         var enemies = FindObjectsOfType<EnemyManager>();
+        var boss = FindObjectOfType<BossController>();
         var trigger = ps.trigger;
 
         if(trigger.colliderCount == enemies.Length) return;
@@ -58,6 +59,8 @@ public class TriggerTypeShooter : MonoBehaviour
             var col = enemy.GetComponent<Collider2D>();
             trigger.AddCollider(col);
         }
+
+        if(boss != null) trigger.AddCollider(boss.GetComponent<Collider2D>());
     }
 
     private void GetTurrets()

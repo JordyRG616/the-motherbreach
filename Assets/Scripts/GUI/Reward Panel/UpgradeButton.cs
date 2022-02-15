@@ -108,7 +108,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         var turretManager = clickedSlot.occupyingTurret.GetComponent<TurretManager>();
         var cost = turretManager.Level + 1;
 
-        if(RewardManager.Main.TotalCash >= cost && turretManager.Level < 5)
+        if(RewardManager.Main.TotalCash >= cost && turretManager.Level < turretManager.maxLevel)
         {
             GetComponentInChildren<ParticleSystem>().Play();
             AudioManager.Main.RequestGUIFX(upgradeSFX);
@@ -126,7 +126,11 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     private void SetButtonText(int cost)
     {
         if(cost < 6) textMesh.text = "upgrade (" + cost + "$)";
-        else textMesh.text = "max. level";
+        else 
+        {
+            textMesh.text = "max. level";
+            infoBox.gameObject.SetActive(false);
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)

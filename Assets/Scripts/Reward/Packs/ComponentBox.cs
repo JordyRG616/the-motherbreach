@@ -31,11 +31,20 @@ public class ComponentBox : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         // AudioManager.Main.RequestGUIFX(hoverSFX);
 
         infoBox.gameObject.SetActive(true);
-        infoBox.GetComponent<StatInfoBox>().SetText(componentName, 200);
+        infoBox.GetComponent<StatInfoBox>().SetText(componentName);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         infoBox.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        if(infoBox.gameObject.activeSelf)
+        {
+            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
+            infoBox.anchoredPosition = mousePos;
+        }
     }
 }

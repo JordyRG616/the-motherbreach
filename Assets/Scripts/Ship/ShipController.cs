@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ShipController : MonoBehaviour
 {
-    [SerializeField] private float force;
+    [FormerlySerializedAs("force")] [SerializeField] private float speed;
     [SerializeField] private float rotationSpeed;
     [SerializeField] [FMODUnity.EventRef] private string onMovementSFX;
     [SerializeField] private List<ParticleSystem> burners;
@@ -37,7 +38,7 @@ public class ShipController : MonoBehaviour
             burner.Play();
         }
         body.velocity = Vector2.zero;
-        body.AddForce(e.direction * force, ForceMode2D.Impulse);
+        body.AddForce(e.direction * speed, ForceMode2D.Impulse);
     }
 
     void Update()
@@ -81,6 +82,11 @@ public class ShipController : MonoBehaviour
         InputManager.Main.OnRotationPressed -= RotateShip;
 
         Destroy(this);
+    }
+
+    public void ModifySpeedByPercentage(float percentage)
+    {
+        speed *= (1 + percentage);
     }
 
 }

@@ -50,7 +50,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(cachedWeapon == null)
+        if(cachedWeapon == null || RewardManager.Main.ActiveSelection)
         {
             AudioManager.Main.PlayInvalidSelection();
             return;

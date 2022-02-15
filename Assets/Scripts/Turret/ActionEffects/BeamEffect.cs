@@ -47,14 +47,12 @@ public class BeamEffect : ActionEffect
     public override void ApplyEffect(HitManager hitManager)
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
-        var burned = hitManager.GetComponent<ChemicalBurn>();
-        if (burned == null) hitManager.gameObject.AddComponent<ChemicalBurn>();
-
+        ApplyStatusEffect<Acid>(hitManager, 2f, new float[] {1f, .1f});
     }
 
     public override string DescriptionText()
     {
-        string description = "releases a beam of energy for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and apply " + KeywordHandler.KeywordPaint(Keyword.Burn);
+        string description = "releases a beam of energy for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and apply " + KeywordHandler.KeywordPaint(Keyword.Acid);
         return description;
     }
 

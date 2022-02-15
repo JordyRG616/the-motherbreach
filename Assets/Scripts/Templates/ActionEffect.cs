@@ -162,4 +162,11 @@ public abstract class ActionEffect : MonoBehaviour
 
         if(gameManager != null) gameManager.OnGameStateChange -= ClearShots;
     }
+
+    protected virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
+    {   
+        if(target.IsUnderEffect<T>()) return;
+        var effect = target.gameObject.AddComponent<T>();
+        effect.Initialize(target, duration, parameters);
+    }
 }

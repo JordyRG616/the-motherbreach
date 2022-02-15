@@ -22,16 +22,20 @@ public class ShipManager : MonoBehaviour
     #endregion
 
     private GameManager gameManager;
-    private List<TurretManager> turrets = new List<TurretManager>();
+    public List<TurretManager> turrets {get; private set;}= new List<TurretManager>();
     [SerializeField] private Transform controller;
     private ActionEffect beam;
     private Camera cam;
     [SerializeField] private float beamSelfDamage;
+    public List<Artifact> artifacts {get; private set;} = new List<Artifact>();
+    private ArtifactsPanel artifactsPanel;
 
     void Awake()
     {
         gameManager = GameManager.Main;
         gameManager.OnGameStateChange += HealTurrets;
+
+        artifactsPanel = FindObjectOfType<ArtifactsPanel>();
 
         cam = Camera.main;
 
@@ -107,5 +111,12 @@ public class ShipManager : MonoBehaviour
     public int GetTurretCount()
     {
         return turrets.Count;
+    }
+
+    public void ReceiveArtifact(Artifact artifact)
+    {
+        artifact.Initialize();
+        artifacts.Add(artifact);
+        artifactsPanel.CreateNewBox(artifact);
     }
 }

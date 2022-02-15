@@ -18,6 +18,8 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
     [SerializeField] [FMODUnity.EventRef] private string sellSFX;
 
+    public event EventHandler OnTurretSell;
+
     void Awake()
     {
         textMesh = transform.Find("Text").GetComponent<TextMeshProUGUI>();
@@ -53,6 +55,7 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     public void OnPointerClick(PointerEventData eventData)
     {
         StartCoroutine(Sell());
+        OnTurretSell?.Invoke(this, EventArgs.Empty);
     }
 
     private IEnumerator Sell()
@@ -69,6 +72,7 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         GetComponent<Image>().enabled = false;
 
         cachedSlot.GetComponentInChildren<ParticleSystem>().Stop();
+        ShipManager.Main.turrets.Remove(cachedSlot.occupyingTurret.GetComponent<TurretManager>());
         Destroy(cachedSlot.occupyingTurret);
         cachedSlot.Clear();
 

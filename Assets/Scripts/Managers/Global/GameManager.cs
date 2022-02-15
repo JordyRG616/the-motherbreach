@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+
     public GameState gameState {get; private set;} = GameState.OnTitle;
     public event EventHandler<GameStateEventArgs> OnGameStateChange;
     private GameStateEventArgs toReward = new GameStateEventArgs(GameState.OnReward);
@@ -163,17 +164,17 @@ public class GameManager : MonoBehaviour
 public class GameStateEventArgs : EventArgs
 {
     public GameState newState;
-    public BaseEffectTrigger effectTrigger;
+    public EffectTrigger effectTrigger;
 
     public GameStateEventArgs(GameState newState)
     {
         this.newState = newState;
         if(newState == GameState.OnWave)
         {
-            effectTrigger = BaseEffectTrigger.StartOfWave;
+            effectTrigger = EffectTrigger.StartOfWave;
         } else
         {
-            effectTrigger = BaseEffectTrigger.EndOfWave;
+            effectTrigger = EffectTrigger.EndOfWave;
         }
     }
 }

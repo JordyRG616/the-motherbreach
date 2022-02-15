@@ -45,7 +45,7 @@ public class ViciousEffect : BaseEffectTemplate
     
     public override string DescriptionText()
     {
-        string description = "At level 3, add SLUG effect to this turret.";
+        string description = "this turret gains " + buffPercentage * 100 + "% extra damage for " + durationOfBuff + " seconds";
         return description;
     }
 

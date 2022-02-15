@@ -18,7 +18,7 @@ public class RelentlessEffect : BaseEffectTemplate
 
     public override string DescriptionText()
     {
-        string description = "reduces the " + StatColorHandler.RestPaint("rest") + " of this turret in " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "%";
+        string description = "reduces the " + StatColorHandler.RestPaint("rest") + " of this turret in " + StatColorHandler.StatPaint(((1 - percentage) * 100).ToString()) + "%";
         return description;
     }
 }

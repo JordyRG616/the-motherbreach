@@ -27,6 +27,8 @@ public class ShieldManager : MonoBehaviour, IDamageable
     {
         if(e.newState == GameState.OnReward)
         {
+        gameManager.OnGameStateChange -= DestroyShield;
+
             Destroy(gameObject);
         }
     }
@@ -55,4 +57,9 @@ public class ShieldManager : MonoBehaviour, IDamageable
 
     }
     
+    public void RaiseHealthByPercentage(float percentage)
+    {
+        maxHealth *= (1 + percentage);
+        currentHealth *= (1 + percentage);
+    }
 }

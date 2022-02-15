@@ -96,11 +96,11 @@ public class TurretConstructor : MonoBehaviour
         manager.Initiate();
         baseEffect.Initiate();
 
-        if(baseEffect.GetTrigger() == BaseEffectTrigger.OnLevelUp) 
-        {
-            Debug.Log("registered");
-            manager.OnLevelUp += baseEffect.HandleLevelTrigger;
-        }
+        // if(baseEffect.GetTrigger() == EffectTrigger.OnLevelUp) 
+        // {
+        //     Debug.Log("registered");
+        //     manager.OnLevelUp += baseEffect.HandleLevelTrigger;
+        // }
 
         return blueprint;
     }
@@ -112,17 +112,23 @@ public class TurretConstructor : MonoBehaviour
         effect.ReceiveWeapon(weapon);
         switch(effect.GetTrigger())
         {
-            case BaseEffectTrigger.Immediate:
+            case EffectTrigger.Immediate:
                 effect.ApplyEffect();
             break;
-            case BaseEffectTrigger.OnLevelUp:
+            case EffectTrigger.OnLevelUp:
                 occupyingTurret.GetComponent<TurretManager>().OnLevelUp += effect.HandleLevelTrigger;
             break;
-            case BaseEffectTrigger.OnHit:
-                occupyingTurret.GetComponent<HitManager>().OnHit += effect.HandleHealthTrigger;
+            case EffectTrigger.OnHit:
+                occupyingTurret.GetComponent<HitManager>().OnHit += effect.HandleCommonTrigger;
             break;
-            case BaseEffectTrigger.OnDestruction:
-                occupyingTurret.GetComponent<HitManager>().OnDeath += effect.HandleHealthTrigger;
+            case EffectTrigger.OnDestruction:
+                occupyingTurret.GetComponent<HitManager>().OnDeath += effect.HandleCommonTrigger;
+            break;
+            case EffectTrigger.OnTurretSell:
+                FindObjectOfType<SellButton>(true).OnTurretSell += effect.HandleCommonTrigger;
+            break;
+            case EffectTrigger.OnTurretBuild:
+                RewardManager.Main.OnTurretBuild += effect.HandleCommonTrigger;
             break;
         }
     }

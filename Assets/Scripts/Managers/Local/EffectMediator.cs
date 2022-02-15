@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class EffectMediator : MonoBehaviour
 {
-    [SerializeField] private ActionEffect associatedEffect;
+    public ActionEffect associatedEffect;
 
-    public void PassTarget(HitManager target)
+    public void PassTarget(HitManager target, out float damage)
     {   
         associatedEffect.totalEffect(target);
+        damage = associatedEffect.StatSet[Stat.Damage];
     }
 }

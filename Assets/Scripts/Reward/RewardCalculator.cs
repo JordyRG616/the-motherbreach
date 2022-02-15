@@ -124,6 +124,8 @@ public class RewardCalculator : MonoBehaviour
                 weapons.Add(reward);
             if(reward.TryGetComponent<BaseEffectTemplate>(out var effect))
                 bases.Add(reward);
+            if(reward.TryGetComponent<Artifact>(out var artifact))
+                ShipManager.Main.ReceiveArtifact(artifact);
         }
 
         LevelUp();

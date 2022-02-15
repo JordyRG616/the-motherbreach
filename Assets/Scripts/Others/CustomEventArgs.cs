@@ -19,3 +19,20 @@ public class EnemyEventArgs : EventArgs
         attackController = attack;
     }
 }
+
+public class HitEventArgs : EventArgs
+{
+    public float damageTaken;
+    public GameObject attacker;
+
+    public HitEventArgs(float damage, GameObject attacker)
+    {
+        damageTaken = damage;
+        this.attacker = attacker;
+    }
+
+    public HitEventArgs(GameObject attacker)
+    {
+        this.attacker = attacker;
+    }
+}

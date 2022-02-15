@@ -11,6 +11,7 @@ public class TurretManager : MonoBehaviour, IManager
     public Dictionary<Stat, float> Stats {get; protected set;} = new Dictionary<Stat, float>();
     public IntegrityManager integrityManager {get; private set;}
 
+    public int maxLevel = 5;
     public int Level 
     {
         get
@@ -58,7 +59,7 @@ public class TurretManager : MonoBehaviour, IManager
     public void LevelUp()
     {
         Level ++;
-        integrityManager.RaiseMaxIntegrityByPercentage(.1f);
+        actionController.RaiseHealthByPercentage(.1f);
         OnLevelUp?.Invoke(this, new LevelUpArgs(Level));
     }
 

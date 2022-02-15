@@ -8,12 +8,13 @@ public abstract class BossController : MonoBehaviour, IManager
     protected BossHealthController healthController;
     protected BossPhase activePhase;
     protected BossState activeState;
-   protected Transform ship;
+    protected Transform ship;
 
     protected Animator animator;
 
     protected delegate void StateAction();
     protected StateAction action;
+
 
     protected virtual void Awake()
     {
@@ -79,7 +80,7 @@ public abstract class BossController : MonoBehaviour, IManager
         return container;
     }
 
-    public void DestroyManager()
+    public virtual void DestroyManager()
     {
         WaveManager.Main.RemoveBoss(this);
     }

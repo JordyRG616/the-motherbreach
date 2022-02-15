@@ -46,6 +46,7 @@ public class BuildBox : MonoBehaviour
     void Start()
     {
         statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
+        FindObjectOfType<SellButton>(true).OnTurretSell += Unselect;
         InputManager.Main.OnSelectionClear += Unselect;
     }
 
@@ -157,28 +158,37 @@ public class BuildBox : MonoBehaviour
         }
     }
 
-    private string GetTriggerText(BaseEffectTrigger baseEffectTrigger)
+    private string GetTriggerText(EffectTrigger baseEffectTrigger)
     {
         var container = string.Empty;
         switch(baseEffectTrigger)
         {
-            case BaseEffectTrigger.Immediate:
+            case EffectTrigger.Immediate:
                 container = "when constructed:";
             break;
-            case BaseEffectTrigger.EndOfWave:
+            case EffectTrigger.EndOfWave:
                 container = "at the end of each wave:";
             break;
-            case BaseEffectTrigger.StartOfWave:
+            case EffectTrigger.StartOfWave:
                 container = "at the start of each wave:";
             break;
-            case BaseEffectTrigger.OnDestruction:
+            case EffectTrigger.OnDestruction:
                 container = "when destructed:";
             break;
-            case BaseEffectTrigger.OnLevelUp:
+            case EffectTrigger.OnLevelUp:
                 container = "when upgraded:";
             break;
-            case BaseEffectTrigger.OnHit:
+            case EffectTrigger.OnHit:
                 container = "when hit:";
+            break;
+            case EffectTrigger.OnEnemyDefeat:
+                container = "when a enemy is defeated:";
+            break;
+            case EffectTrigger.OnTurretBuild:
+                container = "when a turret is built:";
+            break;
+            case EffectTrigger.OnTurretSell:
+                container = "when a turret is sold:";
             break;
         }
 

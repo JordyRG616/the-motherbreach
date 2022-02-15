@@ -50,6 +50,7 @@ public class RewardManager : MonoBehaviour
     public GameObject ActiveSelection {get; private set;}
 
     public event EventHandler OnRewardSelection;
+    public event EventHandler OnTurretBuild;
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string buildSFX;
 
@@ -126,6 +127,7 @@ public class RewardManager : MonoBehaviour
     {
         tutorialManager.TriggerPosBuildTutorial();
         buildBox.Clear();
+        OnTurretBuild?.Invoke(this, EventArgs.Empty);
         turretConstructor.HandleBaseEffect(ActiveSelection);
         var manager = ActiveSelection.GetComponent<TurretManager>();
         SpendCash(manager.Stats[Stat.Cost]);

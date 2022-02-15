@@ -48,7 +48,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(cachedBase == null)
+        if(cachedBase == null || RewardManager.Main.ActiveSelection)
         {
             AudioManager.Main.PlayInvalidSelection();
             return;

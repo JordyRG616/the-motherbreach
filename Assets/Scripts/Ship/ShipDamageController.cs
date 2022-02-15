@@ -45,6 +45,12 @@ public class ShipDamageController : MonoBehaviour, IDamageable
             GameManager.Main.GameOver();
             return;
         }
+
+        if(currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
         if(amount < 0)
         {
             AudioManager.Main.RequestSFX(onHitSFX);
@@ -61,6 +67,10 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         {
             GameManager.Main.GameOver();
             return;
+        }
+        if(currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
         }
         if(amount < 0)
         {
@@ -118,4 +128,9 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         }
     }
 
+    public void ModifyHealthByPercentage(float percentage)
+    {
+        maxHealth *= (1 + percentage);
+        currentHealth *= (1 + percentage);
+    }
 }

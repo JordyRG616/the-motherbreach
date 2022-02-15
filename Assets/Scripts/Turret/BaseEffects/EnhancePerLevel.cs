@@ -18,7 +18,6 @@ public class EnhancePerLevel : BaseEffectTemplate
             {
                 if(shooter.StatSet.ContainsKey(stat))
                 {
-                    Debug.Log("applied");
                     var value = shooter.StatSet[stat];
                     value *= 1 + (percentage * level);
                     shooter.SetStat(stat, value);
@@ -29,7 +28,12 @@ public class EnhancePerLevel : BaseEffectTemplate
 
     public override string DescriptionText()
     {
-        return "";
+        string container = "";
+        foreach(Stat stat in targetedStats)
+        {
+            container += stat.ToString() + "/";
+        }
+        return "raises " + container + " by " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "% per level of this turret";
     }
 
     public override string DescriptionTextByStat(Stat stat)
