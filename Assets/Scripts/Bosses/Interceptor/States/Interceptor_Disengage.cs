@@ -17,7 +17,7 @@ public class Interceptor_Disengage : BossState
 
     public override void EnterState()
     {
-       
+       body.velocity = Vector2.zero;
     }
 
     public override void ExitState()

@@ -15,7 +15,6 @@ public class ConeMovement : FormationMovement
     {
         if(!allowInertia) body.velocity = Vector2.zero;
         var direction = target - transform.position;
-        Debug.Log(VariableAngle(angleVariation));
         RotateChildren(direction, VariableAngle(transform.rotation.z));
     }
 

@@ -76,4 +76,9 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
     {
         return currentHealth / maxHealth;
     }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
 }

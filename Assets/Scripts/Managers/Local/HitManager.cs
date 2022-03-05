@@ -35,7 +35,7 @@ public class HitManager : MonoBehaviour, IManager
             if(iFrameWindow >= 0.05f)
             {
                 action.PassTarget(this, out var damage);
-                lastAttacker = action.associatedEffect.GetComponent<ActionController>().gameObject;
+                lastAttacker = action.associatedEffect.gameObject;
                 OnHit?.Invoke(this, new HitEventArgs(damage, lastAttacker));
                 iFrameWindow = 0;
             }

@@ -93,9 +93,6 @@ public abstract class BaseEffectTemplate : MonoBehaviour
 
         switch(GetTrigger())
         {
-            case EffectTrigger.OnLevelUp:
-                turretManager.OnLevelUp -= HandleLevelTrigger;
-            break;
             case EffectTrigger.OnHit:
                 turretManager.GetComponent<HitManager>().OnHit -= HandleCommonTrigger;
             break;
@@ -122,5 +119,10 @@ public abstract class BaseEffectTemplate : MonoBehaviour
         if(target.IsUnderEffect<T>()) return;
         var effect = target.gameObject.AddComponent<T>();
         effect.Initialize(target, duration, parameters);
+    }
+
+    public virtual string GetSpecialTrigger()
+    {
+        return "";
     }
 }

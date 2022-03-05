@@ -13,12 +13,12 @@ public class Expose : StatusEffect
     protected override void ApplyEffect()
     {
         ogMultiplier = healthController.damageMultiplier;
-        healthController.damageMultiplier = ogMultiplier - percentage;
+        healthController.damageMultiplier = ogMultiplier + percentage;
     }
 
     protected override void ExtraInitialize(params float[] parameters)
     {
-        healthController = target.GetComponent<EnemyHealthController>();
+        healthController = GetComponent<EnemyHealthController>();
         percentage = parameters[0];
     }
 

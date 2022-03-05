@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
 public class Thruster : Artifact
 {
     [Range(0, 1)] [SerializeField] private float percentage;

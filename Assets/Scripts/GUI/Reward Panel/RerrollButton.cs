@@ -1,4 +1,4 @@
-using System.Net.Mime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +11,7 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private Sprite clickSprite;
     [SerializeField] private RectTransform tipBox;
     [SerializeField] private UIAnimations cashTextAnim;
+    public int rerrollCost;
     private TextMeshProUGUI tipBoxText;
     private Image image;
     private RewardManager rewardManager;
@@ -19,6 +20,8 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
     [SerializeField] [FMODUnity.EventRef] private string clicksSFX;
     private int offerTimelineIndex;
+
+    public event EventHandler OnReroll;
 
     void Start()
     {
@@ -34,7 +37,7 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         AudioManager.Main.RequestGUIFX(hoverSFX);
         GetComponent<ShaderAnimation>().Play();
-        tipBoxText.text = "reset (2$)";
+        tipBoxText.text = "reset (" + rerrollCost + "$)";
         tipBox.gameObject.SetActive(true);
     }
 
@@ -56,7 +59,7 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         var locked = FindObjectOfType<LockButton>().locked;
 
-        if(rewardManager.TotalCash >= 2 && !locked)
+        if(rewardManager.TotalCash >= rerrollCost && !locked)
         {
             AudioManager.Main.RequestGUIFX(clicksSFX);
             image.sprite = clickSprite;
@@ -65,6 +68,7 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             cashTextAnim.PlayReverse();
 
             Reroll();
+            OnReroll?.Invoke(this, EventArgs.Empty);
             return;
         }
         AudioManager.Main.PlayInvalidSelection();

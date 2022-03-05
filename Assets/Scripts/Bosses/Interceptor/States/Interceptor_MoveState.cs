@@ -18,7 +18,7 @@ public class Interceptor_MoveState : BossState
 
     public override void EnterState()
     {
-
+        body.velocity = Vector2.zero;
     }
 
     public override void ExitState()

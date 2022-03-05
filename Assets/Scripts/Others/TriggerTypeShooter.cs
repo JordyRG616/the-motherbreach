@@ -44,7 +44,7 @@ public class TriggerTypeShooter : MonoBehaviour
     private void GetEnemies()
     {
         var enemies = FindObjectsOfType<EnemyManager>();
-        var boss = FindObjectOfType<BossController>();
+        var boss = FindObjectOfType<BossHealthController>();
         var trigger = ps.trigger;
 
         if(trigger.colliderCount == enemies.Length) return;
@@ -54,13 +54,14 @@ public class TriggerTypeShooter : MonoBehaviour
             trigger.RemoveCollider(i);
         }
 
+        if(boss != null) trigger.AddCollider(boss.GetComponent<Collider2D>());
+
         foreach(EnemyManager enemy in enemies)
         {
             var col = enemy.GetComponent<Collider2D>();
             trigger.AddCollider(col);
         }
 
-        if(boss != null) trigger.AddCollider(boss.GetComponent<Collider2D>());
     }
 
     private void GetTurrets()
@@ -80,6 +81,8 @@ public class TriggerTypeShooter : MonoBehaviour
             var col = turret.GetComponent<Collider2D>();
             trigger.AddCollider(col);
         }
+
+        trigger.AddCollider(ShipManager.Main.GetComponent<Collider2D>());
     }
 
     void Update()

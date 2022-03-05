@@ -40,7 +40,7 @@ public class ShipDamageController : MonoBehaviour, IDamageable
     public void UpdateHealth(float amount)
     {
         currentHealth += amount;
-        if(currentHealth == 0)
+        if(currentHealth <= 0)
         {
             GameManager.Main.GameOver();
             return;
@@ -130,7 +130,7 @@ public class ShipDamageController : MonoBehaviour, IDamageable
 
     public void ModifyHealthByPercentage(float percentage)
     {
+        currentHealth += maxHealth * percentage;
         maxHealth *= (1 + percentage);
-        currentHealth *= (1 + percentage);
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class WaveManager : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private WaveList listOfWaves;
     [SerializeField] private float distanceToSpawn;
     [SerializeField] private GameObject pointer;
+    [SerializeField] private VisualEffect onFormationSpawnVFX;
     [SerializeField] [FMODUnity.EventRef] private string onFormationSpawnSFX; 
     private UIAnimations endOfWaveAnimation;
     private ParticleSystem endOfWaveVFX;
@@ -103,12 +105,20 @@ public class WaveManager : MonoBehaviour
             var breach = activeWave.breachQueue.Dequeue();
             breach.SetQueue();
             Vector2 spwPos = PositionToSpawn();
+            if(breach.spawnInSamePosition)
+            {
+               StartCoroutine(CreateSpawnVFX(spwPos, breach.intervalOfSpawn * breach.formationQueue.Count));
+            }
 
             if(breach.bossWave)
             {
                 while(breach.formationQueue.Count > 0)
                 {
-                    if(!breach.spawnInSamePosition) spwPos = PositionToSpawn();
+                    if(!breach.spawnInSamePosition)
+                    {
+                        spwPos = PositionToSpawn();
+                        StartCoroutine(CreateSpawnVFX(spwPos, breach.intervalOfSpawn));
+                    } 
                     var boss = Instantiate(breach.formationQueue.Dequeue(), spwPos, Quaternion.identity);
 
                     activeBosses.Add(boss.GetComponent<BossController>());
@@ -121,7 +131,11 @@ public class WaveManager : MonoBehaviour
             {
                 while(breach.formationQueue.Count > 0)
                 {
-                    if(!breach.spawnInSamePosition) spwPos = PositionToSpawn();
+                    if(!breach.spawnInSamePosition) 
+                    {
+                        spwPos = PositionToSpawn();
+                        StartCoroutine(CreateSpawnVFX(spwPos, breach.intervalOfSpawn));
+                    } 
                     var formation = Instantiate(breach.formationQueue.Dequeue(), spwPos, Quaternion.identity);
 
                     activeFormations.Add(formation.GetComponent<FormationManager>());
@@ -138,6 +152,22 @@ public class WaveManager : MonoBehaviour
             yield return new WaitForSeconds(breach.intervalTillNextWave);
         }
 
+    }
+
+    private IEnumerator CreateSpawnVFX(Vector3 position, float duration)
+    {
+        Debug.Log("instantiateds");
+        var container = Instantiate(onFormationSpawnVFX.gameObject, position, Quaternion.identity);
+
+        container.GetComponent<VisualEffect>().Play();
+
+        yield return new WaitForSeconds(duration);
+
+        container.GetComponent<VisualEffect>().Stop();
+
+        yield return new WaitForSeconds(.5f);
+
+        Destroy(container);
     }
 
     private void RemoveFormation(object sender, EventArgs e)
@@ -160,8 +190,6 @@ public class WaveManager : MonoBehaviour
         yield return StartCoroutine(endOfWaveAnimation.Forward());
 
         yield return StartCoroutine(endOfWaveAnimation.Reverse());
-
-        FindObjectOfType<LevelUpButton>().GainExp();
 
         StopAllCoroutines();
         defaultArg.waveReward = activeWave.rewardValue;

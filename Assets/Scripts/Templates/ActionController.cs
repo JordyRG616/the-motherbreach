@@ -11,7 +11,7 @@ public abstract class ActionController : MonoBehaviour
     [SerializeField] protected float health;
     protected float _health;
     protected List<TargetableComponent> enemiesInSight = new List<TargetableComponent>();
-    public TargetableComponent target;
+    [HideInInspector] public TargetableComponent target;
   
     public abstract void Activate();
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
 
 public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -18,6 +19,7 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     [SerializeField] private ParticleSystem expBarVFX;
     private float requiredHeight;
     private float amountHeight;
+    private bool active = true;
     
     private TextMeshProUGUI tipText;
     private Sprite ogSprite;
@@ -39,9 +41,24 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(!active)
+        {
+            AudioManager.Main.PlayInvalidSelection();
+            return;
+        }
         image.sprite = clickedSprite;
         rewardCalculator.PurchaseLevelUp();
         UpdateExpGui();
+        if(rewardCalculator.ShopLevel == rewardCalculator.maxShopLevel) DisableButton();
+    }
+
+    private void DisableButton()
+    {
+        lvlText.text = "max tier";
+        image.sprite = clickedSprite;
+        expBar.gameObject.SetActive(false);
+        expAmount.gameObject.SetActive(false);
+        active = false;
     }
 
     public void GainExp()

@@ -29,6 +29,9 @@ public abstract class ActionEffect : MonoBehaviour
     private ParticleSystem.Particle[] particles = new ParticleSystem.Particle[50];
     private List<ParticleSystem.Particle> particlesList = new List<ParticleSystem.Particle>();
 
+    [Header("Debug")]
+    public string[] debugStats = new string[0];
+
 
     public virtual void Initiate()
     {
@@ -152,6 +155,22 @@ public abstract class ActionEffect : MonoBehaviour
     public virtual void Update()
     {
         if(transform.parent != null) RotateShoots();
+        #if UNITY_EDITOR
+            UpdateDebugStats();
+        #endif
+    }
+
+    private void UpdateDebugStats()
+    {
+        var stats = StatSet.Keys.ToList();
+        if(debugStats.Length <= stats.Count)
+        {
+            debugStats = new string[stats.Count];
+        }
+        for(int i = 0; i < stats.Count; i++)
+        {
+            debugStats[i] = (stats[i] + ": " + StatSet[stats[i]]);
+        }
     }
 
     public abstract void ApplyEffect(HitManager hitManager);

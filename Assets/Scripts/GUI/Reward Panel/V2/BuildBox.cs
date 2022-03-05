@@ -190,6 +190,9 @@ public class BuildBox : MonoBehaviour
             case EffectTrigger.OnTurretSell:
                 container = "when a turret is sold:";
             break;
+            case EffectTrigger.Special:
+                container = selectedBase.GetComponent<BaseEffectTemplate>().GetSpecialTrigger();
+            break;
         }
 
         return container;

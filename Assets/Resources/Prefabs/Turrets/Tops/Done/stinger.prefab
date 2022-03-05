@@ -1560,7 +1560,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 4830895272565588353, guid: 98e9b090f93ff9744981225726a946a6, type: 3}
+    - sprite: {fileID: 21300000, guid: d3aac6b2dd9b2354685aae498aa1e48a, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -4916,6 +4916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e574a70fd0d3c447a84b01ac7ad5263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemy: 0
 --- !u!1 &5443480414947530925
 GameObject:
   m_ObjectHideFlags: 0
@@ -5060,8 +5061,8 @@ MonoBehaviour:
     m_Bits: 64
   weaponClass: 0
   keyword: 0
-  initialDamage: 5
-  initialRest: 5
+  initialDamage: 1.5
+  initialRest: 10
   onShootSFX: event:/SFX/NEW/Spreader1
   singleSFX: 1
   durationModifier: 0

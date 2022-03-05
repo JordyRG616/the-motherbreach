@@ -14,14 +14,15 @@ public abstract class StatusEffect : MonoBehaviour
     {
         BasicInitialize(target, duration);
         ExtraInitialize(parameters);
+
+        StartCoroutine(ManageEffect());
+
     }
 
     protected virtual void BasicInitialize(HitManager target, float duration)
     {
         this.target = target;
         this.duration = duration;
-
-        StartCoroutine(ManageEffect());
     }
 
     protected abstract void ExtraInitialize(params float[] parameters);

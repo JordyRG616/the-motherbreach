@@ -36,7 +36,41 @@ public class PackOfferManager : MonoBehaviour
     [SerializeField] private List<PackBox> packBoxes;
     [SerializeField] private GameObject blockPanel;
     [SerializeField] private List<Pack> packs;
+    private List<Pack> unlockedPacks = new List<Pack>();
+    private List<int> unlockedIndexes = new List<int>();
 
+    void Start()
+    {
+        CheckLockedPacks();
+    }
+
+    private void CheckLockedPacks()
+    {
+        foreach(Pack pack in packs)
+        {
+            if(pack.requiredIndexes.Count == 0) UnlockPack(pack);
+            else
+            {
+                CheckPackIndexes(pack);
+            }
+        }
+    }
+
+    private void CheckPackIndexes(Pack pack)
+    {
+        foreach (int index in pack.requiredIndexes)
+        {
+            if (!unlockedIndexes.Contains(index)) return;
+        }
+
+        UnlockPack(pack);
+    }
+
+    private void UnlockPack(Pack pack)
+    {
+        if(unlockedPacks.Contains(pack)) return;
+        unlockedPacks.Add(pack);
+    }
 
     public void IniatiatePackChoice()
     {
@@ -56,12 +90,12 @@ public class PackOfferManager : MonoBehaviour
     private List<Pack> SelectPacks()
     {
         var container = new List<Pack>();
-        var qnt = (packs.Count >= 3)? 3 : packs.Count; 
+        var qnt = (unlockedPacks.Count >= 3)? 3 : unlockedPacks.Count; 
 
         while(container.Count < qnt)
         {
-            var rdm = Random.Range(0, packs.Count);
-            if(!container.Contains(packs[rdm])) container.Add(packs[rdm]);
+            var rdm = Random.Range(0, unlockedPacks.Count);
+            if(!container.Contains(unlockedPacks[rdm])) container.Add(unlockedPacks[rdm]);
         }
 
         return container;
@@ -69,7 +103,10 @@ public class PackOfferManager : MonoBehaviour
 
     public void RemovePack(Pack pack)
     {
+        unlockedPacks.Remove(pack);
         packs.Remove(pack);
+        unlockedIndexes.Add(pack.index);
+        CheckLockedPacks();
 
         foreach(PackBox box in packBoxes)
         {

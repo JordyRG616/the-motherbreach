@@ -11,7 +11,7 @@ public abstract class Artifact : MonoBehaviour
     protected abstract void Effect();
     public abstract string Description();
 
-    public void Initialize()
+    public virtual void Initialize()
     {
         HandleEffect();
     }

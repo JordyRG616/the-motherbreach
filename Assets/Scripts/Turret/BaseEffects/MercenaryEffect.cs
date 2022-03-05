@@ -6,6 +6,7 @@ using StringHandler;
 public class MercenaryEffect : BaseEffectTemplate
 {
     private EnemyDeathEvent deathEvent;
+    public int count;
 
     public override void Initiate()
     {
@@ -18,6 +19,7 @@ public class MercenaryEffect : BaseEffectTemplate
     {
         if(deathEvent.killer == associatedController.gameObject)
         {
+            count++;
             RewardManager.Main.EarnCash(1);
         }
     }

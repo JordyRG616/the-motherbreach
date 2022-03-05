@@ -7,6 +7,7 @@ public class Slug : StatusEffect
     private FormationMovementController enemy;
     private BossController boss;
     private float modifier;
+    private Rigidbody2D body;
 
     public override Keyword Status => Keyword.Slug;
 
@@ -14,6 +15,7 @@ public class Slug : StatusEffect
     {
         // enemy = target.GetComponentInChildren<FormationMovementController>();
         // if(enemy == null) boss = target.GetComponent<BossController>();
+        body = target.GetComponent<Rigidbody2D>();
         modifier = parameters[0];
     }
 
@@ -29,6 +31,7 @@ public class Slug : StatusEffect
 
     void Update()
     {
+        if(body == null) return;
         target.GetComponent<Rigidbody2D>().velocity *= (1 - modifier);
     }
 }

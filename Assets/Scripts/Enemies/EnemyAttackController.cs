@@ -6,29 +6,34 @@ using UnityEngine;
 
 public class EnemyAttackController : ActionController
 {
-    [SerializeField] private ActionEffect action;
+    // [SerializeField] private ActionEffect action;
     public bool Sleeping;
     
     public event EventHandler<EnemyEventArgs> OnDeath;
 
     void Start()
     {
-        action.Initiate();
+        shooters.ForEach(x => x.Initiate());
+        // action.Initiate();
     }
 
     public void SetTarget(GameObject target)
     {
-        action.ReceiveTarget(target);
+        shooters.ForEach(x => x.ReceiveTarget(target));
+        // action.ReceiveTarget(target);
     }
 
     public void Attack()
     {
-        action.Shoot();
+        if(Sleeping) return;
+        shooters.ForEach(x => x.Shoot());
+        // action.Shoot();
     }
 
     public void Stop()
     {
-        action.StopShooting();
+        shooters.ForEach(x => x.StopShooting());
+        // action.StopShooting();
     }
 
     void Update()

@@ -187,7 +187,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.31
+    m_Value: 0.39
   smoothness:
     m_OverrideState: 1
     m_Value: 1
@@ -209,13 +209,13 @@ MonoBehaviour:
   active: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.87
+    m_Value: 0.77
   intensity:
     m_OverrideState: 1
     m_Value: 2
   scatter:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.5
   clamp:
     m_OverrideState: 0
     m_Value: 65472
@@ -230,7 +230,7 @@ MonoBehaviour:
     m_Value: 0
   dirtTexture:
     m_OverrideState: 0
-    m_Value: {fileID: 0}
+    m_Value: {fileID: 2800000, guid: 1dd945fdda9191648920c8056f3a0d1a, type: 3}
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
@@ -246,13 +246,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
   m_Name: ColorAdjustments
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.02
   contrast:
     m_OverrideState: 1
-    m_Value: 51
+    m_Value: 25
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 1, g: 0.56883955, b: 0, a: 1}
@@ -261,4 +261,4 @@ MonoBehaviour:
     m_Value: 4
   saturation:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: -15

@@ -44,9 +44,11 @@ public class GameManager : MonoBehaviour
     private GameStateEventArgs toPause = new GameStateEventArgs(GameState.OnPause);
 
     private RewardManager rewardManager;
+    private RewardInfoPanel rewardInfoPanel;
     private WaveManager waveManager;
     private InputManager inputManager;
     private AudioManager audioManager;
+    private PlanetSpawner planetSpawner;
 
     [SerializeField] private UIAnimations fadePanelAnimation;
     private UIAnimationManager pauseAnimation;
@@ -60,6 +62,13 @@ public class GameManager : MonoBehaviour
             audioManager = AudioManager.Main;
             audioManager.Initialize();
             audioManager.RequestMusic("Title");
+            planetSpawner = GetComponent<PlanetSpawner>();
+            planetSpawner.Initialize();
+
+            for(int i = 0; i < 3; i++)
+            {
+                planetSpawner.SpawnNewPlanet();
+            }
         }
     }
 
@@ -87,6 +96,8 @@ public class GameManager : MonoBehaviour
         rewardManager = RewardManager.Main;
         rewardManager.Initialize();
         rewardManager.OnRewardSelection += InitiateWavePhase;
+
+        rewardInfoPanel = FindObjectOfType<RewardInfoPanel>();
 
         waveManager = WaveManager.Main;
         waveManager.Initialize();
@@ -123,7 +134,8 @@ public class GameManager : MonoBehaviour
         // globalVolume.SetActive(false);
         gameState = GameState.OnReward;
         OnGameStateChange?.Invoke(this, toReward);
-        rewardManager.InitiateReward(e.waveReward);
+        rewardInfoPanel.Initiate((int)e.waveReward);
+        //rewardManager.InitiateReward(e.waveReward);
     }
 
     public void HandleOptionsMenu(object sender, EventArgs e)

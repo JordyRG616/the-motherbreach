@@ -50,7 +50,7 @@ public class RewardCalculator : MonoBehaviour
     }
     
     private int _shopLevel = 1;
-    [SerializeField] private int maxShopLevel;
+    public int maxShopLevel;
     private int expAmount;
     private Dictionary<int, int> expRequeriment = new Dictionary<int, int>();
     private RewardManager rewardManager;
@@ -73,9 +73,14 @@ public class RewardCalculator : MonoBehaviour
     {
         expRequeriment.Add(1, 2);
         expRequeriment.Add(2, 2);
-        expRequeriment.Add(3, 3);
-        expRequeriment.Add(4, 4);
-        expRequeriment.Add(5, 4);
+        expRequeriment.Add(3, 2);
+        expRequeriment.Add(4, 3);
+        expRequeriment.Add(5, 3);
+        expRequeriment.Add(6, 3);
+        expRequeriment.Add(7, 4);
+        expRequeriment.Add(8, 4);
+        expRequeriment.Add(9, 4);
+        expRequeriment.Add(10, int.MaxValue);
     }
 
     public void PurchaseLevelUp()
