@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
         inputManager.OnGamePaused += HandleOptionsMenu;
 
         pauseAnimation = GameObject.FindGameObjectWithTag("PauseAnimation").GetComponent<UIAnimationManager>();
+        //GenerateBackground(15);
 
         // audioManager.RequestMusic();
 
@@ -119,6 +120,18 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<TutorialManager>().ShowSkipWindow();
 
         SceneManager.sceneLoaded -= LateStart;
+    }
+
+    private void GenerateBackground(int count)
+    {
+        planetSpawner.Initialize();
+
+        for (int i = 0; i < count; i++)
+        {
+            var rdm = UnityEngine.Random.Range(20, 40);
+            planetSpawner.distanceIncrement += rdm;
+            planetSpawner.SpawnNewPlanet();
+        }
     }
 
     private void InitiateWavePhase(object sender, EventArgs e)

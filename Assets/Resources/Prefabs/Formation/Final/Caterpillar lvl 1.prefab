@@ -4944,10 +4944,10 @@ GameObject:
   - component: {fileID: 2034277592158317370}
   - component: {fileID: 4043602927064187447}
   - component: {fileID: 6820562173719342821}
-  - component: {fileID: 6012078047155911831}
-  - component: {fileID: 8315322744854417364}
-  - component: {fileID: 7236580339281930593}
-  - component: {fileID: 23908190180106154}
+  - component: {fileID: 109728340453464762}
+  - component: {fileID: 4025287754365324173}
+  - component: {fileID: 8202785423643266910}
+  - component: {fileID: 5041843048723822478}
   m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
@@ -4990,7 +4990,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &8990994216783654418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5007,7 +5007,7 @@ MonoBehaviour:
   - {fileID: 2034277592158317370}
   - {fileID: 6820562173719342821}
   attackingMovements: 0
-  distanceToOrbit: 0.5
+  distanceToOrbit: 0
 --- !u!114 &2034277592158317370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5021,7 +5021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedModifier: 0
-  speed: 5
+  speed: 7.5
 --- !u!114 &4043602927064187447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5029,7 +5029,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2486558849110220792}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ebc0d575b018d14aadf247cf5d976a7, type: 3}
   m_Name: 
@@ -5050,9 +5050,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedModifier: 0
-  speed: 5
---- !u!232 &6012078047155911831
-DistanceJoint2D:
+  speed: 0
+  fixedRotation: 1
+--- !u!255 &109728340453464762
+FixedJoint2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5064,14 +5065,13 @@ DistanceJoint2D:
   m_ConnectedRigidBody: {fileID: 5971463706293785484}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 0
+  m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 0
-  m_Distance: 5
-  m_MaxDistanceOnly: 1
---- !u!232 &8315322744854417364
-DistanceJoint2D:
+  m_ConnectedAnchor: {x: -2, y: 2.0000007}
+  m_DampingRatio: 1
+  m_Frequency: 1000000
+--- !u!255 &4025287754365324173
+FixedJoint2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5083,14 +5083,13 @@ DistanceJoint2D:
   m_ConnectedRigidBody: {fileID: 9208628019790677790}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 0
+  m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 0
-  m_Distance: 5
-  m_MaxDistanceOnly: 1
---- !u!232 &7236580339281930593
-DistanceJoint2D:
+  m_ConnectedAnchor: {x: 2, y: -2}
+  m_DampingRatio: 1
+  m_Frequency: 1000000
+--- !u!255 &8202785423643266910
+FixedJoint2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5102,14 +5101,13 @@ DistanceJoint2D:
   m_ConnectedRigidBody: {fileID: 4179644495362055181}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 0
+  m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 0
-  m_Distance: 5
-  m_MaxDistanceOnly: 1
---- !u!232 &23908190180106154
-DistanceJoint2D:
+  m_ConnectedAnchor: {x: 2, y: 2.0000007}
+  m_DampingRatio: 1
+  m_Frequency: 1000000
+--- !u!255 &5041843048723822478
+FixedJoint2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5121,12 +5119,11 @@ DistanceJoint2D:
   m_ConnectedRigidBody: {fileID: 8629856079244578511}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 0
+  m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 0
-  m_Distance: 5
-  m_MaxDistanceOnly: 1
+  m_ConnectedAnchor: {x: -2, y: -2}
+  m_DampingRatio: 1
+  m_Frequency: 1000000
 --- !u!1001 &3589478786836751085
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5134,6 +5131,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 372765064990266161}
     m_Modifications:
+    - target: {fileID: 851593154502901472, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
+      propertyPath: m_AngularDrag
+      value: 1000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 851593154502901472, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 851593154502901480, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -5201,6 +5206,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 372765064990266161}
     m_Modifications:
+    - target: {fileID: 851593154502901472, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
+      propertyPath: m_AngularDrag
+      value: 1000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 851593154502901472, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 851593154502901480, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -5268,6 +5281,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 372765064990266161}
     m_Modifications:
+    - target: {fileID: 851593154502901472, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
+      propertyPath: m_AngularDrag
+      value: 1000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 851593154502901472, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 851593154502901480, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -5335,6 +5356,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 372765064990266161}
     m_Modifications:
+    - target: {fileID: 851593154502901472, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
+      propertyPath: m_AngularDrag
+      value: 1000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 851593154502901472, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 851593154502901480, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
       propertyPath: m_RootOrder
       value: 5

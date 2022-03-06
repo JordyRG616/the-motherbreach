@@ -8,6 +8,7 @@ public class PlanetSpawner : MonoBehaviour
     [SerializeField] private float distanceToSpawn;
     [SerializeField] private Vector2 scaleMinMax;
     [SerializeField] private float initialForce;
+    public float distanceIncrement = 0;
     private Camera cam;
     private int lastAngle = 0;
     private Dictionary<GameObject, IEnumerator> activeRoutines =  new Dictionary<GameObject, IEnumerator>();
@@ -39,7 +40,7 @@ public class PlanetSpawner : MonoBehaviour
     private Vector3 GeneratePosition()
     {
         var rdm = Random.Range(0, 2 * Mathf.PI);
-        var vector = new Vector3(Mathf.Cos(rdm), Mathf.Sin(rdm)) * distanceToSpawn;
+        var vector = new Vector3(Mathf.Cos(rdm), Mathf.Sin(rdm)) * (distanceToSpawn + distanceIncrement);
         vector += cam.transform.position;
         vector.z = 0;
         return vector;

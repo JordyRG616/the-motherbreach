@@ -156,7 +156,6 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator CreateSpawnVFX(Vector3 position, float duration)
     {
-        Debug.Log("instantiateds");
         var container = Instantiate(onFormationSpawnVFX.gameObject, position, Quaternion.identity);
 
         container.GetComponent<VisualEffect>().Play();

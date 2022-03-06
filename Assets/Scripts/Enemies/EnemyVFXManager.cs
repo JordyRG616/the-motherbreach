@@ -33,7 +33,7 @@ public class EnemyVFXManager : VFXManager
             yield return new WaitForSeconds(.01f);
         }
 
-    //yield return new WaitForSeconds(deathParticles.main.duration);
+        // yield return new WaitUntil(() => !deathParticles.isPlaying);
 
         healthController.TriggerOnDeath();
     }

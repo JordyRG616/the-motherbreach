@@ -22,51 +22,23 @@ MonoBehaviour:
     spawnInSamePosition: 1
     bossWave: 0
   - availableFormations:
+    - {fileID: 372765064990266162, guid: e0bf5709b02f3f94aab0bd44208c9c4a, type: 3}
+    intervalOfSpawn: 0
+    intervalTillNextWave: 5
+    spawnInSamePosition: 0
+    bossWave: 0
+  - availableFormations:
     - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
     - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
     - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
     intervalOfSpawn: 0.3
+    intervalTillNextWave: 0.7
+    spawnInSamePosition: 1
+    bossWave: 0
+  - availableFormations:
+    - {fileID: 372765064990266162, guid: e0bf5709b02f3f94aab0bd44208c9c4a, type: 3}
+    intervalOfSpawn: 0
     intervalTillNextWave: 1
-    spawnInSamePosition: 1
-    bossWave: 0
-  - availableFormations:
-    - {fileID: 372765064990266162, guid: e0bf5709b02f3f94aab0bd44208c9c4a, type: 3}
-    intervalOfSpawn: 0
-    intervalTillNextWave: 1.5
-    spawnInSamePosition: 0
-    bossWave: 0
-  - availableFormations:
-    - {fileID: 372765064990266162, guid: e0bf5709b02f3f94aab0bd44208c9c4a, type: 3}
-    intervalOfSpawn: 0
-    intervalTillNextWave: 0.7
-    spawnInSamePosition: 0
-    bossWave: 0
-  - availableFormations:
-    - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
-    - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
-    - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
-    intervalOfSpawn: 0.3
-    intervalTillNextWave: 0.7
-    spawnInSamePosition: 1
-    bossWave: 0
-  - availableFormations:
-    - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
-    - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
-    - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
-    intervalOfSpawn: 0.3
-    intervalTillNextWave: 0.7
-    spawnInSamePosition: 1
-    bossWave: 0
-  - availableFormations:
-    - {fileID: 372765064990266162, guid: e0bf5709b02f3f94aab0bd44208c9c4a, type: 3}
-    intervalOfSpawn: 0
-    intervalTillNextWave: 0.7
-    spawnInSamePosition: 0
-    bossWave: 0
-  - availableFormations:
-    - {fileID: 372765064990266162, guid: e0bf5709b02f3f94aab0bd44208c9c4a, type: 3}
-    intervalOfSpawn: 0
-    intervalTillNextWave: 0.7
     spawnInSamePosition: 0
     bossWave: 0
   rewardValue: 0

@@ -6,6 +6,14 @@ using StringHandler;
 public class HealEffect : ActionEffect
 {
     private int triggers = 1;
+    private SupportController controller;
+
+    public override void Initiate()
+    {
+        base.Initiate();
+
+        controller = GetComponent<SupportController>();
+    }
 
     public override void ApplyEffect(HitManager hitManager)
     {
@@ -23,7 +31,9 @@ public class HealEffect : ActionEffect
     private void Heal()
     {
         AudioManager.Main.RequestSFX(onShootSFX);
-        target = GetComponentInParent<SupportController>().GetTarget().gameObject;
+        var _target = controller.GetTarget();
+        if(_target == null) return;
+        target = _target.gameObject;
         shooterParticle.transform.position = target.transform.position;
         shooterParticle.transform.rotation = target.transform.rotation;
         shooterParticle.Play();

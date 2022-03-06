@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e1decc8fe40b94b9f12c3f876c6300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedModifier: 0
   speed: 1
   eccentricity: 2.5
 --- !u!114 &1893178835161390430
@@ -106,7 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebc0d575b018d14aadf247cf5d976a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedModifier: 0
   allowInertia: 0
+  fixChildren: 0
 --- !u!114 &1893178835161390423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c46b073aee13a8841875c6a6d49ad70f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedModifier: 0
   eccentricity: 1
   speed: 5
 --- !u!231 &1893178835161390418
@@ -5202,11 +5206,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6390329837503872513, guid: 3ee6a7d5dd9cd07458d37c40d6eade5a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6390329837503872513, guid: 3ee6a7d5dd9cd07458d37c40d6eade5a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6390329837503872513, guid: 3ee6a7d5dd9cd07458d37c40d6eade5a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5340,11 +5344,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6390329837503872513, guid: 3ee6a7d5dd9cd07458d37c40d6eade5a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6390329837503872513, guid: 3ee6a7d5dd9cd07458d37c40d6eade5a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6390329837503872513, guid: 3ee6a7d5dd9cd07458d37c40d6eade5a, type: 3}
       propertyPath: m_LocalPosition.x

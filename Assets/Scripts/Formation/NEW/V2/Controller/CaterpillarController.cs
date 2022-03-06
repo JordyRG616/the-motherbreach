@@ -17,10 +17,10 @@ public class CaterpillarController : FormationMovementController
         } 
         var distance = Vector2.Distance(target.transform.position, transform.position);
         RegisterMovement(EnemyMovementType.Hunt);
-        if(distance <= distanceToOrbit)
-        {
-            RegisterMovement(EnemyMovementType.TrueOrbit);
-        }
+        // if(distance <= distanceToOrbit)
+        // {
+        //     RegisterMovement(EnemyMovementType.TrueOrbit);
+        // }
     }
 
     private void GetTarget()
