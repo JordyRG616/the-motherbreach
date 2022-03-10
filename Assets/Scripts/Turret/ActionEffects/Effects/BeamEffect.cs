@@ -7,12 +7,19 @@ using StringHandler;
 public class BeamEffect : ActionEffect
 {
     [SerializeField] private float duration;
+    [SerializeField] private float initialBulletSize;
     private FMOD.Studio.EventInstance instance;
+
+    public override Stat specializedStat => Stat.Duration;
+
+    public override Stat secondaryStat => Stat.Size;
 
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, duration);
         SetDuration();
+        StatSet.Add(Stat.Size, initialBulletSize);
+        SetBulletSize();
         base.SetData();
     }
 
@@ -20,12 +27,19 @@ public class BeamEffect : ActionEffect
     {
         base.SetStat(statName, value);
         SetDuration();
+        SetBulletSize();
     }
 
     private void SetDuration()
     {
         var main = shooterParticle.main;
         main.duration = StatSet[Stat.Duration];
+    }
+
+    private void SetBulletSize()
+    {
+        var main = shooterParticle.main;
+        main.startSize = StatSet[Stat.Size];
     }
 
     public override void Shoot()

@@ -9,6 +9,10 @@ public class SentryGunEffect : ActionEffect
     [SerializeField] private float rateMultiplier;
     [SerializeField] private float duration;
 
+    public override Stat specializedStat => Stat.Rate;
+
+    public override Stat secondaryStat => Stat.Duration;
+
     public override void SetData()
     {
         StatSet.Add(Stat.Rate, rateMultiplier);

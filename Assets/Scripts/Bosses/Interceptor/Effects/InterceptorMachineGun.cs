@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InterceptorMachineGun : ActionEffect
 {
+    public override Stat specializedStat { get  ;  }
+    public override Stat secondaryStat { get  ;  }
+
     public override void ApplyEffect(HitManager hitManager)
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);

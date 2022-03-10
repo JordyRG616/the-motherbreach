@@ -9,6 +9,10 @@ public class PlasmaEffect : ActionEffect
     [SerializeField] private float initialBulletSpeed;
     private FMOD.Studio.EventInstance instance;
 
+    public override Stat specializedStat => Stat.Duration;
+
+    public override Stat secondaryStat => Stat.BulletSpeed;
+
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, duration);

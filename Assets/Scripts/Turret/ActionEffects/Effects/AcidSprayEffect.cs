@@ -7,12 +7,18 @@ using StringHandler;
 public class AcidSprayEffect : ActionEffect
 {
     [SerializeField] private float acidDuration;
+    [SerializeField] private float tickInterval = .25f;
     private FMOD.Studio.EventInstance instance;
+
+    public override Stat specializedStat => Stat.Duration;
+    public override Stat secondaryStat => Stat.Efficiency;
 
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, acidDuration);
         SetDuration();
+        StatSet.Add(Stat.Efficiency, tickInterval);
+        SetEfficiency();
         base.SetData();
     }
 
@@ -20,11 +26,17 @@ public class AcidSprayEffect : ActionEffect
     {
         base.SetStat(statName, value);
         SetDuration();
+        SetEfficiency();
     }
 
     private void SetDuration()
     {
         acidDuration = StatSet[Stat.Duration];
+    }
+
+    private void SetEfficiency()
+    {
+        tickInterval = StatSet[Stat.Efficiency];
     }
 
     public override void Shoot()
@@ -46,7 +58,7 @@ public class AcidSprayEffect : ActionEffect
     public override void ApplyEffect(HitManager hitManager)
     {
         // hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
-        ApplyStatusEffect<Acid>(hitManager, acidDuration, new float[] {StatSet[Stat.Damage], .25f});
+        ApplyStatusEffect<Acid>(hitManager, acidDuration, new float[] {StatSet[Stat.Damage], tickInterval});
     }
 
     public override string DescriptionText()

@@ -9,6 +9,10 @@ public class RayCasterEffect : ActionEffect
     [SerializeField] private int emission;
     private FMOD.Studio.EventInstance instance;
 
+    public override Stat specializedStat => Stat.Projectiles;
+
+    public override Stat secondaryStat => Stat.Duration;
+
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, duration);

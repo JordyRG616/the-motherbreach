@@ -11,10 +11,18 @@ public abstract class ActionEffect : MonoBehaviour
     [SerializeField] protected LayerMask targetLayer;
     [SerializeField] protected WeaponClass weaponClass;
     [SerializeField] protected Keyword keyword;
+    public WeaponTag tags;
     protected GameObject target;
+
+    [Header("Initial basic stats")]
     [SerializeField] protected float initialDamage;
     [SerializeField] protected float initialRest;
+    
     public Dictionary<Stat, float> StatSet {get; protected set;} = new Dictionary<Stat, float>();
+    public abstract Stat specializedStat {get;}
+    public abstract Stat secondaryStat {get;}
+
+
     protected GameManager gameManager;
     [SerializeField] [FMODUnity.EventRef] protected string onShootSFX;
     protected FMOD.Studio.EventInstance sfxInstance;

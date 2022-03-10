@@ -5,8 +5,25 @@ using StringHandler;
 
 public class HealEffect : ActionEffect
 {
-    private int triggers = 1;
+    [SerializeField] [Range(0, 1)] private float initialHealPercentage;
     private SupportController controller;
+
+    public override Stat specializedStat => Stat.Efficiency;
+
+    public override Stat secondaryStat => Stat.Triggers;
+
+    public override void SetData()
+    {
+        StatSet.Add(Stat.Efficiency, initialHealPercentage);
+        StatSet.Add(Stat.Triggers, 1);
+        base.SetData();
+
+    }
+
+    public override void SetStat(Stat statName, float value)
+    {
+        base.SetStat(statName, value);
+    }
 
     public override void Initiate()
     {
@@ -22,7 +39,7 @@ public class HealEffect : ActionEffect
 
     public override void Shoot()
     {
-        for(int i = 0; i < triggers; i++)
+        for(int i = 0; i < StatSet[Stat.Triggers]; i++)
         {
             Invoke("Heal", .5f * i);
         }
@@ -37,12 +54,13 @@ public class HealEffect : ActionEffect
         shooterParticle.transform.position = target.transform.position;
         shooterParticle.transform.rotation = target.transform.rotation;
         shooterParticle.Play();
-        target.GetComponent<IntegrityManager>().UpdateHealth(StatSet[Stat.Damage]);
+        var integrity = target.GetComponent<IntegrityManager>();
+        integrity.UpdateHealth(integrity.GetMaxIntegrity() * StatSet[Stat.Efficiency]);
     }
 
     public override string DescriptionText()
     {
-        return "heals a neighboring turret for " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " points of damage " + StatColorHandler.StatPaint(triggers.ToString()) + " times";
+        return "heals a neighboring turret for " + StatColorHandler.DamagePaint((StatSet[Stat.Efficiency] * 100).ToString()) + "% of it's maximum health " + StatColorHandler.StatPaint(StatSet[Stat.Triggers].ToString()) + " times";
     }
 
     public override string upgradeText(int nextLevel)
@@ -56,13 +74,15 @@ public class HealEffect : ActionEffect
     {
         if(toLevel < 5)
         {
-            var value = StatSet[Stat.Damage];
+            var value = StatSet[Stat.Efficiency];
             value *= 1.15f;
-            SetStat(Stat.Damage, value);
+            SetStat(Stat.Efficiency, value);
         }
         else
         {
-            triggers ++;
+            var _tr = StatSet[Stat.Triggers];
+            _tr ++;
+            SetStat(Stat.Triggers, _tr);
         }
     }
 

@@ -11,6 +11,10 @@ public class BomberEffect : ActionEffect
     [SerializeField] private ParticleSystem subShooter;
     [SerializeField] private ActionEffect fragEffect;
 
+    public override Stat specializedStat => Stat.Projectiles;
+
+    public override Stat secondaryStat => Stat.Size;
+
     public override void Initiate()
     {
         base.Initiate();
@@ -22,7 +26,7 @@ public class BomberEffect : ActionEffect
     {
         StatSet.Add(Stat.Projectiles, initialProjectiles);
         SetProjectiles();
-        StatSet.Add(Stat.BulletSize, initalBulletSize);
+        StatSet.Add(Stat.Size, initalBulletSize);
         SetBulletSize();
         base.SetData();
     }
@@ -44,7 +48,7 @@ public class BomberEffect : ActionEffect
     private void SetBulletSize()
     {
         var main = shooterParticle.main;
-        main.startSize = StatSet[Stat.BulletSize];
+        main.startSize = StatSet[Stat.Size];
     }
 
     public override void ApplyEffect(HitManager hitManager)

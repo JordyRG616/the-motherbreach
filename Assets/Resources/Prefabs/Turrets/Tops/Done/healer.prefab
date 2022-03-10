@@ -5114,7 +5114,6 @@ MonoBehaviour:
   - {fileID: 2185223664991810696}
   cost: 2
   health: 120
-  enemiesInSight: []
   target: {fileID: 0}
   timeBetweenActivations: 2
   playerLayer:
@@ -5138,11 +5137,13 @@ MonoBehaviour:
     m_Bits: 0
   weaponClass: 6
   keyword: 0
+  tags: 8
   initialDamage: 10
   initialRest: 7
   onShootSFX: event:/SFX/NEW/TurretHeal
   singleSFX: 1
-  secondShooterTemplate: {fileID: 0}
+  debugStats: []
+  initialHealPercentage: 0.1
 --- !u!58 &4247093993300818633
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -18,10 +18,12 @@ MonoBehaviour:
     m_Bits: 64
   weaponClass: 0
   keyword: 0
+  tags: 0
   initialDamage: 10
   initialRest: 0
   onShootSFX: event:/SFX/NEW/Shoot 1
   singleSFX: 0
+  debugStats: []
 --- !u!1 &3783590503867372255
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,10 +295,12 @@ MonoBehaviour:
     m_Bits: 64
   weaponClass: 2
   keyword: 0
+  tags: 66
   initialDamage: 15
   initialRest: 5
   onShootSFX: event:/SFX/NEW/Shoot 2
   singleSFX: 0
+  debugStats: []
   initialFuseTime: 2
   initalBulletSize: 1
   subShooter: {fileID: 6035144378192050245}
@@ -313,6 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e574a70fd0d3c447a84b01ac7ad5263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemy: 0
 --- !u!114 &1775042088667273978
 MonoBehaviour:
   m_ObjectHideFlags: 0

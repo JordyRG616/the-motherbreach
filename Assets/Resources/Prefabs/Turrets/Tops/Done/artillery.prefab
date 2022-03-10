@@ -141,7 +141,6 @@ MonoBehaviour:
   - {fileID: 1560200900}
   cost: 3
   health: 100
-  enemiesInSight: []
   target: {fileID: 0}
   maxAngleVariation: 60
 --- !u!70 &-7005680236428361042
@@ -178,10 +177,12 @@ MonoBehaviour:
     m_Bits: 64
   weaponClass: 0
   keyword: 0
+  tags: 16
   initialDamage: 25
   initialRest: 5
   onShootSFX: event:/SFX/NEW/Shoot 2
   singleSFX: 0
+  debugStats: []
   initialBulletSpeed: 15
   initialBurstSize: 2
 --- !u!114 &1560200901
@@ -202,10 +203,12 @@ MonoBehaviour:
     m_Bits: 64
   weaponClass: 0
   keyword: 0
+  tags: 0
   initialDamage: 25
   initialRest: 5
   onShootSFX: event:/SFX/NEW/Shoot 2
   singleSFX: 0
+  debugStats: []
   initialBulletSpeed: 15
   initialBurstSize: 2
 --- !u!114 &4565091971899424661

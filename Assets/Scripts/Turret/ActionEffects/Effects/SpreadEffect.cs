@@ -6,14 +6,18 @@ using StringHandler;
 
 public class SpreadEffect : ActionEffect
 {
-    [SerializeField] private float durationModifier;
-    [SerializeField] private float bulletSizeModifier;
+    [SerializeField] private float initialDuration;
+    [SerializeField] private float initialSize;
+
+    public override Stat specializedStat => Stat.Size;
+
+    public override Stat secondaryStat => Stat.Duration;
 
     public override void SetData()
     {
-        StatSet.Add(Stat.BulletSize, bulletSizeModifier);
+        StatSet.Add(Stat.Size, initialSize);
         SetBulletSize();
-        StatSet.Add(Stat.Duration, durationModifier);
+        StatSet.Add(Stat.Duration, initialDuration);
         SetDuration();
 
         base.SetData();
@@ -30,19 +34,17 @@ public class SpreadEffect : ActionEffect
     {
         var main = shooterParticle.main;
         var lifetime = main.startLifetime;
-        // Vector2 minMax = new Vector2();
-        lifetime.constantMin = StatSet[Stat.Duration] + main.startLifetime.constantMin;
-        lifetime.constantMax = StatSet[Stat.Duration] + main.startLifetime.constantMax;
+        lifetime.constantMin = StatSet[Stat.Duration] + 1;
+        lifetime.constantMax = StatSet[Stat.Duration] - 1;
         main.startLifetime = lifetime;
-        // ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
     }
 
     private void SetBulletSize()
     {
         var main = shooterParticle.main;
         Vector2 minMax = new Vector2();
-        minMax.x = durationModifier + main.startSize.constantMin;
-        minMax.y = durationModifier + main.startSize.constantMax;
+        minMax.x = StatSet[Stat.Size] + 0.5f;
+        minMax.y = StatSet[Stat.Size] - 0.5f;
         ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
         main.startSize = curve;
     }
@@ -90,7 +92,7 @@ public class SpreadEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "releases a cloud that lasts around " + StatColorHandler.StatPaint(MeanLifetime().ToString()) + " seconds and deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and applies " + KeywordHandler.KeywordPaint(Keyword.Slug) + " to the target";
+        string description = "releases a cloud that lasts around " + StatColorHandler.StatPaint(MeanLifetime().ToString()) + " seconds, deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and applies " + KeywordHandler.KeywordPaint(Keyword.Slug) + " to the target";
         return description;
     }
 

@@ -10,6 +10,10 @@ public class CometEffect : ActionEffect
     [SerializeField] private float initialDuration;
     [SerializeField] private float initialBurstSize;
 
+    public override Stat specializedStat => Stat.BurstSize;
+
+    public override Stat secondaryStat => Stat.Duration;
+
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, initialDuration);

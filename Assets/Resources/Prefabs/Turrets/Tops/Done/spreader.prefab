@@ -170,12 +170,14 @@ MonoBehaviour:
     m_Bits: 64
   weaponClass: 4
   keyword: 1
+  tags: 35
   initialDamage: 0.5
   initialRest: 5
   onShootSFX: event:/SFX/NEW/Spreader1
   singleSFX: 1
-  durationModifier: 0
-  bulletSizeModifier: 0
+  debugStats: []
+  initialDuration: 2
+  initialSize: 15
 --- !u!1 &8934998986133781418
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,11 +9,15 @@ public class SharkEffect : ActionEffect
     [SerializeField] private float initalBulletSize;
     [SerializeField] private float initialBulletSpeed;
 
+    public override Stat specializedStat => Stat.Size;
+
+    public override Stat secondaryStat => Stat.BulletSpeed;
+
     public override void SetData()
     {
         StatSet.Add(Stat.BulletSpeed, initialBulletSpeed);
         SetBulletSpeed();
-        StatSet.Add(Stat.BulletSize, initalBulletSize);
+        StatSet.Add(Stat.Size, initalBulletSize);
         SetBulletSize();
         base.SetData();
     }
@@ -28,7 +32,7 @@ public class SharkEffect : ActionEffect
     private void SetBulletSize()
     {
         var main = shooterParticle.main;
-        main.startSizeMultiplier = StatSet[Stat.BulletSize];
+        main.startSizeMultiplier = StatSet[Stat.Size];
     }
 
     private void SetBulletSpeed()
@@ -63,9 +67,9 @@ public class SharkEffect : ActionEffect
 
     private void GainSize()
     {
-        var size = StatSet[Stat.BulletSize];
+        var size = StatSet[Stat.Size];
         size *= 1.05f;
-        SetStat(Stat.BulletSize, size);
+        SetStat(Stat.Size, size);
     }
 
     private void GainDamage()

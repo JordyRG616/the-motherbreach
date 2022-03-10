@@ -161,10 +161,12 @@ MonoBehaviour:
     m_Bits: 64
   weaponClass: 0
   keyword: 0
+  tags: 144
   initialDamage: 15
   initialRest: 4
   onShootSFX: event:/SFX/NEW/Shoot 1
   singleSFX: 0
+  debugStats: []
   initialBulletSpeed: 20
   initialBulletSize: 1.2
 --- !u!114 &1658999303363344943
@@ -179,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e574a70fd0d3c447a84b01ac7ad5263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemy: 0
 --- !u!114 &4565091971899424661
 MonoBehaviour:
   m_ObjectHideFlags: 0

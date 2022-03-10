@@ -9,10 +9,16 @@ public class DisruptorEffect : ActionEffect
     private FMOD.Studio.EventInstance instance;
     [Range(0, 1)] [SerializeField] private float percentage;
 
+    public override Stat specializedStat => Stat.Duration;
+
+    public override Stat secondaryStat => Stat.Efficiency;
+
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, disruptionDuration);
         SetDuration();
+        StatSet.Add(Stat.Efficiency, percentage);
+        SetEfficiency();
         base.SetData();
     }
 
@@ -20,11 +26,17 @@ public class DisruptorEffect : ActionEffect
     {
         base.SetStat(statName, value);
         SetDuration();
+        SetEfficiency();
     }
 
     private void SetDuration()
     {
         disruptionDuration = StatSet[Stat.Duration];
+    }
+
+    private void SetEfficiency()
+    {
+        percentage = StatSet[Stat.Efficiency];
     }
 
     public override void Shoot()
@@ -51,7 +63,7 @@ public class DisruptorEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "releases a pulse of energy that applies " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "% " + KeywordHandler.KeywordPaint(keyword) + " to each enemy hit and lasts for " + StatColorHandler.DamagePaint(StatSet[Stat.Duration].ToString()) + " seconds";
+        string description = "releases a pulse of energy that applies " + StatColorHandler.StatPaint((StatSet[Stat.Efficiency] * 100).ToString()) + "% " + KeywordHandler.KeywordPaint(keyword) + " to each enemy hit and lasts for " + StatColorHandler.DamagePaint(StatSet[Stat.Duration].ToString()) + " seconds";
         return description;
     }
 
@@ -83,6 +95,8 @@ public class DisruptorEffect : ActionEffect
 
     private void GainPercentage()
     {
-        percentage *= 1.1f;
+        var _efficiency = StatSet[Stat.Efficiency];
+        _efficiency *= 1.1f;
+        SetStat(Stat.Efficiency, _efficiency);
     }
 }

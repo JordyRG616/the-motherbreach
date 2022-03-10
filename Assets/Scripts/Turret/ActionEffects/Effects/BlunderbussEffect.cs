@@ -11,6 +11,10 @@ public class BlunderbussEffect : ActionEffect
     [SerializeField] private ParticleSystem subShooter;
     [SerializeField] private ActionEffect fragEffect;
 
+    public override Stat specializedStat => Stat.FuseTime;
+
+    public override Stat secondaryStat => Stat.Size;
+
     public override void Initiate()
     {
         base.Initiate();
@@ -22,7 +26,7 @@ public class BlunderbussEffect : ActionEffect
     {
         StatSet.Add(Stat.FuseTime, initialFuseTime);
         SetFuseTime();
-        StatSet.Add(Stat.BulletSize, initalBulletSize);
+        StatSet.Add(Stat.Size, initalBulletSize);
         SetBulletSize();
         base.SetData();
     }
@@ -43,7 +47,7 @@ public class BlunderbussEffect : ActionEffect
     private void SetBulletSize()
     {
         var main = subShooter.main;
-        main.startSizeMultiplier = StatSet[Stat.BulletSize];
+        main.startSizeMultiplier = StatSet[Stat.Size];
     }
 
     public override void ApplyEffect(HitManager hitManager)
@@ -78,8 +82,8 @@ public class BlunderbussEffect : ActionEffect
 
     public void GainSize()
     {
-        var size = StatSet[Stat.BulletSize];
+        var size = StatSet[Stat.Size];
         size *= 1.1f;
-        SetStat(Stat.BulletSize, size);
+        SetStat(Stat.Size, size);
     }
 }

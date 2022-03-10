@@ -25,6 +25,12 @@ public class BuildBox : MonoBehaviour
     [SerializeField] private TextMeshProUGUI baseEffect;
     [SerializeField] private TextMeshProUGUI baseTrigger;
 
+    [Header("Additional stats")]
+    [SerializeField] private List<TextMeshProUGUI> headers;
+    [SerializeField] private List<TextMeshProUGUI> values;
+    [SerializeField] private TextMeshProUGUI tags;
+
+
     private float weaponCost, baseCost;
     public float TotalCost
     {
@@ -151,11 +157,38 @@ public class BuildBox : MonoBehaviour
         }
         if(selectedWeapon)
         {
+            var effect = selectedWeapon.GetComponent<ActionEffect>();
             healthValue.text = selectedWeapon.GetComponent<ActionController>().GetHealth().ToString();
-            restValue.text = selectedWeapon.GetComponent<ActionEffect>().StatSet[Stat.Rest].ToString();
-            weaponEffect.text = selectedWeapon.GetComponent<ActionEffect>().DescriptionText(out var weaponKeyword);
+            restValue.text = effect.StatSet[Stat.Rest].ToString();
+            weaponEffect.text = effect.DescriptionText(out var weaponKeyword);
             if(weaponKeyword != Keyword.None) keywords.Add(weaponKeyword);
+            UpdateAdditionalStats(effect);
         }
+    }
+
+    private void UpdateAdditionalStats(ActionEffect effect)
+    {
+        headers[0].text = StatColorHandler.DamagePaint(Stat.Damage.ToString().ToLower()) + ":";
+        headers[1].text = StatColorHandler.StatPaint(effect.specializedStat.ToSplittedString().ToLower()) + ":";
+        headers[2].text = StatColorHandler.StatPaint(effect.secondaryStat.ToSplittedString().ToLower()) + ":";
+
+        values[0].text = effect.StatSet[Stat.Damage].ToString();
+        values[1].text = effect.StatSet[effect.specializedStat].ToString();
+        values[2].text = effect.StatSet[effect.secondaryStat].ToString();
+
+        string container = string.Empty;
+
+        foreach(Enum value in Enum.GetValues(effect.tags.GetType()))
+        {
+            if(effect.tags.HasFlag(value)) 
+            {
+                var tag = (WeaponTag)value;
+                if(tag == WeaponTag.none) continue;
+                container += tag.ToSplittedString().ToLower() + "\n";
+            }
+        }
+
+        tags.text = StatColorHandler.RestPaint(container);
     }
 
     private string GetTriggerText(EffectTrigger baseEffectTrigger)
@@ -232,6 +265,17 @@ public class BuildBox : MonoBehaviour
         weaponEffect.text = "";
         nameText.text = "";
         baseTrigger.text = "";
+
+        headers[0].text = "";
+        headers[1].text = "";
+        headers[2].text = "";
+
+        values[0].text = "";
+        values[1].text = "";
+        values[2].text = "";
+
+        tags.text = "";
+
         UpdateStats();
     }
 

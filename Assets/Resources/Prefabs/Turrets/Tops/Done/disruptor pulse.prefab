@@ -161,10 +161,12 @@ MonoBehaviour:
     m_Bits: 64
   weaponClass: 0
   keyword: 5
+  tags: 34
   initialDamage: 0
   initialRest: 6
   onShootSFX: event:/SFX/NEW/Shoot 2
   singleSFX: 0
+  debugStats: []
   disruptionDuration: 4
   percentage: 0.25
 --- !u!114 &4565091971899424661
@@ -2316,7 +2318,7 @@ PrefabInstance:
     - target: {fileID: 6327413566281048751, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 99bcbba81ded1914b85dd748c85fa202, type: 2}
+      objectReference: {fileID: 2100000, guid: 4eb5c13c38756894093f317ee1baf6ce, type: 2}
     - target: {fileID: 6327413566281048751, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
@@ -2347,7 +2349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9108899706517846832, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 855313659844933342, guid: b2747e83ee5648747b9695e47140109e, type: 3}

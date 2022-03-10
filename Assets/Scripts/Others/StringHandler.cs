@@ -1,3 +1,6 @@
+using System;
+using System.Text.RegularExpressions;
+
 namespace StringHandler 
 {
     public static class StatColorHandler
@@ -39,6 +42,20 @@ namespace StringHandler
         {
             var desc = DescriptionDictionary.Main.GetDescription(keyword.ToString());
             var container = KeywordPaint(keyword) + "\n" + desc + "\n\n";
+            return container;
+        }
+    }
+
+    public static class ExtensionMethods
+    {
+        public static string ToSplittedString(this Enum target)
+        {
+            string[] split =  Regex.Split(target.ToString(), @"(?<!^)(?=[A-Z])");
+            var container = string.Empty;
+            foreach(string str in split)
+            {
+                container += str + " ";
+            }
             return container;
         }
     }

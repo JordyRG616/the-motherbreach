@@ -9,11 +9,15 @@ public class LancerEffect : ActionEffect
     [SerializeField] private float initialBulletSpeed;
     [SerializeField] private float initialBulletSize;
 
+    public override Stat specializedStat => Stat.BulletSpeed;
+
+    public override Stat secondaryStat => Stat.Size;
+
     public override void SetData()
     {
         StatSet.Add(Stat.BulletSpeed, initialBulletSpeed);
         SetBulletSpeed();
-        StatSet.Add(Stat.BulletSize, initialBulletSize);
+        StatSet.Add(Stat.Size, initialBulletSize);
         SetBulletSize();
 
         base.SetData();
@@ -35,7 +39,7 @@ public class LancerEffect : ActionEffect
     private void SetBulletSize()
     {
         var main = shooterParticle.main;
-        main.startSize = StatSet[Stat.BulletSize];
+        main.startSize = StatSet[Stat.Size];
     }
 
     public override void ApplyEffect(HitManager hitManager)
@@ -76,8 +80,8 @@ public class LancerEffect : ActionEffect
 
     private void GainSize(float percentage)
     {
-        var size = StatSet[Stat.BulletSize];
+        var size = StatSet[Stat.Size];
         size *= 1 + (percentage / 100);
-        SetStat(Stat.BulletSize, size);
+        SetStat(Stat.Size, size);
     }
 }

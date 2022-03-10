@@ -10,11 +10,15 @@ public class LeechEffect : ActionEffect
     [SerializeField] private float initalBulletSize;
     private FMOD.Studio.EventInstance instance;
 
+    public override Stat specializedStat => Stat.Size;
+
+    public override Stat secondaryStat => Stat.Duration;
+
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, duration);
         SetDuration();
-        StatSet.Add(Stat.BulletSize, initalBulletSize);
+        StatSet.Add(Stat.Size, initalBulletSize);
         SetBulletSize();
         base.SetData();
     }
@@ -34,7 +38,7 @@ public class LeechEffect : ActionEffect
     private void SetBulletSize()
     {
         var module = shooterParticle.sizeOverLifetime;
-        module.sizeMultiplier = StatSet[Stat.BulletSize];
+        module.sizeMultiplier = StatSet[Stat.Size];
     }
 
     public override void Shoot()

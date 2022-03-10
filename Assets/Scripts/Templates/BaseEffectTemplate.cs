@@ -36,7 +36,6 @@ public abstract class BaseEffectTemplate : MonoBehaviour
 
     public virtual void HandleLevelTrigger(object sender, LevelUpArgs e)
     {
-        Debug.Log("triggered");
         ApplyEffect();
     }
 

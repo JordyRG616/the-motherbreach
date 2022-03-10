@@ -8,6 +8,18 @@ public class GuardianEffect : ActionEffect
     [SerializeField] private GameObject shieldTemplate;
     private float extraHealth;
 
+    public override Stat specializedStat => Stat.Efficiency;
+
+    public override Stat secondaryStat => Stat.Triggers;
+
+
+    public override void SetData()
+    {
+        StatSet.Add(Stat.Efficiency, extraHealth);
+        StatSet.Add(Stat.Size, 1);
+        base.SetData();
+    }
+
     public override void ApplyEffect(HitManager hitManager)
     {
         
@@ -23,7 +35,9 @@ public class GuardianEffect : ActionEffect
     private void ApplyShield()
     {
         var shield = Instantiate(shieldTemplate, target.transform.position, Quaternion.identity, target.transform);
-        shield.GetComponent<ShieldManager>().RaiseHealthByPercentage(extraHealth);
+        shield.GetComponent<ShieldManager>().RaiseHealthByPercentage(StatSet[Stat.Efficiency]);
+        var size = shield.transform.localScale;
+        shield.transform.localScale = size * StatSet[Stat.Size];
     }
 
     private void GetTarget()
@@ -32,6 +46,11 @@ public class GuardianEffect : ActionEffect
         var rdm = Random.Range(0, turrets.Count);
 
         target = turrets[rdm].gameObject;
+
+        if(target.GetComponentInChildren<ShieldManager>())
+        {
+            GetTarget();
+        }
     }
 
     public override string DescriptionText()
@@ -53,7 +72,7 @@ public class GuardianEffect : ActionEffect
 
     private void RaiseHealth()
     {
-        extraHealth += .33f;
+        StatSet[Stat.Efficiency] += .33f;
     }
 
     private void ReduceRest()

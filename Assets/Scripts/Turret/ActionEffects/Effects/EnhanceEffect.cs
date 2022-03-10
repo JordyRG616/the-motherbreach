@@ -6,8 +6,23 @@ using StringHandler;
 public class EnhanceEffect : ActionEffect
 {
     [SerializeField] [Range(0, 1)] private float percentage;
-    private int triggers = 1;
     private Dictionary<ActionEffect, float> targetedWeaponsOriginalDamage = new Dictionary<ActionEffect, float>();
+
+    public override Stat specializedStat => Stat.Efficiency;
+
+    public override Stat secondaryStat => Stat.Triggers;
+
+    public override void SetData()
+    {
+        StatSet.Add(Stat.Efficiency, percentage);
+        StatSet.Add(Stat.Triggers, 1);
+        base.SetData();
+    }
+
+    public override void SetStat(Stat statName, float value)
+    {
+        base.SetStat(statName, value);
+    }
 
     public override void Initiate()
     {
@@ -35,7 +50,7 @@ public class EnhanceEffect : ActionEffect
 
     public override void Shoot()
     {
-        for(int i = 0; i < triggers; i++)
+        for(int i = 0; i < StatSet[Stat.Triggers]; i++)
         {
             Invoke("Enhance", .5f * i);
         }
@@ -63,7 +78,7 @@ public class EnhanceEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        return "raises the " + StatColorHandler.DamagePaint("damage") + " of a neighboring turret in " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "% until the end of the wave";
+        return "raises the " + StatColorHandler.DamagePaint("damage") + " of " + StatColorHandler.StatPaint(StatSet[Stat.Triggers].ToString()) + " neighboring turrets in " + StatColorHandler.StatPaint((StatSet[Stat.Efficiency] * 100).ToString()) + "% until the end of the wave";
     }
 
     public override string upgradeText(int nextLevel)
@@ -77,11 +92,15 @@ public class EnhanceEffect : ActionEffect
     {
         if(toLevel < 5)
         {
-            percentage += .03f;
+            var _eff = StatSet[Stat.Efficiency];
+            _eff += 0.03f;
+            SetStat(Stat.Efficiency, _eff);
         }
         else
         {
-            triggers ++;
+            var _tr = StatSet[Stat.Triggers];
+            _tr ++;
+            SetStat(Stat.Triggers, _tr);
         }
     }
 }

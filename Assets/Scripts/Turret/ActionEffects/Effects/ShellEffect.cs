@@ -8,6 +8,10 @@ public class ShellEffect : ActionEffect
     [SerializeField] private float initialBulletSpeed;
     [SerializeField] private float initialBurstSize;
 
+    public override Stat specializedStat => Stat.BurstSize;
+
+    public override Stat secondaryStat => Stat.BulletSpeed;
+
     public override void SetData()
     {
         StatSet.Add(Stat.BulletSpeed, initialBulletSpeed);

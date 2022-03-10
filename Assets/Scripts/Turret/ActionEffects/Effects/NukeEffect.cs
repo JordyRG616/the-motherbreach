@@ -10,6 +10,10 @@ public class NukeEffect : ActionEffect
     [SerializeField] private ParticleSystem subEmitter;
     private FMOD.Studio.EventInstance instance;
 
+    public override Stat specializedStat => Stat.Rate;
+
+    public override Stat secondaryStat => Stat.Duration;
+
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, blastDuration);

@@ -82,4 +82,9 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
     {
         return currentIntegrity;
     }
+
+    public float GetMaxIntegrity()
+    {
+        return maxIntegrity;
+    }
 }

@@ -5,15 +5,19 @@ using StringHandler;
 
 public class StingerEffect : ActionEffect
 {
-   [SerializeField] private float durationModifier;
-    [SerializeField] private float bulletSizeModifier;
+   [SerializeField] private float initialDuration;
+    [SerializeField] private float initialSize;
     [SerializeField] private ParticleSystem subShooter;
+
+    public override Stat specializedStat => Stat.Size;
+
+    public override Stat secondaryStat => Stat.Duration;
 
     public override void SetData()
     {
-        StatSet.Add(Stat.BulletSize, bulletSizeModifier);
+        StatSet.Add(Stat.Size, initialSize);
         SetBulletSize();
-        StatSet.Add(Stat.Duration, durationModifier);
+        StatSet.Add(Stat.Duration, initialDuration);
         SetDuration();
 
         base.SetData();
@@ -30,19 +34,17 @@ public class StingerEffect : ActionEffect
     {
         var main = subShooter.main;
         var lifetime = main.startLifetime;
-        // Vector2 minMax = new Vector2();
-        lifetime.constantMin = StatSet[Stat.Duration] + main.startLifetime.constantMin;
-        lifetime.constantMax = StatSet[Stat.Duration] + main.startLifetime.constantMax;
+        lifetime.constantMin = StatSet[Stat.Duration] + 1;
+        lifetime.constantMax = StatSet[Stat.Duration] - 1;
         main.startLifetime = lifetime;
-        // ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
     }
 
     private void SetBulletSize()
     {
         var main = subShooter.main;
         Vector2 minMax = new Vector2();
-        minMax.x = durationModifier + main.startSize.constantMin;
-        minMax.y = durationModifier + main.startSize.constantMax;
+        minMax.x = StatSet[Stat.Size] + 0.5f;
+        minMax.y = StatSet[Stat.Size] - 0.5f;
         ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
         main.startSize = curve;
     }
@@ -66,20 +68,6 @@ public class StingerEffect : ActionEffect
     public override void ApplyEffect(HitManager hitManager)
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
-        // Slug slugged;
-
-        // if(hitManager.TryGetComponent<BossController>(out var boss))
-        // {
-        //     if(!hitManager.gameObject.TryGetComponent<Slug>(out slugged)) 
-        //     {
-        //         hitManager.gameObject.AddComponent<Slug>();
-        //     }
-        //     return;
-        // }
-        // else if(!hitManager.transform.parent.TryGetComponent<Slug>(out slugged)) 
-        // {
-        //     hitManager.transform.parent.gameObject.AddComponent<Slug>();
-        // }
     }
 
     private float MeanLifetime()
@@ -110,9 +98,9 @@ public class StingerEffect : ActionEffect
     private void GainSize(float percentage)
     {
         
-        var size = StatSet[Stat.BulletSize];
+        var size = StatSet[Stat.Size];
         size += percentage;
-        SetStat(Stat.BulletSize, size);
+        SetStat(Stat.Size, size);
     }
 
     private void GainDuration()
