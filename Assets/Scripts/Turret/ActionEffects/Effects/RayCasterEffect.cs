@@ -37,15 +37,15 @@ public class RayCasterEffect : ActionEffect
     private void SetEmission()
     {
         var emission = shooterParticle.emission;
-        emission.rateOverDistance = StatSet[Stat.Projectiles];
+        emission.rateOverTime = StatSet[Stat.Projectiles];
     }
 
-    public override void Shoot()
-    {
-        // StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
-        AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
-        shooterParticle.Play();
-    }
+    // public override void Shoot()
+    // {
+    //     // StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
+    //     AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
+    //     shooterParticle.Play();
+    // }
 
     private IEnumerator PlaySFX(float duration)
     {

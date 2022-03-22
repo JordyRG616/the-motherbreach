@@ -136,7 +136,7 @@ public class BuildBox : MonoBehaviour
             if(selectedWeapon)
             {
                 var _weapon = selectedWeapon.GetComponent<ActionController>();
-                baseEffect.text = _base.DescriptionText(out baseKeyword, _weapon.GetClasses()[0]);
+                baseEffect.text = _base.DescriptionText(out baseKeyword);
                 if(_base.targetStats)
                 {
                     var container = "";
@@ -158,7 +158,7 @@ public class BuildBox : MonoBehaviour
         if(selectedWeapon)
         {
             var effect = selectedWeapon.GetComponent<ActionEffect>();
-            healthValue.text = selectedWeapon.GetComponent<ActionController>().GetHealth().ToString();
+            healthValue.text = selectedWeapon.GetComponent<ActionController>().GetHealth().ToString("0");
             restValue.text = effect.StatSet[Stat.Rest].ToString();
             weaponEffect.text = effect.DescriptionText(out var weaponKeyword);
             if(weaponKeyword != Keyword.None) keywords.Add(weaponKeyword);
@@ -233,27 +233,30 @@ public class BuildBox : MonoBehaviour
 
     public bool CheckCompability(BaseEffectTemplate testSubject)
     {
-        if(!testSubject.targetStats) return true;
+        if(!testSubject.targetStats && !testSubject.targetTags) return true;
         if(!selectedWeapon) return true;
-        var stats = selectedWeapon.GetComponent<ActionController>().GetStatsOnShooters();
+        var controller = selectedWeapon.GetComponent<ActionController>();
+        var stats = controller.GetStatsOnShooters();
         foreach(Stat stat in stats)
         {
             if(testSubject.StatIsTarget(stat)) return true;
         }
-        return false;
+        var tags = controller.GetShooters()[0].tags;
+        return testSubject.ContainsTag(tags);
     }
 
     public bool CheckCompability(ActionController testSubject)
     {
         if(!selectedBase) return true;
         var _base = selectedBase.GetComponent<BaseEffectTemplate>();
-        if(!_base.targetStats) return true;
-        var stats = testSubject.GetComponent<ActionController>().GetStatsOnShooters();
+        if(!_base.targetStats && !_base.targetTags) return true;
+        var stats = testSubject.GetStatsOnShooters();
         foreach(Stat stat in stats)
         {
             if(_base.StatIsTarget(stat)) return true;
         }
-        return false;
+        var tags = testSubject.GetShooters()[0].tags;
+        return _base.ContainsTag(tags);
     }
 
     private void ResetStats()
@@ -396,14 +399,5 @@ public class BuildBox : MonoBehaviour
     public void HideKeywordInfo()
     {
         statInfoBox.gameObject.SetActive(false);
-    }
-
-    private void Update()
-    {
-        if(statInfoBox.gameObject.activeSelf)
-        {
-            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
-            statInfoBox.anchoredPosition = mousePos;
-        }
     }
 }

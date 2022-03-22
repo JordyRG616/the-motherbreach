@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private TrackingDevice tracking;
+    // private TrackingDevice tracking;
     [SerializeField] private TurretSlot associatedSlot;
     [SerializeField] private Color color;
     private RectTransform sellButton;
@@ -32,7 +32,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
             selectedVFX = associatedSlot.GetComponentInChildren<ParticleSystem>(true);
 
-            tracking = GetComponent<TrackingDevice>();
+            // tracking = GetComponent<TrackingDevice>();
 
             sellButton = FindObjectOfType<SellButton>(true).GetComponent<RectTransform>();
             upgradeButton = FindObjectOfType<UpgradeButton>(true).GetComponent<RectTransform>();
@@ -144,6 +144,6 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     void FixedUpdate()
     {
-        GetComponent<RectTransform>().anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position);
+        // GetComponent<RectTransform>().anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position);
     }
 }

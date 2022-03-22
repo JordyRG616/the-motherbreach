@@ -6,19 +6,18 @@ using StringHandler;
 public class PlasmaEffect : ActionEffect
 {
     [SerializeField] private float duration;
-    [SerializeField] private float initialBulletSpeed;
+    [SerializeField] private float initialEfficiency;
     private FMOD.Studio.EventInstance instance;
 
     public override Stat specializedStat => Stat.Duration;
 
-    public override Stat secondaryStat => Stat.BulletSpeed;
+    public override Stat secondaryStat => Stat.Efficiency;
 
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, duration);
         SetDuration();
-        StatSet.Add(Stat.BulletSpeed, initialBulletSpeed);
-        SetBulletSpeed();
+        StatSet.Add(Stat.Efficiency, initialEfficiency);
 
         base.SetData();
     }
@@ -26,7 +25,6 @@ public class PlasmaEffect : ActionEffect
     public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
-        SetBulletSpeed();
         SetDuration();
     }
 
@@ -36,16 +34,10 @@ public class PlasmaEffect : ActionEffect
         main.duration = StatSet[Stat.Duration];
     }
 
-    private void SetBulletSpeed()
-    {
-        var main = shooterParticle.main;
-        main.startSpeed = StatSet[Stat.BulletSpeed];
-    }
-
     public override void Shoot()
     {
-        // StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
-        AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
+        StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
+        // AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
         shooterParticle.Play();
     }
 
@@ -61,18 +53,18 @@ public class PlasmaEffect : ActionEffect
     public override void ApplyEffect(HitManager hitManager)
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
-        ApplyStatusEffect<Slug>(hitManager, 2f, new float[] {.66f});
+        ApplyStatusEffect<Slug>(hitManager, StatSet[secondaryStat], new float[] {.66f});
     }
 
     public override string DescriptionText()
     {
-        string description = "releases a stream of particles for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " to all enemies in the area and applies " + KeywordHandler.KeywordPaint(keyword);
+        string description = "releases a stream of particles for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage to all enemies in the area and applies " + KeywordHandler.KeywordPaint(keyword) + " for " + StatColorHandler.StatPaint(StatSet[secondaryStat].ToString()) + " seconds";
         return description;
     }
 
     public override string upgradeText(int nextLevel)
     {
-        if(nextLevel == 3 || nextLevel == 5) return StatColorHandler.StatPaint("next level:") + " bullet speed +10";
+        if(nextLevel == 3 || nextLevel == 5) return StatColorHandler.StatPaint("next level:") + " slug duration + 1 s";
         else return StatColorHandler.StatPaint("next level:") + " duration + 25%";
         
     }
@@ -81,7 +73,7 @@ public class PlasmaEffect : ActionEffect
     {
         if(toLevel == 3 || toLevel == 5)
         {
-            GainSpeed();
+            GainEfficiency();
         }
         else
         {
@@ -96,10 +88,10 @@ public class PlasmaEffect : ActionEffect
         SetStat(Stat.Duration, _duration);
     }
 
-    private void GainSpeed()
+    private void GainEfficiency()
     {
-        var speed = StatSet[Stat.BulletSpeed];
-        speed += 10f;
-        SetStat(Stat.BulletSpeed, speed);
+        var _eff = StatSet[secondaryStat];
+        _eff += 1;
+        SetStat(secondaryStat, _eff);
     }
 }

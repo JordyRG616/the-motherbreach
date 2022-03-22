@@ -14,49 +14,34 @@ public class ForgeController : BossController
     private bool secondPhaseOn, thirdPhaseOn;
 
 
-    protected override void ManageStates(int phaseOrder)
-    {
-        var distance = ship.transform.position - transform.position;
-        if(distance.magnitude < distanceToFlee)
-        {
-            var fleeState = GetComponent<Interceptor_Disengage>();
-            ChangeStates(fleeState);
-            return;
-        }
-        if (distance.magnitude > distanceToChase)
-        {
-            var chaseState = GetComponent<Interceptor_MoveState>();
-            ChangeStates(chaseState);
-            return;
-        }
+    // protected override void ManageStates(int phaseOrder)
+    // {
+    //     var distance = ship.transform.position - transform.position;
+    //     if(distance.magnitude < distanceToFlee)
+    //     {
+    //         var fleeState = GetComponent<Interceptor_Disengage>();
+    //         ChangeStates(fleeState);
+    //         return;
+    //     }
+    //     if (distance.magnitude > distanceToChase)
+    //     {
+    //         var chaseState = GetComponent<Interceptor_MoveState>();
+    //         ChangeStates(chaseState);
+    //         return;
+    //     }
 
-        var moveState = GetComponent<Forge_OrbitState>();
-        ChangeStates(moveState);
-    }
+    //     var moveState = GetComponent<Forge_OrbitState>();
+    //     ChangeStates(moveState);
+    // }
 
-    protected override void PhaseUpgrade(int phaseOrder)
-    {
-        switch(phaseOrder)
-        {
-            case 0:
-            break;
-            case 1:
-                SecondPhaseUpgrade();
-            break;
-            case 2:
-                ThirdPhaseUpgrade();
-            break;
-        }
-    }
-
-    private void ThirdPhaseUpgrade()
+    protected override void ThirdPhaseUpgrade()
     {
         if(thirdPhaseOn) return;
         GetComponent<ForgeEnemyManager>().ReduceCooldown(cooldownReduction);
         thirdPhaseOn = true;
     }
 
-    private void SecondPhaseUpgrade()
+    protected override void SecondPhaseUpgrade()
     {
         if(secondPhaseOn) return;
         GetComponent<ForgeEnemyManager>().phaseTwoOn = true;

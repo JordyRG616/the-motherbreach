@@ -6,12 +6,14 @@ using UnityEngine;
 public abstract class BaseEffectTemplate : MonoBehaviour
 {
     [SerializeField] protected EffectTrigger trigger;
-    [SerializeField] protected List<WeaponClass> targetedClasses;
     public bool targetStats;
     [SerializeField] protected List<Stat> targetedStats;
+    public bool targetTags;
+    [SerializeField] protected List<WeaponTag> targetedTags;
     [SerializeField] protected float cost;
     [SerializeField] protected Keyword keyword;
     public bool previewable;
+    private bool initiated;
 
     protected ActionController associatedController;
     protected GameManager gameManager;
@@ -20,6 +22,7 @@ public abstract class BaseEffectTemplate : MonoBehaviour
 
     public virtual void Initiate()
     {
+        initiated = true;
         gameManager = GameManager.Main;
         gameManager.OnGameStateChange += HandleEffectTrigger;
 
@@ -48,15 +51,9 @@ public abstract class BaseEffectTemplate : MonoBehaviour
 
     public abstract string DescriptionText();
     
-    public virtual string DescriptionText(out Keyword keyword, WeaponClass weaponClass = WeaponClass.Default)
+    public virtual string DescriptionText(out Keyword keyword)
     {
         keyword = this.keyword;
-        if(weaponClass != WeaponClass.Default) return DescriptionTextByClass(weaponClass);
-        else return DescriptionText();
-    }
-
-    public virtual string DescriptionTextByClass(WeaponClass weaponClass)
-    {
         return DescriptionText();
     }
     
@@ -76,11 +73,6 @@ public abstract class BaseEffectTemplate : MonoBehaviour
         return trigger;
     }
 
-    public List<WeaponClass> GetWeaponClasses()
-    {
-        return targetedClasses;
-    }
-
     public float GetCost()
     {
         return cost;
@@ -88,6 +80,7 @@ public abstract class BaseEffectTemplate : MonoBehaviour
 
     void OnDisable()
     {
+        if(!initiated) return;
         if(associatedController != null) gameManager.OnGameStateChange -= HandleEffectTrigger;
 
         switch(GetTrigger())
@@ -113,9 +106,18 @@ public abstract class BaseEffectTemplate : MonoBehaviour
         else return false;
     }
 
+    public bool ContainsTag(WeaponTag tagToCheck)
+    {
+        foreach(WeaponTag tag in targetedTags)
+        {
+            if(tagToCheck.HasFlag(tag)) return true;
+        }
+        return false;
+    }
+
     protected virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
     {   
-        if(target.IsUnderEffect<T>()) return;
+        if(target.IsUnderEffect<T>(out var t)) Destroy(t);
         var effect = target.gameObject.AddComponent<T>();
         effect.Initialize(target, duration, parameters);
     }

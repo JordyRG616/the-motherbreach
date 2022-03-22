@@ -31,10 +31,12 @@ public class FollowerController : ActionController
         seeking = true;
 
         StartCoroutine(FollowTarget(target));
+
     }
 
     protected IEnumerator FollowTarget(TargetableComponent target)
     {
+        
         StartCoroutine(ManageActivation());
 
         while(enemiesInSight.Contains(target))
@@ -48,9 +50,9 @@ public class FollowerController : ActionController
 
             yield return new WaitForEndOfFrame();
         }
-        
-        StopCoroutine(ManageActivation());
 
+        StopCoroutine(ManageActivation());
+        
         StopShooters();
 
         StartCoroutine(ReturnToInitialRotation());
@@ -66,13 +68,14 @@ public class FollowerController : ActionController
     protected override IEnumerator ManageActivation()
     {
         while(true)
-        {            
+        {        
             Activate();
 
-            float duration = 0;
-            if(shooters[0].StatSet.ContainsKey(Stat.Duration)) duration = shooters[0].StatSet[Stat.Duration];
+            float duration = shooters[0].GetShooterSystem().main.duration;
 
-            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest] + duration);         
+            yield return new WaitForSeconds(duration);    
+            // StopShooters();
+   
         }
 
     }
@@ -80,14 +83,16 @@ public class FollowerController : ActionController
     
     public override void Activate()
     {
-        for(int i = 0; i < shooters.Count;i++ )
+        foreach(ActionEffect shooter in shooters)
         {
-            shooters[i].Invoke("Shoot", .5f * i);
+            if(shooter.GetShooterSystem().IsAlive()) return;
+            shooter.Shoot();
         }
     }
 
     private IEnumerator ReturnToInitialRotation()
     {
+
         while((int)transform.localRotation.eulerAngles.z != 0)
         {
             float sign = Mathf.Sign(transform.localRotation.eulerAngles.z - 180);
@@ -97,4 +102,5 @@ public class FollowerController : ActionController
 
         seeking = false;
     }
+
 }

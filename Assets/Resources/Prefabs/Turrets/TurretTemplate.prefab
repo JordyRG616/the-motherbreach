@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5418003723645458384}
   m_Layer: 7
   m_Name: TurretTemplate
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98075fd54b6ec924383a56bcc79487e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLevel: 5
 --- !u!1 &9025447193643634857
 GameObject:
   m_ObjectHideFlags: 0

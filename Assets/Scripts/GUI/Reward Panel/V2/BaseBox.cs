@@ -78,12 +78,6 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
         light2D.color = notSelectable;
         if(cachedBase == null) return;
         if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && cachedBase && !buildBox.OnUpgrade) light2D.color = selectable;
-
-        if(statInfoBox.gameObject.activeSelf)
-        {
-            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
-            statInfoBox.anchoredPosition = mousePos;
-        }
     }
     
     public void Unselect()
@@ -123,7 +117,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
         if(!statInfoBox.gameObject.activeSelf)
         {
             statInfoBox.gameObject.SetActive(true);
-            statInfoBox.GetComponent<StatInfoBox>().SetText(text, 100);
+            statInfoBox.GetComponent<StatInfoBox>().SetText(text, 200);
         }
     }
 }

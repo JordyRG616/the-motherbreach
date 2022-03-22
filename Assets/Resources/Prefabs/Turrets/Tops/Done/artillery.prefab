@@ -175,16 +175,16 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 0
   keyword: 0
   tags: 16
   initialDamage: 25
   initialRest: 5
   onShootSFX: event:/SFX/NEW/Shoot 2
   singleSFX: 0
+  initialRotation: 0
   debugStats: []
   initialBulletSpeed: 15
-  initialBurstSize: 2
+  initialBurstSize: 1
 --- !u!114 &1560200901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,16 +201,16 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 0
   keyword: 0
-  tags: 0
+  tags: 16
   initialDamage: 25
   initialRest: 5
   onShootSFX: event:/SFX/NEW/Shoot 2
   singleSFX: 0
+  initialRotation: 0
   debugStats: []
   initialBulletSpeed: 15
-  initialBurstSize: 2
+  initialBurstSize: 1
 --- !u!114 &4565091971899424661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,6 +348,18 @@ PrefabInstance:
     - target: {fileID: 855313659844933342, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803845406225210013, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803845406225210013, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803845406225210013, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2152909709829296060, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: looping
@@ -495,7 +507,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: SubModule.enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: startDelay.scalar
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: TrailModule.enabled
@@ -516,6 +532,10 @@ PrefabInstance:
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: SubModule.subEmitters.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: TrailModule.widthOverTrail.scalar
@@ -554,9 +574,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: SubModule.subEmitters.Array.data[0].type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: VelocityModule.speedModifier.minMaxState
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: SubModule.subEmitters.Array.data[0].emitter
+      value: 
+      objectReference: {fileID: 6042935939957761603}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: TrailModule.colorOverTrail.maxGradient.atime0
       value: 46453
@@ -571,6 +599,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].repeatInterval
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
@@ -741,6 +773,11 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
   m_PrefabInstance: {fileID: 5637514703434607103}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &6042935939957761603 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2152909709829296060, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+  m_PrefabInstance: {fileID: 5637514703434607103}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7973321032406380944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -826,6 +863,18 @@ PrefabInstance:
     - target: {fileID: 855313659844933342, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803845406225210013, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803845406225210013, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803845406225210013, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2152909709829296060, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: looping
@@ -973,7 +1022,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: SubModule.enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: TrailModule.enabled
@@ -994,6 +1043,10 @@ PrefabInstance:
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: SubModule.subEmitters.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: TrailModule.widthOverTrail.scalar
@@ -1032,9 +1085,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: SubModule.subEmitters.Array.data[0].type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: VelocityModule.speedModifier.minMaxState
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: SubModule.subEmitters.Array.data[0].emitter
+      value: 
+      objectReference: {fileID: 8285483747916713600}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: TrailModule.colorOverTrail.maxGradient.atime0
       value: 46453
@@ -1049,6 +1110,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].repeatInterval
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
@@ -1195,6 +1260,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0.29
       objectReference: {fileID: 0}
+    - target: {fileID: 9108899706517846832, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108899706517846832, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108899706517846832, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 855313659844933342, guid: b2747e83ee5648747b9695e47140109e, type: 3}
     - {fileID: 437484634214772865, guid: b2747e83ee5648747b9695e47140109e, type: 3}
@@ -1212,5 +1289,10 @@ GameObject:
 --- !u!198 &8207642890551599406 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+  m_PrefabInstance: {fileID: 8006089981129146684}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8285483747916713600 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2152909709829296060, guid: b2747e83ee5648747b9695e47140109e, type: 3}
   m_PrefabInstance: {fileID: 8006089981129146684}
   m_PrefabAsset: {fileID: 0}

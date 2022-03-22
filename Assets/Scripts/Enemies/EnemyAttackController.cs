@@ -49,4 +49,15 @@ public class EnemyAttackController : ActionController
     {
         yield return null;
     }
+
+    public void LevelUp(int targetLevel)
+    {
+        for(int i = 1; i <= targetLevel; i++)
+        {
+            foreach(ActionEffect shooter in shooters)
+            {
+                shooter.LevelUp(i);
+            }
+        }
+    }
 }

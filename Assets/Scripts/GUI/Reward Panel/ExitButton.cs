@@ -86,13 +86,4 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     {
         tipBox.gameObject.SetActive(false);
     }
-
-    private void Update()
-    {
-        if(tipBox.gameObject.activeSelf)
-        {
-            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
-            tipBox.anchoredPosition = mousePos;
-        }
-    }
 }

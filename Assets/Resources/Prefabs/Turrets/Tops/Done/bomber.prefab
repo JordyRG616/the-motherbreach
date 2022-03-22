@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &100587062805186650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 156921858376999213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e574a70fd0d3c447a84b01ac7ad5263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnemy: 0
 --- !u!114 &2680186829311849720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,13 +55,13 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 0
   keyword: 0
   tags: 0
   initialDamage: 10
   initialRest: 0
-  onShootSFX: event:/SFX/NEW/Shoot 1
+  onShootSFX: event:/SFX/NEW/SmallExplosion
   singleSFX: 0
+  initialRotation: 0
   debugStats: []
 --- !u!1 &3783590503867372255
 GameObject:
@@ -322,14 +335,15 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 2
   keyword: 0
   tags: 64
   initialDamage: 15
   initialRest: 5
   onShootSFX: event:/SFX/NEW/BomberShoot
   singleSFX: 0
+  initialRotation: 0
   debugStats: []
+  explosionSFX: event:/SFX/NEW/SmallExplosion
   initialProjectiles: 5
   initalBulletSize: 0.5
   subShooter: {fileID: 156921858376999208}
@@ -350,14 +364,15 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 2
   keyword: 0
   tags: 64
   initialDamage: 15
   initialRest: 5
   onShootSFX: event:/SFX/NEW/BomberShoot
   singleSFX: 0
+  initialRotation: 0
   debugStats: []
+  explosionSFX: event:/SFX/NEW/SmallExplosion
   initialProjectiles: 5
   initalBulletSize: 0.5
   subShooter: {fileID: 6035144378192050245}
@@ -375,6 +390,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   associatedEffect: {fileID: 1033337108}
+--- !u!114 &4496198326041688826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035144378192050240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e574a70fd0d3c447a84b01ac7ad5263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnemy: 0
 --- !u!114 &2425646531166534296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,13 +432,13 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 0
   keyword: 0
   tags: 0
   initialDamage: 10
   initialRest: 0
-  onShootSFX: event:/SFX/NEW/Shoot 1
+  onShootSFX: event:/SFX/NEW/SmallExplosion
   singleSFX: 0
+  initialRotation: 0
   debugStats: []
 --- !u!1 &6689675500563569875
 GameObject:
@@ -10186,12 +10214,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: TriggerModule.inside
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: TriggerModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: CollisionModule.enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: SizeModule.curve.scalar
@@ -10236,6 +10272,10 @@ PrefabInstance:
     - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
       value: 12.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: TriggerModule.colliderQueryMode
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: CollisionModule.collisionMessages
@@ -10318,6 +10358,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: startDelay.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: TrailModule.enabled
       value: 1
       objectReference: {fileID: 0}
@@ -10330,11 +10374,19 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: TrailModule.lifetime.scalar
       value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: TrailModule.minVertexDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
@@ -10517,11 +10569,6 @@ PrefabInstance:
     - {fileID: 0}
     - {fileID: 855313659844933342, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
---- !u!4 &3555436109597021807 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
-  m_PrefabInstance: {fileID: 156921859164534532}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &381398042874980420 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 533536809274662720, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
@@ -10550,6 +10597,11 @@ ParticleSystem:
 --- !u!1 &6202193692663676291 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6070819127656450695, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+  m_PrefabInstance: {fileID: 156921859164534532}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3555436109597021807 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3709292450076844395, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
   m_PrefabInstance: {fileID: 156921859164534532}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5937739797221469061
@@ -10655,12 +10707,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: TriggerModule.inside
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: TriggerModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: CollisionModule.enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: SizeModule.curve.scalar
@@ -10705,6 +10765,10 @@ PrefabInstance:
     - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
       value: 12.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: TriggerModule.colliderQueryMode
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 854644268, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: CollisionModule.collisionMessages
@@ -10799,11 +10863,19 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: TrailModule.lifetime.scalar
       value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: TrailModule.minVertexDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}

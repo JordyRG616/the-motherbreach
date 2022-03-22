@@ -21,6 +21,7 @@ public class TurretSlot : MonoBehaviour
         occupyingTurret.transform.SetParent(transform);
         occupyingTurret.transform.rotation = transform.rotation;
         occupyingTurret.transform.localPosition = Vector2.zero;
+        occupyingTurret.GetComponent<TurretManager>().ReceiveInitialRotation(transform.eulerAngles.z);
 
         foreach(TurretVFXManager vfx in occupyingTurret.GetComponentsInChildren<VFXManager>())
         {   

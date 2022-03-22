@@ -10,6 +10,15 @@ using FMOD.Studio;
 public class AudioTrack 
 {
     [Range(0, 1f)] public float trackVolume;
+    private float _trackVolume
+    {
+        get
+        {
+            if(trackVolume < 0) return 0;
+            if(trackVolume > 1) return 1;
+            return trackVolume; 
+        }
+    }
     [SerializeField] private int maxChannels;
     [SerializeField] private MonoBehaviour invoker;
     public Dictionary<EventInstance, IEnumerator> activeChannels = new Dictionary<EventInstance, IEnumerator>();
@@ -27,7 +36,7 @@ public class AudioTrack
 
             IEnumerator couroutine = TrackAudioVolume(audioInstance);
             activeChannels.Add(audioInstance, couroutine);
-            audioInstance.setVolume(trackVolume);
+            audioInstance.setVolume(_trackVolume);
             audioInstance.start();
             invoker.StartCoroutine(couroutine);
         }
@@ -39,7 +48,7 @@ public class AudioTrack
         {
             IEnumerator couroutine = TrackAudioVolume(audioInstance);
             activeChannels.Add(audioInstance, couroutine);
-            audioInstance.setVolume(trackVolume);
+            audioInstance.setVolume(_trackVolume);
             invoker.StartCoroutine(couroutine);
         }
     }
@@ -49,7 +58,7 @@ public class AudioTrack
 
         while (AudioIsPlaying(audioInstance))
         {
-            audioInstance.setVolume(trackVolume);
+            audioInstance.setVolume(_trackVolume);
 
             yield return new WaitForEndOfFrame();
         }

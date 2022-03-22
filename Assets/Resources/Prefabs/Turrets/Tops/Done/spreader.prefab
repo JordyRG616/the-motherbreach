@@ -175,9 +175,10 @@ MonoBehaviour:
   initialRest: 5
   onShootSFX: event:/SFX/NEW/Spreader1
   singleSFX: 1
+  initialRotation: 0
   debugStats: []
   initialDuration: 2
-  initialSize: 15
+  initialSize: 4
 --- !u!1 &8934998986133781418
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 10
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: TriggerModule.colliderQueryMode
@@ -427,8 +428,16 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: CollisionModule.collidesWithDynamic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
+      propertyPath: InitialModule.startSpeed.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: UVModule.sprites.Array.data[0].sprite

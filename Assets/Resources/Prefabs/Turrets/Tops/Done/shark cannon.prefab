@@ -164,8 +164,9 @@ MonoBehaviour:
   tags: 48
   initialDamage: 7
   initialRest: 3
-  onShootSFX: event:/SFX/NEW/Shoot 2
+  onShootSFX: event:/SFX/NEW/Shark
   singleSFX: 1
+  initialRotation: 0
   debugStats: []
   stunDuration: 3
   initalBulletSize: 0.4
@@ -533,7 +534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: lengthInSec
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: ShapeModule.type

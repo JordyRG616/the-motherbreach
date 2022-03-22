@@ -1,21 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
+using StringHandler;
 using UnityEngine;
 
 public class ViciousEffect : BaseEffectTemplate
 {
     [SerializeField] [Range(0, 1)] private float buffPercentage;
     [SerializeField] private float durationOfBuff;
+    [SerializeField] private ParticleSystem vfx;
+    [SerializeField] [FMODUnity.EventRef] private string sfx;
+    [SerializeField] [ColorUsage(true, true)] private Color effectOnColor;
+    [SerializeField] private ParticleSystem dissipateVFX;
+    [SerializeField] [FMODUnity.EventRef] private string dissipateSfx;
+    
+
     private bool buffOn;
     private float timer;
     private bool counting;
 
     public override void ApplyEffect()
     {
-        if(!buffOn && timer >= 1f)
+        if(!buffOn)
         {
-            timer = 0;
-            counting = false;
+            vfx.Play();
+            AudioManager.Main.RequestSFX(sfx);
+            associatedController.GetComponent<SpriteRenderer>().color = effectOnColor;
+            // timer = 0;
+            // counting = false;
             StartCoroutine(ManageBuff());
         }
     }
@@ -30,7 +40,7 @@ public class ViciousEffect : BaseEffectTemplate
         {
             var ogValue = shooters[i].StatSet[Stat.Damage];
             ogValues[i] = ogValue;
-            shooters[i].SetStat(Stat.Damage, ogValue * 1.5f);
+            shooters[i].SetStat(Stat.Damage, ogValue * (1 + buffPercentage));
         }
 
         yield return new WaitForSeconds(durationOfBuff);
@@ -40,17 +50,20 @@ public class ViciousEffect : BaseEffectTemplate
             shooters[i].SetStat(Stat.Damage, ogValues[i]);
         }
 
+        dissipateVFX.Play();
+        AudioManager.Main.RequestSFX(dissipateSfx);
+        associatedController.GetComponent<SpriteRenderer>().color = Color.white;
         buffOn = false;
     }
     
     public override string DescriptionText()
     {
-        string description = "this turret gains " + buffPercentage * 100 + "% extra damage for " + durationOfBuff + " seconds";
+        string description = "this turret gains " + StatColorHandler.StatPaint((buffPercentage * 100).ToString() + "%") + " extra " + StatColorHandler.DamagePaint("damage") + " for " + StatColorHandler.StatPaint(durationOfBuff.ToString()) + " seconds";
         return description;
     }
 
-    void FixedUpdate()
-    {
-        if(counting) timer += Time.fixedDeltaTime;
-    }
+    // void FixedUpdate()
+    // {
+    //     timer += Time.fixedDeltaTime;
+    // }
 }

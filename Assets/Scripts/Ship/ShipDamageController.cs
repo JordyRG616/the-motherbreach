@@ -20,10 +20,21 @@ public class ShipDamageController : MonoBehaviour, IDamageable
     private Queue<IEnumerator> enqueuedUpdates = new Queue<IEnumerator>();
     private float ogIntensity;
 
-    private WaitForSeconds waitTime = new WaitForSeconds(0.15f);
-
-    private float currentHealth;
-
+    private WaitForEndOfFrame waitTime = new WaitForEndOfFrame();
+    private WaitForSeconds blinkTime = new WaitForSeconds(0.15f);
+    private float currentHealth
+    {
+        get
+        {
+            return _cHealth;
+        }
+        set
+        {
+            _cHealth = Mathf.FloorToInt(value);
+        }
+    }
+    private float _cHealth;
+    
     void Awake()
     {
         currentHealth = maxHealth;
@@ -55,9 +66,10 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         {
             AudioManager.Main.RequestSFX(onHitSFX);
             StartCoroutine(Blink());
-            var newUpdate = UpdateGUI();
-            enqueuedUpdates.Enqueue(newUpdate);
         }
+
+        var newUpdate = UpdateGUI();
+        enqueuedUpdates.Enqueue(newUpdate);
     }
 
     public void UpdateHealthNoEffects(float amount)
@@ -72,11 +84,10 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         {
             currentHealth = maxHealth;
         }
-        if(amount < 0)
-        {
-            var newUpdate = UpdateGUI();
-            enqueuedUpdates.Enqueue(newUpdate);
-        }
+        
+        var newUpdate = UpdateGUI();
+        enqueuedUpdates.Enqueue(newUpdate);
+        
     }
 
     private IEnumerator UpdateGUI()
@@ -96,6 +107,8 @@ public class ShipDamageController : MonoBehaviour, IDamageable
             yield return waitTime;
         }
 
+        fill.localScale = new Vector2(percentage, fill.localScale.y);
+
         textMesh.text = currentHealth.ToString("0");
     }
 
@@ -104,7 +117,7 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         blinkingLight.color = damageColor;
         blinkingLight.intensity = damageIntensity;
 
-        yield return waitTime;
+        yield return blinkTime;
 
         blinkingLight.color = ogColor;
         blinkingLight.intensity = ogIntensity;
@@ -132,5 +145,8 @@ public class ShipDamageController : MonoBehaviour, IDamageable
     {
         currentHealth += maxHealth * percentage;
         maxHealth *= (1 + percentage);
+        
+        var newUpdate = UpdateGUI();
+        enqueuedUpdates.Enqueue(newUpdate);
     }
 }

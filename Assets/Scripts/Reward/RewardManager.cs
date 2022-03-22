@@ -87,8 +87,9 @@ public class RewardManager : MonoBehaviour
         animationManager.Play();
         
         AudioManager.Main.GetAudioTrack("SFX").PauseAudio();
-        AudioManager.Main.GetAudioTrack("Music").PauseAudio();
-        AudioManager.Main.GetAudioTrack("Special").UnpauseAudio();
+        // AudioManager.Main.GetAudioTrack("Music").PauseAudio();
+        // AudioManager.Main.GetAudioTrack("Special").UnpauseAudio();
+        AudioManager.Main.SwitchMusicTracks("Special");
 
 
         var locked = FindObjectOfType<LockButton>().locked;
@@ -141,10 +142,6 @@ public class RewardManager : MonoBehaviour
 
     public void Exit()
     {
-        AudioManager.Main.GetAudioTrack("SFX").UnpauseAudio();
-        AudioManager.Main.GetAudioTrack("Special").PauseAudio();
-        AudioManager.Main.GetAudioTrack("Music").UnpauseAudio();
-
         var locked = FindObjectOfType<LockButton>().locked;
 
         if(!locked) EliminateOffer();

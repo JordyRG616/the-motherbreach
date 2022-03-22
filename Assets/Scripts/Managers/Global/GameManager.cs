@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
     {
         if(gameState == GameState.OnTitle)
         {
+            // Screen.SetResolution(1280, 720, true);
             audioManager = AudioManager.Main;
             audioManager.Initialize();
             audioManager.RequestMusic("Title");

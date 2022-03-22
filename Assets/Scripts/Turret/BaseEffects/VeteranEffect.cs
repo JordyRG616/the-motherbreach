@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class VeteranEffect : BaseEffectTemplate
 {
- 
+    [SerializeField] private ParticleSystem vfx;
+    [SerializeField] [FMODUnity.EventRef] private string sfx;
+
     public override void ApplyEffect()
     {
+        vfx.Play();
+        AudioManager.Main.RequestGUIFX(sfx);
+
         for (int i = 0; i < 3; i++)
         {
             Invoke("LevelUp", i/10f);

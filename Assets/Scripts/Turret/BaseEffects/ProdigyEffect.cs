@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class ProdigyEffect : BaseEffectTemplate
 {
@@ -20,6 +21,6 @@ public class ProdigyEffect : BaseEffectTemplate
 
     public override string DescriptionText()
     {
-        return "gain 1 experience. if this turret has " + expRequirement + " experience, it gains a level. (current exp: " + currentExp + ")";
+        return "gain 1 experience. if this turret has " + StatColorHandler.StatPaint(expRequirement.ToString()) + " experience, it gains a level. " + StatColorHandler.StatPaint( "(current exp: " + currentExp + ")");
     }
 }

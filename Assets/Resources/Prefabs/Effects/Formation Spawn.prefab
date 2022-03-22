@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3124701412639239675}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -41,7 +41,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3124701412639239675}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: 00f6a393d86fd5b4a90d657ddc7610e7, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: 8ef73c034e8fc6d49ba3d100252227ec, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 588369334
@@ -49,7 +49,10 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 1.5
+        m_Name: Rift Duration
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -138,6 +141,6 @@ VFXRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 755223783
-  m_SortingLayer: 6
+  m_SortingLayerID: 443927703
+  m_SortingLayer: 2
   m_SortingOrder: 0

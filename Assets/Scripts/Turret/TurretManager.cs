@@ -37,9 +37,14 @@ public class TurretManager : MonoBehaviour, IManager
         OnLevelUp += actionController.HandleLevelUp;
 
         GetStats();
-        
+
         integrityManager = GetComponent<IntegrityManager>();
         integrityManager.Initiate(Stats[Stat.Health]);
+    }
+
+    public void ReceiveInitialRotation(float rotation)
+    {
+        actionController.GetShooters().ForEach(x => x.initialRotation = rotation);
     }
 
     private void GetStats()

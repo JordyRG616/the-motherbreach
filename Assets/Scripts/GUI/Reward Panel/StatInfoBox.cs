@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using CraftyUtilities;
 using UnityEngine;
 using TMPro;
 
@@ -8,6 +8,7 @@ public class StatInfoBox : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private RectTransform[] rects;
+    private RectTransform selfRect;
     private DescriptionDictionary dictionary;
     private string statName;
     private int largestLineSize = 0;
@@ -18,6 +19,8 @@ public class StatInfoBox : MonoBehaviour
     {
         ogWidth = rects[0].sizeDelta.x;
         _width = ogWidth;
+
+        selfRect = GetComponent<RectTransform>();
     }
 
     private void SetSize()
@@ -68,5 +71,6 @@ public class StatInfoBox : MonoBehaviour
     void Update()
     {
         SetSize();
+        selfRect.FollowMouse();
     }
 }

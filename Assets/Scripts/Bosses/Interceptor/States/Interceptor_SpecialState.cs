@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Interceptor_SpecialState : BossState
 {
-    [SerializeField] private List<WeaponClass> weaponsOnEnter;
-    [SerializeField] private List<WeaponClass> weaponsOnAction;
+    [SerializeField] private List<WeaponTag> weaponsOnEnter;
+    [SerializeField] private List<WeaponTag> weaponsOnAction;
     [SerializeField] private float delayToSpreader;
     private float angle;
 
@@ -24,13 +24,13 @@ public class Interceptor_SpecialState : BossState
 
     private void ActivateSpecial()
     {
-        actionController.ActivateWeapons(weaponsOnAction);
+        // actionController.ActivateWeapons(weaponsOnAction);
     }
 
     public override void EnterState()
     {
         angle = 0;
-        actionController.ActivateWeapons(weaponsOnEnter);
+        // actionController.ActivateWeapons(weaponsOnEnter);
         Invoke("ActivateSpecial", delayToSpreader);
     }
 

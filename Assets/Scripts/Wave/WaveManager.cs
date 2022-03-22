@@ -80,6 +80,11 @@ public class WaveManager : MonoBehaviour
     {
         FindObjectOfType<ShipController>().GetComponent<Rigidbody2D>().WakeUp();
 
+        AudioManager.Main.GetAudioTrack("SFX").UnpauseAudio();
+        // AudioManager.Main.GetAudioTrack("Special").PauseAudio();
+        // AudioManager.Main.GetAudioTrack("Music").UnpauseAudio();
+        AudioManager.Main.SwitchMusicTracks("Music");
+
         if(dataQueue.Count > 0)
         {
             activeWave = dataQueue.Dequeue();
@@ -107,7 +112,9 @@ public class WaveManager : MonoBehaviour
             Vector2 spwPos = PositionToSpawn();
             if(breach.spawnInSamePosition)
             {
-               StartCoroutine(CreateSpawnVFX(spwPos, breach.intervalOfSpawn * breach.formationQueue.Count));
+                StartCoroutine(CreateSpawnVFX(spwPos, 5));
+                AudioManager.Main.RequestSFX(onFormationSpawnSFX);
+                yield return new WaitForSeconds(1f);
             }
 
             if(breach.bossWave)
@@ -117,7 +124,8 @@ public class WaveManager : MonoBehaviour
                     if(!breach.spawnInSamePosition)
                     {
                         spwPos = PositionToSpawn();
-                        StartCoroutine(CreateSpawnVFX(spwPos, breach.intervalOfSpawn));
+                        StartCoroutine(CreateSpawnVFX(spwPos, 5, true));
+                        yield return new WaitForSeconds(1f);
                     } 
                     var boss = Instantiate(breach.formationQueue.Dequeue(), spwPos, Quaternion.identity);
 
@@ -134,16 +142,20 @@ public class WaveManager : MonoBehaviour
                     if(!breach.spawnInSamePosition) 
                     {
                         spwPos = PositionToSpawn();
-                        StartCoroutine(CreateSpawnVFX(spwPos, breach.intervalOfSpawn));
+                        StartCoroutine(CreateSpawnVFX(spwPos, 5));
+                        AudioManager.Main.RequestSFX(onFormationSpawnSFX);
+                        yield return new WaitForSeconds(1f);
                     } 
                     var formation = Instantiate(breach.formationQueue.Dequeue(), spwPos, Quaternion.identity);
+                    var manager = formation.GetComponent<FormationManager>();
 
-                    activeFormations.Add(formation.GetComponent<FormationManager>());
-                    formation.GetComponent<FormationManager>().OnFormationDefeat += RemoveFormation;
+                    activeFormations.Add(manager);
+                    manager.formationLevel = breach.breachLevel;
+                    manager.OnFormationDefeat += RemoveFormation;
+
 
                     var formationPointer = Instantiate(pointer, formation.transform.position, Quaternion.identity);
                     formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(formation.transform.Find("Head"));
-                    AudioManager.Main.RequestSFX(onFormationSpawnSFX);
 
                     yield return new WaitForSeconds(breach.intervalOfSpawn);
                 }
@@ -154,9 +166,10 @@ public class WaveManager : MonoBehaviour
 
     }
 
-    private IEnumerator CreateSpawnVFX(Vector3 position, float duration)
+    private IEnumerator CreateSpawnVFX(Vector3 position, float duration, bool bossWave = false)
     {
         var container = Instantiate(onFormationSpawnVFX.gameObject, position, Quaternion.identity);
+        if(bossWave) container.transform.localScale *= 1.5f;
 
         container.GetComponent<VisualEffect>().Play();
 

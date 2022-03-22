@@ -80,12 +80,6 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         light2D.color = notSelectable;
         if(cachedWeapon == null) return;
         if(buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && cachedWeapon && !buildBox.OnUpgrade) light2D.color = selectable;
-
-        if(statInfoBox.gameObject.activeSelf)
-        {
-            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
-            statInfoBox.anchoredPosition = mousePos;
-        }
     }
 
     public void Unselect()

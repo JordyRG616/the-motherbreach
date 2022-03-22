@@ -7,7 +7,18 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
 {
     [SerializeField] private int maxHealth;
     private EnemyVFXManager vfxManager;
-    public float currentHealth {get; private set;}
+    public float currentHealth 
+    {
+        get
+        {
+            return _cHealth;
+        } 
+        private set
+        {
+            _cHealth = Mathf.FloorToInt(value);
+        }
+    }
+    private float _cHealth;
     public float damageMultiplier = 1;
 
     public event EventHandler<EnemyEventArgs> OnDeath;
@@ -80,5 +91,12 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
     public int GetMaxHealth()
     {
         return maxHealth;
+    }
+
+    public void RaiseHealthByPercentage(float percentage)
+    {
+        var modifiedHealth = maxHealth * (1f + percentage);
+        maxHealth = (int)modifiedHealth;
+        currentHealth = maxHealth;
     }
 }

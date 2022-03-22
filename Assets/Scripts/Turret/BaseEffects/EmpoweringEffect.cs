@@ -7,6 +7,8 @@ using System.Linq;
 public class EmpoweringEffect : BaseEffectTemplate
 {
     [SerializeField] [Range(0, 1f)] private float percentage;
+    [SerializeField] private ParticleSystem enhanceVFX;
+    [SerializeField] [FMODUnity.EventRef] private string enhanceSFX;
     private Dictionary<ActionController, float> targetedWeaponsOriginalDamage = new Dictionary<ActionController, float>();
     
 
@@ -36,6 +38,12 @@ public class EmpoweringEffect : BaseEffectTemplate
 
                 weapon.SetStat(Stat.Damage, damage * (1 + percentage));
             }
+
+            if(gameManager.gameState == GameState.OnReward) return;
+
+            enhanceVFX.transform.position = target.transform.position;
+            enhanceVFX.Play();
+            AudioManager.Main.RequestSFX(enhanceSFX);
         }
     }
 
@@ -59,7 +67,6 @@ public class EmpoweringEffect : BaseEffectTemplate
         ShipManager.Main.turrets.CopyTo(turrets);
         var _turrets = turrets.ToList();
         _turrets.Remove(turretManager);
-        Debug.Log(_turrets.Count);
         var rdm = Random.Range(0, _turrets.Count);
 
         target = _turrets[rdm].actionController;

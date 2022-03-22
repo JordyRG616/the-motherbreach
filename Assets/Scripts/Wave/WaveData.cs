@@ -9,18 +9,7 @@ public class WaveData : ScriptableObject
     public float rewardValue;
 
     public Queue<Breach> breachQueue = new Queue<Breach>();
-    // {
-    //     get
-    //     {
-    //         var container = new Queue<Breach>();
-    //         foreach(Breach breach in breaches)
-    //         {
-    //             container.Enqueue(breach);
-    //         }
-    //         return container;
-    //     }
-    // }
-
+ 
     public void SetQueue()
     {
         foreach(Breach breach in breaches)
@@ -38,6 +27,8 @@ public struct Breach
     public float intervalTillNextWave;
     public bool spawnInSamePosition;
     public bool bossWave;
+    public int breachLevel;
+
 
     public Queue<GameObject> formationQueue;
     // {

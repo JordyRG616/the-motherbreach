@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8879463012661807335}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -21.4, y: -12.2, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1.3333334}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 0.41666666}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,9 +74,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 755223783
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 4
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d3aac6b2dd9b2354685aae498aa1e48a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -114,7 +114,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1.57
 --- !u!114 &4128604018940626440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,5 +128,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
-  fullDamageColor: {r: 0.9921569, g: 0.5713993, b: 0.07791808, a: 1}
   onHitSFX: event:/SFX/NEW/ShieldHit
+  onSpawnSFX: event:/SFX/NEW/ShieldSpawn
+  destructionSFX: event:/SFX/NEW/ShieldDeath

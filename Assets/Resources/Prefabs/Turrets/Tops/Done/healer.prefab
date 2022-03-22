@@ -4956,8 +4956,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1195522291
-  m_SortingLayer: 4
+  m_SortingLayerID: 755223783
+  m_SortingLayer: 6
   m_SortingOrder: 10
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -5135,13 +5135,13 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  weaponClass: 6
   keyword: 0
   tags: 8
-  initialDamage: 10
-  initialRest: 7
+  initialDamage: 0
+  initialRest: 15
   onShootSFX: event:/SFX/NEW/TurretHeal
   singleSFX: 1
+  initialRotation: 0
   debugStats: []
   initialHealPercentage: 0.1
 --- !u!58 &4247093993300818633
@@ -5539,7 +5539,8 @@ PrefabInstance:
       propertyPath: associatedEffect
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8798870315887921647, guid: 1b9c424212a1e29429a5e900fa325df6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1b9c424212a1e29429a5e900fa325df6, type: 3}
 --- !u!4 &3709292449981109904 stripped
 Transform:

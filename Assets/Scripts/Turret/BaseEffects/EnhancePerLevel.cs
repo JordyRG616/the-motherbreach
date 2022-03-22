@@ -31,13 +31,16 @@ public class EnhancePerLevel : BaseEffectTemplate
         string container = "";
         foreach(Stat stat in targetedStats)
         {
-            container += stat.ToString() + "/";
+            container += stat.ToString().ToLower() + "/";
         }
-        return "raises " + container + " by " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "% per level of this turret";
+        container = container.Remove(container.Length -1);
+        return "raises " + StatColorHandler.StatPaint(container) + " by " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "% per level of this turret";
     }
 
     public override string DescriptionTextByStat(Stat stat)
     {
-        return "raises the " + StatColorHandler.StatPaint(stat.ToString().ToLower()) + " by " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "% per level of this turret";
+        var level = turretManager? turretManager.Level: 0;
+
+        return "raises the " + StatColorHandler.StatPaint(stat.ToString().ToLower()) + " by " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "% per level of this turret (level " + level + ": " +  StatColorHandler.StatPaint((percentage * 100 * level).ToString() + "%") + ")";
     }
 }

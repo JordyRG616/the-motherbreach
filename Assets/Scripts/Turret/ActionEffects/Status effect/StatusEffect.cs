@@ -8,6 +8,7 @@ public abstract class StatusEffect : MonoBehaviour
     protected HitManager target;
     protected float duration;
     public abstract Keyword Status {get;}
+    private float countdown;
 
 
     public void Initialize(HitManager target, float duration, params float[] parameters)
@@ -15,7 +16,7 @@ public abstract class StatusEffect : MonoBehaviour
         BasicInitialize(target, duration);
         ExtraInitialize(parameters);
 
-        StartCoroutine(ManageEffect());
+        InitiateEffect();
 
     }
 
@@ -31,15 +32,20 @@ public abstract class StatusEffect : MonoBehaviour
 
     protected abstract void RemoveEffect();
 
-    protected virtual IEnumerator ManageEffect()
+    protected virtual void InitiateEffect()
     {
         ApplyEffect();
-        target.ReceiveEffect(this);
+        target.ReceiveEffect(this);        
+    }
 
-        yield return new WaitForSeconds(duration);
-
-        RemoveEffect();
-        target.RemoveEffect(this);
-        Destroy(this);
+    void FixedUpdate()
+    {
+        countdown += Time.fixedDeltaTime;
+        if(countdown >= duration)
+        {
+            RemoveEffect();
+            target.RemoveEffect(this);
+            Destroy(this);
+        }
     }
 }

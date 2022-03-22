@@ -64,19 +64,24 @@ public class TurretVFXManager : VFXManager
         float step = 0;
         deathParticles.Play();
 
+
+        Time.timeScale = 0.5f;
+
         audioManager.RequestSFX(deathSFX);
 
         while(step <= 1)
         {
             instMaterial.SetFloat("_Decay", step);
             step += 0.01f;
-            yield return new WaitForSeconds(.01f);
+            yield return new WaitForSecondsRealtime(.01f);
 
-            if(step >= .6f)
+            if(Mathf.Approximately(step, .7f))
             {
+                Time.timeScale = 1f;
                 Destroy(dyingObject);
             }
         }
+        
 
     }
 

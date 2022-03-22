@@ -286,7 +286,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.65
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1431,7 +1431,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
+    enabled: 1
     mode: 1
     timeMode: 0
     fps: 30
@@ -5191,7 +5191,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.65
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6336,7 +6336,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
+    enabled: 1
     mode: 1
     timeMode: 0
     fps: 30
@@ -10096,7 +10096,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.65
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -11241,7 +11241,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
+    enabled: 1
     mode: 1
     timeMode: 0
     fps: 30
@@ -14889,9 +14889,9 @@ MonoBehaviour:
   weaponClass: 0
   keyword: 0
   tags: 4
-  initialDamage: 7
+  initialDamage: 15
   initialRest: 5
-  onShootSFX: event:/SFX/NEW/Shoot 1
+  onShootSFX: event:/SFX/NEW/Comet
   singleSFX: 0
   debugStats: []
   subEmitters:
@@ -15460,7 +15460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 1
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: VelocityModule.orbitalX.scalar
@@ -15516,7 +15516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
@@ -16204,7 +16204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645599520356279890, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: UVModule.enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3645599520356279890, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: SubModule.enabled
@@ -16352,7 +16352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3645599520356279890, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 1
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 3645599520356279890, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: NoiseModule.scrollSpeed.scalar

@@ -7,7 +7,9 @@ public class EnemyManager : MonoBehaviour, IManager
 {
     private FormationManager owner;
     private EnemyAttackController attackController;
+    private EnemyHealthController healthController;
     private bool attacking;
+    private int level;
 
     void Start()
     {
@@ -19,6 +21,10 @@ public class EnemyManager : MonoBehaviour, IManager
 
         attackController = GetComponent<EnemyAttackController>();
         attackController.SetTarget(FindObjectOfType<ShipManager>().gameObject);
+
+        healthController = GetComponent<EnemyHealthController>();
+
+        AdjustLevel(owner.formationLevel);
     }
 
     public void DestroyManager()
@@ -39,5 +45,13 @@ public class EnemyManager : MonoBehaviour, IManager
         if(!attacking) return;
         attackController.Stop();
         attacking = false;
+    }
+
+    public void AdjustLevel(int waveLevel)
+    {
+        if(level == 5 || waveLevel == 0) return;
+        level = waveLevel;
+        attackController.LevelUp(waveLevel);
+        healthController.RaiseHealthByPercentage(.1f * waveLevel);
     }
 }

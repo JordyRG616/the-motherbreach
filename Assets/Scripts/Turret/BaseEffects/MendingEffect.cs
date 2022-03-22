@@ -7,6 +7,8 @@ public class MendingEffect : BaseEffectTemplate
 {
     [SerializeField] [Range(0, 1)] private float healPercentage;
     [SerializeField] private float healFrequency;
+    [SerializeField] private ParticleSystem vfx;
+    [SerializeField] [FMODUnity.EventRef] private string sfx;
     private float timer;
 
     public override void ApplyEffect()
@@ -16,6 +18,8 @@ public class MendingEffect : BaseEffectTemplate
         health *= healPercentage;
         healthInterface.UpdateHealth(health);
         timer = 0;
+        vfx.Play();
+        AudioManager.Main.RequestSFX(sfx);
     }
 
     void FixedUpdate()

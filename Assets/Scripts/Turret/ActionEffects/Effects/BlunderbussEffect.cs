@@ -10,6 +10,7 @@ public class BlunderbussEffect : ActionEffect
     [SerializeField] private float initalBulletSize;
     [SerializeField] private ParticleSystem subShooter;
     [SerializeField] private ActionEffect fragEffect;
+    [SerializeField] [FMODUnity.EventRef] private string explosionSFX;
 
     public override Stat specializedStat => Stat.FuseTime;
 
@@ -55,6 +56,17 @@ public class BlunderbussEffect : ActionEffect
         // hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
 
+    protected override void PlaySFX()
+    {
+        base.PlaySFX();
+        // Invoke("PlayExplosion", shooterParticle.main.startLifetime.constant);
+    }
+
+    private void PlayExplosion()
+    {
+        AudioManager.Main.RequestSFX(explosionSFX);
+    }
+
     public override string DescriptionText()
     {
         string description = "shoots a bomb that explodes after " + StatColorHandler.StatPaint(StatSet[Stat.FuseTime].ToString()) + " and that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage to every enemy in the blast";
@@ -63,7 +75,7 @@ public class BlunderbussEffect : ActionEffect
 
     public override string upgradeText(int nextLevel)
     {
-        if(nextLevel == 3 || nextLevel == 5) return StatColorHandler.StatPaint("next level:") + " fuse time - 15%";
+        if(nextLevel == 3 || nextLevel == 5) return StatColorHandler.StatPaint("next level:") + " fuse time + 15%";
         else return StatColorHandler.StatPaint("next level:") + " blast size + 10%";
     }
 
@@ -76,7 +88,7 @@ public class BlunderbussEffect : ActionEffect
     private void ReduceFuseTime()
     {
         var fuseTime = StatSet[Stat.FuseTime];
-        fuseTime *= .85f;
+        fuseTime *= 1.15f;
         SetStat(Stat.FuseTime, fuseTime);
     }
 

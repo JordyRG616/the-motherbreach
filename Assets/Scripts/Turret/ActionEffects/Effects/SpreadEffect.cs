@@ -34,8 +34,8 @@ public class SpreadEffect : ActionEffect
     {
         var main = shooterParticle.main;
         var lifetime = main.startLifetime;
-        lifetime.constantMin = StatSet[Stat.Duration] + 1;
-        lifetime.constantMax = StatSet[Stat.Duration] - 1;
+        lifetime.constantMin = StatSet[Stat.Duration] - 1;
+        lifetime.constantMax = StatSet[Stat.Duration] + 1;
         main.startLifetime = lifetime;
     }
 
@@ -43,8 +43,8 @@ public class SpreadEffect : ActionEffect
     {
         var main = shooterParticle.main;
         Vector2 minMax = new Vector2();
-        minMax.x = StatSet[Stat.Size] + 0.5f;
-        minMax.y = StatSet[Stat.Size] - 0.5f;
+        minMax.x = StatSet[Stat.Size] - 0.5f;
+        minMax.y = StatSet[Stat.Size] + 0.5f;
         ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
         main.startSize = curve;
     }
@@ -67,20 +67,7 @@ public class SpreadEffect : ActionEffect
     public override void ApplyEffect(HitManager hitManager)
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
-        Slug slugged;
-
-        if(hitManager.TryGetComponent<BossController>(out var boss))
-        {
-            if(!hitManager.gameObject.TryGetComponent<Slug>(out slugged)) 
-            {
-                hitManager.gameObject.AddComponent<Slug>();
-            }
-            return;
-        }
-        else if(!hitManager.transform.parent.TryGetComponent<Slug>(out slugged)) 
-        {
-            hitManager.transform.parent.gameObject.AddComponent<Slug>();
-        }
+        ApplyStatusEffect<Slug>(hitManager, 2f, new float[] {.66f});
     }
 
     private float MeanLifetime()

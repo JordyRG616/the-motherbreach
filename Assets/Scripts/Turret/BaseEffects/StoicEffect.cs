@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class StoicEffect : BaseEffectTemplate
 {
@@ -15,7 +16,7 @@ public class StoicEffect : BaseEffectTemplate
 
     public override string DescriptionText()
     {
-        string description = "Increases the health of this turret by " + percentage * 100 + "%";
+        string description = "Increases the " + StatColorHandler.HealthPaint("health") + " of this turret by " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "%";
         return description;
     }
 }

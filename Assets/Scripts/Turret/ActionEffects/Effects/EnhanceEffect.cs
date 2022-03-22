@@ -72,7 +72,7 @@ public class EnhanceEffect : ActionEffect
                 targetedWeaponsOriginalDamage.Add(weapon, weapon.StatSet[Stat.Damage]);
             }
             var damage = weapon.StatSet[Stat.Damage];
-            weapon.SetStat(Stat.Damage, damage * (1 + percentage));
+            weapon.SetStat(Stat.Damage, damage * (1 + StatSet[Stat.Efficiency]));
         }
     }
 

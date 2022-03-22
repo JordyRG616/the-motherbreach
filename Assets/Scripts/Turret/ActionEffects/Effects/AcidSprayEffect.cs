@@ -36,14 +36,12 @@ public class AcidSprayEffect : ActionEffect
 
     private void SetEfficiency()
     {
-        tickInterval = StatSet[Stat.Efficiency];
+        tickInterval = 1 - StatSet[Stat.Efficiency];
     }
 
     public override void Shoot()
     {
-        // StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
-        AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
-        shooterParticle.Play();
+        base.Shoot();
     }
 
     private IEnumerator PlaySFX(float duration)

@@ -56,7 +56,7 @@ public class CometEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        return "shoots a volley of shots. each deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + "and have a chance of shooting up to " + StatColorHandler.StatPaint(StatSet[Stat.BurstSize].ToString()) + " extra projectiles";
+        return "shoots a volley of shots. each deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage and have a chance of shooting up to " + StatColorHandler.StatPaint(StatSet[Stat.BurstSize].ToString()) + " extra projectiles";
     }
 
     public override string upgradeText(int nextLevel)
@@ -82,6 +82,6 @@ public class CometEffect : ActionEffect
     {
         var duration = StatSet[Stat.Duration];
         duration *= 1.1f;
-        SetStat(Stat.BurstSize, duration);
+        SetStat(Stat.Duration, duration);
     }
 }

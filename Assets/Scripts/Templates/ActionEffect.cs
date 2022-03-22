@@ -9,7 +9,6 @@ public abstract class ActionEffect : MonoBehaviour
 {
     [SerializeField] protected ParticleSystem shooterParticle;
     [SerializeField] protected LayerMask targetLayer;
-    [SerializeField] protected WeaponClass weaponClass;
     [SerializeField] protected Keyword keyword;
     public WeaponTag tags;
     protected GameObject target;
@@ -22,24 +21,22 @@ public abstract class ActionEffect : MonoBehaviour
     public abstract Stat specializedStat {get;}
     public abstract Stat secondaryStat {get;}
 
-
+    protected AudioManager audioManager;
     protected GameManager gameManager;
     [SerializeField] [FMODUnity.EventRef] protected string onShootSFX;
-    protected FMOD.Studio.EventInstance sfxInstance;
+    protected List<FMOD.Studio.EventInstance> sfxInstances = new List<FMOD.Studio.EventInstance>();
 
     public delegate void Effect(HitManager hitManager);
 
     public Effect totalEffect;
-    private bool shooting;
     [SerializeField] protected bool singleSFX;
-    private int cachedCount = 0;
-    private int count = 0;
-    private ParticleSystem.Particle[] particles = new ParticleSystem.Particle[50];
-    private List<ParticleSystem.Particle> particlesList = new List<ParticleSystem.Particle>();
+    protected int cachedCount = 0;
+    protected bool onRest;
+    protected float cooldown;
+    public float initialRotation;
 
     [Header("Debug")]
     public string[] debugStats = new string[0];
-
 
     public virtual void Initiate()
     {
@@ -51,6 +48,8 @@ public abstract class ActionEffect : MonoBehaviour
 
         gameManager = GameManager.Main;
         gameManager.OnGameStateChange += ClearShots;
+
+        audioManager = AudioManager.Main;
 
     }
 
@@ -74,11 +73,6 @@ public abstract class ActionEffect : MonoBehaviour
 
     public abstract void LevelUp(int toLevel);
 
-    public WeaponClass GetClass()
-    {
-        return weaponClass;
-    }
-
     public virtual void SetData()
     {
         // StatSet.Clear();
@@ -91,10 +85,11 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void SetStat(Stat statName, float value)
     {
-        value = (float)Math.Round(value, 1);
+        // value = (float)Math.Round(value, 1);
         if(StatSet.ContainsKey(statName))
         {
             StatSet[statName] = value;
+            StatSet[statName] = (float)Math.Round(StatSet[statName], 1);
         } 
     }
 
@@ -105,54 +100,68 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void Shoot()
     {
+        if(onRest) return;
         if(target != null && !shooterParticle.isEmitting)
         {
-            if(singleSFX) AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
-            shooting = true;
+            if(singleSFX) 
+            {
+                sfxInstances.ForEach(x => StopSFX(x));
+                sfxInstances.Clear();
+                audioManager.RequestSFX(onShootSFX, out var sfxInstance);
+                sfxInstances.Add(sfxInstance);
+            }
             shooterParticle.Play(true);
         }
     }
 
     protected virtual void ManageSFX()
     {
-        if(!singleSFX && shooterParticle.isEmitting)
+        if(!singleSFX && shooterParticle.isPlaying)
         {
-            count = shooterParticle.particleCount; //shooterParticle.GetParticles(particles);
+            var amount = Mathf.Abs(cachedCount - shooterParticle.particleCount);
 
-            if(cachedCount < count)
+            if (shooterParticle.particleCount > cachedCount) 
             { 
-                for(int i = 0; i <= count - cachedCount; i++)
-                {
-                    Invoke("PlaySFX", i/10);
-                }
+                PlaySFX();
+            } 
 
-            }
-
-            cachedCount = count;
+            cachedCount = shooterParticle.particleCount;
         }
     }
 
-    private void PlaySFX()
+    protected virtual void PlaySFX()
     {
-        AudioManager.Main.RequestSFX(onShootSFX);
+        audioManager.RequestSFX(onShootSFX);
     }
 
-    void FixedUpdate()
+    protected virtual void StopSFX(FMOD.Studio.EventInstance audio)
+    {
+        audioManager.StopSFX(audio);
+        // sfxInstances.Remove(audio);
+    }
+
+    void LateUpdate()
     {
         ManageSFX();
     }
 
     public virtual void StopShooting()
     {
-        if(singleSFX) AudioManager.Main.StopSFX(sfxInstance);
-        shooting = false;
+        if(singleSFX)
+        {
+            sfxInstances.ForEach(x => StopSFX(x));
+            sfxInstances.Clear();
+        }
         shooterParticle.Stop(true);
+        onRest = true;
+        cooldown = 0;
     }
 
     public virtual void RotateShoots()
     {
         var main = shooterParticle.main;
-        main.startRotation = -transform.parent.rotation.z - transform.rotation.z;
+        var parent = transform.parent;
+        main.startRotation =(-initialRotation - ShipManager.Main.transform.eulerAngles.z - transform.localEulerAngles.z) * Mathf.Deg2Rad;
     }
 
     public ParticleSystem GetShooterSystem()
@@ -162,7 +171,12 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void Update()
     {
-        if(transform.parent != null) RotateShoots();
+        if(onRest)
+        {
+            cooldown += Time.deltaTime;
+            if(cooldown >= StatSet[Stat.Rest]) onRest = false;
+        }
+        if(GameManager.Main.gameState == GameState.OnWave) RotateShoots();
         #if UNITY_EDITOR
             UpdateDebugStats();
         #endif
@@ -192,7 +206,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     protected virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
     {   
-        if(target.IsUnderEffect<T>()) return;
+        if(target.IsUnderEffect<T>(out var status)) Destroy(status);
         var effect = target.gameObject.AddComponent<T>();
         effect.Initialize(target, duration, parameters);
     }

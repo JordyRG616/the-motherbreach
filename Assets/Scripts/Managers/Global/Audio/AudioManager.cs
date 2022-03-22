@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using FMOD.Studio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -68,6 +69,63 @@ public class AudioManager : MonoBehaviour
         yield return new WaitUntil(() => !musicTrack.AudioIsPlaying());
 
         RequestMusic();
+    }
+
+    /// <param name="track">Music or Special</param>
+    public void SwitchMusicTracks(string track)
+    {
+        switch(track)
+        {
+            case "Music":
+                StartCoroutine(SwitchToWaveTrack());
+            break;
+            case "Special":
+                StartCoroutine(SwitchToRewardTrack());
+            break; 
+        }
+    }
+
+    internal void RequestSFX(object explosionSFX)
+    {
+        throw new NotImplementedException();
+    }
+
+    private IEnumerator SwitchToWaveTrack()
+    {
+        float step = 0;
+        var volume = uniqueMusicTrack.trackVolume;
+
+        while (step <=  1)
+        {
+            uniqueMusicTrack.trackVolume = Mathf.Lerp(volume, 0, step);
+            musicTrack.trackVolume = Mathf.Lerp(0, volume, step);
+
+            step += 0.01f;
+
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+
+        uniqueMusicTrack.trackVolume = 0;
+        musicTrack.trackVolume = volume;
+    }
+
+    private IEnumerator SwitchToRewardTrack()
+    {
+        float step = 0;
+        var volume = musicTrack.trackVolume;
+
+        while (step <=  1)
+        {
+            uniqueMusicTrack.trackVolume = Mathf.Lerp(0, volume, step);
+            musicTrack.trackVolume = Mathf.Lerp(volume, 0, step);
+
+            step += 0.01f;
+
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+
+        musicTrack.trackVolume = 0;
+        uniqueMusicTrack.trackVolume = volume;
     }
 
     public void StopMusicTrack()

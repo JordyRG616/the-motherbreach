@@ -6,7 +6,18 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
 {
     private float maxIntegrity;
     [SerializeField] private SpriteRenderer barRenderer;
-    private float currentIntegrity;
+    private float currentIntegrity
+    {
+        get
+        {
+            return _cIntegrity;
+        }
+        set
+        {
+            _cIntegrity = Mathf.FloorToInt(value);
+        }
+    }
+    private float _cIntegrity;
     private VFXManager vfxManager;
     [SerializeField] [FMODUnity.EventRef] private string onHitSFX;
 
@@ -64,6 +75,12 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
     public void DestroyManager()
     {
 
+    }
+
+    public void SetMaxIntegrity(float value)
+    {
+        maxIntegrity = value;
+        HealToFull();
     }
 
     public void RaiseMaxIntegrityByAmount(float amount)

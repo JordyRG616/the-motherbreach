@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,16 +6,28 @@ using UnityEngine;
 public abstract class BossController : MonoBehaviour, IManager
 {
     [SerializeField] protected List<BossPhase> phases;
+    [SerializeField] protected BossIdle idle;
+    [SerializeField] protected float intervalToCheck;
+    [SerializeField] protected ParticleSystem phaseFeedbackVFX;
+    [SerializeField] [FMODUnity.EventRef] protected string phaseFeedbackSFX;
+    [SerializeField] protected ParticleSystem secondPhaseTrail;
+    [SerializeField] [FMODUnity.EventRef] protected string bossMusic;
     protected BossHealthController healthController;
     protected BossPhase activePhase;
-    protected BossState activeState;
+    protected BossAction currentAction;
     protected Transform ship;
+    private float chanceToAct = 0;
+    protected WaitForSeconds waitTime;
+    private bool onAction;
+    private string currentTrigger;
+    private int upgraded;
 
     protected Animator animator;
 
-    protected delegate void StateAction();
-    protected StateAction action;
-
+    public delegate void BossMovement();
+    public BossMovement movement;
+    public delegate void ActiveAction();
+    public ActiveAction bossAction;
 
     protected virtual void Awake()
     {
@@ -22,6 +35,14 @@ public abstract class BossController : MonoBehaviour, IManager
         healthController.Initiate();
         animator = GetComponent<Animator>();
         ship = ShipManager.Main.transform;
+
+        waitTime = new WaitForSeconds(intervalToCheck);
+
+        movement = idle.IdleMove;
+
+        StartCoroutine(ManageActions());
+
+        phases.ForEach(x => x.Initiate());
     }
 
     public void VerifyPhase()
@@ -42,30 +63,114 @@ public abstract class BossController : MonoBehaviour, IManager
         }
     }
 
-    protected abstract void PhaseUpgrade(int phaseOrder);
-
-    protected abstract void ManageStates(int phaseOrder);
-
-    protected void ChangeStates(BossState newState)
+    protected virtual void PhaseUpgrade(int phaseOrder)
     {
-        if(activeState == newState) return;
-        // Debug.Log(newState);
-        if(activeState != null) 
+        switch(phaseOrder)
         {
-            activeState.ExitState();
-            animator.SetBool(activeState.animatorTrigger, false);
+            case 1:
+                if(upgraded >= 1) return;
+                SecondPhaseUpgrade();
+                secondPhaseTrail.Play();
+                StartCoroutine(PhaseFeedbackEffect());
+                FindObjectOfType<BossHealthBar>().ActivatePhaseMarker(1);
+                upgraded++;
+            break;
+            case 2:
+                if(upgraded >= 2) return;
+                ThirdPhaseUpgrade();
+                StartCoroutine(PhaseFeedbackEffect());
+                FindObjectOfType<BossHealthBar>().ActivatePhaseMarker(2);
+                upgraded++;
+            break;
         }
-        activeState = newState;
-        activeState.EnterState();
-        if(!activeState.ignoreAnimation) animator.SetBool(activeState.animatorTrigger, true);
-        action = null;
-        action = activeState.Action;
     }
 
-    protected virtual void Update()
+    protected virtual IEnumerator PhaseFeedbackEffect()
     {
-        ManageStates(activePhase.order);
-        action?.Invoke();
+        phaseFeedbackVFX.Play();
+        AudioManager.Main.RequestSFX(phaseFeedbackSFX);
+        Time.timeScale = 0.35f;
+        yield return new WaitForSecondsRealtime(.5f);
+        Time.timeScale = 1f;
+
+        // StartCoroutine(Act());
+    }
+
+    protected abstract void SecondPhaseUpgrade();
+
+    protected abstract void ThirdPhaseUpgrade();
+
+    protected virtual IEnumerator ManageActions()
+    {
+        while(true)
+        {
+            var rdm = Random.Range(0, 1f);
+
+            if(rdm < chanceToAct && !onAction)
+            {
+                yield return StartCoroutine(Act());
+            }
+            else chanceToAct += 0.1f; 
+
+            yield return waitTime; 
+        }
+    }
+
+    protected virtual IEnumerator Act()
+    {
+        currentAction?.EndAction();
+
+        onAction = true;
+
+        var actions = GetCombo().actions;
+
+        foreach(BossAction action in actions)
+        {
+            currentAction = action;
+            currentAction.StartAction();
+            bossAction = currentAction.Action;
+            if(currentAction.hasMove) movement = currentAction.DoActionMove;
+
+            yield return new WaitForSeconds(currentAction.actionDuration);
+
+            currentAction?.EndAction();
+            ClearAction();
+        }
+
+        ActivateAnimation("Move");
+
+        chanceToAct = 0;
+    }
+    
+    void FixedUpdate()
+    {       
+        bossAction?.Invoke();
+        movement?.Invoke();
+    }
+
+    private ActionCombo GetCombo()
+    {
+        var rdm = Random.Range(0, 1f);
+        var windows = activePhase.comboActivationWindows;
+
+        Debug.Log(rdm);
+
+        foreach(Vector2 window in windows.Keys)
+        {
+            if(rdm >= window.x && rdm < window.y) return windows[window];
+        }
+
+        return windows.ElementAt(0).Value;
+
+        // var container = activePhase.combos[0];
+        
+        // foreach(ActionCombo combo in activePhase.combos)
+        // {
+        //     if(rdm > combo.chance) continue;
+        //     else if(combo.chance <= container.chance) container = combo;
+        // }
+
+        // return container;
     }
 
     public List<float> ReturnThresholds()
@@ -95,14 +200,52 @@ public abstract class BossController : MonoBehaviour, IManager
 
     public void Sleep()
     {
-        action = null;
+
+    }
+
+    public void ActivateAnimation(string trigger, out float length)
+    {
+        animator.SetBool(currentTrigger, false);
+        animator.SetBool(trigger, true);
+        currentTrigger = trigger;
+        var clips = animator.runtimeAnimatorController.animationClips.ToList();
+        length = clips.Find(x => x.name == trigger).length;
+    }
+
+    public void ActivateAnimation(string trigger)
+    {
+        animator.SetBool(currentTrigger, false);
+        animator.SetBool(trigger, true);
+        currentTrigger = trigger;
+    }
+
+    public void ClearAction()
+    {
+        currentAction = null;
+        bossAction = null;
+        movement = idle.IdleMove;
+        onAction = false;
     }
 }
 
 [System.Serializable]
-public struct BossPhase
+public class BossPhase
 {
     public int order;
-    public List<BossState> states;
+    public List<ActionCombo> combos;
     public float threshold;
+    public Dictionary<Vector2, ActionCombo> comboActivationWindows;
+
+    public void Initiate()
+    {
+        comboActivationWindows = new Dictionary<Vector2, ActionCombo>();
+        var window = Vector2.zero;
+
+        foreach(ActionCombo combo in combos)
+        {
+            window.x = window.y;
+            window.y += combo.chance;
+            comboActivationWindows.Add(window, combo);
+        }
+    }
 }

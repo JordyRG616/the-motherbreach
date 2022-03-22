@@ -8,7 +8,6 @@ public class LeechEffect : ActionEffect
     [SerializeField] private float duration;
     [SerializeField] [Range(0, 1)] private float leech;
     [SerializeField] private float initalBulletSize;
-    private FMOD.Studio.EventInstance instance;
 
     public override Stat specializedStat => Stat.Size;
 
@@ -39,22 +38,6 @@ public class LeechEffect : ActionEffect
     {
         var module = shooterParticle.sizeOverLifetime;
         module.sizeMultiplier = StatSet[Stat.Size];
-    }
-
-    public override void Shoot()
-    {
-        // StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
-        AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
-        shooterParticle.Play();
-    }
-
-    private IEnumerator PlaySFX(float duration)
-    {
-        AudioManager.Main.RequestSFX(onShootSFX, out var instance);
-
-        yield return new WaitForSeconds(duration + 1);
-
-        AudioManager.Main.StopSFX(instance);
     }
 
     public override void ApplyEffect(HitManager hitManager)

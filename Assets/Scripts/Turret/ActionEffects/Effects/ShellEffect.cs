@@ -5,17 +5,17 @@ using StringHandler;
 
 public class ShellEffect : ActionEffect
 {
-    [SerializeField] private float initialBulletSpeed;
+    [SerializeField] private float initialBulletSize;
     [SerializeField] private float initialBurstSize;
 
     public override Stat specializedStat => Stat.BurstSize;
 
-    public override Stat secondaryStat => Stat.BulletSpeed;
+    public override Stat secondaryStat => Stat.Size;
 
     public override void SetData()
     {
-        StatSet.Add(Stat.BulletSpeed, initialBulletSpeed);
-        SetBulletSpeed();
+        StatSet.Add(Stat.Size, initialBulletSize);
+        SetBulletSize();
         StatSet.Add(Stat.BurstSize, initialBurstSize);
         SetBurstSize();
 
@@ -25,14 +25,14 @@ public class ShellEffect : ActionEffect
     public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
-        SetBulletSpeed();
+        SetBulletSize();
         SetBurstSize();
     }
 
-    private void SetBulletSpeed()
+    private void SetBulletSize()
     {
-        var main = shooterParticle.velocityOverLifetime;
-        main.speedModifierMultiplier = StatSet[Stat.BulletSpeed];
+        var main = shooterParticle.main;
+        main.startSize = StatSet[Stat.Size];
     }
 
     private void SetBurstSize()
@@ -66,7 +66,7 @@ public class ShellEffect : ActionEffect
 
     public override void Shoot()
     {
-        AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
+        AudioManager.Main.RequestSFX(onShootSFX, out var sfxInstance);
         shooterParticle.Play();
     }
 

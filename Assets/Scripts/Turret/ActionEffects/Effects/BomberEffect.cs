@@ -6,10 +6,12 @@ using StringHandler;
 
 public class BomberEffect : ActionEffect
 {
+    [SerializeField] [FMODUnity.EventRef] private string explosionSFX;
     [SerializeField] private float initialProjectiles;
     [SerializeField] private float initalBulletSize;
     [SerializeField] private ParticleSystem subShooter;
     [SerializeField] private ActionEffect fragEffect;
+    
 
     public override Stat specializedStat => Stat.Projectiles;
 
@@ -56,9 +58,21 @@ public class BomberEffect : ActionEffect
         // hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
 
+    protected override void PlaySFX()
+    {
+        base.PlaySFX();
+        // Invoke("PlayExplosion", shooterParticle.main.startLifetime.constant + shooterParticle.main.startDelay.constant);
+
+    }
+
+    private void PlayExplosion()
+    {
+        AudioManager.Main.RequestSFX(explosionSFX);
+    }
+
     public override string DescriptionText()
     {
-        string description = "shoots two bombs that explodes in " + StatColorHandler.StatPaint(StatSet[Stat.Projectiles].ToString()) + " projectiles that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit, each";
+        string description = "shoots two bombs that explodes in " + StatColorHandler.StatPaint(StatSet[Stat.Projectiles].ToString()) + " projectiles that deals " + StatColorHandler.DamagePaint(fragEffect.StatSet[Stat.Damage].ToString()) + " damage on hit, each";
         return description;
     }
 
@@ -83,8 +97,8 @@ public class BomberEffect : ActionEffect
 
     public void GainDamage()
     {
-        var damage = GetComponentInChildren<BombFragEffect>().StatSet[Stat.Damage];
+        var damage =fragEffect.StatSet[Stat.Damage];
         damage *= 1.5f;
-        GetComponentInChildren<BombFragEffect>().SetStat(Stat.Damage, damage);
+        fragEffect.SetStat(Stat.Damage, damage);
     }
 }

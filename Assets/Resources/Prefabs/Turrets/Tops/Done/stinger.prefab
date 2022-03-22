@@ -5059,16 +5059,16 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 0
   keyword: 0
-  tags: 3
-  initialDamage: 1.5
+  tags: 7
+  initialDamage: 2
   initialRest: 10
-  onShootSFX: event:/SFX/NEW/Spreader1
+  onShootSFX: event:/SFX/NEW/Stinger
   singleSFX: 1
+  initialRotation: 0
   debugStats: []
-  initialDuration: 1
-  initialSize: 10
+  initialDuration: 2
+  initialSize: 3
   subShooter: {fileID: 1640801070376942616}
 --- !u!1 &8934998986133781418
 GameObject:
@@ -5320,7 +5320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: VelocityModule.x.scalar
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: ShapeModule.radius.value
@@ -5328,7 +5328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: VelocityModule.x.minScalar
-      value: -3
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: EmissionModule.m_BurstCount
@@ -5336,7 +5336,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: NoiseModule.strength.scalar
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: TrailModule.lifetime.scalar
@@ -5448,7 +5448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 3
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: CollisionModule.collidesWithDynamic
@@ -5496,7 +5496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: InitialModule.startLifetime.minScalar
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: c1822087f4d6ec84fa14843076379a2f, type: 3}
       propertyPath: UVModule.sprites.Array.data[0].sprite

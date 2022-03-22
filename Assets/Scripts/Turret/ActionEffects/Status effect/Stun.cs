@@ -9,6 +9,7 @@ public class Stun : StatusEffect
     protected override void ApplyEffect()
     {
         target.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        target.GetComponent<EnemyAttackController>().Sleeping = true;
     }
 
     protected override void ExtraInitialize(params float[] parameters)
@@ -19,5 +20,6 @@ public class Stun : StatusEffect
     protected override void RemoveEffect()
     {
         target.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+        target.GetComponent<EnemyAttackController>().Sleeping = false;
     }
 }

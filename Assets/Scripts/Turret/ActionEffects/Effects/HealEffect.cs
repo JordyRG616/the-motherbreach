@@ -47,9 +47,9 @@ public class HealEffect : ActionEffect
 
     private void Heal()
     {
-        AudioManager.Main.RequestSFX(onShootSFX);
         var _target = controller.GetTarget();
         if(_target == null) return;
+        AudioManager.Main.RequestSFX(onShootSFX);
         target = _target.gameObject;
         shooterParticle.transform.position = target.transform.position;
         shooterParticle.transform.rotation = target.transform.rotation;

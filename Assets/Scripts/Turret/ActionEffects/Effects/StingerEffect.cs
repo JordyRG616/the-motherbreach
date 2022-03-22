@@ -34,8 +34,8 @@ public class StingerEffect : ActionEffect
     {
         var main = subShooter.main;
         var lifetime = main.startLifetime;
-        lifetime.constantMin = StatSet[Stat.Duration] + 1;
-        lifetime.constantMax = StatSet[Stat.Duration] - 1;
+        lifetime.constantMin = StatSet[Stat.Duration] - 1;
+        lifetime.constantMax = StatSet[Stat.Duration] + 1;
         main.startLifetime = lifetime;
     }
 
@@ -43,8 +43,8 @@ public class StingerEffect : ActionEffect
     {
         var main = subShooter.main;
         Vector2 minMax = new Vector2();
-        minMax.x = StatSet[Stat.Size] + 0.5f;
-        minMax.y = StatSet[Stat.Size] - 0.5f;
+        minMax.x = StatSet[Stat.Size] - 0.5f;
+        minMax.y = StatSet[Stat.Size] + 0.5f;
         ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
         main.startSize = curve;
     }
@@ -57,7 +57,6 @@ public class StingerEffect : ActionEffect
 
     private IEnumerator PlaySFX(float duration)
     {
-        Debug.Log(duration);
         AudioManager.Main.RequestSFX(onShootSFX, out var instance);
 
         yield return new WaitForSeconds(duration + 1);
@@ -79,25 +78,24 @@ public class StingerEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "releases a burst of bullets that explodes in a cloud that lasts for " + StatColorHandler.StatPaint(MeanLifetime().ToString()) + " seconds and deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact to the target";
+        string description = "releases a burst of bullets that explodes in a cloud that lasts for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds and deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact to the target";
         return description;
     }
 
     public override string upgradeText(int nextLevel)
     {
         if(nextLevel < 4) return StatColorHandler.StatPaint("next level:") + " duration + 0.5";
-        else return StatColorHandler.StatPaint("next level:") + " cloud radius +" + nextLevel / 10f;
+        else return StatColorHandler.StatPaint("next level:") + " cloud radius + 1";
     }
 
     public override void LevelUp(int toLevel)
     {
         if(toLevel < 4) GainDuration();
-        else GainSize(toLevel / 10);
+        else GainSize(1);
     }
 
     private void GainSize(float percentage)
     {
-        
         var size = StatSet[Stat.Size];
         size += percentage;
         SetStat(Stat.Size, size);

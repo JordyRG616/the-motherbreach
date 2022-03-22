@@ -31,14 +31,4 @@ public class StatBox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         statInfoBox.gameObject.SetActive(false);
     }
-
-    private void Update()
-    {
-        if(statInfoBox.gameObject.activeSelf)
-        {
-            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
-            statInfoBox.anchoredPosition = mousePos;
-        }
-    }
-
 }

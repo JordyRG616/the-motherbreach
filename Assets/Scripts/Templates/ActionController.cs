@@ -10,9 +10,11 @@ public abstract class ActionController : MonoBehaviour
     [SerializeField] protected float cost;
     [SerializeField] protected float health;
     protected float _health;
+
     protected List<TargetableComponent> enemiesInSight = new List<TargetableComponent>();
     [HideInInspector] public TargetableComponent target;
-  
+    private IntegrityManager integrityManager;
+
     public abstract void Activate();
 
     protected abstract IEnumerator ManageActivation();
@@ -26,7 +28,7 @@ public abstract class ActionController : MonoBehaviour
         }
     }
 
-    public void Initiate()
+    public virtual void Initiate()
     {
         _health = health;
 
@@ -80,21 +82,6 @@ public abstract class ActionController : MonoBehaviour
         }
     }
 
-    public List<WeaponClass> GetClasses()
-    {
-        List<WeaponClass> container = new List<WeaponClass>();
-        
-        foreach(ActionEffect shooter in shooters)
-        {
-            if(!container.Contains(shooter.GetClass()))
-            {
-                container.Add(shooter.GetClass());
-            }
-        }
-        
-        return container;
-    }
-
     public float GetCost()
     {
         return cost;
@@ -108,6 +95,9 @@ public abstract class ActionController : MonoBehaviour
     public void RaiseHealthByPercentage(float percentage)
     {
         health *= (1 + percentage);
+        if(integrityManager == null) integrityManager = GetComponentInParent<IntegrityManager>();
+        if(integrityManager == null) return;
+        integrityManager.SetMaxIntegrity(health);
     }
 
     public List<Stat> GetStatsOnShooters()

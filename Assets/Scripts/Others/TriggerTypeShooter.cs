@@ -43,8 +43,8 @@ public class TriggerTypeShooter : MonoBehaviour
 
     private void GetEnemies()
     {
-        var enemies = FindObjectsOfType<EnemyManager>();
-        var boss = FindObjectOfType<BossHealthController>();
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        // var boss = FindObjectOfType<BossHealthController>();
         var trigger = ps.trigger;
 
         if(trigger.colliderCount == enemies.Length) return;
@@ -54,9 +54,9 @@ public class TriggerTypeShooter : MonoBehaviour
             trigger.RemoveCollider(i);
         }
 
-        if(boss != null) trigger.AddCollider(boss.GetComponent<Collider2D>());
+        // if(boss != null) trigger.AddCollider(boss.GetComponent<Collider2D>());
 
-        foreach(EnemyManager enemy in enemies)
+        foreach(GameObject enemy in enemies)
         {
             var col = enemy.GetComponent<Collider2D>();
             trigger.AddCollider(col);
@@ -66,7 +66,7 @@ public class TriggerTypeShooter : MonoBehaviour
 
     private void GetTurrets()
     {
-        var turrets = FindObjectsOfType<TurretManager>();
+        var turrets = GameObject.FindGameObjectsWithTag("Player");
         var trigger = ps.trigger;
 
         if(trigger.colliderCount == turrets.Length) return;
@@ -76,13 +76,13 @@ public class TriggerTypeShooter : MonoBehaviour
             trigger.RemoveCollider(i);
         }
 
-        foreach(TurretManager turret in turrets)
+        foreach(GameObject turret in turrets)
         {
             var col = turret.GetComponent<Collider2D>();
             trigger.AddCollider(col);
         }
 
-        trigger.AddCollider(ShipManager.Main.GetComponent<Collider2D>());
+        // trigger.AddCollider(ShipManager.Main.GetComponent<Collider2D>());
     }
 
     void Update()

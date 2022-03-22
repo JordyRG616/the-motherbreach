@@ -8,7 +8,7 @@ public class FormationManager : MonoBehaviour
 {
     public event EventHandler OnFormationDefeat;
     public List<EnemyManager> Children {get; private set;} = new List<EnemyManager>();
-
+    public int formationLevel;
 
     public virtual void Update()
     {

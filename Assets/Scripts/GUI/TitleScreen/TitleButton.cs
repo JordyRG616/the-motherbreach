@@ -14,6 +14,7 @@ public class TitleButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private int hoverIndex;
     private int clickIndex;
     private AudioManager audioManager;
+    private bool clickable = true;
 
     void Start()
     {
@@ -22,8 +23,17 @@ public class TitleButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!clickable) return;
         audioManager.RequestGUIFX(clickSFX, out clickIndex);
         eventToTrigger.Invoke();
+        StartCoroutine(HandleClickActivation());
+    }
+
+    private IEnumerator HandleClickActivation()
+    {
+        clickable = false;
+        yield return new WaitForSecondsRealtime(0.1f);
+        clickable = true;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

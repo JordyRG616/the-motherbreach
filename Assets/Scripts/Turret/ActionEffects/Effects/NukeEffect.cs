@@ -8,6 +8,7 @@ public class NukeEffect : ActionEffect
     [SerializeField] private float blastDuration;
     [SerializeField] private float initalRate;
     [SerializeField] private ParticleSystem subEmitter;
+    [SerializeField] [FMODUnity.EventRef] private string explosionSFX;
     private FMOD.Studio.EventInstance instance;
 
     public override Stat specializedStat => Stat.Rate;
@@ -42,11 +43,17 @@ public class NukeEffect : ActionEffect
         module.duration = StatSet[Stat.Rate];
     }
 
-    public override void Shoot()
+    protected override void PlaySFX()
     {
-        // StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
-        AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
-        shooterParticle.Play();
+        base.PlaySFX();
+        // Invoke("PlayExplosion", shooterParticle.main.startLifetime.constant);
+
+    }
+
+
+    private void PlayExplosion()
+    {
+        AudioManager.Main.RequestSFX(explosionSFX);
     }
 
     private IEnumerator PlaySFX(float duration)
@@ -73,7 +80,7 @@ public class NukeEffect : ActionEffect
     public override string upgradeText(int nextLevel)
     {
         if(nextLevel == 3 || nextLevel == 5) return StatColorHandler.StatPaint("next level:") + " blast duration +25%";
-        else return StatColorHandler.StatPaint("next level:") + " barrage duration +20%";
+        else return StatColorHandler.StatPaint("next level:") + " rate of fire +20%";
         
     }
 

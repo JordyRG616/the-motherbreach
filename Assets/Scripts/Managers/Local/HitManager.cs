@@ -4,8 +4,9 @@ using System;
 using UnityEngine;
 
 public class HitManager : MonoBehaviour, IManager
-{    
+{   
     public IDamageable HealthInterface{get; private set;}
+    private EnemyStatusManager statusManager;
     private AudioManager audioManager;
     private float iFrameWindow;
     private List<StatusEffect> effects = new List<StatusEffect>();
@@ -26,6 +27,7 @@ public class HitManager : MonoBehaviour, IManager
         audioManager = AudioManager.Main;
 
         HealthInterface = GetComponent<IDamageable>();
+        statusManager = GetComponent<EnemyStatusManager>();
     }
 
     void OnParticleCollision(GameObject other)
@@ -61,16 +63,18 @@ public class HitManager : MonoBehaviour, IManager
     public void ReceiveEffect(StatusEffect effect)
     {
         effects.Add(effect);
+        statusManager.ReceiveStatus(effect.Status);
     }
 
     public void RemoveEffect(StatusEffect effect)
     {
         effects.Remove(effect);
+        statusManager.RemoveStatus(effect.Status);
     }
 
-    public bool IsUnderEffect<T>() where T : StatusEffect
+    public bool IsUnderEffect<T>(out T status) where T : StatusEffect
     {
-        var status = GetComponent<T>();
+        status = GetComponent<T>();
         if(status == null) return false;
         return true;
     }

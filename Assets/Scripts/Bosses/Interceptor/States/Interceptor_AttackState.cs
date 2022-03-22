@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Interceptor_AttackState : BossState
 {
-    [SerializeField] private List<WeaponClass> weapons;
+    [SerializeField] private List<WeaponTag> weapons;
     private bool slowingDown;
 
 
@@ -20,7 +20,7 @@ public class Interceptor_AttackState : BossState
 
     public override void EnterState()
     {
-        actionController.ActivateWeapons(weapons);
+        // actionController.ActivateWeapons(weapons);
     }
 
     public override void ExitState()

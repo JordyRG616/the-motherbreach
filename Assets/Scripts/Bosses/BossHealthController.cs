@@ -10,14 +10,13 @@ public class BossHealthController : MonoBehaviour, IDamageable
     [SerializeField] [FMODUnity.EventRef] private string onDamageSFX;
     [SerializeField] [FMODUnity.EventRef] private string onDeathSFX;
     [SerializeField] private ParticleSystem onDeathVFX;
+    [SerializeField] private Material _material;
+    private BossController bossController;
+    private BossHealthBar healthBar;
+
+
     private float currentHealth;
     private RectTransform firstHealthBar;
-    private RectTransform secondHealthBar;
-    private RectTransform thirdHealthBar;
-    private RectTransform healthBarFill;
-    private BossController bossController;
-
-    private List<float> thresholds;
 
     public event EventHandler OnDamage;
 
@@ -25,16 +24,13 @@ public class BossHealthController : MonoBehaviour, IDamageable
     public void Initiate()
     {
         bossController = GetComponent<BossController>();
-
-        firstHealthBar = GameObject.FindGameObjectWithTag("FirstBar").GetComponent<RectTransform>();
-        secondHealthBar = GameObject.FindGameObjectWithTag("SecondBar").GetComponent<RectTransform>();
-        thirdHealthBar = GameObject.FindGameObjectWithTag("ThirdBar").GetComponent<RectTransform>();
-        healthBarFill = GameObject.FindGameObjectWithTag("BarFill").GetComponent<RectTransform>();
+        healthBar = FindObjectOfType<BossHealthBar>();
 
         currentHealth = maxHealth;
-        InitiateHealthBar();
+        healthBar.InitiateHealthBar(maxHealth, bossController.ReturnThresholds());
         bossController.VerifyPhase();
     }
+
 
     public void DestroyDamageable()
     {
@@ -55,7 +51,8 @@ public class BossHealthController : MonoBehaviour, IDamageable
         currentHealth += amount * (1 - damageReduction);
         if(amount < 0)
         {
-            UpdateHealthBar();
+            healthBar.UpdateHealthBar(GetHealthPercentage());
+            StartCoroutine(FlashDamage());
             AudioManager.Main.RequestSFX(onDamageSFX);
             bossController.VerifyPhase();
             OnDamage?.Invoke(this, EventArgs.Empty);
@@ -63,17 +60,11 @@ public class BossHealthController : MonoBehaviour, IDamageable
             
         if(currentHealth <= 0)
         {
-            var animations = firstHealthBar.GetComponentsInParent<UIAnimations>();
-
-            foreach(UIAnimations animation in animations)
-            {
-                animation.PlayReverse();
-            }
-
+            healthBar.TerminateMarkers();
+            
             AudioManager.Main.RequestSFX(onDeathSFX);
 
             GetComponent<Collider2D>().enabled = false;
-            GetComponent<BossAttackController>().StopWeapons();
             bossController.Sleep();
             GetComponent<Rigidbody2D>().Sleep();
 
@@ -84,35 +75,20 @@ public class BossHealthController : MonoBehaviour, IDamageable
 
     }
 
-    private void InitiateHealthBar()
+    private IEnumerator FlashDamage()
     {
-        thresholds = bossController.ReturnThresholds();
-        var height = firstHealthBar.sizeDelta.y;
-
-        firstHealthBar.sizeDelta = new Vector2(maxHealth * (thresholds[0] - thresholds[1]), height);
-        secondHealthBar.sizeDelta = new Vector2(maxHealth * (thresholds[1] - thresholds[2]), height);
-        thirdHealthBar.sizeDelta = new Vector2(maxHealth * thresholds[2], height);
-        healthBarFill.sizeDelta = new Vector2(maxHealth - 35, healthBarFill.sizeDelta.y);
-
-        var animations = firstHealthBar.GetComponentsInParent<UIAnimations>();
-
-        foreach(UIAnimations animation in animations)
-        {
-            animation.Play();
-        }
-    }
-
-    public void UpdateHealthBar()
-    {
-        healthBarFill.sizeDelta = new Vector2
-            (
-                GetHealthPercentage() * (maxHealth - 35),
-                healthBarFill.sizeDelta.y
-            );
+        _material.SetFloat("_Damaged", 1);
+        yield return new WaitForSeconds(0.1f);
+        _material.SetFloat("_Damaged", 0);
     }
 
     public float GetHealthPercentage()
     {
         return currentHealth / maxHealth;
+    }
+
+    public void UpdateHealthBar()
+    {
+
     }
 }

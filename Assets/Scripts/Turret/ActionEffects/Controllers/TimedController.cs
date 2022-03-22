@@ -42,6 +42,7 @@ public class TimedController : ActionController
     {
         foreach(ActionEffect shooter in shooters)
         {
+            shooter.ReceiveTarget(shooter.gameObject);
             shooter.Shoot();
         }
     }

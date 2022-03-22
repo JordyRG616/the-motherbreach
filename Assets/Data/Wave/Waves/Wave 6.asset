@@ -20,6 +20,7 @@ MonoBehaviour:
     intervalTillNextWave: 15
     spawnInSamePosition: 0
     bossWave: 0
+    breachLevel: 0
   - availableFormations:
     - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
     - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
@@ -28,10 +29,12 @@ MonoBehaviour:
     intervalTillNextWave: 10
     spawnInSamePosition: 0
     bossWave: 0
+    breachLevel: 0
   - availableFormations:
     - {fileID: 6498165479843956198, guid: b83e8ec43477528498bce47e2ba5a0c5, type: 3}
     intervalOfSpawn: 0
     intervalTillNextWave: 0
     spawnInSamePosition: 0
     bossWave: 0
-  rewardValue: 13
+    breachLevel: 0
+  rewardValue: 15

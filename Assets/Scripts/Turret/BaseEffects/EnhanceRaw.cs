@@ -9,6 +9,8 @@ public class EnhanceRaw : BaseEffectTemplate
     [SerializeField] [Range(0, 1)] private float percentage;
     [SerializeField] private bool useFlatValue;
     [SerializeField] private int flatValue;
+    [SerializeField] private ParticleSystem vfx;
+    [SerializeField] [FMODUnity.EventRef] private string sfx;
 
     public override void ApplyEffect()
     {
@@ -22,6 +24,9 @@ public class EnhanceRaw : BaseEffectTemplate
                     if(useFlatValue) value += flatValue;
                     else   value *= 1 + (percentage);
                     shooter.SetStat(stat, value);
+
+                    vfx.Play();
+                    AudioManager.Main.RequestSFX(sfx);
                 }
             }
         }
@@ -34,13 +39,14 @@ public class EnhanceRaw : BaseEffectTemplate
         {
             container += stat.ToString().ToLower() + "/";
         }
+        container = container.Remove(container.Length -1);
         var value = (useFlatValue)? flatValue.ToString() : (percentage * 100).ToString() +"%" ;
-        return "raises " + container + " by " + StatColorHandler.StatPaint(value);
+        return "raises the " + StatColorHandler.StatPaint(container) + " of this turret by " + StatColorHandler.StatPaint(value);
     }
 
     public override string DescriptionTextByStat(Stat stat)
     {
         var value = (useFlatValue)? flatValue.ToString() : (percentage * 100).ToString() +"%" ;
-        return "raises the " + StatColorHandler.StatPaint(stat.ToString().ToLower()) + " by " + StatColorHandler.StatPaint(value);
+        return "raises the " + StatColorHandler.StatPaint(stat.ToString().ToLower()) + " of this turret by " + StatColorHandler.StatPaint(value);
     }
 }

@@ -10,7 +10,7 @@ public class GuardianEffect : ActionEffect
 
     public override Stat specializedStat => Stat.Efficiency;
 
-    public override Stat secondaryStat => Stat.Triggers;
+    public override Stat secondaryStat => Stat.Size;
 
 
     public override void SetData()

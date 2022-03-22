@@ -42,7 +42,7 @@ public class DisruptorEffect : ActionEffect
     public override void Shoot()
     {
         // StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
-        AudioManager.Main.RequestSFX(onShootSFX, out sfxInstance);
+        AudioManager.Main.RequestSFX(onShootSFX, out var sfxInstance);
         shooterParticle.Play();
     }
 
@@ -70,8 +70,7 @@ public class DisruptorEffect : ActionEffect
     public override string upgradeText(int nextLevel)
     {
         if(nextLevel == 3 || nextLevel == 5) return StatColorHandler.StatPaint("next level:") + " expose duration + 20%";
-        else return StatColorHandler.StatPaint("next level:") + " percentage + 10%";
-        
+        else return StatColorHandler.StatPaint("next level:") + " percentage + 5%";
     }
 
     public override void LevelUp(int toLevel)
@@ -96,7 +95,7 @@ public class DisruptorEffect : ActionEffect
     private void GainPercentage()
     {
         var _efficiency = StatSet[Stat.Efficiency];
-        _efficiency *= 1.1f;
+        _efficiency += 0.05f;
         SetStat(Stat.Efficiency, _efficiency);
     }
 }

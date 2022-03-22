@@ -16,13 +16,13 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 0
   keyword: 0
   tags: 0
   initialDamage: 10
   initialRest: 0
-  onShootSFX: event:/SFX/NEW/Shoot 1
+  onShootSFX: event:/SFX/NEW/Explosion
   singleSFX: 0
+  initialRotation: 0
   debugStats: []
 --- !u!1 &3783590503867372255
 GameObject:
@@ -293,18 +293,19 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 2
   keyword: 0
   tags: 66
   initialDamage: 15
   initialRest: 5
-  onShootSFX: event:/SFX/NEW/Shoot 2
+  onShootSFX: event:/SFX/NEW/Blunderbuss
   singleSFX: 0
+  initialRotation: 0
   debugStats: []
   initialFuseTime: 2
   initalBulletSize: 1
   subShooter: {fileID: 6035144378192050245}
   fragEffect: {fileID: 1033337108}
+  explosionSFX: event:/SFX/NEW/Explosion
 --- !u!114 &1083768841277430469
 MonoBehaviour:
   m_ObjectHideFlags: 0

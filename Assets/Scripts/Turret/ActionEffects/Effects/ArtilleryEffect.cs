@@ -10,14 +10,14 @@ public class ArtilleryEffect : ActionEffect
 
     public override Stat specializedStat => Stat.BulletSpeed;
 
-    public override Stat secondaryStat => Stat.BurstSize;
+    public override Stat secondaryStat => Stat.Rate;
 
     public override void SetData()
     {
         StatSet.Add(Stat.BulletSpeed, initialBulletSpeed);
         SetBulletSpeed();
-        StatSet.Add(Stat.BurstSize, initialBurstSize);
-        SetBurstSize();
+        StatSet.Add(Stat.Rate, initialBurstSize);
+        SetRate();
 
         base.SetData();
     }
@@ -26,7 +26,7 @@ public class ArtilleryEffect : ActionEffect
     {
         base.SetStat(statName, value);
         SetBulletSpeed();
-        SetBurstSize();
+        SetRate();
     }
 
     private void SetBulletSpeed()
@@ -35,10 +35,12 @@ public class ArtilleryEffect : ActionEffect
         main.startSpeed = StatSet[Stat.BulletSpeed];
     }
 
-    private void SetBurstSize()
+    private void SetRate()
     {
-        var main = shooterParticle.main;
-        main.duration = StatSet[Stat.BurstSize];
+        var emission = shooterParticle.emission;
+        var burst = emission.GetBurst(0);
+        burst.cycleCount = (int)StatSet[Stat.Rate];
+        emission.SetBurst(0, burst);
     }
 
     public override void ApplyEffect(HitManager hitManager)
@@ -48,7 +50,7 @@ public class ArtilleryEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "shoots " + StatColorHandler.StatPaint(StatSet[Stat.BurstSize].ToString()) + " bullets. Each bullet deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
+        string description = "shoots " + StatColorHandler.StatPaint(StatSet[Stat.Rate].ToString()) + " bullets per second. Each bullet deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
         return description;
     }
 
