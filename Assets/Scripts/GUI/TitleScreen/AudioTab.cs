@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class AudioTab : MonoBehaviour
 {
     private AudioManager audioManager;
+    [SerializeField] private Settings settings;
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider vfxSlider;
     [SerializeField] private Slider guiSlider;
@@ -13,9 +14,10 @@ public class AudioTab : MonoBehaviour
     void Start()
     {
         audioManager = AudioManager.Main;
-        musicSlider.value = audioManager.GetAudioTrack("Music").trackVolume;
-        vfxSlider.value = audioManager.GetAudioTrack("SFX").trackVolume;
-        guiSlider.value = audioManager.GetAudioTrack("GUI").trackVolume;
+        musicSlider.value = settings.musicVolume;
+        vfxSlider.value = settings.sfxVolume;
+        guiSlider.value = settings.guiVolume;
+
     }
 
     public void ShowTab()
@@ -34,17 +36,20 @@ public class AudioTab : MonoBehaviour
         var secondTrack = audioManager.GetAudioTrack("Special");
         secondTrack.trackVolume = volume;
         track.trackVolume = volume;
+        settings.musicVolume = volume;
     }
 
     public void HandleSFXVolume(float volume)
     {
         var track = audioManager.GetAudioTrack("SFX");
         track.trackVolume = volume;
+        settings.sfxVolume = volume;
     }
 
     public void HandleGUIVolume(float volume)
     {
         var track = audioManager.GetAudioTrack("GUI");
         track.trackVolume = volume;
+        settings.guiVolume = volume;
     }
 }

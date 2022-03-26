@@ -12,6 +12,9 @@ public class InterceptorIdle : BossIdle
     [SerializeField] private float distanceToFollow;
     [SerializeField] private float distanceToDisengage;
     [SerializeField] private float disengageDuration;
+    [SerializeField] [FMODUnity.EventRef] private string movementSFX;
+    private bool playingSFX;
+    private FMOD.Studio.EventInstance SFXinstance;
     private float counter;
     private float distance;
     private Vector2 direction;
@@ -24,6 +27,7 @@ public class InterceptorIdle : BossIdle
             return _speed;
         }
     }
+
 
     public override void IdleMove()
     {
@@ -84,8 +88,9 @@ public class InterceptorIdle : BossIdle
     }
 
     void FixedUpdate()
-    {
+    {    
         if(moveState != InterceptorMoveState.Disengage) return;
+
         counter += Time.fixedDeltaTime;
         if(counter >= disengageDuration) StopDisengage();
     }

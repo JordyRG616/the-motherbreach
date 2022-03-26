@@ -8,19 +8,24 @@ public abstract class BossController : MonoBehaviour, IManager
     [SerializeField] protected List<BossPhase> phases;
     [SerializeField] protected BossIdle idle;
     [SerializeField] protected float intervalToCheck;
+
     [SerializeField] protected ParticleSystem phaseFeedbackVFX;
     [SerializeField] [FMODUnity.EventRef] protected string phaseFeedbackSFX;
     [SerializeField] protected ParticleSystem secondPhaseTrail;
-    [SerializeField] [FMODUnity.EventRef] protected string bossMusic;
+
+    [SerializeField] protected string bossMusic;
+    [SerializeField] protected string musicParameterName;
+    protected FMOD.Studio.EventInstance musicInstance;
+
     protected BossHealthController healthController;
     protected BossPhase activePhase;
     protected BossAction currentAction;
     protected Transform ship;
-    private float chanceToAct = 0;
+    protected float chanceToAct = 0;
     protected WaitForSeconds waitTime;
-    private bool onAction;
-    private string currentTrigger;
-    private int upgraded;
+    protected bool onAction;
+    public string currentTrigger {get; protected set;}
+    protected int upgraded;
 
     protected Animator animator;
 
@@ -29,8 +34,11 @@ public abstract class BossController : MonoBehaviour, IManager
     public delegate void ActiveAction();
     public ActiveAction bossAction;
 
+
     protected virtual void Awake()
     {
+        AudioManager.Main.RequestBossMusic(bossMusic, out musicInstance);
+
         healthController = GetComponent<BossHealthController>();
         healthController.Initiate();
         animator = GetComponent<Animator>();
@@ -71,6 +79,7 @@ public abstract class BossController : MonoBehaviour, IManager
                 if(upgraded >= 1) return;
                 SecondPhaseUpgrade();
                 secondPhaseTrail.Play();
+                musicInstance.setParameterByName(musicParameterName, 1);
                 StartCoroutine(PhaseFeedbackEffect());
                 FindObjectOfType<BossHealthBar>().ActivatePhaseMarker(1);
                 upgraded++;
@@ -78,6 +87,7 @@ public abstract class BossController : MonoBehaviour, IManager
             case 2:
                 if(upgraded >= 2) return;
                 ThirdPhaseUpgrade();
+                musicInstance.setParameterByName(musicParameterName, 2);
                 StartCoroutine(PhaseFeedbackEffect());
                 FindObjectOfType<BossHealthBar>().ActivatePhaseMarker(2);
                 upgraded++;
@@ -153,8 +163,6 @@ public abstract class BossController : MonoBehaviour, IManager
         var rdm = Random.Range(0, 1f);
         var windows = activePhase.comboActivationWindows;
 
-        Debug.Log(rdm);
-
         foreach(Vector2 window in windows.Keys)
         {
             if(rdm >= window.x && rdm < window.y) return windows[window];
@@ -190,12 +198,9 @@ public abstract class BossController : MonoBehaviour, IManager
         WaveManager.Main.RemoveBoss(this);
     }
 
-    public void SetSpeedModifier(float value)
+    public void EndMusicInstance()
     {
-        foreach(BossState state in GetComponents<BossState>())
-        {
-            state.speedMultiplier = value;
-        }
+        musicInstance.setParameterByName(musicParameterName, 3);
     }
 
     public void Sleep()
@@ -203,20 +208,16 @@ public abstract class BossController : MonoBehaviour, IManager
 
     }
 
-    public void ActivateAnimation(string trigger, out float length)
-    {
-        animator.SetBool(currentTrigger, false);
-        animator.SetBool(trigger, true);
-        currentTrigger = trigger;
-        var clips = animator.runtimeAnimatorController.animationClips.ToList();
-        length = clips.Find(x => x.name == trigger).length;
-    }
-
     public void ActivateAnimation(string trigger)
     {
         animator.SetBool(currentTrigger, false);
         animator.SetBool(trigger, true);
         currentTrigger = trigger;
+    }
+
+    public void TRIGGERDELAYEDACTION()
+    {
+        currentAction.InitiateDelayedAttack();
     }
 
     public void ClearAction()

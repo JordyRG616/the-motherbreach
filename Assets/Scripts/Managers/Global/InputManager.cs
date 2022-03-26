@@ -32,11 +32,12 @@ public class InputManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] private Settings settings;
     [SerializeField] [FMODUnity.EventRef] private string clearSFX;
     private MovementControlScheme movementScheme = MovementControlScheme.None;
     private RotationControlScheme rotationScheme = RotationControlScheme.None;
-    private KeyCode leftKey, rightKey, upKey, downKey; // MOVEMENT RELATED KEYCODES
-    private KeyCode rotateRight, rotateLeft; // ROTATION RELATED KEYCODES
+    public KeyCode leftKey, rightKey, upKey, downKey; // MOVEMENT RELATED KEYCODES
+    public KeyCode rotateRight, rotateLeft; // ROTATION RELATED KEYCODES
 
     public event EventHandler<MovementEventArgs> OnMovementPressed;
     public event EventHandler<RotationEventArgs> OnRotationPressed;
@@ -44,6 +45,28 @@ public class InputManager : MonoBehaviour
     public event EventHandler OnSelectionClear;
     public event EventHandler OnGamePaused;
 
+    public delegate void ControlScheme();
+    public ControlScheme move;
+
+
+    public void ClearEvents()
+    {
+        if(OnMovementPressed != null)
+        {
+            foreach(Delegate d in OnMovementPressed.GetInvocationList())
+            {
+                OnMovementPressed -= (EventHandler<MovementEventArgs>)d;
+            }
+        }
+
+        if(OnRotationPressed != null)
+        {
+            foreach(Delegate d in OnRotationPressed.GetInvocationList())
+            {
+                OnRotationPressed -= (EventHandler<RotationEventArgs>)d;
+            }
+        }
+    }
 
     void Start()
     {
@@ -65,8 +88,21 @@ public class InputManager : MonoBehaviour
             initializeMouseScheme();
         }
 
+        move = MouseControlScheme;
+
         // _waveControl = WaveControl();
         // _rewardControl = RewardControl();
+    }
+
+    private void SetKeys()
+    {
+        leftKey = settings.moveLeft;
+        rightKey= settings.moveRight;
+        upKey = settings.moveUp;
+        downKey = settings.moveDown;
+
+        rotateLeft = settings.rotateLeft;
+        rotateRight = settings.rotateRight;
     }
 
 
@@ -129,11 +165,22 @@ public class InputManager : MonoBehaviour
 
     private void TriggerMovement()
     {
-        // Vector2 direction = new Vector2(
-        //     Utilities.TestKey(rightKey) - Utilities.TestKey(leftKey),
-        //     Utilities.TestKey(upKey) - Utilities.TestKey(downKey)
-        //     );
-        if(Input.GetKey(KeyCode.Mouse0))
+        move?.Invoke();
+    }
+
+    private void KeyboardControlScheme()
+    {
+        Vector2 direction = new Vector2(
+                    Utilities.TestKey(rightKey) - Utilities.TestKey(leftKey),
+                    Utilities.TestKey(upKey) - Utilities.TestKey(downKey)
+                    );
+
+        OnMovementPressed?.Invoke(this, new MovementEventArgs(direction));          
+    }
+
+    private void MouseControlScheme()
+    {
+        if (Input.GetKey(KeyCode.Mouse0))
         {
             var pointerPos = Input.mousePosition;
             pointerPos -= new Vector3(720, 360, pointerPos.z);
@@ -142,7 +189,13 @@ public class InputManager : MonoBehaviour
 
             OnMovementPressed?.Invoke(this, new MovementEventArgs(pointerPos.normalized));
         }
-        
+    }
+
+    public void SwitchMovementScheme(bool useMouse)
+    {
+        move = null;
+        if(useMouse) move = MouseControlScheme;
+        else move = KeyboardControlScheme;
     }
 
     private void TriggerRotation()

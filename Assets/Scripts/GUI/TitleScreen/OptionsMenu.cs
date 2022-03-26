@@ -46,6 +46,7 @@ public class OptionsMenu : MonoBehaviour
     public void BackToTitle()
     {
         Destroy(GameManager.Main.gameObject);
+        Destroy(AudioManager.Main.gameObject);
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }

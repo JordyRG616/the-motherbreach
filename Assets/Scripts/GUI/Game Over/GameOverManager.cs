@@ -13,6 +13,7 @@ public class GameOverManager : MonoBehaviour
     public void Title()
     {
         Destroy(GameManager.Main.gameObject);
+        Destroy(AudioManager.Main.gameObject);
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }

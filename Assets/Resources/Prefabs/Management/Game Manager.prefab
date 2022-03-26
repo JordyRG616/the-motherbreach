@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 1644674205525352627}
   - component: {fileID: 4174501789438114408}
   - component: {fileID: 4174501789438114414}
-  - component: {fileID: 4174501789438114413}
   - component: {fileID: 956126525}
   - component: {fileID: 956126526}
   - component: {fileID: 956126527}
+  - component: {fileID: 1317724315}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a9885b657508343a8fb19165b430d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalVolume: {fileID: 0}
-  initialCash: 25
+  fadePanelAnimation: {fileID: 0}
+  initialCash: 6
 --- !u!114 &4174501789438114408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,8 +64,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b503ec2b82856014fab8a589fc862b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementScheme: 1
-  rotationScheme: 2
+  settings: {fileID: 11400000, guid: 0bedb04676b609c4187462aaa366de8d, type: 2}
+  clearSFX: event:/UI/Reward/Reward_ClearSelection
+  leftKey: 0
+  rightKey: 0
+  upKey: 0
+  downKey: 0
+  rotateRight: 0
+  rotateLeft: 0
 --- !u!114 &4174501789438114414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,20 +84,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43784d9a99adc044b981b5953ab4c638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listOfWaves: {fileID: 11400000, guid: bfa0575bb92f7e04f88b32e5490ce83a, type: 2}
-  distanceToSpawn: 60
---- !u!114 &4174501789438114413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4174501789438114409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bbdfc9da1456924291e3e83530033c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  listOfWaves: {fileID: 11400000, guid: 769daad7345ffcf4fa1220d7fe00f561, type: 2}
+  distanceToSpawn: 45
+  pointer: {fileID: 8910371888955587756, guid: a5abfa8843f4d8f46adec754f33289ce, type: 3}
+  onFormationSpawnVFX: {fileID: 3124701412639239677, guid: eb6be70153871ea42ab7bc72e5b050e9, type: 3}
+  onFormationSpawnSFX: event:/SFX/NEW/FormationSpawn
+  endOfWaveSFX: event:/SFX/NEW/WaveClear
 --- !u!114 &956126525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +102,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f57393cd9cbdaf74da5c18bafeacb447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 011dabcf363423b4f9122445f83a1cd7, type: 2}
+  initialWeapons:
+  - {fileID: 5443480414947530925, guid: e49686bf2b9269f4bb6f81b677c13e46, type: 3}
+  - {fileID: 5443480414947530925, guid: d1c10ce56b0eb084196165501709f18c, type: 3}
+  - {fileID: 5443480414947530925, guid: 428e69b67c8972847b3b9fc0394e40fe, type: 3}
+  initialBases:
+  - {fileID: 7604402440299492591, guid: f7d7ba915b8afdd4c99fc07dcb98b474, type: 3}
+  maxShopLevel: 10
+  expGained: event:/UI/Reward/Reward_ExpGained
+  levelGained: event:/UI/Reward/Reward_LevelGained
 --- !u!114 &956126526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,14 +123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d87ec2a1ec48211439d2b755d79a88be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardBoxes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  cashTextAnimation: {fileID: 0}
   TotalCash: 0
   EarnedCash: 0
   SpendedCash: 0
+  buildSFX: event:/UI/Reward/Reward_BuildTurret
 --- !u!114 &956126527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,5 +140,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurretTemplate: {fileID: 7685943198356329193, guid: 6f739c534ba724b449466a647619dac1, type: 3}
-  baseList: {fileID: 11400000, guid: c2ee08f3c72d8084a9de8469f1babd4b, type: 2}
-  topList: {fileID: 11400000, guid: 4bbec42a6be79064e964c2cfad047150, type: 2}
+--- !u!114 &1317724315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4174501789438114409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0746d67e798ccc646968012c0c289787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planets:
+  - {fileID: 118469981534248633, guid: a5d098bbb93f4e244985ee0f4fe326a1, type: 3}
+  - {fileID: 8683877997037917382, guid: 94bf5719704ba8842aa49684e8831fbc, type: 3}
+  - {fileID: 8163035797616542447, guid: 768d49dd425621a4186b1c8e6f79787e, type: 3}
+  - {fileID: 1209138103287205571, guid: 7d89dc554f126364f9ad99f257b39ff5, type: 3}
+  - {fileID: 9170126371530825713, guid: ed7ae52b97345c74d842611c1f153aa8, type: 3}
+  - {fileID: 3976146159767789483, guid: a6c4be9fb845c20468594b4f5e644796, type: 3}
+  - {fileID: 6188185348673055104, guid: ddf1c2bfc4b64a543b3fb42f2821cce5, type: 3}
+  distanceToSpawn: 65
+  scaleMinMax: {x: -3, y: 4}
+  initialForce: 1
+  distanceIncrement: 0

@@ -47,7 +47,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     private void Build()
     {
-        if (buildBox.Selections().Weapon != null && buildBox.Selections().Base != null)
+        if (buildBox.Selections().Weapon != null && buildBox.Selections().Base != null && rewardManager.ActiveSelection == null)
         {
             if(rewardManager.TotalCash >= buildBox.TotalCost)
             {

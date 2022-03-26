@@ -14,6 +14,9 @@ public class ShipDamageController : MonoBehaviour, IDamageable
     [SerializeField] private float damageIntensity;
     private Color ogColor;
     [SerializeField] [FMODUnity.EventRef] private string onHitSFX;
+
+    [SerializeField] private ParticleSystem deathVFX;
+    [SerializeField] [FMODUnity.EventRef] private string onDeathSFX;
     [Header("UI")]
     [SerializeField] private RectTransform fill;
     [SerializeField] private TextMeshProUGUI textMesh;
@@ -53,7 +56,7 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         currentHealth += amount;
         if(currentHealth <= 0)
         {
-            GameManager.Main.GameOver();
+            StartCoroutine(DeathAnimation());
             return;
         }
 
@@ -77,7 +80,7 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         currentHealth += amount;
         if(currentHealth <= 0)
         {
-            GameManager.Main.GameOver();
+            StartCoroutine(DeathAnimation());
             return;
         }
         if(currentHealth > maxHealth)
@@ -121,6 +124,29 @@ public class ShipDamageController : MonoBehaviour, IDamageable
 
         blinkingLight.color = ogColor;
         blinkingLight.intensity = ogIntensity;
+    }
+
+    private IEnumerator DeathAnimation()
+    {
+        GetComponent<Collider2D>().enabled = false;
+        FindObjectOfType<ShipController>().DestroyController();
+
+        AudioManager.Main.GetAudioTrack("Music").StopAllAudio();
+
+        AudioManager.Main.RequestSFX(onDeathSFX);
+        deathVFX.Play();
+        float _time = Time.timeScale;
+
+        for(int i = 0; i < 100; i++)
+        {
+            _time -= 0.01f;
+            if(_time < 0) _time = 0;
+            Time.timeScale = _time;
+
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+
+        GameManager.Main.GameOver();
     }
 
     public void UpdateHealthBar()

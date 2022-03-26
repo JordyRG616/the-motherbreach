@@ -32,4 +32,10 @@ public class OptionButton : MonoBehaviour, IPointerClickHandler
         AudioManager.Main.RequestGUIFX(onClickSFX);
         OnClick?.Invoke(this, EventArgs.Empty);
     }
+
+    public void CloseMenu()
+    {
+        AudioManager.Main.RequestGUIFX(onClickSFX);
+        OnClick?.Invoke(this, EventArgs.Empty);
+    }
 }

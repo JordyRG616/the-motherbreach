@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0f701f77d25324585ba86577dd2f08, type: 3}
   m_Name: Test Wave
   m_EditorClassIdentifier: 
+  enemiesInWave: []
   breaches:
   - availableFormations:
-    - {fileID: 2635984711344348252, guid: b8922acc2e13727479cabff5c63415e1, type: 3}
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
     intervalOfSpawn: 1
     intervalTillNextWave: 0
     spawnInSamePosition: 0
-    bossWave: 1
+    bossWave: 0
     breachLevel: 0
   rewardValue: 0

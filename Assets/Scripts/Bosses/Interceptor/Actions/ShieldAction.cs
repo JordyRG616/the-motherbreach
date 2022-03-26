@@ -23,9 +23,7 @@ public class ShieldAction : BossAction
 
     public override void StartAction()
     {
-        controller.ActivateAnimation("Special", out var duration);
-        // Invoke("CreateShield", duration);
-        actionDuration = duration + .5f;
+        controller.ActivateAnimation("Special");
     }
 
     public void CreateShield()

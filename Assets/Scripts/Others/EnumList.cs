@@ -38,7 +38,7 @@ public enum WeaponTag
 }
 
 //. GAME STATE
-public enum GameState {OnWave, OnReward, OnTitle, OnPause}
+public enum GameState {OnWave, OnReward, OnTitle, OnPause, OnEndgame}
 
 //. GENERAL
 public enum Direction {Up, Down, Right, Left, None}

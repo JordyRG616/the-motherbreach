@@ -54,11 +54,11 @@ MonoBehaviour:
     maxChannels: 1
     invoker: {fileID: 3018682489552691877}
   SFXTrack:
-    trackVolume: 0.7
+    trackVolume: 0.6
     maxChannels: 128
     invoker: {fileID: 3018682489552691877}
   GUITrack:
-    trackVolume: 0.7
+    trackVolume: 0.6
     maxChannels: 16
     invoker: {fileID: 3018682489552691877}
 --- !u!1 &3018682489856898820
@@ -122,6 +122,14 @@ MonoBehaviour:
     unique: 0
     playlistEvent: 0
     eventPath: event:/Music/Forge
+  - eventName: GameOver
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/Music/Game Over
+  - eventName: Victory
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/Music/Victory
   playlist:
   - eventName: Inertia
     unique: 0
@@ -288,6 +296,42 @@ MonoBehaviour:
     unique: 0
     playlistEvent: 0
     eventPath: event:/SFX/NEW/Enhancer
+  - eventName: Explosion
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Explosion
+  - eventName: SmallExplosion
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/SmallExplosion
+  - eventName: TurretHeal 2
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/TurretHeal 2
+  - eventName: ShieldDeath
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ShieldDeath
+  - eventName: DissipateEnhancer
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/DissipateEnhancer
+  - eventName: BossPhaseTransition
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/BossPhaseTransition
+  - eventName: ChargeUp
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ChargeUp
+  - eventName: Burner3
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Burner3
+  - eventName: ShipDeath
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ShipDeath
   GUIEvents:
   - eventName: Title_ButtonMouseEnter
     unique: 0

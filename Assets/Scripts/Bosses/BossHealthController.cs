@@ -60,6 +60,7 @@ public class BossHealthController : MonoBehaviour, IDamageable
             
         if(currentHealth <= 0)
         {
+            bossController.EndMusicInstance();
             healthBar.TerminateMarkers();
             
             AudioManager.Main.RequestSFX(onDeathSFX);
@@ -90,5 +91,15 @@ public class BossHealthController : MonoBehaviour, IDamageable
     public void UpdateHealthBar()
     {
 
+    }
+
+    public float GetDamageReduction()
+    {
+        return damageReduction;
+    }
+
+    public void SetDamageReduction(float value)
+    {
+        damageReduction = value;
     }
 }

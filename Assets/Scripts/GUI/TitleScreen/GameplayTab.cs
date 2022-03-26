@@ -3,14 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class GameplayTab : MonoBehaviour
 {
     private InputManager inputManager;
+    private KeyCode[] codes;
+    private KeyCode newKey;
+    private WaitForEndOfFrame wait = new WaitForEndOfFrame();
+    [SerializeField] private Toggle mouseToggle;
+    [SerializeField] private Settings settings;
+    [Header("Rotation texts")]
+    [SerializeField] private TextMeshProUGUI rightRotationText;
+    [SerializeField] private TextMeshProUGUI leftRotationText;
+    [Header("Movement texts")]
+    [SerializeField] private TextMeshProUGUI upKey;
+    [SerializeField] private TextMeshProUGUI leftKey;
+    [SerializeField] private TextMeshProUGUI downKey;
+    [SerializeField] private TextMeshProUGUI rightKey;
+    private bool useMouse = true;
+
 
     void Start()
     {
         inputManager = InputManager.Main;
+        codes = (KeyCode[])Enum.GetValues(typeof(KeyCode));
+        SetTexts();
+        EnableMovementKeyBinding();
+
     }
     
     public void PlayClickSFX()
@@ -28,17 +48,139 @@ public class GameplayTab : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void HandleMovementDropdown(int value)
+    public void ToggleMouseControl(bool useMouse)
     {
-        if(value == 0) inputManager.initializeWASDScheme();
-        if(value == 1) inputManager.initializeArrowScheme();
+        this.useMouse = useMouse;
+        settings.useMouse = useMouse;
+        inputManager.SwitchMovementScheme(useMouse);
+        EnableMovementKeyBinding();
+    }
+
+    private void EnableMovementKeyBinding()
+    {
+        if(useMouse)
+        {
+            upKey.color = Color.red;
+            leftKey.color = Color.red;
+            downKey.color = Color.red;
+            rightKey.color = Color.red;
+        } else
+        {
+            upKey.color = Color.white;
+            leftKey.color = Color.white;
+            downKey.color = Color.white;
+            rightKey.color = Color.white;
+        }
+    }
+
+    public void BindRotation(int direction)
+    {
+        AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click1");
+        StartCoroutine(WaitForRotationKey(direction));
+    }
+
+    public void BindMovement(int direction)
+    {
+        if(useMouse) return;
+        AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click1");
+        StartCoroutine(WaitForMovementKey(direction));
+    }
+
+    private void SetMovementKey(int direction)
+    {
+        switch(direction)
+        {
+            case 0:
+                upKey.text = newKey.ToString();
+                AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
+                inputManager.upKey = newKey;
+                settings.moveUp = newKey;
+            break;
+            case 1:
+                leftKey.text = newKey.ToString(); 
+                AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
+                inputManager.leftKey = newKey;
+                settings.moveLeft = newKey;
+            break;
+            case 2:
+                downKey.text = newKey.ToString(); 
+                AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
+                inputManager.downKey = newKey;
+                settings.moveDown = newKey;
+            break;
+            case 3:
+                rightKey.text = newKey.ToString(); 
+                AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
+                inputManager.rightKey = newKey;
+                settings.moveRight = newKey;
+            break;
+        }
+    }
+
+    private void SetTexts()
+    {
+        upKey.text = settings.moveUp.ToString();
+        leftKey.text = settings.moveLeft.ToString(); 
+        downKey.text = settings.moveDown.ToString(); 
+        rightKey.text = settings.moveRight.ToString(); 
+
+        leftRotationText.text = settings.rotateLeft.ToString();
+        rightRotationText.text = settings.rotateRight.ToString();
+
+        useMouse = settings.useMouse;
+        mouseToggle.isOn = useMouse;
+    }
+
+    private void SetRightRotation()
+    {
+        rightRotationText.text = newKey.ToString();
+        inputManager.rotateLeft = newKey;
+        settings.rotateRight = newKey;
         AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
     }
 
-    public void HandleRotationDropdown(int value)
+    private void SetLeftRotation()
     {
-        if(value == 0) inputManager.initializeQEScheme();
-        if(value == 1) inputManager.initializeMouseScheme();
+        leftRotationText.text = newKey.ToString();
+        inputManager.rotateRight = newKey;
+        settings.rotateLeft = newKey;
         AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
+    }
+
+    private IEnumerator WaitForRotationKey(int direction)
+    {
+        while(true)
+        {
+            foreach(KeyCode code in codes)
+            {
+                if(Input.GetKey(code))
+                {
+                    newKey = code;
+                    if(direction == 0) SetRightRotation();
+                    else SetLeftRotation();
+                    StopAllCoroutines();
+                }
+            }
+
+            yield return wait;
+        }
+    }
+
+    private IEnumerator WaitForMovementKey(int direction)
+    {
+        while(true)
+        {
+            foreach(KeyCode code in codes)
+            {
+                if(Input.GetKey(code))
+                {
+                    newKey = code;
+                    SetMovementKey(direction);
+                    StopAllCoroutines();
+                }
+            }
+
+            yield return wait;
+        }
     }
 }

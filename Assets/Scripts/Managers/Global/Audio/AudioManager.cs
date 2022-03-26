@@ -31,6 +31,7 @@ public class AudioManager : MonoBehaviour
     private AudioLibrary library;
     private AudioEffects effects;
     
+    [SerializeField] private Settings settings;
     [SerializeField] private AudioTrack musicTrack;
     [SerializeField] private AudioTrack uniqueMusicTrack;
     [SerializeField] private AudioTrack SFXTrack;
@@ -43,6 +44,12 @@ public class AudioManager : MonoBehaviour
 
     public void Initialize()
     {
+        musicTrack.trackVolume = settings.musicVolume;
+        uniqueMusicTrack.trackVolume = settings.musicVolume;
+        SFXTrack.trackVolume = settings.sfxVolume;
+        GUITrack.trackVolume = settings.guiVolume;
+
+
         effects = new AudioEffects(this);
         library = GetComponentInChildren<AudioLibrary>();
         DontDestroyOnLoad(gameObject);
@@ -62,6 +69,20 @@ public class AudioManager : MonoBehaviour
         // if(musicTrack.AudioIsPlaying()) CrossfadeMusics(musicName);
         // else 
         uniqueMusicTrack.ReceiveAudio(library.GetMusic(musicName), true);
+    }
+
+    public void RequestBossMusic(string musicName, out FMOD.Studio.EventInstance instance)
+    {
+        StopCoroutine(Playlist());
+        musicTrack.StopAllAudio();
+        instance = library.GetMusic(musicName);
+        musicTrack.ReceiveAudio(instance);
+    }
+
+    public float GetMusicVolume()
+    {
+        if(musicTrack.trackVolume > uniqueMusicTrack.trackVolume) return musicTrack.trackVolume;
+        else return uniqueMusicTrack.trackVolume;
     }
 
     private IEnumerator Playlist()
@@ -92,6 +113,7 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator SwitchToWaveTrack()
     {
+        musicTrack.UnpauseAudio();
         float step = 0;
         var volume = uniqueMusicTrack.trackVolume;
 
@@ -106,11 +128,13 @@ public class AudioManager : MonoBehaviour
         }
 
         uniqueMusicTrack.trackVolume = 0;
+        uniqueMusicTrack.PauseAudio();
         musicTrack.trackVolume = volume;
     }
 
     private IEnumerator SwitchToRewardTrack()
     {
+        uniqueMusicTrack.UnpauseAudio();
         float step = 0;
         var volume = musicTrack.trackVolume;
 
@@ -125,6 +149,7 @@ public class AudioManager : MonoBehaviour
         }
 
         musicTrack.trackVolume = 0;
+        musicTrack.PauseAudio();
         uniqueMusicTrack.trackVolume = volume;
     }
 
@@ -238,5 +263,18 @@ public class AudioManager : MonoBehaviour
             default:
                 return null;
         }
+    }
+
+    void OnDestroy()
+    {
+        StopAllAudio();
+    }
+
+    public void StopAllAudio()
+    {
+        musicTrack.StopAllAudio();
+        uniqueMusicTrack.StopAllAudio();
+        SFXTrack.StopAllAudio();
+        GUITrack.StopAllAudio();
     }
 }

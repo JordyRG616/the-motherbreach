@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MachinegunAction : BossAction
 {
+    [SerializeField] [FMODUnity.EventRef] private string chargeUpSFX;
     private float counter;
 
     public override void Action()
@@ -25,13 +26,14 @@ public class MachinegunAction : BossAction
 
     public override void StartAction()
     {
-        controller.ActivateAnimation("Attack", out var duration);
-        Invoke("InitiateAttack", duration);
+        if(controller.currentTrigger == "Attack") InitiateDelayedAttack();
+        else controller.ActivateAnimation("Attack");
         LookAt(ship.position - transform.position);
     }
 
-    private void InitiateAttack()
+    public override void InitiateDelayedAttack()
     {
+        AudioManager.Main.RequestSFX(chargeUpSFX);
         actionWeaponry.ForEach(x => x.Shoot());
     }
 }

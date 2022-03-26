@@ -55,8 +55,29 @@ public class RewardManager : MonoBehaviour
     [SerializeField] [FMODUnity.EventRef] private string buildSFX;
 
 
+    public void ClearEvents()
+    {
+        if(OnRewardSelection != null)
+        {
+            foreach(Delegate d in OnRewardSelection.GetInvocationList())
+            {
+                OnRewardSelection -= (EventHandler)d;
+            }
+        }
+
+        if(OnTurretBuild != null)
+        {
+            foreach(Delegate d in OnTurretBuild.GetInvocationList())
+            {
+                OnTurretBuild -= (EventHandler)d;
+            }
+        }
+    }
+
     public void Initialize()
     {
+        TotalCash = 0;
+
         turretConstructor = TurretConstructor.Main;
         turretConstructor.Initialize();
         calculator = RewardCalculator.Main;
@@ -72,6 +93,8 @@ public class RewardManager : MonoBehaviour
         baseBoxes = FindObjectsOfType<BaseBox>(true).ToList();
         cashTextAnimation = FindObjectOfType<CashTextAnimation>();
 
+        AudioManager.Main.GetAudioTrack("Special").StopAllAudio();
+        AudioManager.Main.SwitchMusicTracks("Special");
         AudioManager.Main.RequestMusic("Reward Song 2");
     }
 
@@ -87,8 +110,7 @@ public class RewardManager : MonoBehaviour
         animationManager.Play();
         
         AudioManager.Main.GetAudioTrack("SFX").PauseAudio();
-        // AudioManager.Main.GetAudioTrack("Music").PauseAudio();
-        // AudioManager.Main.GetAudioTrack("Special").UnpauseAudio();
+
         AudioManager.Main.SwitchMusicTracks("Special");
 
 

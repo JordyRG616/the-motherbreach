@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="Data/Wave", fileName ="New Wave Data")]
 public class WaveData : ScriptableObject
 {
+    public List<string> enemiesInWave;
     [SerializeField] private List<Breach> breaches;
     public float rewardValue;
 
@@ -12,15 +13,21 @@ public class WaveData : ScriptableObject
  
     public void SetQueue()
     {
+        breachQueue.Clear();
         foreach(Breach breach in breaches)
         {
             breachQueue.Enqueue(breach);
         }
     }
+
+    public int GetBreachCount()
+    {
+        return breaches.Count;
+    }
 }
 
 [System.Serializable]
-public struct Breach
+public class Breach
 {
     [SerializeField] private List<GameObject> availableFormations;
     public float intervalOfSpawn;
@@ -30,22 +37,11 @@ public struct Breach
     public int breachLevel;
 
 
-    public Queue<GameObject> formationQueue;
-    // {
-    //     get
-    //     {
-    //         var container = new Queue<GameObject>();
-    //         foreach(GameObject formation in availableFormations)
-    //         {
-    //             container.Enqueue(formation);
-    //         }
-    //         return container;
-    //     }
-    // }
+    public Queue<GameObject> formationQueue = new Queue<GameObject>();
 
     public void SetQueue()
     {
-        formationQueue = new Queue<GameObject>();
+        formationQueue.Clear();
         foreach(GameObject formation in availableFormations)
         {
             formationQueue.Enqueue(formation);

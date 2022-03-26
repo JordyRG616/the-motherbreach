@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
+    [SerializeField] private UIAnimations fadePanelAnimation;
+    [SerializeField] private float initialCash;
+
     public GameState gameState {get; private set;} = GameState.OnTitle;
     public event EventHandler<GameStateEventArgs> OnGameStateChange;
     private GameStateEventArgs toReward = new GameStateEventArgs(GameState.OnReward);
@@ -50,13 +53,14 @@ public class GameManager : MonoBehaviour
     private AudioManager audioManager;
     private PlanetSpawner planetSpawner;
 
-    [SerializeField] private UIAnimations fadePanelAnimation;
     private UIAnimationManager pauseAnimation;
-    [SerializeField] private float initialCash;
     public bool onPause {get; private set;}
 
     void Start()
     {
+        Application.targetFrameRate = 60;
+
+
         if(gameState == GameState.OnTitle)
         {
             // Screen.SetResolution(1280, 720, true);
@@ -83,12 +87,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FadeScenes()
     {
+        fadePanelAnimation = GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadeAnimation>();
+
         yield return StartCoroutine(fadePanelAnimation.Forward());
 
         SceneManager.LoadScene(1);
         SceneManager.sceneLoaded += LateStart;
 
-        // yield return StartCoroutine(fadePanelAnimation.Reverse());
     }
     
 
@@ -96,22 +101,22 @@ public class GameManager : MonoBehaviour
     {
         rewardManager = RewardManager.Main;
         rewardManager.Initialize();
-        rewardManager.OnRewardSelection += InitiateWavePhase;
 
         rewardInfoPanel = FindObjectOfType<RewardInfoPanel>();
 
         waveManager = WaveManager.Main;
         waveManager.Initialize();
-        waveManager.OnWaveEnd += InitiateRewardPhase;
+
 
         inputManager = InputManager.Main;
+
+        rewardManager.OnRewardSelection += InitiateWavePhase;
+        waveManager.OnWaveEnd += InitiateRewardPhase;
         OnGameStateChange += inputManager.HandleWaveControl;
         inputManager.OnGamePaused += HandleOptionsMenu;
 
         pauseAnimation = GameObject.FindGameObjectWithTag("PauseAnimation").GetComponent<UIAnimationManager>();
-        //GenerateBackground(15);
 
-        // audioManager.RequestMusic();
 
         EndWaveEventArgs initialArgs = new EndWaveEventArgs();
         initialArgs.waveReward = initialCash;
@@ -137,7 +142,6 @@ public class GameManager : MonoBehaviour
 
     private void InitiateWavePhase(object sender, EventArgs e)
     {
-        // globalVolume.SetActive(true);
         gameState = GameState.OnWave;
         OnGameStateChange?.Invoke(this, toWave);
         waveManager.StartNextWave();
@@ -145,11 +149,9 @@ public class GameManager : MonoBehaviour
 
     private void InitiateRewardPhase(object sender, EndWaveEventArgs e)
     {
-        // globalVolume.SetActive(false);
         gameState = GameState.OnReward;
         OnGameStateChange?.Invoke(this, toReward);
         rewardInfoPanel.Initiate((int)e.waveReward);
-        //rewardManager.InitiateReward(e.waveReward);
     }
 
     public void HandleOptionsMenu(object sender, EventArgs e)
@@ -163,6 +165,11 @@ public class GameManager : MonoBehaviour
     {
         onPause = true;
         audioManager.GetAudioTrack("SFX").PauseAudio();
+        var menu = GameObject.FindWithTag("OptionMenu");
+
+        // if(gameState == GameState.OnReward) menu.transform.localScale = new Vector3(.5f, .5f);
+        // else menu.transform.localScale = new Vector3(1f, 1f);
+
         Time.timeScale = 0;
         yield return StartCoroutine(pauseAnimation.PlayTimeline());
     }
@@ -183,7 +190,45 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        gameState = GameState.OnEndgame;
+
+        Time.timeScale = 1;
+
+        audioManager.StopAllAudio();
+        audioManager.RequestMusic("GameOver");
+        audioManager.SwitchMusicTracks("Special");
+        
+        inputManager.ClearEvents();
+        waveManager.ClearEvents();
+        rewardManager.ClearEvents();
+
+        foreach(Delegate d in OnGameStateChange.GetInvocationList())
+        {
+            OnGameStateChange -= (EventHandler<GameStateEventArgs>)d;
+        }
+
         SceneManager.LoadScene(2);
+    }
+
+    public void Win()
+    {
+        gameState = GameState.OnEndgame;
+        Time.timeScale = 1;
+
+        audioManager.StopAllAudio();
+        audioManager.RequestMusic("Victory");
+        audioManager.SwitchMusicTracks("Special");
+
+        inputManager.ClearEvents();
+        waveManager.ClearEvents();
+        rewardManager.ClearEvents();
+
+        foreach(Delegate d in OnGameStateChange.GetInvocationList())
+        {
+            OnGameStateChange -= (EventHandler<GameStateEventArgs>)d;
+        }
+
+        SceneManager.LoadScene(3);
     }
 }
 

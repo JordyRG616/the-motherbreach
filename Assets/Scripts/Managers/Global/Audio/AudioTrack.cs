@@ -93,6 +93,12 @@ public class AudioTrack
         }
     }
 
+    public void StopAllAudio(FMOD.Studio.STOP_MODE mode = FMOD.Studio.STOP_MODE.IMMEDIATE)
+    {
+        activeChannels.Keys.ToList().ForEach(x => x.stop(mode));
+        activeChannels.Clear();
+    }
+
     public void PauseAudio()
     {
         foreach(EventInstance instance in activeChannels.Keys)

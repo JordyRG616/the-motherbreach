@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0f701f77d25324585ba86577dd2f08, type: 3}
   m_Name: Wave 7
   m_EditorClassIdentifier: 
+  enemiesInWave:
+  - drones
+  - spritzers
   breaches:
   - availableFormations:
     - {fileID: 6498165479843956198, guid: 6b639f24e93c02742b8e376c98847d6a, type: 3}
@@ -21,7 +24,7 @@ MonoBehaviour:
     intervalTillNextWave: 5
     spawnInSamePosition: 0
     bossWave: 0
-    breachLevel: 1
+    breachLevel: 0
   - availableFormations:
     - {fileID: 6498165479843956198, guid: b83e8ec43477528498bce47e2ba5a0c5, type: 3}
     - {fileID: 6498165479843956198, guid: b83e8ec43477528498bce47e2ba5a0c5, type: 3}
@@ -39,5 +42,5 @@ MonoBehaviour:
     intervalTillNextWave: 1
     spawnInSamePosition: 0
     bossWave: 0
-    breachLevel: 1
+    breachLevel: 0
   rewardValue: 18

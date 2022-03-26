@@ -25,11 +25,11 @@ public class ArtilleryAction : BossAction
 
     public override void StartAction()
     {
-        controller.ActivateAnimation("Attack", out var duration);
-        Invoke("InitiateAttack", duration);
+        if(controller.currentTrigger == "Attack") InitiateDelayedAttack();
+        else controller.ActivateAnimation("Attack");
     }
 
-    private void InitiateAttack()
+    public override void InitiateDelayedAttack()
     {
         actionWeaponry.ForEach(x => x.Shoot());
     }

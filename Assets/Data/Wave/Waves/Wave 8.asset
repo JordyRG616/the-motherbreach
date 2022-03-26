@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0f701f77d25324585ba86577dd2f08, type: 3}
   m_Name: Wave 8
   m_EditorClassIdentifier: 
+  enemiesInWave: []
   breaches:
   - availableFormations:
     - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
@@ -21,12 +22,14 @@ MonoBehaviour:
     intervalTillNextWave: 0.7
     spawnInSamePosition: 1
     bossWave: 0
+    breachLevel: 0
   - availableFormations:
     - {fileID: 372765064990266162, guid: e0bf5709b02f3f94aab0bd44208c9c4a, type: 3}
     intervalOfSpawn: 0
     intervalTillNextWave: 5
     spawnInSamePosition: 0
     bossWave: 0
+    breachLevel: 0
   - availableFormations:
     - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
     - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
@@ -35,10 +38,12 @@ MonoBehaviour:
     intervalTillNextWave: 0.7
     spawnInSamePosition: 1
     bossWave: 0
+    breachLevel: 0
   - availableFormations:
     - {fileID: 372765064990266162, guid: e0bf5709b02f3f94aab0bd44208c9c4a, type: 3}
     intervalOfSpawn: 0
     intervalTillNextWave: 1
     spawnInSamePosition: 0
     bossWave: 0
+    breachLevel: 0
   rewardValue: 0

@@ -5,26 +5,30 @@ namespace StringHandler
 {
     public static class StatColorHandler
     {
-        public static string DamagePaint(string text)
+        public static string DamagePaint(object text)
         {
+            text = text.ToString();
             var container = "<#ff5cff>" + text + "</color>";
             return container;
         }
 
-        public static string RestPaint(string text)
+        public static string RestPaint(object text)
         {
+            text = text.ToString();
             var container = "<#00f7ff>" + text + "</color>";
             return container;
         }
 
-        public static string HealthPaint(string text)
+        public static string HealthPaint(object text)
         {
+            text = text.ToString();
             var container = "<#009d4a>" + text + "</color>";
             return container;
         }
 
-        public static string StatPaint(string text)
+        public static string StatPaint(object text)
         {
+            text = text.ToString();
             var container = "<#d0ff00>" + text + "</color>";
             return container;
         }
