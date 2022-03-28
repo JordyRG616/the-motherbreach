@@ -17,9 +17,11 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     [SerializeField] private Image image;
     private RewardManager rewardManager;
     private BuildBox buildBox;
+    private UpgradeButton upgradeButton;
     [HideInInspector] public ButtonMode mode = ButtonMode.BUILD;
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
     [SerializeField] [FMODUnity.EventRef] private string clickSFX;
+
 
 
 
@@ -29,6 +31,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         ogSprite = image.sprite;
         buildBox = FindObjectOfType<BuildBox>();
         rewardManager = RewardManager.Main;
+        upgradeButton = FindObjectOfType<UpgradeButton>();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -42,7 +45,12 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     private void Done()
     {
         AudioManager.Main.RequestGUIFX(clickSFX);
-        FindObjectOfType<UpgradeButton>().Disable();
+        if(buildBox.baseToReplace)
+        {
+            FindObjectOfType<SellButton>().Replace();
+        }
+        upgradeButton.Disable();
+        FindObjectOfType<SellButton>().Disable();
     }
 
     private void Build()
@@ -67,6 +75,11 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     void Update()
     {
+        if(buildBox.baseToReplace)
+        {
+            textMesh.text = "replace";
+            return;
+        }
         textMesh.text = mode.ToString();
     }
 

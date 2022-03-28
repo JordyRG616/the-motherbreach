@@ -31,6 +31,7 @@ public class BuildBox : MonoBehaviour
     [SerializeField] private TextMeshProUGUI tags;
 
 
+
     private float weaponCost, baseCost;
     public float TotalCost
     {
@@ -40,14 +41,15 @@ public class BuildBox : MonoBehaviour
         }
     }
 
-    private WeaponBox selectedWeaponBox;
-    private BaseBox selectedBaseBox;
-    private GameObject selectedWeapon;
-    private GameObject selectedBase;
+    public WeaponBox selectedWeaponBox {get; private set;}
+    public BaseBox selectedBaseBox {get; private set;}
+    public GameObject selectedWeapon {get; private set;}
+    public GameObject selectedBase {get; private set;}
+    public GameObject baseToReplace;
     private List<Keyword> keywords = new List<Keyword>();
     private RectTransform statInfoBox;
     public bool OnUpgrade;
-    private bool previewOn;
+
 
     void Start()
     {
@@ -105,7 +107,7 @@ public class BuildBox : MonoBehaviour
     public void UpdateStats()
     {
         keywords.Clear();
-        costText.text = (OnUpgrade == true)? "-" : TotalCost + "$";
+        costText.text = (OnUpgrade)? "-" : TotalCost + "$";
         nameText.text = "";
         baseTrigger.text = "";
         if(selectedWeapon && selectedBase)
@@ -113,20 +115,14 @@ public class BuildBox : MonoBehaviour
             var _base = selectedBase.GetComponent<BaseEffectTemplate>();
             var _weapon = selectedWeapon.GetComponent<ActionController>();
 
-            if(!OnUpgrade){
-
-                _base.ReceiveWeapon(_weapon);
-                if(_base.previewable) 
-                {
-                    _base.ApplyEffect();
-                    previewOn = true;
-                }
-
+            if(!OnUpgrade)
+            {
+                PreviewBaseEffect(selectedBase, selectedWeapon);
                 nameText.text = "</uppercase>" + _base.name + " " + _weapon.name + "<lowercase> \n level <size=125%>0";
-            } else
+            }
+            else
             {
                 nameText.text = "</uppercase>" + selectedBase.name + " " + selectedWeapon.name + "<lowercase> \n level <size=125%>" + selectedWeapon.GetComponentInParent<TurretManager>().Level;
-
             }
         }
         if(selectedBase) 
@@ -163,6 +159,24 @@ public class BuildBox : MonoBehaviour
             weaponEffect.text = effect.DescriptionText(out var weaponKeyword);
             if(weaponKeyword != Keyword.None) keywords.Add(weaponKeyword);
             UpdateAdditionalStats(effect);
+        }
+    }
+
+    public void SetCostToBaseCost(bool enabled)
+    {
+        if(enabled) costText.text = baseCost + "$";
+        else costText.text = "-";
+    }
+
+    public void PreviewBaseEffect(GameObject baseToPreview, GameObject weapon)
+    {
+        var _base = baseToPreview.GetComponent<BaseEffectTemplate>();
+        var _weapon = weapon.GetComponent<ActionController>();
+
+        if (_base.previewable)
+        {
+            _base.ReceiveWeapon(_weapon);
+            _base.ApplyEffect();
         }
     }
 

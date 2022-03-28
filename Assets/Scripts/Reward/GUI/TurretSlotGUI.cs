@@ -86,6 +86,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
         var _base = associatedSlot.occupyingTurret.GetComponentInChildren<BaseEffectTemplate>().gameObject;
 
         buildBox.OnUpgrade = true;
+        _weapon.GetComponent<ActionController>().SaveStats();
         buildBox.ReceiveWeapon(_weapon);
         buildBox.ReceiveBase(_base);
     }

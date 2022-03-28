@@ -29,8 +29,10 @@ public class Slug : StatusEffect
         
     }
 
-    void Update()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
+        
         if(body == null) return;
         target.GetComponent<Rigidbody2D>().velocity *= (1 - modifier);
     }

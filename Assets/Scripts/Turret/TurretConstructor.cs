@@ -95,6 +95,7 @@ public class TurretConstructor : MonoBehaviour
 
         manager.Initiate();
         baseEffect.Initiate();
+        manager.actionController.restBar = manager.GetComponent<RestBarManager>();
 
         // if(baseEffect.GetTrigger() == EffectTrigger.OnLevelUp) 
         // {
@@ -104,11 +105,32 @@ public class TurretConstructor : MonoBehaviour
 
         return blueprint;
     }
+
+    public void ReplaceBase(GameObject turret, GameObject newBase)
+    {
+        var manager = turret.GetComponent<TurretManager>();
+
+
+        newBase.SetActive(true);
+        newBase.transform.SetParent(turret.transform);
+        newBase.transform.localPosition = Vector3.zero;
+        newBase.transform.rotation = turret.transform.rotation;
+
+        manager.actionController.LoadStats();
+
+        var effect = newBase.GetComponent<BaseEffectTemplate>();
+        effect.Initiate();
+        manager.ReplaceBase(effect);
+
+        HandleBaseEffect(turret);
+        manager.actionController.SaveStats();
+    }
     
     public void HandleBaseEffect(GameObject occupyingTurret)
     {
-        BaseEffectTemplate effect = occupyingTurret.GetComponentInChildren<BaseEffectTemplate>();
-        var weapon = occupyingTurret.GetComponentInChildren<ActionController>();
+        var manager = occupyingTurret.GetComponent<TurretManager>();
+        BaseEffectTemplate effect = manager.baseEffect;
+        var weapon = manager.actionController;
         effect.ReceiveWeapon(weapon);
         switch(effect.GetTrigger())
         {

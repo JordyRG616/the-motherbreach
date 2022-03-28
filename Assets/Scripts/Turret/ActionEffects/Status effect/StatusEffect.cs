@@ -38,7 +38,7 @@ public abstract class StatusEffect : MonoBehaviour
         target.ReceiveEffect(this);        
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         countdown += Time.fixedDeltaTime;
         if(countdown >= duration)

@@ -11,6 +11,8 @@ public abstract class ActionController : MonoBehaviour
     [SerializeField] protected float health;
     protected float _health;
 
+    public RestBarManager restBar;
+
     protected List<TargetableComponent> enemiesInSight = new List<TargetableComponent>();
     [HideInInspector] public TargetableComponent target;
     private IntegrityManager integrityManager;
@@ -116,5 +118,22 @@ public abstract class ActionController : MonoBehaviour
         }
 
         return container;
+    }
+
+    public void SaveStats()
+    {
+        shooters.ForEach(x => x.RememberStatSet());
+    }
+
+    public void LoadStats()
+    {
+        shooters.ForEach(x => x.ResetStatSet());
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if(restBar == null) return;
+        var value = shooters[0].GetRestPercentual();
+        restBar.SetBarPercentual(value);
     }
 }

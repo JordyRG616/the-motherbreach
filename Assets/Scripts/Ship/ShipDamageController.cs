@@ -146,6 +146,10 @@ public class ShipDamageController : MonoBehaviour, IDamageable
             yield return new WaitForSecondsRealtime(0.01f);
         }
 
+        yield return new WaitForEndOfFrame();
+
+        GameManager.Main.endgamePic = ScreenCapture.CaptureScreenshotAsTexture();
+
         GameManager.Main.GameOver();
     }
 

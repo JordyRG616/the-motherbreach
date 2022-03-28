@@ -8,15 +8,21 @@ using UnityEngine.EventSystems;
 
 public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
 {
+    public enum ButtonMode {Sell, Replace}
+    private ButtonMode mode = ButtonMode.Sell;
+
     private TextMeshProUGUI textMesh;
     private int refund;
     private UIAnimations cashTextAnimation;
     private RewardManager rewardManager;
+    private BuildBox buildBox;
     private TurretSlot cachedSlot;
     private InputManager inputManager;
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
     [SerializeField] [FMODUnity.EventRef] private string sellSFX;
+    [SerializeField] [FMODUnity.EventRef] private string replaceSFX;
+
 
     public event EventHandler OnTurretSell;
 
@@ -26,6 +32,7 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         cashTextAnimation = FindObjectOfType<CashTextAnimation>();
         rewardManager = RewardManager.Main;
         inputManager = InputManager.Main;
+        buildBox = FindObjectOfType<BuildBox>();
     }
 
     void OnEnable()
@@ -45,17 +52,47 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         gameObject.SetActive(false);
         cachedSlot = null;
     }
-    public void SetButton(int refund, TurretSlot turretSlot)
+    public void SetButton(int refund, TurretSlot turretSlot, ButtonMode mode = ButtonMode.Sell)
     {
-        textMesh.text = "sell" + " (" + refund +"$)";
+        if(mode == ButtonMode.Sell) textMesh.text = "sell" + " (" + refund +"$)";
+        else textMesh.text = "<size=70%>replace";
+
+        this.mode = mode;
         this.refund = refund;
         cachedSlot = turretSlot;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        StartCoroutine(Sell());
-        OnTurretSell?.Invoke(this, EventArgs.Empty);
+        if(mode == ButtonMode.Sell)
+        {
+            StartCoroutine(Sell());
+            OnTurretSell?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            Replace();
+        }
+    }
+
+    public void Replace()
+    {
+        var _base = buildBox.baseToReplace;
+        if (_base == null) 
+        {
+            AudioManager.Main.PlayInvalidSelection();
+            return;
+        }
+        var cost = _base.GetComponent<BaseEffectTemplate>().GetCost();
+        if (rewardManager.TotalCash >= cost)
+        {
+            AudioManager.Main.RequestGUIFX(replaceSFX);
+            TurretConstructor.Main.ReplaceBase(cachedSlot.occupyingTurret, _base);
+            buildBox.selectedBaseBox.Detach();
+            buildBox.UpdateStats();
+            buildBox.baseToReplace = null;
+        }
+        else AudioManager.Main.PlayInvalidSelection();
     }
 
     private IEnumerator Sell()

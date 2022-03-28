@@ -66,11 +66,18 @@ public class TurretManager : MonoBehaviour, IManager
         Level ++;
         actionController.RaiseHealthByPercentage(.1f);
         OnLevelUp?.Invoke(this, new LevelUpArgs(Level));
+        actionController.SaveStats();
     }
 
     public void DestroyManager()
     {
         GetComponentInParent<ShipManager>().RemoveTurret(this);
+    }
+
+    public void ReplaceBase(BaseEffectTemplate newBase)
+    {
+        Destroy(baseEffect.gameObject);
+        baseEffect = newBase;
     }
 }
 

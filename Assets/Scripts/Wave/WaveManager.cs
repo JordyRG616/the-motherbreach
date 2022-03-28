@@ -95,7 +95,6 @@ public class WaveManager : MonoBehaviour
         {
             dataQueue.Enqueue(data);
         }
-        Debug.Log(dataQueue.Count);
     }
 
     public void StartNextWave()
@@ -220,11 +219,11 @@ public class WaveManager : MonoBehaviour
         activeFormations.Remove(sender as FormationManager);
         if(CheckForEndOfWave())
         {
-            if(dataQueue.Count == 0)
-            {
-                GameManager.Main.Win();
-            } 
-            else StartCoroutine(EndWave());
+            // if(dataQueue.Count == 0)
+            // {
+            //     GameManager.Main.Win();
+            // } 
+            StartCoroutine(EndWave());
         } 
     }
 
@@ -234,11 +233,11 @@ public class WaveManager : MonoBehaviour
         
         if(CheckForEndOfWave())
         {
-            if(dataQueue.Count == 0)
-            {
-                GameManager.Main.Win();
-            } 
-            else StartCoroutine(EndWave());
+            // if(dataQueue.Count == 0)
+            // {
+            //     GameManager.Main.Win();
+            // } 
+            StartCoroutine(EndWave());
         } 
     }
 
@@ -255,6 +254,17 @@ public class WaveManager : MonoBehaviour
         yield return StartCoroutine(endOfWaveAnimation.Forward());
 
         yield return StartCoroutine(endOfWaveAnimation.Reverse());
+
+        yield return new WaitUntil(() => !endOfWaveVFX.IsAlive(true));
+
+        if(dataQueue.Count == 0)
+        {
+            yield return new WaitForEndOfFrame();
+
+            GameManager.Main.endgamePic = ScreenCapture.CaptureScreenshotAsTexture();
+
+            GameManager.Main.Win();
+        }
 
         progressionMeter.AdvanceMarker();
 

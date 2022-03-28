@@ -26,7 +26,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     }
     private BuildBox buildBox;
     private BuildButton buildButton;
-    private bool onUpgrade;
+    public bool onUpgrade {get; private set;}
     private RectTransform infoBox;
 
 
@@ -146,7 +146,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
         SetButtonText(cost);
 
-        FindObjectOfType<SellButton>().Disable();
+        FindObjectOfType<SellButton>().SetButton(0, clickedSlot, SellButton.ButtonMode.Replace);
         buildButton.mode = BuildButton.ButtonMode.DONE;
 
         onUpgrade = true;

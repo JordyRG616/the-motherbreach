@@ -12,6 +12,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
     private BuildBox buildBox;
     private bool selected;
     private RectTransform statInfoBox;
+    private UpgradeButton upgradeButton;
 
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
@@ -25,6 +26,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color selectable;
     [SerializeField] private Color notSelectable;
+    private GameObject replacedBase;
 
     void Start()
     {
@@ -34,6 +36,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
         GetComponent<Image>().material = _material;
         light2D = GetComponentInChildren<Light2D>();
         statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
+        upgradeButton = FindObjectOfType<UpgradeButton>();
     }
 
     public void GenerateNewBase()
@@ -53,17 +56,46 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
             AudioManager.Main.PlayInvalidSelection();
             return;
         }
-        if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && !buildBox.CheckBaseBox(this) && !buildBox.OnUpgrade) 
+        if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && !buildBox.CheckBaseBox(this)) 
         {
-            activeVFX.Play();
-            light2D.color = selectedColor;
-            AudioManager.Main.RequestGUIFX(clickSFX);
-            buildBox.ReceiveBase(cachedBase, this);
-            selected = true;
-            return;
+            if(!buildBox.OnUpgrade)
+            {
+                activeVFX.Play();
+                light2D.color = selectedColor;
+                AudioManager.Main.RequestGUIFX(clickSFX);
+                buildBox.ReceiveBase(cachedBase, this);
+                selected = true;
+                return;
+            }
+            else if(upgradeButton.onUpgrade)
+            {
+                activeVFX.Play();
+                light2D.color = selectedColor;
+                AudioManager.Main.RequestGUIFX(clickSFX);
+                replacedBase = buildBox.selectedBase;
+                buildBox.PreviewBaseEffect(cachedBase, buildBox.selectedWeapon);
+                buildBox.ReceiveBase(cachedBase, this);
+                buildBox.baseToReplace = cachedBase;
+                buildBox.SetCostToBaseCost(true);
+                selected = true;
+
+                return;
+            }
         }
         else if(buildBox.CheckBaseBox(this))
         {
+            if(upgradeButton.onUpgrade)
+            {
+                AudioManager.Main.RequestGUIFX(returnSFX);
+                buildBox.selectedWeapon.GetComponent<ActionController>().LoadStats();
+                buildBox.ClearBase(out cachedBase);
+                buildBox.ReceiveBase(replacedBase);
+                buildBox.SetCostToBaseCost(false);
+                image.color = Color.white;
+                selected = false;
+                return;
+            }
+
             AudioManager.Main.RequestGUIFX(returnSFX);
             buildBox.ClearBase(out cachedBase);
             image.color = Color.white;
@@ -77,7 +109,8 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
     {
         light2D.color = notSelectable;
         if(cachedBase == null) return;
-        if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && cachedBase && !buildBox.OnUpgrade) light2D.color = selectable;
+        var check = buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && cachedBase && !buildBox.OnUpgrade;
+        if(check || upgradeButton.onUpgrade) light2D.color = selectable;
     }
     
     public void Unselect()

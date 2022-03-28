@@ -9,6 +9,7 @@ public class AgressiveEffect : BaseEffectTemplate
 
     public override void ApplyEffect()
     {
+        Debug.Log("applied");
         foreach(ActionEffect shooter in associatedController.GetShooters())
         {
             float ogDamage = shooter.StatSet[Stat.Damage];

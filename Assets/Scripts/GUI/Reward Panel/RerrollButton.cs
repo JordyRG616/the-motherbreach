@@ -15,6 +15,7 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private TextMeshProUGUI tipBoxText;
     private Image image;
     private RewardManager rewardManager;
+    private BuildBox buildBox;
     private Sprite ogSprite;
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
@@ -31,6 +32,8 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         ogSprite = image.sprite;
 
         tipBoxText = tipBox.Find("Text").GetComponent<TextMeshProUGUI>();
+
+        buildBox = FindObjectOfType<BuildBox>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -50,7 +53,7 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         var locked = FindObjectOfType<LockButton>().locked;
 
-        if(rewardManager.TotalCash >= rerrollCost && !locked)
+        if(rewardManager.TotalCash >= rerrollCost && !locked && !buildBox.OnUpgrade)
         {
             AudioManager.Main.RequestGUIFX(clicksSFX);
             image.sprite = clickSprite;

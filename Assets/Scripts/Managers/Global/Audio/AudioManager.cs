@@ -115,7 +115,7 @@ public class AudioManager : MonoBehaviour
     {
         musicTrack.UnpauseAudio();
         float step = 0;
-        var volume = uniqueMusicTrack.trackVolume;
+        var volume = settings.musicVolume;
 
         while (step <=  1)
         {
@@ -136,7 +136,7 @@ public class AudioManager : MonoBehaviour
     {
         uniqueMusicTrack.UnpauseAudio();
         float step = 0;
-        var volume = musicTrack.trackVolume;
+        var volume = settings.musicVolume;
 
         while (step <=  1)
         {

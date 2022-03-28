@@ -29,8 +29,10 @@ public class Acid : StatusEffect
         Destroy(this);
     }
 
-    void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
+        
         if(!active) return;
         timer += Time.fixedDeltaTime;
         if(timer >= frequency) 

@@ -18,6 +18,7 @@ public abstract class ActionEffect : MonoBehaviour
     [SerializeField] protected float initialRest;
     
     public Dictionary<Stat, float> StatSet {get; protected set;} = new Dictionary<Stat, float>();
+    public Dictionary<Stat, float> cachedStatSet = new Dictionary<Stat, float>();
     public abstract Stat specializedStat {get;}
     public abstract Stat secondaryStat {get;}
 
@@ -68,14 +69,12 @@ public abstract class ActionEffect : MonoBehaviour
     protected virtual void ClearShots(object sender, GameStateEventArgs e)
     {
         shooterParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        // shooter.Clear();
     }
 
     public abstract void LevelUp(int toLevel);
 
     public virtual void SetData()
     {
-        // StatSet.Clear();
         StatSet.Add(Stat.Damage, initialDamage);
         StatSet.Add(Stat.Rest, initialRest);
 
@@ -85,7 +84,6 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void SetStat(Stat statName, float value)
     {
-        // value = (float)Math.Round(value, 1);
         if(StatSet.ContainsKey(statName))
         {
             StatSet[statName] = value;
@@ -137,7 +135,6 @@ public abstract class ActionEffect : MonoBehaviour
     protected virtual void StopSFX(FMOD.Studio.EventInstance audio)
     {
         audioManager.StopSFX(audio);
-        // sfxInstances.Remove(audio);
     }
 
     void LateUpdate()
@@ -199,15 +196,35 @@ public abstract class ActionEffect : MonoBehaviour
 
     void OnDestroy()
     {
-        // if(AudioManager.Main.IsPlayingSFX(sfxInstance)) AudioManager.Main.StopSFX(sfxInstance);
-
         if(gameManager != null) gameManager.OnGameStateChange -= ClearShots;
     }
 
     protected virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
     {   
-        if(target.IsUnderEffect<T>(out var status)) Destroy(status);
+        if(target.IsUnderEffect<T>(out var status)) return;
         var effect = target.gameObject.AddComponent<T>();
         effect.Initialize(target, duration, parameters);
+    }
+
+    public void RememberStatSet()
+    {
+        cachedStatSet.Clear();
+        foreach(Stat stat in StatSet.Keys)
+        {
+            cachedStatSet.Add(stat, StatSet[stat]);
+        }
+    }
+
+    public void ResetStatSet()
+    {
+        foreach(Stat stat in cachedStatSet.Keys)
+        {
+            StatSet[stat] = cachedStatSet[stat];
+        }
+    }
+
+    public float GetRestPercentual()
+    {
+        return cooldown / StatSet[Stat.Rest];
     }
 }

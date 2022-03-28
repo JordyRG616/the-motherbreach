@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour
     private UIAnimationManager pauseAnimation;
     public bool onPause {get; private set;}
 
+    public Texture2D endgamePic;
+
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -193,10 +195,6 @@ public class GameManager : MonoBehaviour
         gameState = GameState.OnEndgame;
 
         Time.timeScale = 1;
-
-        audioManager.StopAllAudio();
-        audioManager.RequestMusic("GameOver");
-        audioManager.SwitchMusicTracks("Special");
         
         inputManager.ClearEvents();
         waveManager.ClearEvents();
@@ -215,9 +213,9 @@ public class GameManager : MonoBehaviour
         gameState = GameState.OnEndgame;
         Time.timeScale = 1;
 
-        audioManager.StopAllAudio();
-        audioManager.RequestMusic("Victory");
-        audioManager.SwitchMusicTracks("Special");
+        // audioManager.StopAllAudio();
+        // audioManager.RequestMusic("Victory");
+        // audioManager.SwitchMusicTracks("Special");
 
         inputManager.ClearEvents();
         waveManager.ClearEvents();
