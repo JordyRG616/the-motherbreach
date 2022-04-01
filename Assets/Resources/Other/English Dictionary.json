@@ -1,80 +1,28 @@
 {
   "entries": [
   {
-    "EntryName": "artillery",
-    "EntryDescription": "shoots a volley of bullets against a single target"
-  },
-  {
-    "EntryName": "bomber",
-    "EntryDescription": "shoots two bombs. Each bomb explodes into smaller fragments after a short time"
-  },
-  {
-    "EntryName": "shotgun",
-    "EntryDescription": "shoots a burst of bullets"
-  },
-  {
-    "EntryName": "beamer",
-    "EntryDescription": "shoots a beam of energy for a short time"
-  },
-  {
-    "EntryName": "spreader",
-    "EntryDescription": "releases a small cloud of SLUG"
-  },
-  {
-    "EntryName": "spawner",
-    "EntryDescription": "deploys basic drones that hunts nearby enemies"
-  },
-  {
-    "EntryName": "basic",
-    "EntryDescription": "that base has no effect"
-  },
-  {
-    "EntryName": "agressive",
-    "EntryDescription": "this turret deals 33% more damage"
-  },
-  {
-    "EntryName": "relentless",
-    "EntryDescription": "reduces the time of activation of this turret in 33%"
-  },
-  {
-    "EntryName": "shielded",
-    "EntryDescription": "this turret receives a shield at the start of the wave"
-  },
-  {
-    "EntryName": "stoic",
-    "EntryDescription": "not implemented yet"
-  },
-  {
-    "EntryName": "slugging",
-    "EntryDescription": "not implemented yet"
-  },
-  {
-    "EntryName": "shredder",
-    "EntryDescription": "not implemented yet"
-  },
-  {
-    "EntryName": "energized",
-    "EntryDescription": "not implemented yet"
-  },
-  {
-    "EntryName": "seeker",
-    "EntryDescription": "not implemented yet"
-  },
-  {
-    "EntryName": "incendiary",
-    "EntryDescription": "not implemented yet"
-  },
-  {
     "EntryName": "Slug",
-    "EntryDescription": "Reduces the movement speed of the enemy"
+    "EntryDescription": "reduces the speed of the enemy"
   },
   {
-    "EntryName": "Burn",
-    "EntryDescription": "The enemy receives a small amount of damage over time"
+    "EntryName": "Acid",
+    "EntryDescription": "periodically deals damage to the enemy"
   },
   {
     "EntryName": "Shield",
-    "EntryDescription": "A protection against projectiles that can take up to 50 damage"
+    "EntryDescription": "summons a shield that protects the turret until it health depletes"
+  },
+  {
+    "EntryName": "Weaken",
+    "EntryDescription": "reduces the attack power of the enemy"
+  },
+  {
+    "EntryName": "Expose",
+    "EntryDescription": "increases the damage dealt to the enemy from all sources"
+  },
+  {
+    "EntryName": "Stun",
+    "EntryDescription": "the enemy cannot move or attack. cannot be applied to bosses"
   }
 ]
 }

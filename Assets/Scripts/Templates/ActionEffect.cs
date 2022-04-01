@@ -21,6 +21,10 @@ public abstract class ActionEffect : MonoBehaviour
     public Dictionary<Stat, float> cachedStatSet = new Dictionary<Stat, float>();
     public abstract Stat specializedStat {get;}
     public abstract Stat secondaryStat {get;}
+    [Header("Descriptions")]
+    public string damageText;
+    public string specializedStatText;
+    public string secondaryStatText;
 
     protected AudioManager audioManager;
     protected GameManager gameManager;
@@ -201,7 +205,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     protected virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
     {   
-        if(target.IsUnderEffect<T>(out var status)) return;
+        if(target.IsUnderEffect<T>(out var status)) status.DestroyEffect();
         var effect = target.gameObject.AddComponent<T>();
         effect.Initialize(target, duration, parameters);
     }
@@ -226,5 +230,11 @@ public abstract class ActionEffect : MonoBehaviour
     public float GetRestPercentual()
     {
         return cooldown / StatSet[Stat.Rest];
+    }
+
+    public void SetToRest()
+    {
+        cooldown = 0;
+        onRest = true;
     }
 }

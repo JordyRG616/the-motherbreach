@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using StringHandler;
 
 public class GameplayTab : MonoBehaviour
 {
@@ -91,25 +92,25 @@ public class GameplayTab : MonoBehaviour
         switch(direction)
         {
             case 0:
-                upKey.text = newKey.ToString();
+                upKey.text = newKey.ToSplittedString();
                 AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
                 inputManager.upKey = newKey;
                 settings.moveUp = newKey;
             break;
             case 1:
-                leftKey.text = newKey.ToString(); 
+                leftKey.text = newKey.ToSplittedString(); 
                 AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
                 inputManager.leftKey = newKey;
                 settings.moveLeft = newKey;
             break;
             case 2:
-                downKey.text = newKey.ToString(); 
+                downKey.text = newKey.ToSplittedString(); 
                 AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
                 inputManager.downKey = newKey;
                 settings.moveDown = newKey;
             break;
             case 3:
-                rightKey.text = newKey.ToString(); 
+                rightKey.text = newKey.ToSplittedString(); 
                 AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
                 inputManager.rightKey = newKey;
                 settings.moveRight = newKey;
@@ -119,13 +120,13 @@ public class GameplayTab : MonoBehaviour
 
     private void SetTexts()
     {
-        upKey.text = settings.moveUp.ToString();
-        leftKey.text = settings.moveLeft.ToString(); 
-        downKey.text = settings.moveDown.ToString(); 
-        rightKey.text = settings.moveRight.ToString(); 
+        upKey.text = settings.moveUp.ToSplittedString();
+        leftKey.text = settings.moveLeft.ToSplittedString(); 
+        downKey.text = settings.moveDown.ToSplittedString(); 
+        rightKey.text = settings.moveRight.ToSplittedString(); 
 
-        leftRotationText.text = settings.rotateLeft.ToString();
-        rightRotationText.text = settings.rotateRight.ToString();
+        leftRotationText.text = settings.rotateLeft.ToSplittedString();
+        rightRotationText.text = settings.rotateRight.ToSplittedString();
 
         useMouse = settings.useMouse;
         mouseToggle.isOn = useMouse;

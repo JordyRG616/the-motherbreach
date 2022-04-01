@@ -117,7 +117,7 @@ public abstract class BaseEffectTemplate : MonoBehaviour
 
     protected virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
     {   
-        if(target.IsUnderEffect<T>(out var t)) Destroy(t);
+        if(target.IsUnderEffect<T>(out var status)) status.DestroyEffect();
         var effect = target.gameObject.AddComponent<T>();
         effect.Initialize(target, duration, parameters);
     }

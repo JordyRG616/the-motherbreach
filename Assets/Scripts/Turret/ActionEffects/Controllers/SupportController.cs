@@ -29,14 +29,18 @@ public class SupportController : ActionController
     {
         while(true)
         {
-            yield return wait;
+            // yield return wait;
 
             Activate();
 
             float duration = 0;
             if(shooters[0].StatSet.ContainsKey(Stat.Duration)) duration = shooters[0].StatSet[Stat.Duration];
 
-            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest] + duration);
+            yield return new WaitForSeconds(duration);
+
+            SetOnRest();
+
+            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest]);
         }
     }
 

@@ -30,6 +30,11 @@ public abstract class ActionController : MonoBehaviour
         }
     }
 
+    protected virtual void SetOnRest()
+    {
+        shooters.ForEach(x => x.SetToRest());
+    }
+
     public virtual void Initiate()
     {
         _health = health;

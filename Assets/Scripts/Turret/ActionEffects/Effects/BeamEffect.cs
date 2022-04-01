@@ -44,8 +44,8 @@ public class BeamEffect : ActionEffect
 
     public override void Shoot()
     {
-        // StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
-        AudioManager.Main.RequestSFX(onShootSFX, out var sfxInstance);
+        StartCoroutine(PlaySFX(StatSet[Stat.Duration]));
+        // AudioManager.Main.RequestSFX(onShootSFX, out var sfxInstance);
         shooterParticle.Play();
     }
 

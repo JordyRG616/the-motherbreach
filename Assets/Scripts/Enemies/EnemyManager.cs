@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour, IManager
     private EnemyAttackController attackController;
     private EnemyHealthController healthController;
     private bool attacking;
-    private int level;
+    public int level {get; private set;}
 
     void Start()
     {
@@ -49,7 +49,7 @@ public class EnemyManager : MonoBehaviour, IManager
 
     public void AdjustLevel(int waveLevel)
     {
-        if(level == 5 || waveLevel == 0) return;
+        if(level >= 5 || waveLevel <= 0) return;
         level = waveLevel;
         attackController.LevelUp(waveLevel);
         healthController.RaiseHealthByPercentage(.1f * waveLevel);

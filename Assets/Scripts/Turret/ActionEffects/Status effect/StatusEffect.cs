@@ -43,9 +43,14 @@ public abstract class StatusEffect : MonoBehaviour
         countdown += Time.fixedDeltaTime;
         if(countdown >= duration)
         {
-            RemoveEffect();
-            target.RemoveEffect(this);
-            Destroy(this);
+            DestroyEffect();
         }
+    }
+
+    public void DestroyEffect()
+    {
+        RemoveEffect();
+        target.RemoveEffect(this);
+        Destroy(this);
     }
 }

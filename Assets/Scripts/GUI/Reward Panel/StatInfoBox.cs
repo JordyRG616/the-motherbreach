@@ -34,15 +34,6 @@ public class StatInfoBox : MonoBehaviour
         }
     }
 
-    public void ReceiveInfo(string statName)
-    {
-        dictionary = DescriptionDictionary.Main;
-
-        this.statName = statName;
-
-        SetTexts();
-    }
-
     public void SetText(string text)
     {
         _width = ogWidth;

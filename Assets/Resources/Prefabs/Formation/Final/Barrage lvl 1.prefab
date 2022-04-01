@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf34a1a5e733a94b91d78f53f4c6f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  formationLevel: 0
 --- !u!1 &2486558848945019565
 GameObject:
   m_ObjectHideFlags: 0
@@ -5014,7 +5015,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 0
-  m_Distance: 2.000001
+  m_Distance: 0.1
   m_MaxDistanceOnly: 1
 --- !u!114 &3426626237354061038
 MonoBehaviour:
@@ -5086,16 +5087,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Torpedo
       objectReference: {fileID: 0}
-    - target: {fileID: 6390329837503872524, guid: 69b3cdbf012365443b5bd63f5ecbec98, type: 3}
-      propertyPath: shooters.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6390329837503872524, guid: 69b3cdbf012365443b5bd63f5ecbec98, type: 3}
-      propertyPath: shooters.Array.data[0]
-      value: 
-      objectReference: {fileID: 5531621317732044367}
-    m_RemovedComponents:
-    - {fileID: 8688912142066432502, guid: 69b3cdbf012365443b5bd63f5ecbec98, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69b3cdbf012365443b5bd63f5ecbec98, type: 3}
 --- !u!4 &3609321885849082075 stripped
 Transform:
@@ -5107,14 +5099,3 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 6390329837503872521, guid: 69b3cdbf012365443b5bd63f5ecbec98, type: 3}
   m_PrefabInstance: {fileID: 7690424133341718234}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5531621317732044367 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2773553571261130901, guid: 69b3cdbf012365443b5bd63f5ecbec98, type: 3}
-  m_PrefabInstance: {fileID: 7690424133341718234}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f800eddc59722e44594e94f40b79b716, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

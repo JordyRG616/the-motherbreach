@@ -5,6 +5,18 @@ using UnityEngine;
 public class HuntMovement : FormationMovement
 {
     [SerializeField] private float speed;
+    private float _speed;
+    private float RisingSpeed
+    {
+        get
+        {
+            if(_speed < speed)
+            {
+                _speed += 0.05f;
+            }
+            return _speed;
+        }
+    }
 
     public override EnemyMovementType Type { get; protected set; } = EnemyMovementType.Hunt;
 
@@ -15,6 +27,6 @@ public class HuntMovement : FormationMovement
         direction = direction.normalized;
 
         RotateChildren(direction);
-        body.AddForce(direction * speed * 100);
+        body.AddForce(direction * RisingSpeed * 100);
     }
 }

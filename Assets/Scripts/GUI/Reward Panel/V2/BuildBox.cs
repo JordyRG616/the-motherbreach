@@ -26,8 +26,7 @@ public class BuildBox : MonoBehaviour
     [SerializeField] private TextMeshProUGUI baseTrigger;
 
     [Header("Additional stats")]
-    [SerializeField] private List<TextMeshProUGUI> headers;
-    [SerializeField] private List<TextMeshProUGUI> values;
+    [SerializeField] private List<StatBox> additionalStatBoxes;
     [SerializeField] private TextMeshProUGUI tags;
 
 
@@ -182,13 +181,19 @@ public class BuildBox : MonoBehaviour
 
     private void UpdateAdditionalStats(ActionEffect effect)
     {
-        headers[0].text = StatColorHandler.DamagePaint(Stat.Damage.ToString().ToLower()) + ":";
-        headers[1].text = StatColorHandler.StatPaint(effect.specializedStat.ToSplittedString().ToLower()) + ":";
-        headers[2].text = StatColorHandler.StatPaint(effect.secondaryStat.ToSplittedString().ToLower()) + ":";
+        additionalStatBoxes[0].SetHeaderText(StatColorHandler.DamagePaint(Stat.Damage.ToString()) + ":");
+        additionalStatBoxes[0].SetValueText(effect.StatSet[Stat.Damage].ToString());
+        additionalStatBoxes[0].description = effect.damageText;
 
-        values[0].text = effect.StatSet[Stat.Damage].ToString();
-        values[1].text = effect.StatSet[effect.specializedStat].ToString();
-        values[2].text = effect.StatSet[effect.secondaryStat].ToString();
+        additionalStatBoxes[1].SetHeaderText(StatColorHandler.StatPaint(effect.specializedStat.ToSplittedString()) + ":");
+        var _txt = (effect.specializedStat == Stat.Efficiency) ? (effect.StatSet[effect.specializedStat] * 100).ToString() + "%" : effect.StatSet[effect.specializedStat].ToString();
+        additionalStatBoxes[1].SetValueText(_txt);
+        additionalStatBoxes[1].description = effect.specializedStatText;
+
+        additionalStatBoxes[2].SetHeaderText(StatColorHandler.StatPaint(effect.secondaryStat.ToSplittedString()) + ":");
+        _txt = (effect.secondaryStat == Stat.Efficiency) ? (effect.StatSet[effect.secondaryStat] * 100).ToString() + "%" : effect.StatSet[effect.secondaryStat].ToString();
+        additionalStatBoxes[2].SetValueText(_txt);
+        additionalStatBoxes[2].description = effect.secondaryStatText;
 
         string container = string.Empty;
 
@@ -283,13 +288,12 @@ public class BuildBox : MonoBehaviour
         nameText.text = "";
         baseTrigger.text = "";
 
-        headers[0].text = "";
-        headers[1].text = "";
-        headers[2].text = "";
-
-        values[0].text = "";
-        values[1].text = "";
-        values[2].text = "";
+        foreach(StatBox box in additionalStatBoxes)
+        {
+            box.SetHeaderText("");
+            box.SetValueText("");
+            box.description = "";
+        }
 
         tags.text = "";
 

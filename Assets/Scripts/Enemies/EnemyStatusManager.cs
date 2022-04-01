@@ -22,7 +22,7 @@ public class EnemyStatusManager : MonoBehaviour
             index ++;
         }
         
-        particle.Play();
+        if(!particle.IsAlive()) particle.Play();
     }
 
     public void RemoveStatus(Keyword status)

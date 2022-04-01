@@ -33,9 +33,9 @@ public class RewardCalculator : MonoBehaviour
     #endregion
 
     [SerializeField] private List<GameObject> initialWeapons;
-    public List<GameObject> weapons {get; private set;} = new List<GameObject>();
+    public List<GameObject> weapons {get; private set;}
     [SerializeField] private List<GameObject> initialBases;
-    public List<GameObject> bases {get; private set;} = new List<GameObject>();
+    public List<GameObject> bases {get; private set;}
     public int ShopLevel 
     {
         get
@@ -63,8 +63,8 @@ public class RewardCalculator : MonoBehaviour
     {
         rewardManager = RewardManager.Main;
 
-        weapons = initialWeapons;
-        bases = initialBases;
+        weapons = new List<GameObject>(initialWeapons);
+        bases = new List<GameObject>(initialBases);
 
         InitiateExpMatrix();
     }
@@ -108,6 +108,7 @@ public class RewardCalculator : MonoBehaviour
         if(expAmount == expRequeriment[ShopLevel])
         {
             PackOfferManager.Main.IniatiatePackChoice();
+            FindObjectOfType<OfferTweaker>().removalPoints ++;
             choosing = true;
         }
     }

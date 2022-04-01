@@ -27,15 +27,24 @@ public class TimedController : ActionController
     {
         while(true)
         {
-            yield return wait;
+            // yield return wait;
 
             Activate();
 
             float duration = 0;
-            if(shooters[0].StatSet.ContainsKey(Stat.Duration)) duration = shooters[0].StatSet[Stat.Duration];
+            if (shooters[0].StatSet.ContainsKey(Stat.Duration)) duration = GetAttackDuration();
 
-            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest] + duration);
+            yield return new WaitForSeconds(duration);
+
+            SetOnRest();
+
+            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest]);
         }
+    }
+
+    private float GetAttackDuration()
+    {
+        return shooters[0].StatSet[Stat.Duration] + shooters[0].GetShooterSystem().main.startLifetime.constant;
     }
 
     public override void Activate()

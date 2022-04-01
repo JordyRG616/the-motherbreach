@@ -154,6 +154,7 @@ MonoBehaviour:
   - {fileID: 3534781280390107309}
   cost: 2
   health: 100
+  restBar: {fileID: 0}
   target: {fileID: 0}
   maxAngleVariation: 60
 --- !u!114 &3534781280390107309
@@ -176,11 +177,14 @@ MonoBehaviour:
   tags: 4
   initialDamage: 20
   initialRest: 4
+  damageText: increases the damage of each bullet
+  specializedStatText: increases the number of bullets fired in each activation
+  secondaryStatText: increases the size of the bullets
   onShootSFX: event:/SFX/NEW/Shoot 1
   singleSFX: 0
   initialRotation: 0
   debugStats: []
-  initialbulletSpeed: 25
+  initialbulletSize: 0.75
   initialProjectiles: 3
 --- !u!1 &8074478540244340505
 GameObject:

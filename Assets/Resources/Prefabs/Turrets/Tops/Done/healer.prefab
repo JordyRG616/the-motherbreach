@@ -5114,6 +5114,7 @@ MonoBehaviour:
   - {fileID: 2185223664991810696}
   cost: 2
   health: 120
+  restBar: {fileID: 0}
   target: {fileID: 0}
   timeBetweenActivations: 2
   playerLayer:
@@ -5139,6 +5140,9 @@ MonoBehaviour:
   tags: 8
   initialDamage: 0
   initialRest: 15
+  damageText: this turret does no damage
+  specializedStatText: increases how much this turret heals in each activation
+  secondaryStatText: increases the number of turrets healed in each activation
   onShootSFX: event:/SFX/NEW/TurretHeal
   singleSFX: 1
   initialRotation: 0

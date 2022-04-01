@@ -41,16 +41,16 @@ public class AcidSprayEffect : ActionEffect
 
     public override void Shoot()
     {
+        StartCoroutine(PlaySFX(shooterParticle.main.duration));
         base.Shoot();
     }
 
     private IEnumerator PlaySFX(float duration)
     {
-        AudioManager.Main.RequestSFX(onShootSFX, out var instance);
-
         yield return new WaitForSeconds(duration + 1);
 
-        AudioManager.Main.StopSFX(instance);
+        sfxInstances.ForEach(x => StopSFX(x));
+        sfxInstances.Clear();
     }
 
     public override void ApplyEffect(HitManager hitManager)

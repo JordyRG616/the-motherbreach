@@ -5,15 +5,8 @@ using UnityEngine;
 
 public class ForgeController : BossController
 {
-    [SerializeField] private float distanceToChase;
-    [SerializeField] private float distanceToFlee;
-    [Header("Second phase upgrade")]
-    [SerializeField] private List<GameObject> phaseTwoFormations;
-    [Header("Third phase upgrade")]
-    [SerializeField] [Range(0, 1)] private float cooldownReduction;
-    private bool secondPhaseOn, thirdPhaseOn;
-
-
+    public List<FormationManager> Children {get; private set;} = new List<FormationManager>();
+    
     // protected override void ManageStates(int phaseOrder)
     // {
     //     var distance = ship.transform.position - transform.position;
@@ -36,16 +29,11 @@ public class ForgeController : BossController
 
     protected override void ThirdPhaseUpgrade()
     {
-        if(thirdPhaseOn) return;
-        GetComponent<ForgeEnemyManager>().ReduceCooldown(cooldownReduction);
-        thirdPhaseOn = true;
+       
     }
 
     protected override void SecondPhaseUpgrade()
     {
-        if(secondPhaseOn) return;
-        GetComponent<ForgeEnemyManager>().phaseTwoOn = true;
-        GetComponent<ForgeEnemyManager>().ReceiveNewFormations(phaseTwoFormations);
-        secondPhaseOn = true;
+       
     }
 }

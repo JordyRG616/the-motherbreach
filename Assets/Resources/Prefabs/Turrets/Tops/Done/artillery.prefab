@@ -141,6 +141,7 @@ MonoBehaviour:
   - {fileID: 1560200900}
   cost: 3
   health: 100
+  restBar: {fileID: 0}
   target: {fileID: 0}
   maxAngleVariation: 60
 --- !u!70 &-7005680236428361042
@@ -179,6 +180,9 @@ MonoBehaviour:
   tags: 16
   initialDamage: 25
   initialRest: 5
+  damageText: increases the damage of each bullet
+  specializedStatText: increases how fast and how far each bullet travels
+  secondaryStatText: increases the number of bullets fired in each activation
   onShootSFX: event:/SFX/NEW/Shoot 2
   singleSFX: 0
   initialRotation: 0
@@ -205,6 +209,9 @@ MonoBehaviour:
   tags: 16
   initialDamage: 25
   initialRest: 5
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/Shoot 2
   singleSFX: 0
   initialRotation: 0
@@ -499,7 +506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: looping
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: lengthInSec
@@ -1014,7 +1021,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: looping
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: lengthInSec

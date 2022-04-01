@@ -6,17 +6,17 @@ using StringHandler;
 
 public class ShotgunEffect : ActionEffect
 {
-    [SerializeField] private float initialbulletSpeed;
+    [SerializeField] private float initialbulletSize;
     [SerializeField] private float initialProjectiles;
 
     public override Stat specializedStat => Stat.Projectiles;
 
-    public override Stat secondaryStat => Stat.BulletSpeed;
+    public override Stat secondaryStat => Stat.Size;
 
     public override void SetData()
     {
-        StatSet.Add(Stat.BulletSpeed ,initialbulletSpeed);
-        SetBulletSpeed();
+        StatSet.Add(Stat.Size ,initialbulletSize);
+        SetBulletSize();
         StatSet.Add(Stat.Projectiles, initialProjectiles);
         SetProjectileCount();
     
@@ -26,7 +26,7 @@ public class ShotgunEffect : ActionEffect
     public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
-        SetBulletSpeed();
+        SetBulletSize();
         SetProjectileCount();
         
     }
@@ -38,10 +38,10 @@ public class ShotgunEffect : ActionEffect
 
     }
 
-    private void SetBulletSpeed()
+    private void SetBulletSize()
     {
         var main = shooterParticle.main;
-        main.startSpeed = StatSet[Stat.BulletSpeed];
+        main.startSize = StatSet[Stat.Size];
     }
 
 

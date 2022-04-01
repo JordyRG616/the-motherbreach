@@ -14,6 +14,7 @@ public class PackBox : MonoBehaviour
     [SerializeField] private Color weaponColor;
     [SerializeField] private Color baseColor;
     [SerializeField] private Color artifactColor;
+    [SerializeField] private GameObject packLight;
     private Pack storagedPack;
 
 
@@ -34,6 +35,8 @@ public class PackBox : MonoBehaviour
         {
             animation.Play();
         }
+
+        packLight.SetActive(true);
     }
 
     public void Disable()
@@ -51,6 +54,9 @@ public class PackBox : MonoBehaviour
         {
             Destroy(componentBox.gameObject);
         }
+
+        packLight.SetActive(false);
+
     }
 
     private GameObject NewComponentBox(GameObject component)

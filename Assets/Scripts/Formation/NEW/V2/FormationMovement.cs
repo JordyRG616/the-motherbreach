@@ -71,5 +71,6 @@ public enum EnemyMovementType
         Split = 8,
         TrueOrbit = 16,
         Cone = 32,
-        Hunt = 64
+        Hunt = 64, 
+        Charge = 128
     }

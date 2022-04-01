@@ -47,5 +47,4 @@ public struct ActionCombo
 {
     [Range(0,1)] public float chance;
     public List<BossAction> actions;
-    public float cooldown;
 }

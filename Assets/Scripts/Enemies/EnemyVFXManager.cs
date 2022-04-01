@@ -5,7 +5,9 @@ using UnityEngine;
 public class EnemyVFXManager : VFXManager
 {
     [SerializeField] private EnemyHealthController healthController;
+    [SerializeField] private float deathDuration = 2;
     private FMOD.Studio.EventInstance audioInstance;
+
 
     protected override void Awake()
     {
@@ -25,10 +27,10 @@ public class EnemyVFXManager : VFXManager
 
         GetComponent<Collider2D>().enabled = false;
 
-        while(step <= 2)
+        while(step <= deathDuration)
         {
-            instMaterial.SetFloat("_death", step / 2);
-            GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.clear, step / 2);
+            instMaterial.SetFloat("_death", step / deathDuration);
+            GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.clear, step / deathDuration);
             step += .01f;
             yield return new WaitForSeconds(.01f);
         }
