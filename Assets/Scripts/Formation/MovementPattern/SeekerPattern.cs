@@ -30,7 +30,7 @@ public class SeekerPattern : MovementPatternTemplate
             
             distance = Vector2.Distance(ship.position, transform.position);          
 
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSeconds(0.01f);
         }
     }
 }

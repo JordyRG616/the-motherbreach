@@ -6,12 +6,26 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
 {
     private float maxIntegrity;
     [SerializeField] private SpriteRenderer barRenderer;
-    private float currentIntegrity;
+    private float currentIntegrity
+    {
+        get
+        {
+            return _cIntegrity;
+        }
+        set
+        {
+            _cIntegrity = Mathf.FloorToInt(value);
+        }
+    }
+    private float _cIntegrity;
+    private VFXManager vfxManager;
+    [SerializeField] [FMODUnity.EventRef] private string onHitSFX;
 
     public void Initiate(float maxHealth)
     {
         this.maxIntegrity = maxHealth;
         currentIntegrity = maxIntegrity;
+        vfxManager = GetComponentInChildren<TurretVFXManager>();
     }
 
     public void DestroyDamageable()
@@ -21,7 +35,7 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
             manager.DestroyManager();
         }
 
-        GetComponentInChildren<TurretVFXManager>().StartCoroutine(GetComponentInChildren<TurretVFXManager>().Die(gameObject));
+        vfxManager.StartCoroutine(GetComponentInChildren<TurretVFXManager>().Die(gameObject));
 
         // Destroy(gameObject);
     }
@@ -31,7 +45,12 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
         currentIntegrity += amount;
         if(amount < 0)
         {
-            GetComponentInChildren<TurretVFXManager>().StartCoroutine(GetComponentInChildren<TurretVFXManager>().TakeDamage());
+            AudioManager.Main.RequestSFX(onHitSFX);
+            vfxManager.StartCoroutine(GetComponentInChildren<TurretVFXManager>().TakeDamage());
+        }
+        if(currentIntegrity > maxIntegrity)
+        {
+            currentIntegrity = maxIntegrity;
         }
         if(currentIntegrity <= 0)
         {
@@ -47,18 +66,42 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
         barRenderer.material.SetFloat("_healthPercentual", percentual);
     }
 
+    public void HealToFull()
+    {
+        currentIntegrity = maxIntegrity;
+        UpdateHealthBar();
+    }
+
     public void DestroyManager()
     {
 
     }
 
+    public void SetMaxIntegrity(float value)
+    {
+        maxIntegrity = value;
+        HealToFull();
+    }
+
     public void RaiseMaxIntegrityByAmount(float amount)
     {
         maxIntegrity += amount;
+        HealToFull();
     }
 
     public void RaiseMaxIntegrityByPercentage(float percentage)
     {
         maxIntegrity *= (1 + percentage);
+        HealToFull();
+    }
+
+    public float GetCurrentIntegrity()
+    {
+        return currentIntegrity;
+    }
+
+    public float GetMaxIntegrity()
+    {
+        return maxIntegrity;
     }
 }

@@ -7,6 +7,7 @@ using FMOD.Studio;
 public class AudioLibrary : MonoBehaviour
 {
     [SerializeField] private List<AudioEventData> musicEvents;
+    [SerializeField] private List<AudioEventData> playlist;
     [SerializeField] private List<AudioEventData> SFXEvents;
     [SerializeField] private List<AudioEventData> GUIEvents;
 
@@ -17,9 +18,11 @@ public class AudioLibrary : MonoBehaviour
 
     public EventInstance GetMusic()
     {
-        int rdm = Random.Range(0, musicEvents.Count);
-        return musicEvents[rdm].ReturnInstance();
+        int rdm = Random.Range(0, playlist.Count);
+        var instance = playlist[rdm].ReturnInstance();
+        return instance;
     }
+
 
     public EventInstance GetSFX(string SFXName)
     {

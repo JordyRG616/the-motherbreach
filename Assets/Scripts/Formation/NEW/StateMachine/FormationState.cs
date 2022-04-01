@@ -7,7 +7,7 @@ public abstract class FormationState : MonoBehaviour
 {
     protected Transform target;
     protected List<Transition> transitions = new List<Transition>();
-    private WaitForSecondsRealtime tickTime = new WaitForSecondsRealtime(0.01f);
+    private WaitForSeconds tickTime = new WaitForSeconds(0.01f);
     protected float step;
     protected FSM_Controller controller;
 
@@ -49,7 +49,7 @@ public abstract class FormationState : MonoBehaviour
 
             CheckTransitions();
 
-            var children = GetComponent<FormationManager>().children;
+            var children = GetComponent<FormationManager>().Children;
             HandleChildren(children.ToArray(), step);
 
             step += 0.1f;

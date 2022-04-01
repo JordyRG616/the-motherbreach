@@ -1,28 +1,67 @@
 using System.Collections;
-using System.Collections.Generic;
+using CraftyUtilities;
 using UnityEngine;
 using TMPro;
 
 public class StatInfoBox : MonoBehaviour
 {
     
-    [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI description;
+    [SerializeField] private RectTransform[] rects;
+    private RectTransform selfRect;
     private DescriptionDictionary dictionary;
     private string statName;
+    private int largestLineSize = 0;
+    private float ogWidth;
+    private float _width;
 
-    public void ReceiveInfo(string statName)
+    void Start()
     {
-        dictionary = DescriptionDictionary.Main;
+        ogWidth = rects[0].sizeDelta.x;
+        _width = ogWidth;
 
-        this.statName = statName;
+        selfRect = GetComponent<RectTransform>();
+    }
 
-        SetTexts();
+    private void SetSize()
+    {
+        var count = description.textInfo.lineCount;
+        var height = description.textInfo.lineInfo[0].lineHeight;
+        var vector = new Vector2 (_width, (count + 1) * height);
+        foreach(RectTransform rect in rects)
+        {
+            rect.sizeDelta = vector;
+        }
+    }
+
+    public void SetText(string text)
+    {
+        _width = ogWidth;
+        description.text = string.Empty;
+        description.text = text;
+        // SetSize();
+    }
+
+    public void SetText(string text, float width)
+    {
+        _width = width;
+        description.text = string.Empty;
+        description.text = text;
+        // SetSize();
     }
 
     private void SetTexts()
     {
-        title.text = statName;
-        description.text = dictionary.GetDescription(statName);
+        _width = ogWidth;
+        description.text = string.Empty;
+        var text = dictionary.GetDescription(statName);
+        description.text = text;
+        // SetSize();
+    }
+
+    void Update()
+    {
+        SetSize();
+        selfRect.FollowMouse();
     }
 }

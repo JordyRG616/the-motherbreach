@@ -5,6 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - SecCamera
+  - RewardAnimation
+  - PauseAnimation
+  - FirstBar
+  - SecondBar
+  - ThirdBar
+  - BarFill
+  - Enemy
+  - OptionMenu
+  - ShipBurner
+  - FadePanel
   layers:
   - Default
   - TransparentFX
@@ -17,7 +27,7 @@ TagManager:
   - Bullets
   - BG
   - Glow
-  - 
+  - GlowlessUI
   - 
   - 
   - 
@@ -48,9 +58,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Enemies
+    uniqueID: 4183718459
+    locked: 0
   - name: VFX
     uniqueID: 443927703
     locked: 0
   - name: UI
     uniqueID: 2597495849
+    locked: 0
+  - name: Ship
+    uniqueID: 3099445005
+    locked: 0
+  - name: Shoots
+    uniqueID: 2006087579
+    locked: 0
+  - name: TopGUI
+    uniqueID: 755223783
     locked: 0

@@ -9,7 +9,7 @@ public class MovableEntity : MonoBehaviour
     private Vector2 lastDirection;
     private float speed;
     [SerializeField] private float maxSpeed;
-    private WaitForSecondsRealtime waitTime = new WaitForSecondsRealtime(0.01f);
+    private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
 
     private enum MovingState {accelerating, slowing, inert, moving}
     private MovingState state = MovingState.inert;
@@ -18,6 +18,7 @@ public class MovableEntity : MonoBehaviour
     private IEnumerator _slowDown;
 
     private bool anchored;
+    private float drag;
 
 
     void Update()
@@ -26,7 +27,7 @@ public class MovableEntity : MonoBehaviour
         {
             force = Vector2.zero;
         }
-        transform.position += (Vector3)force * speed / 10;
+        transform.position += (Vector3)force * speed / 10 * Time.timeScale;
     }
 
     public void ApplyForce(Vector2 direction)
@@ -57,11 +58,6 @@ public class MovableEntity : MonoBehaviour
         lastDirection = direction;
     }
 
-    internal void AccelerationOverride(object movement)
-    {
-        throw new NotImplementedException();
-    }
-
     public void ApplyCrudeForce(Vector2 direction)
     {
         force += direction;
@@ -83,10 +79,10 @@ public class MovableEntity : MonoBehaviour
     private IEnumerator Accelerate()
     {
         state = MovingState.accelerating;
-
+        
         while(speed <= maxSpeed)
         {
-            speed += 0.01f;
+            speed += 0.1f;
 
             yield return waitTime;
         }
@@ -132,5 +128,18 @@ public class MovableEntity : MonoBehaviour
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawRay(transform.position, force * 5);
+    }
+
+    public void AddDrag(float percentage)
+    {
+        drag = percentage * maxSpeed;
+
+        maxSpeed -= drag;
+    }
+
+    public void RemoveDrag()
+    {
+        maxSpeed += drag;
+        drag = 0;
     }
 }

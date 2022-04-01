@@ -24,7 +24,7 @@ public class ChargerPattern : MovementPatternTemplate
 
             step += 0.01f;
 
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSeconds(0.01f);
         }
     }
 

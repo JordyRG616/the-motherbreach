@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HealthBarMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: 42204dff04a91cd478792c3a680cfc8c, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _FillTex:
+        m_Texture: {fileID: 2800000, guid: 1c49bcab821bb1a4081b4de66405fd81, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Fill_Tex:
+        m_Texture: {fileID: 2800000, guid: 697c5d1175621024fa60bfad2f8432bf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Border_Thickness: 0.1
+    - _SpeedModifier: 10
+    - _Speed_Modifier: 10
+    m_Colors:
+    - _BorderColor: {r: 0.003346536, g: 0.9911022, b: 0.08437622, a: 1}
+    - _Border_Color: {r: 0, g: 0.93011117, b: 0.9911022, a: 1}
+    - _Color: {r: 0.010349082, g: 1.9766746, b: 0.17593439, a: 1}
+    - _Tilling: {r: 4, g: 0.2, b: 0, a: 0}
+  m_BuildTextureStacks: []

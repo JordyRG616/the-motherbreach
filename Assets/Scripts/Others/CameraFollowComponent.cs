@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraFollowComponent : MonoBehaviour
 {
-    [SerializeField] private Transform objectToFollow;
+    public Transform objectToFollow;
     [SerializeField] private float followDistance;
     [SerializeField] private float followSpeed;
     private bool following;
@@ -20,7 +20,7 @@ public class CameraFollowComponent : MonoBehaviour
         while(!Mathf.Approximately(direction.magnitude, 0))
         {
             transform.position += direction * followSpeed;
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
             direction = objectToFollow.position - transform.position + new Vector3(0, 0, transform.position.z);
         }
 

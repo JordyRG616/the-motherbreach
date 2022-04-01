@@ -7,14 +7,39 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
 {
     [SerializeField] private int maxHealth;
     private EnemyVFXManager vfxManager;
-    [SerializeField] private float currentHealth;
+    public float currentHealth 
+    {
+        get
+        {
+            return _cHealth;
+        } 
+        private set
+        {
+            _cHealth = Mathf.FloorToInt(value);
+        }
+    }
+    private float _cHealth;
+    public float damageMultiplier = 1;
 
     public event EventHandler<EnemyEventArgs> OnDeath;
+
 
     void Start()
     {
         vfxManager = GetComponent<EnemyVFXManager>();
         UpdateHealth(maxHealth);
+
+        RegisterListeners();
+    }
+
+    private void RegisterListeners()
+    {
+        var listeners = FindObjectsOfType<EnemyDeathEvent>();
+
+        foreach(EnemyDeathEvent listener in listeners)
+        {
+            OnDeath += listener.ApplyEffect;
+        }
     }
 
     public void DestroyDamageable()
@@ -29,33 +54,25 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
     {
         vfxManager.StopAllCoroutines();
         DestroyDamageable();
-        OnDeath?.Invoke(this, new EnemyEventArgs(this));
         Destroy(gameObject);
     }
-
-    // private IEnumerator LastBreath()
-    // {
-    //     float step = 0;
-
-    //     do
-    //     {
-    //         step += .01f;
-    //         material.SetFloat("_death", step);
-    //         yield return new WaitForSecondsRealtime(.01f);
-    //     } while(step < 1);
-
-    //     OnDeath?.Invoke(this, new EnemyEventArgs(this));
-
-    //     Destroy(gameObject);
-    // }
-
+    
     public void UpdateHealth(float amount)
     {
-        currentHealth += amount;
+        currentHealth += amount * damageMultiplier;
+
+        if(amount < 0)
+        {
+            vfxManager.PlayHitEffect();
+        } 
+            
         if(currentHealth <= 0)
         {
-            // GetComponent<CircleCollider2D>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+            GetComponent<EnemyManager>().CeaseFire();
+            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             vfxManager.StartCoroutine(vfxManager.LastBreath());
+            OnDeath?.Invoke(this, new EnemyEventArgs(this));
         }
 
         UpdateHealthBar();
@@ -66,10 +83,20 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
         vfxManager.StartCoroutine(vfxManager.UpdateHealthBar(currentHealth, maxHealth));
     }
 
-    // public void UpdateHealthBar()
-    // {
-    //     float percentual = Mathf.Min(1 - currentHealth / maxHealth, 1);
+    public float GetHealthPercentage()
+    {
+        return currentHealth / maxHealth;
+    }
 
-    //     material.SetFloat("_damagePercentual", percentual);
-    // }
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public void RaiseHealthByPercentage(float percentage)
+    {
+        var modifiedHealth = maxHealth * (1f + percentage);
+        maxHealth = (int)modifiedHealth;
+        currentHealth = maxHealth;
+    }
 }

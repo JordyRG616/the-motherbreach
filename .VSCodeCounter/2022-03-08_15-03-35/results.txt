@@ -1,0 +1,306 @@
+Date : 2022-03-08 15:03:35
+Directory : e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts
+Total : 233 files,  12023 codes, 242 comments, 2784 blanks, all 15049 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C#       |        233 |     12,023 |        242 |      2,784 |     15,049 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                   |        233 |     12,023 |        242 |      2,784 |     15,049 |
+| Artifacts                                                                                                                           |         11 |        246 |          4 |         59 |        309 |
+| Background                                                                                                                          |          3 |        209 |          0 |         38 |        247 |
+| Bosses                                                                                                                              |         17 |        799 |          3 |        157 |        959 |
+| Bosses\Forge                                                                                                                        |          4 |        221 |          1 |         38 |        260 |
+| Bosses\Forge\States                                                                                                                 |          2 |         37 |          1 |         10 |         48 |
+| Bosses\Interceptor                                                                                                                  |          8 |        314 |          1 |         61 |        376 |
+| Bosses\Interceptor\Effects                                                                                                          |          3 |         51 |          0 |         15 |         66 |
+| Bosses\Interceptor\States                                                                                                           |          4 |        104 |          1 |         31 |        136 |
+| Enemies                                                                                                                             |         10 |        453 |         25 |        125 |        603 |
+| Enemies\EnemyActionEffect                                                                                                           |          1 |         18 |          0 |          5 |         23 |
+| Enemies\New                                                                                                                         |          1 |         60 |          0 |         19 |         79 |
+| Formation                                                                                                                           |         38 |      1,290 |         41 |        347 |      1,678 |
+| Formation\AttackPattern                                                                                                             |          1 |         26 |          1 |          9 |         36 |
+| Formation\MovementPattern                                                                                                           |          5 |        151 |          0 |         65 |        216 |
+| Formation\NEW                                                                                                                       |         26 |        919 |         40 |        231 |      1,190 |
+| Formation\NEW\StateMachine                                                                                                          |         13 |        505 |          7 |        139 |        651 |
+| Formation\NEW\StateMachine\Controllers                                                                                              |          2 |         70 |          0 |         21 |         91 |
+| Formation\NEW\StateMachine\States                                                                                                   |          5 |        254 |          6 |         70 |        330 |
+| Formation\NEW\StateMachine\Transitions                                                                                              |          3 |         56 |          1 |         14 |         71 |
+| Formation\NEW\V2                                                                                                                    |         13 |        414 |         33 |         92 |        539 |
+| Formation\NEW\V2\Controller                                                                                                         |          4 |        124 |          6 |         19 |        149 |
+| Formation\NEW\V2\Movements                                                                                                          |          7 |        160 |         27 |         50 |        237 |
+| GUI                                                                                                                                 |         38 |      2,384 |         13 |        537 |      2,934 |
+| GUI\Animations                                                                                                                      |         11 |        528 |          1 |        194 |        723 |
+| GUI\Game Over                                                                                                                       |          1 |         21 |          0 |          4 |         25 |
+| GUI\Reward Panel                                                                                                                    |         17 |      1,532 |         10 |        278 |      1,820 |
+| GUI\Reward Panel\V2                                                                                                                 |          4 |        617 |          4 |         85 |        706 |
+| GUI\TitleScreen                                                                                                                     |          5 |        181 |          2 |         38 |        221 |
+| Interfaces                                                                                                                          |          2 |         16 |          0 |          4 |         20 |
+| Managers                                                                                                                            |         12 |        822 |         35 |        191 |      1,048 |
+| Managers\Global                                                                                                                     |          7 |        664 |         35 |        160 |        859 |
+| Managers\Global\Audio                                                                                                               |          5 |        347 |          9 |         80 |        436 |
+| Managers\Local                                                                                                                      |          5 |        158 |          0 |         31 |        189 |
+| Others                                                                                                                              |         17 |        802 |         21 |        194 |      1,017 |
+| Others\MovementSystem                                                                                                               |          2 |        147 |          3 |         39 |        189 |
+| Others\Turret Stuff                                                                                                                 |          2 |        155 |          5 |         41 |        201 |
+| Reward                                                                                                                              |         11 |        903 |         16 |        208 |      1,127 |
+| Reward\GUI                                                                                                                          |          3 |        368 |         11 |         94 |        473 |
+| Reward\Packs                                                                                                                        |          4 |        218 |          2 |         47 |        267 |
+| Ship                                                                                                                                |          3 |        291 |          2 |         60 |        353 |
+| Templates                                                                                                                           |          6 |        403 |          3 |         97 |        503 |
+| Turret                                                                                                                              |         59 |      3,036 |         56 |        681 |      3,773 |
+| Turret\ActionEffects                                                                                                                |         33 |      2,039 |         46 |        466 |      2,551 |
+| Turret\ActionEffects\Controllers                                                                                                    |          4 |        243 |         12 |         65 |        320 |
+| Turret\ActionEffects\Effects                                                                                                        |         23 |      1,632 |         32 |        352 |      2,016 |
+| Turret\ActionEffects\Status effect                                                                                                  |          6 |        164 |          2 |         49 |        215 |
+| Turret\BaseEffects                                                                                                                  |         20 |        605 |          0 |        128 |        733 |
+| Tutorial                                                                                                                            |          2 |        136 |          0 |         32 |        168 |
+| Wave                                                                                                                                |          3 |        210 |         23 |         48 |        281 |
++-------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                                            | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\Algorithm.cs                                       | C#       |         25 |          0 |          6 |         31 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\Artifact.cs                                        | C#       |         76 |          0 |          9 |         85 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\Battery.cs                                         | C#       |         17 |          0 |          8 |         25 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\Chip.cs                                            | C#       |         18 |          0 |          4 |         22 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\Criptocoin.cs                                      | C#       |         15 |          0 |          4 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\Cross.cs                                           | C#       |         15 |          0 |          4 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\ForgeCore.cs                                       | C#       |         12 |          2 |          5 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\InterceptorCore.cs                                 | C#       |         12 |          2 |          5 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\Recycler.cs                                        | C#       |         15 |          0 |          3 |         18 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\Repairing.cs                                       | C#       |         26 |          0 |          7 |         33 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Artifacts\Thruster.cs                                        | C#       |         15 |          0 |          4 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Background\DinamicBackgroundElement.cs                       | C#       |        141 |          0 |         24 |        165 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Background\NebulaOneDBE.cs                                   | C#       |          6 |          0 |          3 |          9 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Background\PlanetSpawner.cs                                  | C#       |         62 |          0 |         11 |         73 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\BossAttackController.cs                               | C#       |         38 |          0 |          6 |         44 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\BossController.cs                                     | C#       |         90 |          1 |         17 |        108 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\BossHealthController.cs                               | C#       |         95 |          0 |         24 |        119 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\BossState.cs                                          | C#       |         30 |          0 |          7 |         37 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\BossVFXManager.cs                                     | C#       |         11 |          0 |          4 |         15 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Forge\ForgeController.cs                              | C#       |         59 |          0 |          8 |         67 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Forge\ForgeEnemyManager.cs                            | C#       |        125 |          0 |         20 |        145 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Forge\States\Forge_DeployState.cs                     | C#       |         15 |          0 |          4 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Forge\States\Forge_OrbitState.cs                      | C#       |         22 |          1 |          6 |         29 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Interceptor\Effects\InterceptorArtillery.cs           | C#       |         17 |          0 |          5 |         22 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Interceptor\Effects\InterceptorMachineGun.cs          | C#       |         17 |          0 |          5 |         22 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Interceptor\Effects\InterceptorSpreader.cs            | C#       |         17 |          0 |          5 |         22 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Interceptor\InterceptorController.cs                  | C#       |        159 |          0 |         15 |        174 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Interceptor\States\Interceptor_AttackState.cs         | C#       |         25 |          0 |          7 |         32 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Interceptor\States\Interceptor_Disengage.cs           | C#       |         21 |          0 |          7 |         28 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Interceptor\States\Interceptor_MoveState.cs           | C#       |         21 |          1 |          7 |         29 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Bosses\Interceptor\States\Interceptor_SpecialState.cs        | C#       |         37 |          0 |         10 |         47 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Enemies\EnemyActionEffect\EnemyActionEffect.cs               | C#       |         18 |          0 |          5 |         23 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Enemies\EnemyAttackController.cs                             | C#       |         38 |          5 |         10 |         53 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Enemies\EnemyHealthController.cs                             | C#       |         68 |          0 |         17 |         85 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Enemies\EnemyManager.cs                                      | C#       |         37 |          0 |          7 |         44 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Enemies\EnemyMovementController.cs                           | C#       |         49 |          2 |         18 |         69 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Enemies\EnemyRotationController.cs                           | C#       |         45 |          0 |         13 |         58 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Enemies\EnemySelfDestruction.cs                              | C#       |         18 |          1 |          4 |         23 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Enemies\EnemyVFXManager.cs                                   | C#       |         39 |          2 |         17 |         58 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Enemies\EnemyWiggler.cs                                      | C#       |         81 |         15 |         15 |        111 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Enemies\New\RogueController.cs                               | C#       |         60 |          0 |         19 |         79 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\AttackPattern\RandomAttack.cs                      | C#       |         26 |          1 |          9 |         36 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\FormationAttackController.cs                       | C#       |         47 |          0 |         11 |         58 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\FormationConstructor.cs                            | C#       |          7 |          0 |          2 |          9 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\FormationManager.cs                                | C#       |         34 |          0 |          7 |         41 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\FormationSlotsData.cs                              | C#       |         15 |          0 |          3 |         18 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\MovementPattern\ChargerPattern.cs                  | C#       |         28 |          0 |         12 |         40 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\MovementPattern\DisengagePattern.cs                | C#       |         27 |          0 |         15 |         42 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\MovementPattern\IdlePattern.cs                     | C#       |         34 |          0 |         16 |         50 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\MovementPattern\OrbitPattern.cs                    | C#       |         35 |          0 |         12 |         47 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\MovementPattern\SeekerPattern.cs                   | C#       |         27 |          0 |         10 |         37 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\Controllers\SpearHead.cs          | C#       |         54 |          0 |         14 |         68 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\Controllers\TrailBlazer.cs        | C#       |         16 |          0 |          7 |         23 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\FSM_Controller.cs                 | C#       |         31 |          0 |          7 |         38 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\FormationState.cs                 | C#       |         75 |          0 |         21 |         96 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\States\DeployRogueState.cs        | C#       |         24 |          0 |          4 |         28 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\States\FleeState.cs               | C#       |         75 |          4 |         26 |        105 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\States\IdleState.cs               | C#       |         56 |          0 |         12 |         68 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\States\RoamerState.cs             | C#       |         65 |          0 |         15 |         80 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\States\SeekerState.cs             | C#       |         34 |          2 |         13 |         49 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\Transition.cs                     | C#       |         19 |          0 |          6 |         25 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\Transitions\DistanceTransition.cs | C#       |         23 |          0 |          7 |         30 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\Transitions\PopTransition.cs      | C#       |         15 |          0 |          3 |         18 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\StateMachine\Transitions\StepTransition.cs     | C#       |         18 |          1 |          4 |         23 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Controller\BarrageController.cs             | C#       |         10 |          1 |          2 |         13 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Controller\CaterpillarController.cs         | C#       |         34 |          4 |          7 |         45 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Controller\SpearheadController.cs           | C#       |         35 |          0 |          4 |         39 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Controller\TrailBlazerController.cs         | C#       |         45 |          1 |          6 |         52 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\FormationMovement.cs                        | C#       |         64 |          0 |         11 |         75 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\FormationMovementController.cs              | C#       |         66 |          0 |         12 |         78 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Movements\ConeMovement.cs                   | C#       |         26 |          0 |          6 |         32 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Movements\FixedMovement.cs                  | C#       |         16 |          0 |          3 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Movements\FleeMovement.cs                   | C#       |         19 |          0 |          6 |         25 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Movements\HuntMovement.cs                   | C#       |         16 |          0 |          5 |         21 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Movements\OrbitMovement.cs                  | C#       |         27 |          0 |          8 |         35 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Movements\SplitMovement.cs                  | C#       |         34 |         25 |         13 |         72 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\NEW\V2\Movements\TrueOrbitMovement.cs              | C#       |         22 |          2 |          9 |         33 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\PopulationManager.cs                               | C#       |         46 |          0 |         11 |         57 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Formation\WiggleController.cs                                | C#       |         45 |          0 |          8 |         53 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\CameraZoomAnimation.cs                        | C#       |         49 |          0 |         14 |         63 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\CashTextAnimation.cs                          | C#       |         76 |          0 |         44 |        120 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\ExpandAnimation.cs                            | C#       |         41 |          0 |         14 |         55 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\FXAnimation.cs                                | C#       |         26 |          0 |          8 |         34 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\FadeAnimation.cs                              | C#       |         50 |          0 |         16 |         66 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\PopFadeTextAnimation.cs                       | C#       |         48 |          0 |         15 |         63 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\ShaderAnimation.cs                            | C#       |         46 |          0 |         18 |         64 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\SlideAnimation.cs                             | C#       |         43 |          0 |         16 |         59 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\StandartAnimation.cs                          | C#       |         28 |          0 |         12 |         40 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\UIAnimationManager.cs                         | C#       |         80 |          1 |         27 |        108 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Animations\UIAnimations.cs                               | C#       |         41 |          0 |         10 |         51 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\ArtifactBox.cs                                           | C#       |         35 |          0 |          7 |         42 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\ArtifactsPanel.cs                                        | C#       |         22 |          0 |          4 |         26 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Game Over\GameOverManager.cs                             | C#       |         21 |          0 |          4 |         25 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\OptionButton.cs                                          | C#       |         30 |          0 |          6 |         36 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\ArrowButton.cs                              | C#       |         34 |          0 |          9 |         43 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\ExitButton.cs                               | C#       |         80 |          1 |         18 |         99 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\InfoBox.cs                                  | C#       |         29 |          0 |          7 |         36 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\LevelUpButton.cs                            | C#       |        117 |          2 |         18 |        137 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\LockButton.cs                               | C#       |         60 |          0 |         10 |         70 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\RerrollButton.cs                            | C#       |         77 |          0 |         16 |         93 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\RewardBox.cs                                | C#       |         85 |          0 |         24 |        109 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\SellButton.cs                               | C#       |         82 |          0 |         18 |        100 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\StatAssetList.cs                            | C#       |         19 |          0 |          3 |         22 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\StatBox.cs                                  | C#       |         37 |          0 |          8 |         45 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\StatInfoBox.cs                              | C#       |         58 |          3 |         12 |         73 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\StatPanel.cs                                | C#       |         79 |          0 |         20 |         99 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\UpgradeButton.cs                            | C#       |        158 |          0 |         30 |        188 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\V2\BaseBox.cs                               | C#       |        113 |          0 |         17 |        130 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\V2\BuildBox.cs                              | C#       |        327 |          2 |         37 |        366 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\V2\BuildButton.cs                           | C#       |         64 |          2 |         13 |         79 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\Reward Panel\V2\WeaponBox.cs                             | C#       |        113 |          0 |         18 |        131 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\RewardInfoPanel.cs                                       | C#       |         35 |          0 |          6 |         41 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\TitleScreen\AudioTab.cs                                  | C#       |         43 |          0 |          8 |         51 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\TitleScreen\GameplayTab.cs                               | C#       |         37 |          0 |          8 |         45 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\TitleScreen\OptionsMenu.cs                               | C#       |         48 |          0 |         11 |         59 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\TitleScreen\TitleButton.cs                               | C#       |         36 |          2 |          6 |         44 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\GUI\TitleScreen\VideoTab.cs                                  | C#       |         17 |          0 |          5 |         22 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Interfaces\IDamageable.cs                                    | C#       |          9 |          0 |          2 |         11 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Interfaces\IManager.cs                                       | C#       |          7 |          0 |          2 |          9 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Global\Audio\AudioEffects.cs                        | C#       |         36 |          0 |         14 |         50 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Global\Audio\AudioEventData.cs                      | C#       |         28 |          0 |          4 |         32 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Global\Audio\AudioLibrary.cs                        | C#       |         30 |          0 |          6 |         36 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Global\Audio\AudioManager.cs                        | C#       |        141 |          9 |         35 |        185 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Global\Audio\AudioTrack.cs                          | C#       |        112 |          0 |         21 |        133 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Global\GameManager.cs                               | C#       |        158 |          6 |         41 |        205 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Global\InputManager.cs                              | C#       |        159 |         20 |         39 |        218 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Local\EffectMediator.cs                             | C#       |         12 |          0 |          3 |         15 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Local\HitManager.cs                                 | C#       |         66 |          0 |         12 |         78 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Local\ParticleSystemAudioManager.cs                 | C#       |         29 |          0 |          6 |         35 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Local\VFXManager.cs                                 | C#       |         30 |          0 |          7 |         37 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Managers\Local\VolumeManager.cs                              | C#       |         21 |          0 |          3 |         24 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\AttachGameObjectsToParticles.cs                       | C#       |         37 |          2 |          7 |         46 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\CameraFollowComponent.cs                              | C#       |         39 |          0 |          8 |         47 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\CraftyUtilities.cs                                    | C#       |         19 |          0 |          5 |         24 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\CustomEventArgs.cs                                    | C#       |         31 |          0 |          8 |         39 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\CutoutMaskUI.cs                                       | C#       |         18 |          0 |          2 |         20 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\DescriptionDictionary.cs                              | C#       |         49 |          0 |         13 |         62 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\EnemyDeathEvent.cs                                    | C#       |         16 |          0 |          3 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\EnemyPointer.cs                                       | C#       |         68 |          5 |         16 |         89 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\EnumList.cs                                           | C#       |         20 |          5 |          5 |         30 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\MovementSystem\AwarenessComponent.cs                  | C#       |         35 |          0 |          8 |         43 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\MovementSystem\MovableEntity.cs                       | C#       |        112 |          3 |         31 |        146 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\StringHandler.cs                                      | C#       |         40 |          0 |          6 |         46 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\TargetableComponent.cs                                | C#       |          6 |          0 |          3 |          9 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\TrackingDevice.cs                                     | C#       |         83 |          1 |         19 |        103 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\TriggerTypeShooter.cs                                 | C#       |         74 |          0 |         19 |         93 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\Turret Stuff\DroneMovement.cs                         | C#       |        102 |          5 |         28 |        135 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Others\Turret Stuff\ShieldManager.cs                         | C#       |         53 |          0 |         13 |         66 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\PointerEvents.cs                                             | C#       |         23 |          0 |          6 |         29 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\GUI\OfferBox.cs                                       | C#       |         35 |          0 |         13 |         48 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\GUI\RewardGUIManager.cs                               | C#       |        214 |         10 |         51 |        275 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\GUI\TurretSlotGUI.cs                                  | C#       |        119 |          1 |         30 |        150 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\Packs\ComponentBox.cs                                 | C#       |         40 |          2 |          9 |         51 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\Packs\Pack.cs                                         | C#       |         12 |          0 |          2 |         14 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\Packs\PackBox.cs                                      | C#       |         68 |          0 |         13 |         81 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\Packs\PackOfferManager.cs                             | C#       |         98 |          0 |         23 |        121 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\RewardCalculator.cs                                   | C#       |        130 |          0 |         21 |        151 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\RewardLevelData.cs                                    | C#       |         14 |          0 |          2 |         16 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\RewardManager.cs                                      | C#       |        161 |          1 |         39 |        201 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Reward\RewardSelector.cs                                     | C#       |         12 |          2 |          5 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Ship\ShipController.cs                                       | C#       |         76 |          1 |         16 |         93 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Ship\ShipDamageController.cs                                 | C#       |        113 |          0 |         24 |        137 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Ship\ShipManager.cs                                          | C#       |        102 |          1 |         20 |        123 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Templates\ActionController.cs                                | C#       |        108 |          0 |         23 |        131 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Templates\ActionEffect.cs                                    | C#       |        153 |          3 |         35 |        191 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Templates\ActionStat.cs                                      | C#       |          0 |          0 |          2 |          2 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Templates\AttackPatternTemplate.cs                           | C#       |         14 |          0 |          5 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Templates\BaseEffectTemplate.cs                              | C#       |        104 |          0 |         24 |        128 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Templates\MovementPatternTemplate.cs                         | C#       |         24 |          0 |          8 |         32 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Controllers\DroneController.cs          | C#       |         54 |          0 |         13 |         67 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Controllers\FollowerController.cs       | C#       |         74 |          1 |         26 |        101 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Controllers\SupportController.cs        | C#       |         72 |         11 |         15 |         98 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Controllers\TimedController.cs          | C#       |         43 |          0 |         11 |         54 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\AcidSprayEffect.cs              | C#       |         73 |          2 |         16 |         91 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\ArtilleryEffect.cs              | C#       |         52 |          0 |         11 |         63 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\BeamEffect.cs                   | C#       |         74 |          2 |         16 |         92 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\BlunderbussEffect.cs            | C#       |         71 |          1 |         14 |         86 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\BombFragEffect.cs               | C#       |         23 |          0 |          6 |         29 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\BomberEffect.cs                 | C#       |         72 |          1 |         14 |         87 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\CometEffect.cs                  | C#       |         70 |          0 |         14 |         84 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\DisruptorEffect.cs              | C#       |         71 |          2 |         16 |         89 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\EnhanceEffect.cs                | C#       |         74 |          0 |         14 |         88 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\GuardianEffect.cs               | C#       |         52 |          0 |         14 |         66 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\HealEffect.cs                   | C#       |         57 |          0 |         13 |         70 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\LancerEffect.cs                 | C#       |         71 |          0 |         13 |         84 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\LeechEffect.cs                  | C#       |         81 |          1 |         18 |        100 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\NukeEffect.cs                   | C#       |         83 |          1 |         18 |        102 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\PlasmaEffect.cs                 | C#       |         83 |          1 |         18 |        102 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\RayCasterEffect.cs              | C#       |         81 |          3 |         17 |        101 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\SentryGunEffect.cs              | C#       |         65 |          0 |         13 |         78 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\SharkEffect.cs                  | C#       |         65 |          0 |         13 |         78 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\ShellEffect.cs                  | C#       |         75 |          1 |         15 |         91 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\ShotgunEffect.cs                | C#       |         65 |          0 |         16 |         81 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\SpawnerEffect.cs                | C#       |         94 |          0 |         26 |        120 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\SpreadEffect.cs                 | C#       |         90 |          2 |         17 |        109 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Effects\StingerEffect.cs                | C#       |         90 |         15 |         20 |        125 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Status effect\Acid.cs                   | C#       |         36 |          0 |          7 |         43 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Status effect\Expose.cs                 | C#       |         24 |          0 |          6 |         30 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Status effect\Slug.cs                   | C#       |         27 |          2 |          9 |         38 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Status effect\StatusEffect.cs           | C#       |         33 |          0 |         13 |         46 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Status effect\Stun.cs                   | C#       |         18 |          0 |          6 |         24 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\ActionEffects\Status effect\Weaken.cs                 | C#       |         26 |          0 |          8 |         34 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\AgressiveEffect.cs                        | C#       |         37 |          0 |          5 |         42 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\BasicEffect.cs                            | C#       |         14 |          0 |          4 |         18 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\CheapEffect.cs                            | C#       |         15 |          0 |          4 |         19 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\EmpoweringEffect.cs                       | C#       |         62 |          0 |         16 |         78 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\EnfeeblingEffect.cs                       | C#       |         24 |          0 |          5 |         29 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\EnhancePerLevel.cs                        | C#       |         38 |          0 |          6 |         44 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\EnhancePerTurretCount.cs                  | C#       |         37 |          0 |          7 |         44 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\EnhanceRaw.cs                             | C#       |         42 |          0 |          5 |         47 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\ExplosiveEffect.cs                        | C#       |         23 |          0 |          4 |         27 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\IncendiaryEffect.cs                       | C#       |         23 |          0 |          5 |         28 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\LegionaryEffect.cs                        | C#       |         41 |          0 |          9 |         50 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\MendingEffect.cs                          | C#       |         34 |          0 |          6 |         40 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\MercenaryEffect.cs                        | C#       |         27 |          0 |          5 |         32 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\ProdigyEffect.cs                          | C#       |         22 |          0 |          4 |         26 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\RelentlessEffect.cs                       | C#       |         21 |          0 |          4 |         25 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\SeekerParticleComponent.cs                | C#       |         43 |          0 |         14 |         57 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\ShieldedEffect.cs                         | C#       |         17 |          0 |          4 |         21 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\StoicEffect.cs                            | C#       |         16 |          0 |          6 |         22 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\VeteranEffect.cs                          | C#       |         22 |          0 |          5 |         27 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\BaseEffects\ViciousEffect.cs                          | C#       |         47 |          0 |         10 |         57 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\IntegrityManager.cs                                   | C#       |         70 |          1 |         15 |         86 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\RewardList.cs                                         | C#       |         45 |          0 |         10 |         55 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\TurretConstructor.cs                                  | C#       |        109 |          7 |         20 |        136 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\TurretManager.cs                                      | C#       |         63 |          0 |         17 |         80 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\TurretSlot.cs                                         | C#       |         31 |          2 |          8 |         41 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Turret\TurretVFXManager.cs                                   | C#       |         74 |          0 |         17 |         91 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Tutorial\TutorialBox.cs                                      | C#       |         61 |          0 |          8 |         69 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Tutorial\TutorialManager.cs                                  | C#       |         75 |          0 |         24 |         99 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Wave\WaveData.cs                                             | C#       |         35 |         22 |          6 |         63 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Wave\WaveList.cs                                             | C#       |          8 |          0 |          2 |         10 |
+| e:\Unity Projects\#TURRENTBASE\PROJETO  - Base Invaders\Assets\Scripts\Wave\WaveManager.cs                                          | C#       |        167 |          1 |         40 |        208 |
+| Total                                                                                                                               |          |     12,023 |        242 |      2,784 |     15,049 |
++-------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

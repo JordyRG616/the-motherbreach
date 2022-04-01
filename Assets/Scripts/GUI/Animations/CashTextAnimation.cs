@@ -9,18 +9,21 @@ public class CashTextAnimation : UIAnimations
     [SerializeField] private TextMeshProUGUI earnedCash;
     private RewardManager rewardManager;
 
-    void Start()
+    public override bool Done { get; protected set; }
+
+    protected override void Awake()
     {
+        base.Awake();
+
         rewardManager = RewardManager.Main;
     }
 
-    protected override IEnumerator Forward()
+    public override IEnumerator Forward()
     {
+        int index = int.MaxValue;
         
         earnedCash.gameObject.SetActive(true);
-
         earnedCash.text = "+ " + rewardManager.EarnedCash + "$";
-
 
         Color textColor  = earnedCash.color;
         textColor.a = 0;
@@ -32,13 +35,16 @@ public class CashTextAnimation : UIAnimations
             earnedCash.color = textColor;
             textColor.a = Mathf.Lerp(0, 1, step);
 
-            step += 0.01f;
+            step += animationSpeed;
 
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSeconds(0.01f);
             
         }
 
         step = rewardManager.EarnedCash;
+
+        if(PlaySFX) AudioManager.Main.RequestGUIFX(OnStartSFX, out index);
+        
 
         while(step > 0)
         {
@@ -50,14 +56,22 @@ public class CashTextAnimation : UIAnimations
 
 
 
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         earnedCash.gameObject.SetActive(false);
+
+        yield return new WaitForEndOfFrame();
+
+        Done = true;
+
+        if(PlaySFX) AudioManager.Main.StopGUIFX(index);
     }
 
-    protected override IEnumerator Reverse()
+    public override IEnumerator Reverse()
     {
+        int index = int.MaxValue;
+
         var ogTotal = rewardManager.TotalCash;
         rewardManager.TotalCash -= rewardManager.SpendedCash;
 
@@ -75,13 +89,15 @@ public class CashTextAnimation : UIAnimations
             earnedCash.color = textColor;
             textColor.a = Mathf.Lerp(0, 1, step);
 
-            step += 0.01f;
+            step += animationSpeed;
 
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSeconds(0.01f);
             
         }
 
         step = rewardManager.SpendedCash;
+        
+        if(PlayReverseSFX) AudioManager.Main.RequestGUIFX(OnReverseSFX, out index);
 
         while(step > 0)
         {
@@ -93,9 +109,11 @@ public class CashTextAnimation : UIAnimations
             inPocketCash.text = "cash = " + ogTotal + "$";
 
 
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         earnedCash.gameObject.SetActive(false);
+
+        if(PlayReverseSFX) AudioManager.Main.StopGUIFX(index);
     }
 }

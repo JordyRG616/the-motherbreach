@@ -22,60 +22,67 @@ public class ShipManager : MonoBehaviour
     #endregion
 
     private GameManager gameManager;
-    private List<TurretManager> turrets = new List<TurretManager>();
+    public List<TurretManager> turrets {get; private set;}= new List<TurretManager>();
+    [SerializeField] private Transform controller;
+    private Camera cam;
+    [SerializeField] private float beamSelfDamage;
+    public List<Artifact> artifacts {get; private set;} = new List<Artifact>();
+    private ArtifactsPanel artifactsPanel;
 
     void Awake()
     {
-        // gameManager = GameManager.Main;
-        // gameManager.OnGameStateChange += HandleRotationReset;
+        gameManager = GameManager.Main;
+        gameManager.OnGameStateChange += HealTurrets;
+
+        artifactsPanel = FindObjectOfType<ArtifactsPanel>();
+
+        cam = Camera.main;
+
+        // gameManager.OnGameStateChange += HandleAnchor;
     }
 
-    private void HandleRotationReset(object sender, GameStateEventArgs e)
+    private void HandleAnchor(object sender, GameStateEventArgs e)
+    {
+        if(e.newState == GameState.OnReward) GetComponent<MovableEntity>().Anchor();
+        else GetComponent<MovableEntity>().LiftAnchor();
+    }
+
+    private void HealTurrets(object sender, GameStateEventArgs e)
     {
         if(e.newState == GameState.OnReward)
         {
-            StartCoroutine(ResetRotation());
-        }
-        if(e.newState == GameState.OnWave)
-        {
-            StopAllCoroutines();
+            foreach(TurretManager turret in turrets)
+            {
+                turret.integrityManager.HealToFull();
+            }
         }
     }
 
-    private IEnumerator ResetRotation()
+    public void RegisterTurret(TurretManager turret)
     {
-        float step = 0;
-
-        while(step < 1)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, step);
-            step += .1f;
-            yield return new WaitForSecondsRealtime(.01f);
-        }
+        turrets.Add(turret);
     }
 
-    public List<BaseEffectTemplate> GetBases()
+    internal void RemoveTurret(TurretManager turretManager)
     {
-        List<BaseEffectTemplate> container = new List<BaseEffectTemplate>();
-
-        foreach(TurretManager turret in turrets)
-        {
-            container.Add(turret.baseEffect);
-        }
-
-        return container;
+        turrets.Remove(turretManager);
     }
-
-    public List<ActionController> GetWeapons()
+    
+    void Update()
     {
-        List<ActionController> container = new List<ActionController>();
-
-        foreach(TurretManager turret in turrets)
-        {
-            container.Add(turret.actionController);
-        }
-
-        return container;
+        transform.position = controller.position;
+        transform.rotation = controller.rotation;
     }
 
+    public int GetTurretCount()
+    {
+        return turrets.Count;
+    }
+
+    public void ReceiveArtifact(Artifact artifact)
+    {
+        artifact.Initialize();
+        artifacts.Add(artifact);
+        artifactsPanel.CreateNewBox(artifact);
+    }
 }

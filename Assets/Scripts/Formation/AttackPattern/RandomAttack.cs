@@ -24,7 +24,7 @@ public class RandomAttack : AttackPatternTemplate
             int rdm = UnityEngine.Random.Range(0, _attackers.Count);
             _attackers[rdm].Attack();
             _attackers.RemoveAt(rdm);
-            yield return new WaitForSecondsRealtime(interval);
+            yield return new WaitForSeconds(interval);
         }
 
         OnSequenceEnd?.Invoke(this, EventArgs.Empty);

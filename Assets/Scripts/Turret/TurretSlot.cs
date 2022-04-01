@@ -9,7 +9,7 @@ public class TurretSlot : MonoBehaviour
 
     public bool IsOcuppied()
     {
-        return occupied;
+        return occupyingTurret != null;
     }
 
     public void BuildTurret(GameObject turret)
@@ -21,8 +21,13 @@ public class TurretSlot : MonoBehaviour
         occupyingTurret.transform.SetParent(transform);
         occupyingTurret.transform.rotation = transform.rotation;
         occupyingTurret.transform.localPosition = Vector2.zero;
+        occupyingTurret.GetComponent<TurretManager>().ReceiveInitialRotation(transform.eulerAngles.z);
 
-        occupyingTurret.GetComponentInChildren<TurretVFXManager>().DisableSelected();
+        foreach(TurretVFXManager vfx in occupyingTurret.GetComponentsInChildren<VFXManager>())
+        {   
+            vfx.DisableSelected();
+            vfx.InitiateBuild();
+        }
 
         occupied = true;
     }

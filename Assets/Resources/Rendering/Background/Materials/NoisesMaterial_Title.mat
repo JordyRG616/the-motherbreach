@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: NoisesMaterial_Title
+  m_Shader: {fileID: -6465566751694194690, guid: f1d9753ad42c69a41add1d9c0bc9c013, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_63c984fdd59a44eda112ca8ee97957ac_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 298364ba2a2827742bc8178e901eb98e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_913b48ecad0a450daaea3c69dfcef4b0_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 298364ba2a2827742bc8178e901eb98e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a357afb9969643e5ac104589c00c9b31_Texture_1:
+        m_Texture: {fileID: 2800000, guid: cef51d346b4ed2c4e8d6a8d540cc2f4f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_1:
+        m_Texture: {fileID: 2800000, guid: 298364ba2a2827742bc8178e901eb98e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_2:
+        m_Texture: {fileID: 2800000, guid: fef644710f397674b9fda4ae99f9e63f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - Local_Velocity: 0.001
+    - Vector1_9c32a8f3cb55488dbea27a0fbd6f6bbb: 4.66
+    - Vector1_eaa2761e7ef14c278a0c2ccc72e1dcb7: 0.01
+    - Vector1_f4fe5efb32294062bf8380f286da8af5: 0.001
+    - _Brightness: 0
+    - _DiscretionFactor: 8.21
+    - _Tex_Mod: 5.12
+    - _Tiling: -7.6
+    - _Velocity: 0.01
+    m_Colors:
+    - Color_1: {r: 0.9911022, g: 0, b: 0.07618539, a: 1}
+    - Color_2: {r: 0.9911022, g: 0, b: 0.07618539, a: 1}
+    - Color_a6fa32f48f884bf49d93cfb35773cdce: {r: 0.49607843, g: 0.49607843, b: 0.49607843, a: 1}
+    - Color_e335e6c17bce4b508a147272d115ed9b: {r: 0.116970696, g: 0, b: 0.25015837, a: 1}
+    - Density_Intensity: {r: 2.93, g: 0.53, b: 0, a: 0}
+    - Vector2_47d5358c8d994a37b4165928d209aa0f: {r: -0.57, g: 0.93, b: 0, a: 0}
+  m_BuildTextureStacks: []

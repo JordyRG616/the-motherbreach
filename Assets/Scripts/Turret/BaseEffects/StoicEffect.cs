@@ -1,37 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class StoicEffect : BaseEffectTemplate
 {
-    [SerializeField] private float percentage;
-    private ShipManager ship;
-
-    void Awake()
-    {
-        ship = FindObjectOfType<ShipManager>();
-    }
+    [SerializeField] [Range(0, 1)] private float percentage;
+    
 
     public override void ApplyEffect()
     {
-        //var integrityManager = GetComponentInParent<IntegrityManager>();
-        float totalPercentage = BomberCount() * percentage;
-        associatedController.RaiseHealthByPercentage(totalPercentage);
+        associatedController.RaiseHealthByPercentage(percentage);
     }
 
-    private int BomberCount()
+
+    public override string DescriptionText()
     {
-        var weapons = ship.GetWeapons();
-        int count = 0;
-
-        foreach(ActionController weapon in weapons)
-        {
-            if(weapon.GetClasses().Contains(WeaponClass.Bomber))
-            {
-                count++;
-            }
-        }
-
-        return count;
+        string description = "Increases the " + StatColorHandler.HealthPaint("health") + " of this turret by " + StatColorHandler.StatPaint((percentage * 100).ToString()) + "%";
+        return description;
     }
 }

@@ -103,10 +103,10 @@ public class RewardGUIManager : MonoBehaviour
     private void TerminateInteractablePanel()
     {
         interactablePanel.SetActive(false);
-        foreach (TurretSlotGUI slot in slotsGUI)
-        {
-            slot.DeactivateTracking();
-        }
+        // foreach (TurretSlotGUI slot in slotsGUI)
+        // {
+        //     slot.DeactivateTracking();
+        // }
     }
 
     private IEnumerator MoveRightPanel(Vector2 targetPos)
@@ -118,7 +118,7 @@ public class RewardGUIManager : MonoBehaviour
             Vector2 newPos = Vector2.Lerp(rightPanel.anchoredPosition, targetPos, step);
             rightPanel.anchoredPosition = newPos;
             step += .001f;
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
         }
 
         StopCoroutine("MoveRightPanel");
@@ -134,7 +134,7 @@ public class RewardGUIManager : MonoBehaviour
             Vector2 newPos = Vector2.Lerp(leftPanel.anchoredPosition, targetPos, step);
             leftPanel.anchoredPosition = newPos;
             step += .001f;
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
         }
 
     }
@@ -148,7 +148,7 @@ public class RewardGUIManager : MonoBehaviour
             float _size = Mathf.Lerp(RewardPanel.sizeDelta.x, targetSize, step);
             RewardPanel.sizeDelta = new Vector2(_size, RewardPanel.sizeDelta.y);
             step += 0.001f;
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSeconds(0.01f);
         }
 
         StartCoroutine(ExpandBoxes(120));
@@ -173,7 +173,7 @@ public class RewardGUIManager : MonoBehaviour
             {
                 StartCoroutine(ExpandTexts());
             }
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
         }
 
         float midStep = 0;
@@ -196,7 +196,7 @@ public class RewardGUIManager : MonoBehaviour
             }
 
             midStep += 0.01f;
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
         }
     }
 
@@ -217,7 +217,7 @@ public class RewardGUIManager : MonoBehaviour
             {
                 StartCoroutine(GlowText());
             }
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
         }
 
     }
@@ -232,7 +232,7 @@ public class RewardGUIManager : MonoBehaviour
             Color newColor = Color.Lerp(ogColor, textColor, step);
             title.color = newColor;
             step += 0.01f;
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSeconds(0.01f);
         }
     }
 
@@ -261,7 +261,7 @@ public class RewardGUIManager : MonoBehaviour
             }
 
             step += .01f;
-            yield return new WaitForSecondsRealtime(.01f);
+            yield return new WaitForSeconds(.01f);
         }
 
         StopCoroutine("AdjustCamera");

@@ -8,7 +8,7 @@
 			<value>1</value>
 		</property>
 		<relationship name="folder">
-			<destination>{1f5b3c1c-088f-4624-bc9b-0df9dae79dc1}</destination>
+			<destination>{63c2c48c-4ce7-4653-93fa-10acb41fa3ab}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{cab49042-682a-445e-aa54-f45eba0d6da1}</destination>
@@ -124,6 +124,8 @@
 	<object class="MixerBusEffectChain" id="{16a38023-2b70-4e3e-aaa7-c820e5fbfdd1}">
 		<relationship name="effects">
 			<destination>{a216bc8f-10bb-4220-8e46-0c2a5715d1a3}</destination>
+			<destination>{30ba95d2-0546-4778-927b-6f0d93b8bb5e}</destination>
+			<destination>{0a816069-a688-43ff-a84f-b221729f7a4c}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{b42cbd75-a2e4-493a-b5e5-a05a751cf9b6}" />
@@ -143,6 +145,25 @@
 	</object>
 	<object class="MixerBusPanner" id="{ac3a929f-d3f5-40d8-8cd5-298cca5824b9}" />
 	<object class="MixerBusFader" id="{a216bc8f-10bb-4220-8e46-0c2a5715d1a3}" />
+	<object class="ConvolutionReverbEffect" id="{30ba95d2-0546-4778-927b-6f0d93b8bb5e}">
+		<property name="endFrame">
+			<value>47103</value>
+		</property>
+		<property name="wetLevel">
+			<value>-30</value>
+		</property>
+		<property name="dryLevel">
+			<value>0</value>
+		</property>
+		<relationship name="referenceableData">
+			<destination>{9bd4d6ac-65c0-4789-82d0-23d5e9922fbe}</destination>
+		</relationship>
+	</object>
+	<object class="PitchShifterEffect" id="{0a816069-a688-43ff-a84f-b221729f7a4c}">
+		<property name="pitch">
+			<value>1.57999992</value>
+		</property>
+	</object>
 	<object class="AutomationCurve" id="{e9d24f3b-c2a3-4a3b-9305-8a32f3f4515e}">
 		<relationship name="parameter">
 			<destination>{87dd90b4-0af5-4b22-8886-f816f984aa69}</destination>

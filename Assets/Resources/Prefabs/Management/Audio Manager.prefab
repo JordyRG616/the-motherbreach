@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.929144, y: 0.24667934, z: -5.991457}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3018682489856898822}
   m_Father: {fileID: 0}
@@ -48,13 +49,17 @@ MonoBehaviour:
     trackVolume: 1
     maxChannels: 2
     invoker: {fileID: 3018682489552691877}
-  SFXTrack:
-    trackVolume: 1
-    maxChannels: 16
-    invoker: {fileID: 3018682489552691877}
-  GUITrack:
+  uniqueMusicTrack:
     trackVolume: 1
     maxChannels: 1
+    invoker: {fileID: 3018682489552691877}
+  SFXTrack:
+    trackVolume: 0.6
+    maxChannels: 128
+    invoker: {fileID: 3018682489552691877}
+  GUITrack:
+    trackVolume: 0.6
+    maxChannels: 16
     invoker: {fileID: 3018682489552691877}
 --- !u!1 &3018682489856898820
 GameObject:
@@ -83,6 +88,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3018682489552691876}
   m_RootOrder: 0
@@ -100,32 +106,334 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicEvents:
+  - eventName: Title
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/Music/Title song
+  - eventName: Reward Song 2
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/Music/Reward Song 2
+  - eventName: Interceptor
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/Music/Interceptor
+  - eventName: Forge
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/Music/Forge
+  - eventName: GameOver
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/Music/Game Over
+  - eventName: Victory
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/Music/Victory
+  playlist:
   - eventName: Inertia
-    unique: 1
+    unique: 0
+    playlistEvent: 1
     eventPath: event:/Music/Inertia
   - eventName: Momentum
-    unique: 1
+    unique: 0
+    playlistEvent: 1
     eventPath: event:/Music/Momentum
+  - eventName: The Chorus
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/Music/The Chorus
+  - eventName: Under Red Stars
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/Music/Under Red Stars
+  - eventName: Pulsar
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/Music/Pulsar
+  - eventName: Crio
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/Music/Crio
+  - eventName: Gravity
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/Music/Gravity
   SFXEvents:
   - eventName: EnemyDeath
     unique: 0
+    playlistEvent: 1
     eventPath: event:/SFX/EnemyDeath
-  - eventName: Explosion
+  - eventName: TurretExplosion
     unique: 0
-    eventPath: event:/SFX/Explosion
-  - eventName: Hit1
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/TurretExplosion
+  - eventName: TurretHit
     unique: 0
-    eventPath: event:/SFX/Hit1
-  - eventName: Hit2
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/TurretHit
+  - eventName: EnemyHit
     unique: 0
-    eventPath: event:/SFX/Hit2
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/EnemyHit
   - eventName: Shoot1
     unique: 0
-    eventPath: event:/SFX/Shoot1
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/Shoot 1
   - eventName: Shoot2
     unique: 0
-    eventPath: event:/SFX/Shoot2
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/Shoot 2
   - eventName: Spawn
     unique: 0
+    playlistEvent: 1
     eventPath: event:/SFX/Spawn
-  GUIEvents: []
+  - eventName: Beam1
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/Beam1
+  - eventName: Burner
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/Burner
+  - eventName: Spreader1
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/Spreader1
+  - eventName: BomberShot
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/BomberShoot
+  - eventName: EnemyDeath
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/EnemyDeath
+  - eventName: FormationSpawn
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/FormationSpawn
+  - eventName: ShieldHit
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/ShieldHit
+  - eventName: ShipHit
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/SFX/NEW/ShipHit
+  - eventName: Burner2
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Burner2
+  - eventName: BossHit 1
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/BossHit 1
+  - eventName: TurretHeal
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/TurretHeal
+  - eventName: Shoot 3
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Shoot 3
+  - eventName: Blunderbuss
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Blunderbuss
+  - eventName: Lancer
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Lancer
+  - eventName: SentryGun
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/SentryGun
+  - eventName: Shark
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Shark
+  - eventName: Shell
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ShellShooter
+  - eventName: Stinger
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Stinger
+  - eventName: Warcaster
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Warcaster
+  - eventName: AcidSpray
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/AcidSpray
+  - eventName: Comet
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Comet
+  - eventName: Disruptor
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Disruptor
+  - eventName: Leech
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Leech
+  - eventName: Nuke
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Nuke
+  - eventName: PlasmaStorm
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/PlasmaStorm
+  - eventName: ShieldSpawn
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ShieldSpawn
+  - eventName: Enhancer
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Enhancer
+  - eventName: Explosion
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Explosion
+  - eventName: SmallExplosion
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/SmallExplosion
+  - eventName: TurretHeal 2
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/TurretHeal 2
+  - eventName: ShieldDeath
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ShieldDeath
+  - eventName: DissipateEnhancer
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/DissipateEnhancer
+  - eventName: BossPhaseTransition
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/BossPhaseTransition
+  - eventName: ChargeUp
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ChargeUp
+  - eventName: Burner3
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Burner3
+  - eventName: ShipDeath
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ShipDeath
+  GUIEvents:
+  - eventName: Title_ButtonMouseEnter
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Title/Title_ButtonMouseEnter
+  - eventName: Title_Click1
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Title/Title_Click1
+  - eventName: Title_Click2
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Title/Title_Click2
+  - eventName: Title_Options
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Title/Title_Options
+  - eventName: Title_Options2
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Title/Title_Options2
+  - eventName: Title_OptionsBack
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Title/Title_OptionsBack
+  - eventName: Title_StartGame
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Title/Title_StartGame
+  - eventName: Reward_PanelSlide
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_PanelSlide
+  - eventName: Reward_PanelClose
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_PanelClose
+  - eventName: Reward_Slide
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_Slide
+  - eventName: Reward_BuildBoxFill
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_BuildBoxFill
+  - eventName: Reward_ButtonClick
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_ButtonClick
+  - eventName: Reward_ButtonHover
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_ButtonHover
+  - eventName: Reward_CashEarned
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_CashEarned
+  - eventName: Reward_CashExpended
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_CashExpended
+  - eventName: Reward_UpgradeTurret
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_UpgradeTurret
+  - eventName: Reward_Unlock
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_Unlock
+  - eventName: Reward_Sell
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_Sell
+  - eventName: Reward_Lock
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_Lock
+  - eventName: Reward_LevelGained
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_LevelGained
+  - eventName: Reward_InvalidSelection
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_InvalidSelection
+  - eventName: Reward_ExpGained
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_ExpGained
+  - eventName: Reward_ClearSelection
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_ClearSelection
+  - eventName: Reward_OfferClick
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_OfferClick
+  - eventName: Reward_BuildTurret
+    unique: 0
+    playlistEvent: 1
+    eventPath: event:/UI/Reward/Reward_BuildTurret
+  - eventName: WaveClear
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/WaveClear

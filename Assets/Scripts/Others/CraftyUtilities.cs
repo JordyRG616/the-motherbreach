@@ -17,6 +17,13 @@ namespace CraftyUtilities
             }
         }
 
+        public static void FollowMouse(this RectTransform rect)
+        {
+            var mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition) - new Vector3(0.5f, 0.5f);
+            mousePos.x *= 1280;
+            mousePos.y *= 720;
+            rect.anchoredPosition = mousePos;
+        }
     }
 
 }

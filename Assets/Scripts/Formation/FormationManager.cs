@@ -7,25 +7,34 @@ using System;
 public class FormationManager : MonoBehaviour
 {
     public event EventHandler OnFormationDefeat;
-    public List<EnemyManager> children {get; private set;} = new List<EnemyManager>();
+    public List<EnemyManager> Children {get; private set;} = new List<EnemyManager>();
+    public int formationLevel;
 
-    void Start()
+    public virtual void Update()
     {
-        children = GetComponentsInChildren<EnemyManager>().ToList();
-    }
-
-    void Update()
-    {
-        if(children.Count == 0)
+        if(Children.Count == 0)
         {
             OnFormationDefeat?.Invoke(this, EventArgs.Empty);
             Destroy(gameObject);
         }
     }
 
-    public void RemoveEnemy(EnemyManager enemy)
+    internal void RegisterChildren(EnemyManager enemyManager)
     {
-        children.Remove(enemy);
+        Children.Add(enemyManager);
     }
 
+    public void RemoveEnemy(EnemyManager enemy)
+    {
+        Children.Remove(enemy);
+    }
+
+    public void Terminate()
+    {
+        foreach(EnemyManager child in Children)
+        {
+            var health = child.GetComponent<EnemyHealthController>();
+            health.UpdateHealth(-health.currentHealth);
+        }
+    }
 }

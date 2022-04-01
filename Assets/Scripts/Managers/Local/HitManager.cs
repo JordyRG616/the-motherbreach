@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System;
 using UnityEngine;
 
 public class HitManager : MonoBehaviour, IManager
-{    
-    [SerializeField] [FMODUnity.EventRef] private string hitSFX;
+{   
     public IDamageable HealthInterface{get; private set;}
-    private ParticleSystem.Particle[] particles;
+    private EnemyStatusManager statusManager;
     private AudioManager audioManager;
+    private float iFrameWindow;
+    private List<StatusEffect> effects = new List<StatusEffect>();
+    public GameObject lastAttacker {get; private set;}
+
+    public event EventHandler<HitEventArgs> OnHit;
+    public event EventHandler<HitEventArgs> OnDeath;
 
     public void DestroyManager()
     {
         GetComponent<Collider2D>().enabled = false;
+        OnDeath?.Invoke(this, new HitEventArgs(lastAttacker));
         Destroy(this);
     }
 
@@ -21,24 +27,55 @@ public class HitManager : MonoBehaviour, IManager
         audioManager = AudioManager.Main;
 
         HealthInterface = GetComponent<IDamageable>();
-
-        particles = new ParticleSystem.Particle[1000];
+        statusManager = GetComponent<EnemyStatusManager>();
     }
 
     void OnParticleCollision(GameObject other)
     {
-        if(other.transform.parent.parent.TryGetComponent<ActionEffect>(out ActionEffect action))
+        if(other.TryGetComponent<EffectMediator>(out EffectMediator action))
         {
-            ParticleSystem shuriken = other.GetComponent<ParticleSystem>();
-            int count = shuriken.GetParticles(particles);
-
-            ParticleSystem.Particle particle = particles.OrderBy(x => (this.transform.position - x.position).magnitude).FirstOrDefault();
-            other.GetComponent<ParticleSystem>().TriggerSubEmitter(0, ref particle);
-
-            //audioManager.RequestSFX(hitSFX);
-
-            Debug.Log(action.name);
-            action.totalEffect(this);   
+            if(iFrameWindow >= 0.05f)
+            {
+                action.PassTarget(this, out var damage);
+                lastAttacker = action.associatedEffect.gameObject;
+                OnHit?.Invoke(this, new HitEventArgs(damage, lastAttacker));
+                iFrameWindow = 0;
+            }
         }
+    }
+
+    public void ReceiveTriggerEffect(EffectMediator mediator)
+    {
+        if(iFrameWindow >= 0.05f)
+        {
+            mediator.PassTarget(this, out var damage);
+            lastAttacker = mediator.associatedEffect.gameObject;
+            OnHit?.Invoke(this, new HitEventArgs(damage, lastAttacker));
+            iFrameWindow = 0;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        iFrameWindow += Time.fixedDeltaTime;
+    }
+
+    public void ReceiveEffect(StatusEffect effect)
+    {
+        effects.Add(effect);
+        statusManager.ReceiveStatus(effect.Status);
+    }
+
+    public void RemoveEffect(StatusEffect effect)
+    {
+        effects.Remove(effect);
+        statusManager.RemoveStatus(effect.Status);
+    }
+
+    public bool IsUnderEffect<T>(out T status) where T : StatusEffect
+    {
+        status = GetComponent<T>();
+        if(status == null) return false;
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class ShieldedEffect : BaseEffectTemplate
 {
@@ -8,7 +9,12 @@ public class ShieldedEffect : BaseEffectTemplate
 
     public override void ApplyEffect()
     {
-        Instantiate(shield, Vector3.zero, Quaternion.identity, associatedController.transform);
+        Instantiate(shield, Vector3.zero, Quaternion.identity, associatedController.transform).transform.localPosition = Vector3.zero;
     }
 
+    public override string DescriptionText()
+    {
+        string description = "spawn a " + KeywordHandler.KeywordPaint(Keyword.Shield) + " at the start of every wave";
+        return description;
+    }
 }

@@ -1,13 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretManager : MonoBehaviour
+public class TurretManager : MonoBehaviour, IManager
 {
     
     public BaseEffectTemplate baseEffect {get; private set;}
     public ActionController actionController {get; private set;}
     public Dictionary<Stat, float> Stats {get; protected set;} = new Dictionary<Stat, float>();
+    public IntegrityManager integrityManager {get; private set;}
+
+    public int maxLevel = 5;
+    public int Level 
+    {
+        get
+        {
+            return _level;
+        }
+        private set
+        {
+            if(value > 5) value = 5;
+            _level = value;
+        }
+    }
+    private int _level = 0;
+
+    public event EventHandler<LevelUpArgs> OnLevelUp;
 
 
     public void Initiate()
@@ -15,10 +34,17 @@ public class TurretManager : MonoBehaviour
         baseEffect = GetComponentInChildren<BaseEffectTemplate>();
         actionController = GetComponentInChildren<ActionController>();
 
+        OnLevelUp += actionController.HandleLevelUp;
+
         GetStats();
-        
-        var integrityManager = GetComponent<IntegrityManager>();
+
+        integrityManager = GetComponent<IntegrityManager>();
         integrityManager.Initiate(Stats[Stat.Health]);
+    }
+
+    public void ReceiveInitialRotation(float rotation)
+    {
+        actionController.GetShooters().ForEach(x => x.initialRotation = rotation);
     }
 
     private void GetStats()
@@ -34,5 +60,33 @@ public class TurretManager : MonoBehaviour
         }
 
     }
-    
+
+    public void LevelUp()
+    {
+        Level ++;
+        actionController.RaiseHealthByPercentage(.1f);
+        OnLevelUp?.Invoke(this, new LevelUpArgs(Level));
+        actionController.SaveStats();
+    }
+
+    public void DestroyManager()
+    {
+        GetComponentInParent<ShipManager>().RemoveTurret(this);
+    }
+
+    public void ReplaceBase(BaseEffectTemplate newBase)
+    {
+        Destroy(baseEffect.gameObject);
+        baseEffect = newBase;
+    }
+}
+
+public class LevelUpArgs : EventArgs
+{
+    public int toLevel;
+
+    public LevelUpArgs(int level)
+    {
+        toLevel = level;
+    }
 }

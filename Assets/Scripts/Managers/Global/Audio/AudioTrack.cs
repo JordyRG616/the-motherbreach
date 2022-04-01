@@ -10,9 +10,19 @@ using FMOD.Studio;
 public class AudioTrack 
 {
     [Range(0, 1f)] public float trackVolume;
+    private float _trackVolume
+    {
+        get
+        {
+            if(trackVolume < 0) return 0;
+            if(trackVolume > 1) return 1;
+            return trackVolume; 
+        }
+    }
     [SerializeField] private int maxChannels;
     [SerializeField] private MonoBehaviour invoker;
     public Dictionary<EventInstance, IEnumerator> activeChannels = new Dictionary<EventInstance, IEnumerator>();
+    public bool paused {get; private set;}
 
     public void ReceiveAudio(EventInstance audioInstance, bool unique = false)
     {
@@ -26,7 +36,7 @@ public class AudioTrack
 
             IEnumerator couroutine = TrackAudioVolume(audioInstance);
             activeChannels.Add(audioInstance, couroutine);
-            audioInstance.setVolume(trackVolume);
+            audioInstance.setVolume(_trackVolume);
             audioInstance.start();
             invoker.StartCoroutine(couroutine);
         }
@@ -38,7 +48,7 @@ public class AudioTrack
         {
             IEnumerator couroutine = TrackAudioVolume(audioInstance);
             activeChannels.Add(audioInstance, couroutine);
-            audioInstance.setVolume(trackVolume);
+            audioInstance.setVolume(_trackVolume);
             invoker.StartCoroutine(couroutine);
         }
     }
@@ -48,7 +58,7 @@ public class AudioTrack
 
         while (AudioIsPlaying(audioInstance))
         {
-            audioInstance.setVolume(trackVolume);
+            audioInstance.setVolume(_trackVolume);
 
             yield return new WaitForEndOfFrame();
         }
@@ -66,9 +76,10 @@ public class AudioTrack
 
     public void StopAudio(EventInstance audioInstance)
     {
+        if(!activeChannels.Keys.Contains(audioInstance)) return;
+        activeChannels.Remove(audioInstance);
         audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         audioInstance.release();
-        activeChannels.Remove(audioInstance);
     }
 
     public void StopAudio(int audioID)
@@ -76,10 +87,35 @@ public class AudioTrack
         if(activeChannels.Count > audioID)
         {
             EventInstance audioInstance = activeChannels.ElementAt(audioID).Key;
+            activeChannels.Remove(audioInstance);
             audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             audioInstance.release();
-            activeChannels.Remove(audioInstance);
         }
+    }
+
+    public void StopAllAudio(FMOD.Studio.STOP_MODE mode = FMOD.Studio.STOP_MODE.IMMEDIATE)
+    {
+        activeChannels.Keys.ToList().ForEach(x => x.stop(mode));
+        activeChannels.Clear();
+    }
+
+    public void PauseAudio()
+    {
+        foreach(EventInstance instance in activeChannels.Keys)
+        {
+            instance.setPaused(true);
+        }
+        paused = true;
+    }
+
+    
+    public void UnpauseAudio()
+    {
+        foreach(EventInstance instance in activeChannels.Keys)
+        {
+            instance.setPaused(false);
+        }
+        paused = false;
     }
 
     public bool AudioIsPlaying(EventInstance audioInstance)

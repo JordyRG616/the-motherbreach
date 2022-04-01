@@ -3,41 +3,86 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public abstract class ActionEffect : MonoBehaviour
 {
-    [SerializeField] protected ParticleSystem shooter;
+    [SerializeField] protected ParticleSystem shooterParticle;
     [SerializeField] protected LayerMask targetLayer;
-    [SerializeField] protected WeaponClass weaponClass;
+    [SerializeField] protected Keyword keyword;
+    public WeaponTag tags;
     protected GameObject target;
+
+    [Header("Initial basic stats")]
     [SerializeField] protected float initialDamage;
     [SerializeField] protected float initialRest;
+    
     public Dictionary<Stat, float> StatSet {get; protected set;} = new Dictionary<Stat, float>();
+    public Dictionary<Stat, float> cachedStatSet = new Dictionary<Stat, float>();
+    public abstract Stat specializedStat {get;}
+    public abstract Stat secondaryStat {get;}
+    [Header("Descriptions")]
+    public string damageText;
+    public string specializedStatText;
+    public string secondaryStatText;
+
+    protected AudioManager audioManager;
+    protected GameManager gameManager;
+    [SerializeField] [FMODUnity.EventRef] protected string onShootSFX;
+    protected List<FMOD.Studio.EventInstance> sfxInstances = new List<FMOD.Studio.EventInstance>();
 
     public delegate void Effect(HitManager hitManager);
 
     public Effect totalEffect;
+    [SerializeField] protected bool singleSFX;
+    protected int cachedCount = 0;
+    protected bool onRest;
+    protected float cooldown;
+    public float initialRotation;
+
+    [Header("Debug")]
+    public string[] debugStats = new string[0];
 
     public virtual void Initiate()
-    {        
-        shooter.Stop();
+    {
+        shooterParticle.Stop(true);
 
         SetData();
 
         totalEffect += ApplyEffect;
+
+        gameManager = GameManager.Main;
+        gameManager.OnGameStateChange += ClearShots;
+
+        audioManager = AudioManager.Main;
+
     }
 
-    public WeaponClass GetClass()
+    public abstract string DescriptionText();
+    public virtual string DescriptionText(out Keyword keyword)
     {
-        return weaponClass;
+        keyword = this.keyword;
+        return DescriptionText();
     }
 
-    protected virtual void SetData()
+    public virtual string upgradeText(int nextLevel)
+    {
+        return "";
+    }
+
+    protected virtual void ClearShots(object sender, GameStateEventArgs e)
+    {
+        shooterParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+    }
+
+    public abstract void LevelUp(int toLevel);
+
+    public virtual void SetData()
     {
         StatSet.Add(Stat.Damage, initialDamage);
         StatSet.Add(Stat.Rest, initialRest);
 
-        var col = shooter.collision;
+        var col = shooterParticle.collision;
         col.collidesWith = targetLayer;
     }
 
@@ -46,6 +91,7 @@ public abstract class ActionEffect : MonoBehaviour
         if(StatSet.ContainsKey(statName))
         {
             StatSet[statName] = value;
+            StatSet[statName] = (float)Math.Round(StatSet[statName], 1);
         } 
     }
 
@@ -56,36 +102,139 @@ public abstract class ActionEffect : MonoBehaviour
 
     public virtual void Shoot()
     {
-        if(target != null && !shooter.isEmitting)
+        if(onRest) return;
+        if(target != null && !shooterParticle.isEmitting)
         {
-            shooter.Play();
+            if(singleSFX) 
+            {
+                sfxInstances.ForEach(x => StopSFX(x));
+                sfxInstances.Clear();
+                audioManager.RequestSFX(onShootSFX, out var sfxInstance);
+                sfxInstances.Add(sfxInstance);
+            }
+            shooterParticle.Play(true);
         }
+    }
+
+    protected virtual void ManageSFX()
+    {
+        if(!singleSFX && shooterParticle.isPlaying)
+        {
+            var amount = Mathf.Abs(cachedCount - shooterParticle.particleCount);
+
+            if (shooterParticle.particleCount > cachedCount) 
+            { 
+                PlaySFX();
+            } 
+
+            cachedCount = shooterParticle.particleCount;
+        }
+    }
+
+    protected virtual void PlaySFX()
+    {
+        audioManager.RequestSFX(onShootSFX);
+    }
+
+    protected virtual void StopSFX(FMOD.Studio.EventInstance audio)
+    {
+        audioManager.StopSFX(audio);
+    }
+
+    void LateUpdate()
+    {
+        ManageSFX();
     }
 
     public virtual void StopShooting()
     {
-        shooter.Stop();
-    }
-
-    public virtual void RotateShoots(float angle)
-    {
-        // var main = shooter.main;
-        // main.startRotation = angle * Mathf.Deg2Rad;
+        if(singleSFX)
+        {
+            sfxInstances.ForEach(x => StopSFX(x));
+            sfxInstances.Clear();
+        }
+        shooterParticle.Stop(true);
+        onRest = true;
+        cooldown = 0;
     }
 
     public virtual void RotateShoots()
     {
-        // var parent = GetComponentInParent<Transform>();
-        // float angle = - parent.rotation.eulerAngles.z;
-        // var main = shooter.main;
-        // main.startRotation = angle * Mathf.Deg2Rad;
+        var main = shooterParticle.main;
+        var parent = transform.parent;
+        main.startRotation =(-initialRotation - ShipManager.Main.transform.eulerAngles.z - transform.localEulerAngles.z) * Mathf.Deg2Rad;
     }
 
     public ParticleSystem GetShooterSystem()
     {
-        return shooter;
+        return shooterParticle;
+    }
+
+    public virtual void Update()
+    {
+        if(onRest)
+        {
+            cooldown += Time.deltaTime;
+            if(cooldown >= StatSet[Stat.Rest]) onRest = false;
+        }
+        if(GameManager.Main.gameState == GameState.OnWave) RotateShoots();
+        #if UNITY_EDITOR
+            UpdateDebugStats();
+        #endif
+    }
+
+    private void UpdateDebugStats()
+    {
+        var stats = StatSet.Keys.ToList();
+        if(debugStats.Length <= stats.Count)
+        {
+            debugStats = new string[stats.Count];
+        }
+        for(int i = 0; i < stats.Count; i++)
+        {
+            debugStats[i] = (stats[i] + ": " + StatSet[stats[i]]);
+        }
     }
 
     public abstract void ApplyEffect(HitManager hitManager);
 
+    void OnDestroy()
+    {
+        if(gameManager != null) gameManager.OnGameStateChange -= ClearShots;
+    }
+
+    protected virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
+    {   
+        if(target.IsUnderEffect<T>(out var status)) status.DestroyEffect();
+        var effect = target.gameObject.AddComponent<T>();
+        effect.Initialize(target, duration, parameters);
+    }
+
+    public void RememberStatSet()
+    {
+        cachedStatSet.Clear();
+        foreach(Stat stat in StatSet.Keys)
+        {
+            cachedStatSet.Add(stat, StatSet[stat]);
+        }
+    }
+
+    public void ResetStatSet()
+    {
+        foreach(Stat stat in cachedStatSet.Keys)
+        {
+            StatSet[stat] = cachedStatSet[stat];
+        }
+    }
+
+    public float GetRestPercentual()
+    {
+        return cooldown / StatSet[Stat.Rest];
+    }
+
+    public void SetToRest()
+    {
+        cooldown = 0;
+        onRest = true;
+    }
 }

@@ -1,18 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class IncendiaryEffect : BaseEffectTemplate
 {
-    private ShipManager ship;
-
-    void Awake()
-    {
-        ship = FindObjectOfType<ShipManager>();
-        
-        StartCoroutine(WaitForTrigger());
-    }
-
     public override void ApplyEffect()
     {
         foreach(ActionEffect shooter in associatedController.GetShooters())
@@ -23,36 +15,13 @@ public class IncendiaryEffect : BaseEffectTemplate
 
     public void AddBurn(HitManager hitManager)
     {
-        if(hitManager.TryGetComponent<ChemicalBurn>(out ChemicalBurn burn))
-        {
-            return;
-        } else
-        {
-            hitManager.gameObject.AddComponent<ChemicalBurn>();
-        }
-        
+        ApplyStatusEffect<Acid>(hitManager, 2f, new float[] {associatedController.GetShooters()[0].StatSet[Stat.Damage] / 10, .1f});
     }
 
-    private IEnumerator WaitForTrigger()
+
+    public override string DescriptionText()
     {
-        yield return new WaitUntil(() => BeamerCount() >= 4);
-
-        ApplyEffect();
-    }
-
-    private int BeamerCount()
-    {
-        var weapons = ship.GetWeapons();
-        int count = 0;
-
-        foreach(ActionController weapon in weapons)
-        {
-            if(weapon.GetClasses().Contains(WeaponClass.Beamer))
-            {
-                count++;
-            }
-        }
-
-        return count;
+        string description = "on hit, this turret applies " + KeywordHandler.KeywordPaint(Keyword.Acid);
+        return description;
     }
 }

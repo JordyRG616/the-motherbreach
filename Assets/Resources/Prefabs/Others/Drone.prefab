@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1195522291
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 4fab0ffa0dd676a4dbc9c05e5335d850, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,9 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a065288886573148b0d1a78e8ddc5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 15
   distance: 5
-  lifetime: 5
+  lifetime: 25
 --- !u!114 &4878815971536754888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +117,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shooters:
   - {fileID: 8619269529508628119}
+  cost: 0
+  health: 0
+  enemiesInSight: []
+  target: {fileID: 0}
 --- !u!114 &8619269529508628119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,12 +133,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd66aa09ac839b94aa1c2a59c558dbbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooter: {fileID: 6512351005600330159}
+  shooterParticle: {fileID: 6512351005600330159}
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
+  weaponClass: 0
+  keyword: 0
   initialDamage: 5
   initialRest: 3
+  onShootSFX: event:/SFX/NEW/Shoot 1
+  singleSFX: 0
   initialBulletSpeed: 15
   initialBurstSize: 2
 --- !u!1001 &4944032572987789757
@@ -219,6 +227,10 @@ PrefabInstance:
     - target: {fileID: 6070819127656450695, guid: b2747e83ee5648747b9695e47140109e, type: 3}
       propertyPath: m_Name
       value: Artillery
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108899706517846832, guid: b2747e83ee5648747b9695e47140109e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3165491192998575122, guid: b2747e83ee5648747b9695e47140109e, type: 3}

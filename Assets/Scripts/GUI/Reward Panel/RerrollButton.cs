@@ -1,4 +1,4 @@
-using System.Net.Mime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,10 +11,18 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private Sprite clickSprite;
     [SerializeField] private RectTransform tipBox;
     [SerializeField] private UIAnimations cashTextAnim;
+    public int rerrollCost;
     private TextMeshProUGUI tipBoxText;
     private Image image;
     private RewardManager rewardManager;
+    private BuildBox buildBox;
     private Sprite ogSprite;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
+    [SerializeField] [FMODUnity.EventRef] private string clicksSFX;
+    private int offerTimelineIndex;
+
+    public event EventHandler OnReroll;
 
     void Start()
     {
@@ -24,11 +32,15 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         ogSprite = image.sprite;
 
         tipBoxText = tipBox.Find("Text").GetComponent<TextMeshProUGUI>();
+
+        buildBox = FindObjectOfType<BuildBox>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tipBoxText.text = "reset (2$)";
+        AudioManager.Main.RequestGUIFX(hoverSFX);
+        GetComponent<ShaderAnimation>().Play();
+        tipBoxText.text = "reset (" + rerrollCost + "$)";
         tipBox.gameObject.SetActive(true);
     }
 
@@ -36,30 +48,30 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         tipBox.gameObject.SetActive(false);
     }
-    
-    private void Update()
-    {
-        if(tipBox.gameObject.activeSelf)
-        {
-            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
-            tipBox.anchoredPosition = mousePos;
-        }
-    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         var locked = FindObjectOfType<LockButton>().locked;
 
-        if(rewardManager.TotalCash >= 2 && !locked)
+        if(rewardManager.TotalCash >= rerrollCost && !locked && !buildBox.OnUpgrade)
         {
+            AudioManager.Main.RequestGUIFX(clicksSFX);
             image.sprite = clickSprite;
 
-            rewardManager.SpendedCash = 2;
+            rewardManager.SpendedCash = 2;  
             cashTextAnim.PlayReverse();
 
-            rewardManager.EliminateOffer();
-            rewardManager.GenerateOffer();
+            Reroll();
+            OnReroll?.Invoke(this, EventArgs.Empty);
+            return;
         }
+        AudioManager.Main.PlayInvalidSelection();
+    }
+
+    public void Reroll()
+    {
+        rewardManager.EliminateOffer();
+        rewardManager.GenerateOffer();
     }
 
     public void OnPointerUp(PointerEventData eventData)

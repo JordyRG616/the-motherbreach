@@ -9,9 +9,14 @@ public abstract class ActionController : MonoBehaviour
     [SerializeField] protected List<ActionEffect> shooters;
     [SerializeField] protected float cost;
     [SerializeField] protected float health;
-    [SerializeField] protected List<EnemyManager> enemiesInSight = new List<EnemyManager>();
-    [SerializeField] protected EnemyManager target;
-  
+    protected float _health;
+
+    public RestBarManager restBar;
+
+    protected List<TargetableComponent> enemiesInSight = new List<TargetableComponent>();
+    [HideInInspector] public TargetableComponent target;
+    private IntegrityManager integrityManager;
+
     public abstract void Activate();
 
     protected abstract IEnumerator ManageActivation();
@@ -25,10 +30,32 @@ public abstract class ActionController : MonoBehaviour
         }
     }
 
+    protected virtual void SetOnRest()
+    {
+        shooters.ForEach(x => x.SetToRest());
+    }
+
+    public virtual void Initiate()
+    {
+        _health = health;
+
+        foreach(ActionEffect shooter in shooters)
+        {
+            shooter.Initiate();
+        }
+    }
+
+    public void HandleLevelUp(object sender, LevelUpArgs e)
+    {
+        foreach(ActionEffect shooter in shooters)
+        {
+            shooter.LevelUp(e.toLevel);
+        }
+    }
 
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.TryGetComponent<EnemyManager>(out EnemyManager enemy))
+        if(other.TryGetComponent<TargetableComponent>(out TargetableComponent enemy))
         {
             enemiesInSight.Add(enemy);
         }
@@ -36,7 +63,7 @@ public abstract class ActionController : MonoBehaviour
 
     public virtual void OnTriggerExit2D(Collider2D other)
     {
-        if(other.TryGetComponent<EnemyManager>(out EnemyManager enemy))
+        if(other.TryGetComponent<TargetableComponent>(out TargetableComponent enemy))
         {
             if(enemiesInSight.Contains(enemy))
             {
@@ -48,26 +75,18 @@ public abstract class ActionController : MonoBehaviour
 
     public List<ActionEffect> GetShooters()
     {
-        foreach(ActionEffect shooter in shooters)
-        {
-            shooter.Initiate();
-        }
         return shooters;
     }
 
-    public List<WeaponClass> GetClasses()
+    public void Reset()
     {
-        List<WeaponClass> container = new List<WeaponClass>();
-        
+        health = _health;
+
         foreach(ActionEffect shooter in shooters)
         {
-            if(!container.Contains(shooter.GetClass()))
-            {
-                container.Add(shooter.GetClass());
-            }
+            shooter.StatSet.Clear();
+            shooter.SetData();
         }
-        
-        return container;
     }
 
     public float GetCost()
@@ -83,5 +102,43 @@ public abstract class ActionController : MonoBehaviour
     public void RaiseHealthByPercentage(float percentage)
     {
         health *= (1 + percentage);
+        if(integrityManager == null) integrityManager = GetComponentInParent<IntegrityManager>();
+        if(integrityManager == null) return;
+        integrityManager.SetMaxIntegrity(health);
+    }
+
+    public List<Stat> GetStatsOnShooters()
+    {
+        var container = new List<Stat>();
+
+        foreach(ActionEffect shooter in shooters)
+        {
+            foreach(Stat stat in shooter.StatSet.Keys)
+            {
+                if(!container.Contains(stat))
+                {
+                    container.Add(stat);
+                }
+            }
+        }
+
+        return container;
+    }
+
+    public void SaveStats()
+    {
+        shooters.ForEach(x => x.RememberStatSet());
+    }
+
+    public void LoadStats()
+    {
+        shooters.ForEach(x => x.ResetStatSet());
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if(restBar == null) return;
+        var value = shooters[0].GetRestPercentual();
+        restBar.SetBarPercentual(value);
     }
 }

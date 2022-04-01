@@ -6,6 +6,7 @@ public class AudioEventData
 {
     public string eventName;
     [UnityEngine.SerializeField] private bool unique;
+    public bool playlistEvent = true;
     [EventRef] public string eventPath;
     private bool instanceCreated = false;
     private EventInstance uniqueInstance;

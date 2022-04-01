@@ -11,7 +11,7 @@ public class EnemyMovementController : MonoBehaviour
     private float majorR;
     [SerializeField] private Vector2 minorRadiusRange;
     private float minorR;
-    private WaitForSecondsRealtime waitTime = new WaitForSecondsRealtime(0.01f);
+    private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
 
     void Awake()
     {

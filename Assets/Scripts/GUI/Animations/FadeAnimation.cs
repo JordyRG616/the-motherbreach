@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class FadeAnimation : UIAnimations
 {
     private Image image;
+    [SerializeField] private float targetedAlpha = 1;
+
+    public override bool Done { get; protected set; }
 
     protected override void Awake()
     {
@@ -14,35 +17,49 @@ public class FadeAnimation : UIAnimations
         base.Awake();
     }
 
-    protected override IEnumerator Forward()
+    public override IEnumerator Forward()
     {
         float step = 0;
+        int index = int.MaxValue;
 
+        if(PlaySFX) AudioManager.Main.RequestGUIFX(OnStartSFX, out index);
         Color color =  image.color;
 
-        while(step <= 1 + (AnimationSpeed/100))
+        while(step <= 1 + (duration/100))
         {
-            float _alpha = Mathf.Lerp(0, 1, step);
+            float _alpha = Mathf.Lerp(0, targetedAlpha, step);
             color.a = _alpha;
             image.color = color;
-            step += AnimationSpeed / 100;
+            step += animationSpeed;
             yield return waitTime;
         }
+
+        yield return new WaitForEndOfFrame();
+
+        if(PlaySFX) AudioManager.Main.StopGUIFX(index);
+
+        Done = true;
     }
 
-    protected override IEnumerator Reverse()
+    public override IEnumerator Reverse()
     {
         float step = 0;
+        int index = int.MaxValue;
 
+        if(PlayReverseSFX) AudioManager.Main.RequestGUIFX(OnReverseSFX, out index);
         Color color =  image.color;
 
-        while(step <= 1 + (AnimationSpeed/100))
+        while(step <= 1 + (duration/100))
         {
-            float _alpha = Mathf.Lerp(1, 0, step);
+            float _alpha = Mathf.Lerp(targetedAlpha, 0, step);
             color.a = _alpha;
             image.color = color;
-            step += AnimationSpeed / 100;
+            step += animationSpeed;
             yield return waitTime;
         }
+
+        yield return new WaitForEndOfFrame();
+
+        if(PlayReverseSFX) AudioManager.Main.StopGUIFX(index);
     }
 }

@@ -44,7 +44,7 @@ public class StatPanel : MonoBehaviour
         var icon = container.transform.Find("Icon").GetComponent<Image>();
         var valueText = container.transform.Find("Value").GetComponent<TextMeshProUGUI>();
 
-        container.GetComponent<StatBox>().SetStatName(Stat.Damage);
+        // container.GetComponent<StatBox>().SetStatName(Stat.Damage);
 
         icon.sprite = assetList.GetIcon(Stat.Damage);
         valueText.text = value.ToString();
@@ -58,7 +58,7 @@ public class StatPanel : MonoBehaviour
         var icon = container.transform.Find("Icon").GetComponent<Image>();
         var valueText = container.transform.Find("Value").GetComponent<TextMeshProUGUI>();
 
-        container.GetComponent<StatBox>().SetStatName(Stat.Health);
+        // container.GetComponent<StatBox>().SetStatName(Stat.Health);
 
         icon.sprite = assetList.GetIcon(Stat.Health);
         valueText.text = value.ToString();
@@ -77,7 +77,7 @@ public class StatPanel : MonoBehaviour
         var icon = container.transform.Find("Icon").GetComponent<Image>();
         var valueText = container.transform.Find("Value").GetComponent<TextMeshProUGUI>();
 
-        container.GetComponent<StatBox>().SetStatName(stat);
+        // container.GetComponent<StatBox>().SetStatName(stat);
 
         icon.sprite = assetList.GetIcon(stat);
         valueText.text = value.ToString();

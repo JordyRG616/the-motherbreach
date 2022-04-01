@@ -14,7 +14,7 @@ public class RewardBox : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
     [SerializeField] private Image baseImage;
     [SerializeField] private StatPanel statPanel;
     public bool Empty {get; private set;} = true;
-    private WaitForSecondsRealtime waitTime = new WaitForSecondsRealtime(0.001f);
+    private WaitForSeconds waitTime = new WaitForSeconds(0.001f);
     public string weaponName {get; private set;}
     public string baseName{get; private set;}
     private Material topMaterial;

@@ -34,81 +34,124 @@ public class TurretConstructor : MonoBehaviour
 
 
     [SerializeField] private GameObject TurretTemplate;
-    [SerializeField] private RewardList baseList;
-    [SerializeField] private RewardList topList;
+    private int lastRdmBase = int.MaxValue;
+    private int lastRdmWeapon = int.MaxValue;
+    private RewardCalculator rewardCalculator;
+
 
     public void Initialize()
     {
-        baseList.InitiateMatrix();
-        topList.InitiateMatrix();
+        rewardCalculator = RewardCalculator.Main;
     }
 
-
-    private GameObject GetBase(Transform parentBlueprint, RewardLevel level, ActionController controller)
+    public GameObject GetTop()
     {
-        GameObject container = Instantiate(GetPossibleBase(controller, level, out string baseName), transform.position, Quaternion.identity, parentBlueprint);
-        container.name = baseName;
-        container.transform.localPosition = Vector3.zero;
-        return container;
-    }
-
-    private GameObject GetPossibleBase(ActionController controller, RewardLevel level, out string name)
-    {
-        List<GameObject> possibleBases = new List<GameObject>();
-        List<WeaponClass> weapons = controller.GetClasses();
-
-        foreach(GameObject reward in baseList.GetRewardsByLevel(level))
+        var list = rewardCalculator.weapons;
+        int rdm = Random.Range(0, list.Count);
+        if(rdm == lastRdmWeapon)
         {
-            foreach(WeaponClass weapon in weapons)
-            {
-                if(reward.GetComponent<BaseEffectTemplate>().GetWeaponClasses().Contains(weapon))
-                {
-                    possibleBases.Add(reward);
-                }
-            }
+            rdm = Random.Range(0, list.Count);
         }
+        lastRdmWeapon = rdm;
 
-        int rdm = Random.Range(0, possibleBases.Count);
-
-        name = possibleBases[rdm].name;
-
-        return possibleBases[rdm];
-
-    }
-
-    private GameObject GetTop(Transform parentBlueprint, RewardLevel level, out ActionController actionController)
-    {
-        int rdm = Random.Range(0, topList.GetListCount(level));
-        var _instance = topList.GetRewardByLevel(level, rdm);
-        GameObject container = Instantiate(_instance, transform.position, Quaternion.identity, parentBlueprint);
-        container.name = _instance.name;
-        container.transform.localPosition = Vector3.zero;
-        actionController = container.GetComponent<ActionController>();
+        var container = Instantiate(list[rdm]);
+        container.name = list[rdm].name;
+        container.GetComponent<ActionController>().Initiate();
+        container.SetActive(false);
+        //GameObject container = Instantiate(_instance, transform.position, Quaternion.identity);
         return container;
     }
 
-    public GameObject Construct(RewardLevel baseLevel, RewardLevel topLevel)
+    public GameObject GetBase()
+    {
+        var list = rewardCalculator.bases;
+        int rdm = Random.Range(0, list.Count);
+        if(rdm == lastRdmBase)
+        {
+            rdm = Random.Range(0, list.Count);
+        }
+        lastRdmBase = rdm;
+
+        var container = Instantiate(list[rdm]);
+        container.name = list[rdm].name;
+        container.SetActive(false);
+        //GameObject container = Instantiate(_instance, transform.position, Quaternion.identity);
+        return container;
+    }
+
+    public GameObject Construct(GameObject _weapon, GameObject _base)
     {
         GameObject blueprint = Instantiate(TurretTemplate, transform.position, Quaternion.identity);
+        
+        var manager = blueprint.GetComponent<TurretManager>();
+        var baseEffect = _base.GetComponent<BaseEffectTemplate>();
 
-        GameObject _gun = GetTop(blueprint.transform, topLevel, out ActionController actionController);
-        GameObject _base = GetBase(blueprint.transform, baseLevel, actionController);
+        _weapon.SetActive(true);
+        _weapon.transform.SetParent(blueprint.transform);
+        _weapon.transform.localPosition = Vector3.zero;
+        _base.SetActive(true);
+        _base.transform.SetParent(blueprint.transform);
+        _base.transform.localPosition = Vector3.zero;
 
-        TriggerImeddiateEffect(blueprint);
+        manager.Initiate();
+        baseEffect.Initiate();
+        manager.actionController.restBar = manager.GetComponent<RestBarManager>();
 
-        blueprint.GetComponent<TurretManager>().Initiate();
+        // if(baseEffect.GetTrigger() == EffectTrigger.OnLevelUp) 
+        // {
+        //     Debug.Log("registered");
+        //     manager.OnLevelUp += baseEffect.HandleLevelTrigger;
+        // }
 
         return blueprint;
     }
-    
-    private static void TriggerImeddiateEffect(GameObject occupyingTurret)
-    {
-        BaseEffectTemplate effect = occupyingTurret.GetComponentInChildren<BaseEffectTemplate>();
-        effect.ReceiveWeapon(occupyingTurret.GetComponentInChildren<ActionController>());
-        if (effect.GetTrigger() == BaseEffectTrigger.Immediate)
-        {
-            effect.ApplyEffect();
-        }
 
+    public void ReplaceBase(GameObject turret, GameObject newBase)
+    {
+        var manager = turret.GetComponent<TurretManager>();
+
+
+        newBase.SetActive(true);
+        newBase.transform.SetParent(turret.transform);
+        newBase.transform.localPosition = Vector3.zero;
+        newBase.transform.rotation = turret.transform.rotation;
+
+        manager.actionController.LoadStats();
+
+        var effect = newBase.GetComponent<BaseEffectTemplate>();
+        effect.Initiate();
+        manager.ReplaceBase(effect);
+
+        HandleBaseEffect(turret);
+        manager.actionController.SaveStats();
+    }
+    
+    public void HandleBaseEffect(GameObject occupyingTurret)
+    {
+        var manager = occupyingTurret.GetComponent<TurretManager>();
+        BaseEffectTemplate effect = manager.baseEffect;
+        var weapon = manager.actionController;
+        effect.ReceiveWeapon(weapon);
+        switch(effect.GetTrigger())
+        {
+            case EffectTrigger.Immediate:
+                effect.ApplyEffect();
+            break;
+            case EffectTrigger.OnLevelUp:
+                occupyingTurret.GetComponent<TurretManager>().OnLevelUp += effect.HandleLevelTrigger;
+            break;
+            case EffectTrigger.OnHit:
+                occupyingTurret.GetComponent<HitManager>().OnHit += effect.HandleCommonTrigger;
+            break;
+            case EffectTrigger.OnDestruction:
+                occupyingTurret.GetComponent<HitManager>().OnDeath += effect.HandleCommonTrigger;
+            break;
+            case EffectTrigger.OnTurretSell:
+                FindObjectOfType<SellButton>(true).OnTurretSell += effect.HandleCommonTrigger;
+            break;
+            case EffectTrigger.OnTurretBuild:
+                RewardManager.Main.OnTurretBuild += effect.HandleCommonTrigger;
+            break;
+        }
     }
 }

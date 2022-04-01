@@ -32,27 +32,43 @@ public class InputManager : MonoBehaviour
     }
     #endregion
 
-
-    [SerializeField] private MovementControlScheme movementScheme = MovementControlScheme.None;
-    [SerializeField] private RotationControlScheme rotationScheme = RotationControlScheme.None;
-    private KeyCode leftKey, rightKey, upKey, downKey; // MOVEMENT RELATED KEYCODES
-    private KeyCode rotateRight, rotateLeft; // ROTATION RELATED KEYCODES
+    [SerializeField] private Settings settings;
+    [SerializeField] [FMODUnity.EventRef] private string clearSFX;
+    private MovementControlScheme movementScheme = MovementControlScheme.None;
+    private RotationControlScheme rotationScheme = RotationControlScheme.None;
+    public KeyCode leftKey, rightKey, upKey, downKey; // MOVEMENT RELATED KEYCODES
+    public KeyCode rotateRight, rotateLeft; // ROTATION RELATED KEYCODES
 
     public event EventHandler<MovementEventArgs> OnMovementPressed;
     public event EventHandler<RotationEventArgs> OnRotationPressed;
     public event EventHandler OnInertia;
     public event EventHandler OnSelectionClear;
+    public event EventHandler OnGamePaused;
 
-    private IEnumerator _waveControl;
-    private IEnumerator _rewardControl;
+    public delegate void ControlScheme();
+    public ControlScheme move;
 
 
-    public void Test()
+    public void ClearEvents()
     {
-        StartCoroutine(_waveControl);
+        if(OnMovementPressed != null)
+        {
+            foreach(Delegate d in OnMovementPressed.GetInvocationList())
+            {
+                OnMovementPressed -= (EventHandler<MovementEventArgs>)d;
+            }
+        }
+
+        if(OnRotationPressed != null)
+        {
+            foreach(Delegate d in OnRotationPressed.GetInvocationList())
+            {
+                OnRotationPressed -= (EventHandler<RotationEventArgs>)d;
+            }
+        }
     }
 
-    void Awake()
+    void Start()
     {
         if (movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
         {
@@ -72,66 +88,114 @@ public class InputManager : MonoBehaviour
             initializeMouseScheme();
         }
 
-        _waveControl = WaveControl();
-        _rewardControl = RewardControl();
+        move = MouseControlScheme;
 
-        Test();
-
+        // _waveControl = WaveControl();
+        // _rewardControl = RewardControl();
     }
+
+    private void SetKeys()
+    {
+        leftKey = settings.moveLeft;
+        rightKey= settings.moveRight;
+        upKey = settings.moveUp;
+        downKey = settings.moveDown;
+
+        rotateLeft = settings.rotateLeft;
+        rotateRight = settings.rotateRight;
+    }
+
 
     public void HandleWaveControl(object sender, GameStateEventArgs e)
     { 
-        if(e.newState == GameState.OnWave)
-        {
-            StopAllCoroutines();
-            StartCoroutine(_waveControl);
-        }
-        if(e.newState == GameState.OnReward)
-        {
-            StopAllCoroutines();
-            StartCoroutine(_rewardControl);
-        }
+        // if(e.newState == GameState.OnWave)
+        // {
+        //     StopAllCoroutines();
+        //     OnSelectionClear -= PlaySFX;
+        //     StartCoroutine(_waveControl);
+        // }
+        // if(e.newState == GameState.OnReward)
+        // {
+        //     StopAllCoroutines();
+        //     OnSelectionClear += PlaySFX;
+        //     StartCoroutine(_rewardControl);
+        // }
     }
 
-    private void initializeQEScheme()
+    private void PlaySFX(object sender, EventArgs e)
+    {
+        AudioManager.Main.RequestGUIFX(clearSFX);
+    }
+
+    public void initializeQEScheme()
     {
         rotateRight = KeyCode.Q;
         rotateLeft = KeyCode.E;
+
+        rotationScheme = RotationControlScheme.QE;
     }
 
-    private void initializeMouseScheme()
+    public void initializeMouseScheme()
     {
         rotateRight = KeyCode.Mouse0;
         rotateLeft = KeyCode.Mouse1;
+
+        rotationScheme = RotationControlScheme.Mouse;
     }
 
-    private void initializeArrowScheme()
+    public void initializeArrowScheme()
     {
         leftKey = KeyCode.LeftArrow;
         rightKey = KeyCode.RightArrow;
         upKey = KeyCode.UpArrow;
         downKey = KeyCode.DownArrow;
+
+        movementScheme = MovementControlScheme.Arrows;
     }
 
-    private void initializeWASDScheme()
+    public void initializeWASDScheme()
     {
         leftKey = KeyCode.A;
         rightKey = KeyCode.D;
         upKey = KeyCode.W;
         downKey = KeyCode.S;
+
+        movementScheme = MovementControlScheme.WASD;
     }
 
     private void TriggerMovement()
     {
-        Vector2 direction = new Vector2(
-            Utilities.TestKey(rightKey) - Utilities.TestKey(leftKey),
-            Utilities.TestKey(upKey) - Utilities.TestKey(downKey)
-            );
+        move?.Invoke();
+    }
 
-        
-        OnMovementPressed?.Invoke(this, new MovementEventArgs(direction));
-        
-        
+    private void KeyboardControlScheme()
+    {
+        Vector2 direction = new Vector2(
+                    Utilities.TestKey(rightKey) - Utilities.TestKey(leftKey),
+                    Utilities.TestKey(upKey) - Utilities.TestKey(downKey)
+                    );
+
+        OnMovementPressed?.Invoke(this, new MovementEventArgs(direction));          
+    }
+
+    private void MouseControlScheme()
+    {
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            var pointerPos = Input.mousePosition;
+            pointerPos -= new Vector3(720, 360, pointerPos.z);
+            // var direction = pointerPos - transform.position;
+            // direction.z = 0;
+
+            OnMovementPressed?.Invoke(this, new MovementEventArgs(pointerPos.normalized));
+        }
+    }
+
+    public void SwitchMovementScheme(bool useMouse)
+    {
+        move = null;
+        if(useMouse) move = MouseControlScheme;
+        else move = KeyboardControlScheme;
     }
 
     private void TriggerRotation()
@@ -149,31 +213,38 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private IEnumerator WaveControl()
+    private void WaveControl()
     {
-        while(gameObject.activeSelf)
+        if(!GameManager.Main.onPause)
         {
             TriggerMovement();
             TriggerRotation();
-            yield return new WaitForSecondsRealtime(0.001f);
+        }
 
-            if(Input.GetKeyDown(KeyCode.Escape))
-            {
-                Time.timeScale = 0;
-            }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnGamePaused?.Invoke(this, EventArgs.Empty);
+        }
+
+    }
+
+    private void RewardControl()
+    {
+        if(Input.GetKeyDown(KeyCode.Mouse1)) 
+        {
+            OnSelectionClear?.Invoke(this, EventArgs.Empty);
         }
     }
 
-    private IEnumerator RewardControl()
+    public void UnPause()
     {
-        while(gameObject.activeSelf)
-        {
-            if(Input.GetKeyDown(KeyCode.Mouse1)) 
-            {
-                OnSelectionClear?.Invoke(this, EventArgs.Empty);
-            }
-            yield return new WaitForSecondsRealtime(0.001f);
-        }
+        OnGamePaused?.Invoke(this, EventArgs.Empty);
+    }
+
+    void Update()
+    {
+        if(GameManager.Main.gameState == GameState.OnWave) WaveControl();
+        if(GameManager.Main.gameState == GameState.OnReward) RewardControl();
     }
 }
 

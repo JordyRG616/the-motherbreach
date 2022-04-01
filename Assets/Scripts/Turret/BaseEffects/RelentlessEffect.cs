@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StringHandler;
 
 public class RelentlessEffect : BaseEffectTemplate
 {
@@ -13,5 +14,11 @@ public class RelentlessEffect : BaseEffectTemplate
             float ogRest = shooter.StatSet[Stat.Rest];
             shooter.SetStat(Stat.Rest, ogRest * percentage);
         }
+    }
+
+    public override string DescriptionText()
+    {
+        string description = "reduces the " + StatColorHandler.RestPaint("rest") + " of this turret in " + StatColorHandler.StatPaint(((1 - percentage) * 100).ToString()) + "%";
+        return description;
     }
 }

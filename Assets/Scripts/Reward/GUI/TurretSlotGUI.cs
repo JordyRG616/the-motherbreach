@@ -2,37 +2,61 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private TrackingDevice tracking;
+    // private TrackingDevice tracking;
     [SerializeField] private TurretSlot associatedSlot;
+    [SerializeField] private Color color;
     private RectTransform sellButton;
     private RectTransform upgradeButton;
     private RewardManager manager;
     private RectTransform selfRect;
+    private Vector3 offset;
+    private InputManager inputManager;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string clickSFX;
+    private ParticleSystem selectedVFX;
+    private BuildBox buildBox;
 
-    void Start()
+    void OnEnable()
     {
         if(manager == null)
         {
             manager = RewardManager.Main;
+            inputManager = InputManager.Main;
+            inputManager.OnSelectionClear += StopVFX;
+            buildBox = FindObjectOfType<BuildBox>();
 
-            tracking = GetComponent<TrackingDevice>();
+            selectedVFX = associatedSlot.GetComponentInChildren<ParticleSystem>(true);
+
+            // tracking = GetComponent<TrackingDevice>();
 
             sellButton = FindObjectOfType<SellButton>(true).GetComponent<RectTransform>();
             upgradeButton = FindObjectOfType<UpgradeButton>(true).GetComponent<RectTransform>();
 
             selfRect = GetComponent<RectTransform>();
+
+            offset = new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2);
         }
+
+        if(!associatedSlot.IsOcuppied()) GetComponent<Image>().color = color;
         
-        tracking.StartTracking(associatedSlot.transform);
+        // tracking.StartTracking(associatedSlot.transform);
     }
 
-    public void DeactivateTracking()
+    public void StopVFX(object sender, EventArgs e)
     {
-        tracking.StopTracking();
+        selectedVFX.Stop();
+    }
+
+    public void DeactivateSprite()
+    {
+        var _color = color;
+        _color.a = 0;
+        GetComponent<Image>().color = _color;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -42,26 +66,46 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             var turret = manager.ActiveSelection;
             associatedSlot.BuildTurret(turret);
             manager.BuildSelection();
+            DeactivateSprite();
+            return;
         }
-        else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null)
+        else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null && !buildBox.OnUpgrade)
         {
+            AudioManager.Main.RequestGUIFX(clickSFX);
+            selectedVFX.Play();
+            SendToBuildBox();
             ShowOptions();
+            return;
         }
+        AudioManager.Main.PlayInvalidSelection();
+    }
+
+    private void SendToBuildBox()
+    {   
+        var _weapon = associatedSlot.occupyingTurret.GetComponentInChildren<ActionController>().gameObject;
+        var _base = associatedSlot.occupyingTurret.GetComponentInChildren<BaseEffectTemplate>().gameObject;
+
+        buildBox.OnUpgrade = true;
+        _weapon.GetComponent<ActionController>().SaveStats();
+        buildBox.ReceiveWeapon(_weapon);
+        buildBox.ReceiveBase(_base);
     }
 
     private void ShowOptions()
     {
         sellButton.gameObject.SetActive(true);
 
-        int refund = (int)associatedSlot.occupyingTurret.GetComponent<TurretManager>().Stats[Stat.Cost] / 3;
+        int refund = (int)associatedSlot.occupyingTurret.GetComponent<TurretManager>().Level;
         if(refund < 1) refund = 1;
 
         sellButton.GetComponent<SellButton>().SetButton(refund, associatedSlot);
 
         upgradeButton.gameObject.SetActive(true);
 
-        sellButton.anchoredPosition = selfRect.anchoredPosition + new Vector2(0, 110);
-        upgradeButton.anchoredPosition = selfRect.anchoredPosition + new Vector2(0, 50);
+        upgradeButton.GetComponent<UpgradeButton>().SetButton(associatedSlot);
+
+        sellButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 110) - offset;
+        upgradeButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 50) - offset;
 
     }
 
@@ -71,27 +115,36 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        EventSystem.current.SetSelectedGameObject(gameObject);
+
         if(manager.ActiveSelection != null)
         {
             manager.ActiveSelection.transform.rotation = associatedSlot.transform.rotation;
             if(!associatedSlot.IsOcuppied())
             {
-                manager.ActiveSelection.GetComponentInChildren<TurretVFXManager>().SetSelectedColor(true);
+                foreach(TurretVFXManager vfx in manager.ActiveSelection.GetComponentsInChildren<TurretVFXManager>()) vfx.SetSelectedColor(true);
             }
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        EventSystem.current.SetSelectedGameObject(null);
+
         if(manager.ActiveSelection != null)
         {
             manager.ActiveSelection.transform.rotation = Quaternion.identity;
-            manager.ActiveSelection.GetComponentInChildren<TurretVFXManager>().SetSelectedColor(false);
+            foreach(TurretVFXManager vfx in manager.ActiveSelection.GetComponentsInChildren<TurretVFXManager>()) vfx.SetSelectedColor(false);
 
         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+    }
+
+    void FixedUpdate()
+    {
+        // GetComponent<RectTransform>().anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position);
     }
 }
