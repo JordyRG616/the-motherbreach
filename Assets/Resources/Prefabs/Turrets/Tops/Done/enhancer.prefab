@@ -231,10 +231,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 253cf28a8daf8be4bb0c39fed5f389cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 8
   shooters:
   - {fileID: 6822257003082243038}
   cost: 3
   health: 120
+  restBar: {fileID: 0}
   target: {fileID: 0}
   timeBetweenActivations: 3
   playerLayer:
@@ -272,13 +274,16 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  weaponClass: 8
   keyword: 0
   tags: 8
   initialDamage: 0
   initialRest: 20
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/Enhancer
   singleSFX: 1
+  initialRotation: 0
   debugStats: []
   percentage: 0.1
 --- !u!1001 &4601740749073703668

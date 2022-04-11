@@ -1,5 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace StringHandler 
 {
@@ -61,6 +62,19 @@ namespace StringHandler
                 container += str + " ";
             }
             return container;
+        }
+
+        public static void TurnIntoUiD(this string uId)
+        {
+            var _id = "";
+
+            for(int i = 0; i < 5; i++)
+            {
+                var rdm = UnityEngine.Random.Range(48, 91);
+                _id += ((char)rdm);
+            }
+
+            uId = _id;
         }
     }
 }

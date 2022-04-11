@@ -261,11 +261,13 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 0
   keyword: 0
   tags: 4
   initialDamage: 5
   initialRest: 5
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/Warcaster
   singleSFX: 1
   initialRotation: 0
@@ -284,10 +286,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c010bd3066323428f8e30831482ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 20
   shooters:
   - {fileID: 6813413614105874010}
   cost: 6
   health: 100
+  restBar: {fileID: 0}
   target: {fileID: 0}
   maxAngleVariation: 60
 --- !u!70 &2259296924633241597

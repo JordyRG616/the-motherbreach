@@ -88,7 +88,7 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         {
             AudioManager.Main.RequestGUIFX(replaceSFX);
             TurretConstructor.Main.ReplaceBase(cachedSlot.occupyingTurret, _base);
-            rewardManager.SpendCash(cost);
+            rewardManager.SpendCash((int)cost);
             buildBox.selectedBaseBox.Detach();
             buildBox.UpdateStats();
             buildBox.baseToReplace = null;

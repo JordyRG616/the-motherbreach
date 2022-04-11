@@ -141,11 +141,13 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 1
   keyword: 0
   tags: 4
   initialDamage: 20
   initialRest: 3
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/ShellShooter
   singleSFX: 1
   initialRotation: 0
@@ -164,10 +166,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08cd5cd3ee97624991b88fe77300e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 16
   shooters:
   - {fileID: 412746459757511556}
   cost: 4
   health: 100
+  restBar: {fileID: 0}
   target: {fileID: 0}
   timeBetweenActivations: 5
 --- !u!114 &4565091971899424661

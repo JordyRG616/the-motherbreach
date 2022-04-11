@@ -44,15 +44,19 @@ public class AudioManager : MonoBehaviour
 
     public void Initialize()
     {
-        musicTrack.trackVolume = settings.musicVolume;
-        uniqueMusicTrack.trackVolume = settings.musicVolume;
-        SFXTrack.trackVolume = settings.sfxVolume;
-        GUITrack.trackVolume = settings.guiVolume;
-
+        SetVolume();
 
         effects = new AudioEffects(this);
         library = GetComponentInChildren<AudioLibrary>();
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void SetVolume()
+    {
+        musicTrack.trackVolume = settings.musicVolume;
+        uniqueMusicTrack.trackVolume = settings.musicVolume;
+        SFXTrack.trackVolume = settings.sfxVolume;
+        GUITrack.trackVolume = settings.guiVolume;
     }
 
     public void RequestMusic()

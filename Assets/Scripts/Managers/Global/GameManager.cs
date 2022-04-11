@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private UIAnimations fadePanelAnimation;
     [SerializeField] private float initialCash;
+    [SerializeField] private TextMeshProUGUI buttonText;
+    [SerializeField] private GameObject deleteSaveButton;
 
     public GameState gameState {get; private set;} = GameState.OnTitle;
     public event EventHandler<GameStateEventArgs> OnGameStateChange;
@@ -56,16 +59,28 @@ public class GameManager : MonoBehaviour
     private UIAnimationManager pauseAnimation;
     public bool onPause {get; private set;}
 
+    private DataManager dataManager;
+
     public Texture2D endgamePic;
 
     void Start()
     {
         Application.targetFrameRate = 60;
+        dataManager = GetComponent<DataManager>();
 
+        if(dataManager.SaveFileExists())
+        {
+            dataManager.LoadData();
+            dataManager.SetSettingsData();
+            
+            deleteSaveButton.SetActive(true);
+            buttonText.text = "CONTINUE";
+        }
 
         if(gameState == GameState.OnTitle)
         {
             // Screen.SetResolution(1280, 720, true);
+            inputManager = InputManager.Main;
             audioManager = AudioManager.Main;
             audioManager.Initialize();
             audioManager.RequestMusic("Title");
@@ -109,25 +124,26 @@ public class GameManager : MonoBehaviour
         waveManager = WaveManager.Main;
         waveManager.Initialize();
 
-
-        inputManager = InputManager.Main;
-
         rewardManager.OnRewardSelection += InitiateWavePhase;
         waveManager.OnWaveEnd += InitiateRewardPhase;
-        OnGameStateChange += inputManager.HandleWaveControl;
         inputManager.OnGamePaused += HandleOptionsMenu;
 
         pauseAnimation = GameObject.FindGameObjectWithTag("PauseAnimation").GetComponent<UIAnimationManager>();
 
 
         EndWaveEventArgs initialArgs = new EndWaveEventArgs();
-        initialArgs.waveReward = initialCash;
+        initialArgs.waveReward = dataManager.SaveFileExists()? 0 : initialCash;
         gameState = GameState.OnReward;
         InitiateRewardPhase(this, initialArgs);
 
         FindObjectOfType<TutorialManager>().ShowSkipWindow();
 
         SceneManager.sceneLoaded -= LateStart;
+
+        if(dataManager.SaveFileExists())
+        {
+            dataManager.LoadData();
+        }
     }
 
     private void GenerateBackground(int count)
@@ -227,6 +243,26 @@ public class GameManager : MonoBehaviour
         }
 
         SceneManager.LoadScene(3);
+    }
+
+    public void SaveGame()
+    {
+        dataManager.SaveData();
+    }
+
+    private void LoadGame()
+    {
+        dataManager.LoadData();
+        inputManager.SetKeys();
+        audioManager.SetVolume();
+    }
+
+    public void DeleteSave()
+    {
+        dataManager.DeleteSaveFile();
+
+        deleteSaveButton.SetActive(false);
+        buttonText.text = "NEW GAME";
     }
 }
 

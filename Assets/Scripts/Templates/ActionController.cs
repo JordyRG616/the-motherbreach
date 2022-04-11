@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class ActionController : MonoBehaviour
+public abstract class ActionController : MonoBehaviour, ISavable
 {
+    public int weaponID;
     [SerializeField] protected List<ActionEffect> shooters;
     [SerializeField] protected float cost;
     [SerializeField] protected float health;
@@ -140,5 +141,48 @@ public abstract class ActionController : MonoBehaviour
         if(restBar == null) return;
         var value = shooters[0].GetRestPercentual();
         restBar.SetBarPercentual(value);
+    }
+
+    public Dictionary<string, byte[]> GetData()
+    {
+        var container = new Dictionary<string, byte[]>();
+        container.Add("weaponID", BitConverter.GetBytes(weaponID));
+
+        for(int i = 0; i < shooters.Count; i++)
+        {
+            var shooterData = shooters[i].GetData();
+
+            foreach(string key in shooterData.Keys)
+            {
+                container.Add("shooter" + i + key, shooterData[key]);
+            }
+        }
+
+        return container;
+    }
+
+    public void LoadData(SaveFile saveFile)
+    {
+        for (int i = 0; i < shooters.Count; i++)
+        {
+           foreach(Stat stat in shooters[i].StatSet.Keys)
+           {
+
+           } 
+        }
+    }
+
+    public void LoadData(SaveFile saveFile, string rootId)
+    {
+        for (int i = 0; i < shooters.Count; i++)
+        {
+            var stats = shooters[i].StatSet.Keys.ToList();
+
+            foreach(Stat stat in stats)
+            {
+                var value = BitConverter.ToSingle(saveFile.GetValue(rootId + "shooter" + i + stat));
+                shooters[i].SetStat(stat, value);
+            } 
+        }
     }
 }

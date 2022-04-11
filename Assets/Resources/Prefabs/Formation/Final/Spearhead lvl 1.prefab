@@ -76,6 +76,7 @@ MonoBehaviour:
   - {fileID: 1893178835161390423}
   attackingMovements: 3
   distanceToAttack: 20
+  deltaDistance: 2
   distanceToFlee: 15
   durationOfFlee: 0.5
 --- !u!114 &1893178835161390431
@@ -5070,6 +5071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf34a1a5e733a94b91d78f53f4c6f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  formationLevel: 0
 --- !u!1001 &4461862018470605029
 PrefabInstance:
   m_ObjectHideFlags: 0

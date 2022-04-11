@@ -232,10 +232,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 253cf28a8daf8be4bb0c39fed5f389cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 9
   shooters:
   - {fileID: 5060032353080594885}
   cost: 3
   health: 120
+  restBar: {fileID: 0}
   target: {fileID: 0}
   timeBetweenActivations: 3
   playerLayer:
@@ -293,13 +295,16 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  weaponClass: 7
   keyword: 3
   tags: 8
   initialDamage: 0
   initialRest: 25
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/ShieldSpawn
   singleSFX: 1
+  initialRotation: 0
   debugStats: []
   shieldTemplate: {fileID: 8879463012661807335, guid: 78a8dc23236329547b28265586b10aa0, type: 3}
 --- !u!1001 &4601740749073703668

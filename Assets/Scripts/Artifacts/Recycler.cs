@@ -12,6 +12,6 @@ public class Recycler : Artifact
 
     protected override void Effect()
     {
-        RewardManager.Main.EarnCash(amount);
+        RewardManager.Main.EarnCash((int)amount);
     }
 }

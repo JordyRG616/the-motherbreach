@@ -5,9 +5,18 @@ using UnityEngine;
 public class SpearheadController : FormationMovementController
 {
     [SerializeField] private float distanceToAttack;
+    [SerializeField] private float deltaDistance;
     [SerializeField] private float distanceToFlee;
     [SerializeField] private float durationOfFlee;
     private bool fleeing;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        var rdm = Random.Range(-deltaDistance, deltaDistance);
+        distanceToAttack += rdm;
+    }
 
     protected override void ManageStates()
     {

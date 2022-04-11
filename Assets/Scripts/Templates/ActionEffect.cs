@@ -4,9 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using StringHandler;
 
-public abstract class ActionEffect : MonoBehaviour
+public abstract class ActionEffect : MonoBehaviour, ISavable
 {
+
     [SerializeField] protected ParticleSystem shooterParticle;
     [SerializeField] protected LayerMask targetLayer;
     [SerializeField] protected Keyword keyword;
@@ -55,7 +57,6 @@ public abstract class ActionEffect : MonoBehaviour
         gameManager.OnGameStateChange += ClearShots;
 
         audioManager = AudioManager.Main;
-
     }
 
     public abstract string DescriptionText();
@@ -229,6 +230,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     public float GetRestPercentual()
     {
+        if(!StatSet.ContainsKey(Stat.Rest)) return 0;
         return cooldown / StatSet[Stat.Rest];
     }
 
@@ -237,4 +239,24 @@ public abstract class ActionEffect : MonoBehaviour
         cooldown = 0;
         onRest = true;
     }
+
+    public Dictionary<string, byte[]> GetData()
+    {
+        var container = new Dictionary<string, byte[]>();
+
+        foreach(Stat stat in StatSet.Keys)
+        {
+            var key = stat.ToString();
+            var value = BitConverter.GetBytes(StatSet[stat]);
+            container.Add(key, value);
+        }
+
+        return container;
+    }
+
+    public void LoadData(SaveFile saveFile)
+    {
+        
+    }
+
 }

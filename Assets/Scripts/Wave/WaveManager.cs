@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class WaveManager : MonoBehaviour
+public class WaveManager : MonoBehaviour, ISavable
 {
     #region Singleton
     private static WaveManager _instance;
@@ -46,6 +46,7 @@ public class WaveManager : MonoBehaviour
     private WaveData activeWave;
     private ShipManager ship;
     private int spawnIndex;
+    private int waveIndex;
     public List<FormationManager> activeFormations {get; private set;} = new List<FormationManager>();
     public List<BossController> activeBosses {get; private set;} = new List<BossController>();
     private TutorialManager tutorialManager;
@@ -107,6 +108,7 @@ public class WaveManager : MonoBehaviour
         if(dataQueue.Count > 0)
         {
             activeWave = dataQueue.Dequeue();
+            waveIndex ++;
             activeWave.SetQueue();
             spawnIndex = 0;
             StartCoroutine(InstantiateFormations());
@@ -277,7 +279,25 @@ public class WaveManager : MonoBehaviour
     {
         StartCoroutine(InstantiateFormations());
     }
-    
+
+    public Dictionary<string, byte[]> GetData()
+    {
+        var container = new Dictionary<string, byte[]>();
+
+        container.Add("waveIndex", BitConverter.GetBytes(waveIndex));
+
+        return container;
+    }
+
+    public void LoadData(SaveFile saveFile)
+    {
+        var count = BitConverter.ToInt32(saveFile.GetValue("waveIndex"));
+        waveIndex = count;
+        for (int i = 0; i < count; i++)
+        {
+            dataQueue.Dequeue();
+        }
+    }
 }
 
 public class EndWaveEventArgs : EventArgs

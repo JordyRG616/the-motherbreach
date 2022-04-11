@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class BaseEffectTemplate : MonoBehaviour
 {
+    public int baseID;
     [SerializeField] protected EffectTrigger trigger;
     public bool targetStats;
     [SerializeField] protected List<Stat> targetedStats;

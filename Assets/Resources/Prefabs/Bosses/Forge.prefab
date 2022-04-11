@@ -90,7 +90,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1301207545398447239}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.33, y: 0, z: 0}
+  m_LocalPosition: {x: -0.1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4960,7 +4960,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320352185928142755}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.9, y: 12.925, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5103,7 +5103,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -5
+      scalar: 5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5595,7 +5595,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 10
+    type: 12
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -5801,7 +5801,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 10
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -6910,7 +6910,7 @@ ParticleSystem:
     radial:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 8
+      scalar: 3
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -14595,7 +14595,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1840564297578747677}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: -1.46, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14610,14 +14610,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1840564297578747677}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -14685,7 +14685,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -14738,7 +14738,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: -3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -14854,7 +14854,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -15234,7 +15234,7 @@ ParticleSystem:
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
@@ -15375,7 +15375,7 @@ ParticleSystem:
           m_RotationOrder: 4
     arc:
       value: 360
-      mode: 0
+      mode: 3
       spread: 0
       speed:
         serializedVersion: 2
@@ -15436,7 +15436,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -15539,23 +15539,81 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_BurstCount: 0
-    m_Bursts: []
+    m_BurstCount: 1
+    m_Bursts:
+    - serializedVersion: 2
+      time: 0
+      countCurve:
+        serializedVersion: 2
+        minMaxState: 1
+        scalar: 30
+        minScalar: 30
+        maxCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0.4647887
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        minCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      cycleCount: 0
+      repeatInterval: 0.25
+      probability: 1
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 1
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
+          value: 0.5
           inSlope: 0
-          outSlope: 1
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
@@ -15564,7 +15622,7 @@ ParticleSystem:
           time: 1
           value: 1
           inSlope: 1
-          outSlope: 0
+          outSlope: 1
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
@@ -15704,7 +15762,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   RotationModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -15814,7 +15872,7 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.7853982
+      scalar: 12.56637
       minScalar: 0.7853982
       maxCurve:
         serializedVersion: 2
@@ -15932,8 +15990,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
-    mode: 0
+    enabled: 1
+    mode: 1
     timeMode: 0
     fps: 30
     frameOverTime:
@@ -16051,11 +16109,11 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 0}
+    - sprite: {fileID: 21300000, guid: d3aac6b2dd9b2354685aae498aa1e48a, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -16324,7 +16382,7 @@ ParticleSystem:
     orbitalZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1.5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -16536,7 +16594,7 @@ ParticleSystem:
     radial:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -1.5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -19330,7 +19388,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: d416585572bbd3f489c81b99d217c954, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19348,9 +19406,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -111248837
+  m_SortingLayer: 1
+  m_SortingOrder: 2
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -19422,7 +19480,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1905252113435768422}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 10
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -19430,7 +19488,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 0
+  prewarm: 1
   playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -19497,7 +19555,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -19666,7 +19724,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.2
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -20248,7 +20306,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 100
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -20744,8 +20802,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
-    mode: 0
+    enabled: 1
+    mode: 1
     timeMode: 0
     fps: 30
     frameOverTime:
@@ -20863,7 +20921,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 0}
+    - sprite: {fileID: 21300000, guid: 7f4e6ed99ed5e444894ad5736ddec518, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -24144,7 +24202,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: d416585572bbd3f489c81b99d217c954, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24162,9 +24220,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -111248837
+  m_SortingLayer: 1
+  m_SortingOrder: 2
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -24205,7 +24263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1822274260294324591}
   - component: {fileID: 3653835877590279449}
-  - component: {fileID: 2200044434005718867}
+  - component: {fileID: 8724099682433230528}
   m_Layer: 6
   m_Name: Track Beam anchor
   m_TagString: Untagged
@@ -24238,7 +24296,7 @@ ParticleSystemForceField:
   m_Enabled: 1
   m_Parameters:
     m_Shape: 0
-    m_StartRange: 1.18
+    m_StartRange: 0
     m_EndRange: 50
     m_Length: 1
     m_GravityFocus: 0
@@ -24723,8 +24781,8 @@ ParticleSystemForceField:
         m_RotationOrder: 4
     m_MultiplyDragByParticleSize: 1
     m_MultiplyDragByParticleVelocity: 1
---- !u!58 &2200044434005718867
-CircleCollider2D:
+--- !u!68 &8724099682433230528
+EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -24736,9 +24794,15 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.1
+  m_Offset: {x: 0, y: 0.4}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -3, y: 0}
+  - {x: 3, y: 0}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &4124502753254958372
 GameObject:
   m_ObjectHideFlags: 0
@@ -24765,7 +24829,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4124502753254958372}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.9, y: 13.05, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29656,9 +29720,9 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 1
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.16
-  m_Color: {r: 0.9911022, g: 0.8666667, b: 0.9911022, a: 1}
-  m_Intensity: 1.37
+  m_FalloffIntensity: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 3b7a5ef9
@@ -29666,7 +29730,7 @@ MonoBehaviour:
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
   m_OverlapOperation: 0
-  m_NormalMapDistance: 3
+  m_NormalMapDistance: 10
   m_NormalMapQuality: 0
   m_UseNormalMap: 0
   m_ShadowIntensityEnabled: 0
@@ -29674,250 +29738,256 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_Vertices:
-  - position: {x: -1.199014, y: -0.81763184, z: 0}
+  - position: {x: 0.4568091, y: -0.1767108, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0}
-  - position: {x: 1.2052109, y: 0.59858644, z: 0}
+  - position: {x: -0.43739754, y: 0.15236485, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0}
-  - position: {x: 1.186625, y: -0.80492634, z: 0}
+  - position: {x: 0.4558255, y: 0.19542332, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0}
-  - position: {x: -1.2176025, y: 0.6174871, z: 0}
+  - position: {x: -0.45566833, y: -0.18162535, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0}
-  - position: {x: -1.199014, y: -0.81763184, z: 0}
+  - position: {x: -0.45566833, y: -0.18162535, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0}
-  - position: {x: 1.186625, y: -0.80492634, z: 0}
+  - position: {x: 0.4568091, y: -0.1767108, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0}
-  - position: {x: 1.2052109, y: 0.59858644, z: 0}
+  - position: {x: 0.4558255, y: 0.19542332, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0}
-  - position: {x: -1.2176025, y: 0.6174871, z: 0}
+  - position: {x: -0.43739754, y: 0.15236485, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0}
-  - position: {x: -3.4088, y: -0.8462, z: 0}
+  - position: {x: -2.852, y: -0.0503, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.3966, y: -1.0518, z: 0}
+  - position: {x: -2.8542, y: -0.2649, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.3652, y: -1.2553, z: 0}
+  - position: {x: -2.8371, y: -0.4788, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.3151, y: -1.4551, z: 0}
+  - position: {x: -2.8011, y: -0.6903, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.2465, y: -1.6493, z: 0}
+  - position: {x: -2.7462, y: -0.8978, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.1602, y: -1.8363, z: 0}
+  - position: {x: -2.6731, y: -1.0996, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.0569, y: -2.0144, z: 0}
+  - position: {x: -2.5822, y: -1.294, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.9374, y: -2.1821, z: 0}
+  - position: {x: -2.4743, y: -1.4795, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.8029, y: -2.338, z: 0}
+  - position: {x: -2.3503, y: -1.6547, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.6544, y: -2.4807, z: 0}
+  - position: {x: -2.2112, y: -1.8181, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.4933, y: -2.609, z: 0}
+  - position: {x: -2.058, y: -1.9683, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.3209, y: -2.7217, z: 0}
+  - position: {x: -1.8919, y: -2.1043, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.1388, y: -2.8178, z: 0}
+  - position: {x: -1.7144, y: -2.225, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -1.9485, y: -2.8966, z: 0}
+  - position: {x: -1.5269, y: -2.3292, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -1.7518, y: -2.9574, z: 0}
+  - position: {x: -1.3307, y: -2.4164, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -1.5502, y: -2.9995, z: 0}
+  - position: {x: -1.1276, y: -2.4856, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -1.3456, y: -3.0227, z: 0}
+  - position: {x: -0.9191, y: -2.5364, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -1.1872, y: -3.0276, z: 0}
+  - position: {x: -0.7069, y: -2.5684, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 1.1984, y: -3.0149, z: 0}
+  - position: {x: -0.4427, y: -2.5816, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 1.404, y: -3.0042, z: 0}
+  - position: {x: 0.4697, y: -2.5767, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 1.6078, y: -2.9744, z: 0}
+  - position: {x: 0.684, y: -2.5659, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 1.8079, y: -2.9258, z: 0}
+  - position: {x: 0.8966, y: -2.5361, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.0026, y: -2.8587, z: 0}
+  - position: {x: 1.1056, y: -2.4874, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.1903, y: -2.7739, z: 0}
+  - position: {x: 1.3094, y: -2.4202, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.3692, y: -2.6719, z: 0}
+  - position: {x: 1.5064, y: -2.335, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.5378, y: -2.5537, z: 0}
+  - position: {x: 1.695, y: -2.2326, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.6947, y: -2.4203, z: 0}
+  - position: {x: 1.8737, y: -2.1138, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.8386, y: -2.2729, z: 0}
+  - position: {x: 2.0411, y: -1.9795, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.968, y: -2.1128, z: 0}
+  - position: {x: 2.1958, y: -1.8308, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.082, y: -1.9413, z: 0}
+  - position: {x: 2.3366, y: -1.6688, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.1796, y: -1.7599, z: 0}
+  - position: {x: 2.4624, y: -1.4949, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.2598, y: -1.5703, z: 0}
+  - position: {x: 2.5721, y: -1.3105, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.3221, y: -1.374, z: 0}
+  - position: {x: 2.6649, y: -1.117, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.3658, y: -1.1727, z: 0}
+  - position: {x: 2.7401, y: -0.916, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.3906, y: -0.9683, z: 0}
+  - position: {x: 2.797, y: -0.7091, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.3964, y: -0.8342, z: 0}
+  - position: {x: 2.8352, y: -0.4979, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.415, y: 0.5692, z: 0}
+  - position: {x: 2.8544, y: -0.2841, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.4081, y: 0.775, z: 0}
+  - position: {x: 2.8568, y: -0.1703, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.3821, y: 0.9793, z: 0}
+  - position: {x: 2.8558, y: 0.2018, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.3372, y: 1.1803, z: 0}
+  - position: {x: 2.8456, y: 0.4162, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.2738, y: 1.3762, z: 0}
+  - position: {x: 2.8163, y: 0.6288, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.1925, y: 1.5654, z: 0}
+  - position: {x: 2.7682, y: 0.838, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 3.0938, y: 1.7462, z: 0}
+  - position: {x: 2.7015, y: 1.042, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.9788, y: 1.917, z: 0}
+  - position: {x: 2.6169, y: 1.2392, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.8484, y: 2.0764, z: 0}
+  - position: {x: 2.5151, y: 1.4281, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.7037, y: 2.2229, z: 0}
+  - position: {x: 2.3967, y: 1.6071, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.546, y: 2.3553, z: 0}
+  - position: {x: 2.2628, y: 1.7748, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.3766, y: 2.4725, z: 0}
+  - position: {x: 2.1145, y: 1.9299, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.1971, y: 2.5734, z: 0}
+  - position: {x: 1.9529, y: 2.0712, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 2.009, y: 2.6572, z: 0}
+  - position: {x: 1.7794, y: 2.1974, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 1.8139, y: 2.723, z: 0}
+  - position: {x: 1.5953, y: 2.3077, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 1.6135, y: 2.7705, z: 0}
+  - position: {x: 1.402, y: 2.401, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 1.4095, y: 2.799, z: 0}
+  - position: {x: 1.2012, y: 2.4767, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 1.2224, y: 2.8084, z: 0}
+  - position: {x: 0.9944, y: 2.5342, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -1.2004, y: 2.8273, z: 0}
+  - position: {x: 0.7833, y: 2.5729, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -1.4061, y: 2.8193, z: 0}
+  - position: {x: 0.5697, y: 2.5927, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -1.6103, y: 2.7922, z: 0}
+  - position: {x: 0.3401, y: 2.5926, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -1.811, y: 2.7462, z: 0}
+  - position: {x: -0.553, y: 2.5495, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.0066, y: 2.6818, z: 0}
+  - position: {x: -0.7667, y: 2.5296, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.1953, y: 2.5994, z: 0}
+  - position: {x: -0.9777, y: 2.4907, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.3756, y: 2.4997, z: 0}
+  - position: {x: -1.1844, y: 2.433, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.5457, y: 2.3838, z: 0}
+  - position: {x: -1.3852, y: 2.3572, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.7044, y: 2.2525, z: 0}
+  - position: {x: -1.5784, y: 2.2637, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.8501, y: 2.107, z: 0}
+  - position: {x: -1.7624, y: 2.1533, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -2.9817, y: 1.9486, z: 0}
+  - position: {x: -1.9359, y: 2.0269, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.098, y: 1.7786, z: 0}
+  - position: {x: -2.0973, y: 1.8856, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.1979, y: 1.5985, z: 0}
+  - position: {x: -2.2455, y: 1.7303, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.2806, y: 1.4099, z: 0}
+  - position: {x: -2.3793, y: 1.5625, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.3454, y: 1.2145, z: 0}
+  - position: {x: -2.4975, y: 1.3834, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.3918, y: 1.0138, z: 0}
+  - position: {x: -2.5992, y: 1.1944, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.4192, y: 0.8097, z: 0}
+  - position: {x: -2.6837, y: 0.9971, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: -3.4274, y: 0.5888, z: 0}
+  - position: {x: -2.7502, y: 0.7931, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  m_Triangles: 000001000200010000000300040008000800040008000900040009000a0004000a000b0004000b000c0004000c000d0004000d000e0004000e000f0004000f001000040010001100040011001200040012001300040013001400040014001500040015001600040016001700040017001800040018001900040005001a00040019001a0005001a001b0005001b001c0005001c001d0005001d001e0005001e001f0005001f002000050020002100050021002200050022002300050023002400050024002500050025002600050026002700050027002800050028002900050029002a0005002a002b00050006002c0005002b002c0006002c002d0006002d002e0006002e002f0006002f003000060030003100060031003200060032003300060033003400060034003500060035003600060036003700060037003800060038003900060039003a0006003a003b0006003b003c0006003c003d00060007003e0006003d003e0007003e003f0007003f004000070040004100070041004200070042004300070043004400070044004500070045004600070046004700070047004800070048004900070049004a0007004a004b0007004b004c0007004c004d0007004d004e0007004e004f0008000400070008004f000700
+  - position: {x: -2.7982, y: 0.5839, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: -2.8337, y: 0.2836, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  m_Triangles: 000001000200010000000300040008000800040008000900040009000a0004000a000b0004000b000c0004000c000d0004000d000e0004000e000f0004000f001000040010001100040011001200040012001300040013001400040014001500040015001600040016001700040017001800040018001900040019001a00040005001b0004001a001b0005001b001c0005001c001d0005001d001e0005001e001f0005001f002000050020002100050021002200050022002300050023002400050024002500050025002600050026002700050027002800050028002900050029002a0005002a002b0005002b002c0005002c002d00050006002e0005002d002e0006002e002f0006002f003000060030003100060031003200060032003300060033003400060034003500060035003600060036003700060037003800060038003900060039003a0006003a003b0006003b003c0006003c003d0006003d003e0006003e003f0006003f004000060007004100060040004100070041004200070042004300070043004400070044004500070045004600070046004700070047004800070048004900070049004a0007004a004b0007004b004c0007004c004d0007004d004e0007004e004f0007004f005000070050005100080004000700080051000700
   m_LocalBounds:
-    m_Center: {x: -0.006200075, y: -0.10014999, z: 0}
-    m_Extent: {x: 3.4212, y: 2.9274502, z: 0}
+    m_Center: {x: 0.0013000965, y: 0.005550027, z: 0}
+    m_Extent: {x: 2.8555, y: 2.58715, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -29925,13 +29995,13 @@ MonoBehaviour:
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 2.21
+  m_ShapeLightFalloffSize: 2.4
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
-  - {x: -1.199014, y: -0.81763184, z: 0}
-  - {x: 1.186625, y: -0.80492634, z: 0}
-  - {x: 1.2052109, y: 0.59858644, z: 0}
-  - {x: -1.2176025, y: 0.6174871, z: 0}
+  - {x: -0.45566833, y: -0.18162535, z: 0}
+  - {x: 0.4568091, y: -0.1767108, z: 0}
+  - {x: 0.4558255, y: 0.19542332, z: 0}
+  - {x: -0.43739754, y: 0.15236485, z: 0}
 --- !u!1 &6179695112349117609
 GameObject:
   m_ObjectHideFlags: 0
@@ -30200,9 +30270,9 @@ GameObject:
   - component: {fileID: 6179695113629851795}
   - component: {fileID: 4094973236199065584}
   - component: {fileID: 9159173850279370298}
+  - component: {fileID: 7474488104916322906}
   - component: {fileID: 1256933591148766512}
   - component: {fileID: 6179695113629851792}
-  - component: {fileID: 6179695113629851793}
   - component: {fileID: 6179695113629851794}
   - component: {fileID: -2338609158320272725}
   - component: {fileID: 7932221867030846165}
@@ -30222,7 +30292,7 @@ Transform:
   m_GameObject: {fileID: 6179695113629851802}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6179695112349117608}
@@ -30414,6 +30484,7 @@ MonoBehaviour:
   secondPhaseTrail: {fileID: 3646254410125909430}
   bossMusic: Forge
   musicParameterName: DefeatedPhase
+  maxChildCount: 4
 --- !u!114 &4094973236199065584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30445,7 +30516,7 @@ MonoBehaviour:
   actionWeaponry: []
   hasMove: 1
   speed: 0
-  actionDuration: 3
+  actionDuration: 4
   ChildSpeed: 5
   blueprints:
   - {fileID: 4461862019773174273, guid: 7943ea1b35ac80d4883e1cc0bca3892b, type: 3}
@@ -30454,6 +30525,32 @@ MonoBehaviour:
   - {fileID: 8679786007202397651}
   - {fileID: 3713089858736467497}
   cooldown: 1
+  spawnSFX: event:/SFX/NEW/ForgeSpawn
+--- !u!114 &7474488104916322906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6179695113629851802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e6067060eec1f4780501afa0e54b24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionWeaponry: []
+  hasMove: 1
+  speed: 0
+  actionDuration: 2
+  ChildSpeed: 20
+  blueprints:
+  - {fileID: 372765064990266162, guid: 606fe947b9edaf743b83f6d52896a432, type: 3}
+  childrenCount: 5
+  positionsToSpawn:
+  - {fileID: 8679786007202397651}
+  - {fileID: 3713089858736467497}
+  cooldown: 1
+  spawnSFX: event:/SFX/NEW/ForgeSpawn
 --- !u!114 &1256933591148766512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30469,9 +30566,12 @@ MonoBehaviour:
   actionWeaponry: []
   hasMove: 1
   speed: 0
-  actionDuration: 3
+  actionDuration: 6
   recallPosition: {fileID: 8900291447441889013}
   trackBeam: {fileID: 2793175497692384616}
+  beamSFX: event:/SFX/NEW/ForgeRecall
+  levelUpVFX: {fileID: 2161056005016005153}
+  levelUpSFX: event:/SFX/NEW/ForgeLevelUp
 --- !u!114 &6179695113629851792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30484,19 +30584,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf2f45367dea4a549a6091941afd116c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6179695113629851793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6179695113629851802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7430b61f676d494438c1ea2a60628393, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponry: []
 --- !u!114 &6179695113629851794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30509,12 +30596,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6deb6a1a2d53ae4493b1d470ffae2fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 800
+  maxHealth: 1250
   damageReduction: 0.71
   onDamageSFX: event:/SFX/NEW/BossHit 1
   onDeathSFX: event:/SFX/NEW/EnemyDeath
   onDeathVFX: {fileID: 1361080808796846809}
-  _material: {fileID: 0}
+  _material: {fileID: 2100000, guid: 2ca57f92e38fe234dbc44705f8fcf0d6, type: 2}
 --- !u!114 &-2338609158320272725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30780,7 +30867,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7822029892367236849}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.33, y: 0, z: 0}
+  m_LocalPosition: {x: 0.1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35648,7 +35735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8282199106234470447}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.8, z: 0}
+  m_LocalPosition: {x: -0, y: -1.39, z: 0}
   m_LocalScale: {x: 0.6666666, y: 0.6666666, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -35887,7 +35974,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8533550236758560236}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.9, y: 12.925, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -36522,7 +36609,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 10
+    type: 16
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -36530,7 +36617,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 2.3884966, y: 1.1887041, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0

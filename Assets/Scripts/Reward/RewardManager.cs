@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RewardManager : MonoBehaviour
+public class RewardManager : MonoBehaviour, ISavable
 {
     #region Singleton
     private static RewardManager _instance;
@@ -43,7 +43,7 @@ public class RewardManager : MonoBehaviour
     private TurretConstructor turretConstructor;
     private RewardCalculator calculator;
     private UIAnimationManager animationManager;
-    public float TotalCash, EarnedCash, SpendedCash;
+    public int TotalCash, EarnedCash, SpendedCash;
     private BuildBox buildBox;
     private TutorialManager tutorialManager;
 
@@ -101,7 +101,7 @@ public class RewardManager : MonoBehaviour
     public void InitiateReward(float rewardValue)
     {
         SpendedCash = 0;
-        EarnCash(rewardValue);
+        EarnCash((int)rewardValue);
         ShipManager.Main.transform.rotation = Quaternion.identity;
         var ship = FindObjectOfType<ShipController>();
         ship.StopFX();
@@ -117,6 +117,8 @@ public class RewardManager : MonoBehaviour
         var locked = FindObjectOfType<LockButton>().locked;
 
         if(!locked) GenerateOffer();
+
+        GameManager.Main.SaveGame();
     }
 
     public void GenerateOffer()
@@ -134,13 +136,13 @@ public class RewardManager : MonoBehaviour
         }
     }
 
-    public void EarnCash(float amount)
+    public void EarnCash(int amount)
     {
         EarnedCash = amount;
         cashTextAnimation.Play();
     }
 
-    public void SpendCash(float amount)
+    public void SpendCash(int amount)
     {
         SpendedCash = amount;
         cashTextAnimation.PlayReverse();
@@ -153,7 +155,7 @@ public class RewardManager : MonoBehaviour
         OnTurretBuild?.Invoke(this, EventArgs.Empty);
         turretConstructor.HandleBaseEffect(ActiveSelection);
         var manager = ActiveSelection.GetComponent<TurretManager>();
-        SpendCash(manager.Stats[Stat.Cost]);
+        SpendCash((int)manager.Stats[Stat.Cost]);
         ShipManager.Main.RegisterTurret(manager);
 
 
@@ -216,4 +218,19 @@ public class RewardManager : MonoBehaviour
         Destroy(ActiveSelection);
     }
 
+    public Dictionary<string, byte[]> GetData()
+    {
+        var container = new Dictionary<string, byte[]>();
+
+        container.Add("totalCash", BitConverter.GetBytes(TotalCash));
+
+        return container;
+    }
+
+    public void LoadData(SaveFile saveFile)
+    {
+        TotalCash = 0;
+        var cash = BitConverter.ToInt32(saveFile.GetValue("totalCash"));
+        EarnCash(cash);
+    }
 }

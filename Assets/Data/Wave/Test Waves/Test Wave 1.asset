@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0f701f77d25324585ba86577dd2f08, type: 3}
+  m_Name: Test Wave 1
+  m_EditorClassIdentifier: 
+  enemiesInWave: []
+  breaches:
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
+    intervalOfSpawn: 1
+    intervalTillNextWave: 1
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 0
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
+    intervalOfSpawn: 1
+    intervalTillNextWave: 1
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 1
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
+    intervalOfSpawn: 1
+    intervalTillNextWave: 1
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 2
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
+    intervalOfSpawn: 1
+    intervalTillNextWave: 1
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 3
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
+    intervalOfSpawn: 1
+    intervalTillNextWave: 1
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 4
+  rewardValue: 0

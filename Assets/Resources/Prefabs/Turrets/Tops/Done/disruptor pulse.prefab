@@ -137,10 +137,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08cd5cd3ee97624991b88fe77300e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 7
   shooters:
   - {fileID: 3994769318324998685}
   cost: 3
   health: 100
+  restBar: {fileID: 0}
   target: {fileID: 0}
   timeBetweenActivations: 2
 --- !u!114 &3994769318324998685
@@ -159,13 +161,16 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  weaponClass: 0
   keyword: 5
   tags: 34
   initialDamage: 0
   initialRest: 6
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/Disruptor
   singleSFX: 1
+  initialRotation: 0
   debugStats: []
   disruptionDuration: 6
   percentage: 0.25

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using CraftyUtilities;
 using UnityEngine;
-
+//* CLEAN
 public class InputManager : MonoBehaviour
 {
     #region Singleton
@@ -70,31 +70,12 @@ public class InputManager : MonoBehaviour
 
     void Start()
     {
-        if (movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
-        {
-            initializeWASDScheme();
-        }
-        else if (movementScheme == MovementControlScheme.Arrows)
-        {
-            initializeArrowScheme();
-        }
-
-        if (rotationScheme == RotationControlScheme.None || rotationScheme == RotationControlScheme.QE)
-        {
-            initializeQEScheme();
-        }
-        else if (rotationScheme == RotationControlScheme.Mouse)
-        {
-            initializeMouseScheme();
-        }
+        SetKeys();
 
         move = MouseControlScheme;
-
-        // _waveControl = WaveControl();
-        // _rewardControl = RewardControl();
     }
 
-    private void SetKeys()
+    public void SetKeys()
     {
         leftKey = settings.moveLeft;
         rightKey= settings.moveRight;
@@ -103,23 +84,6 @@ public class InputManager : MonoBehaviour
 
         rotateLeft = settings.rotateLeft;
         rotateRight = settings.rotateRight;
-    }
-
-
-    public void HandleWaveControl(object sender, GameStateEventArgs e)
-    { 
-        // if(e.newState == GameState.OnWave)
-        // {
-        //     StopAllCoroutines();
-        //     OnSelectionClear -= PlaySFX;
-        //     StartCoroutine(_waveControl);
-        // }
-        // if(e.newState == GameState.OnReward)
-        // {
-        //     StopAllCoroutines();
-        //     OnSelectionClear += PlaySFX;
-        //     StartCoroutine(_rewardControl);
-        // }
     }
 
     private void PlaySFX(object sender, EventArgs e)
@@ -184,8 +148,6 @@ public class InputManager : MonoBehaviour
         {
             var pointerPos = Input.mousePosition;
             pointerPos -= new Vector3(720, 360, pointerPos.z);
-            // var direction = pointerPos - transform.position;
-            // direction.z = 0;
 
             OnMovementPressed?.Invoke(this, new MovementEventArgs(pointerPos.normalized));
         }

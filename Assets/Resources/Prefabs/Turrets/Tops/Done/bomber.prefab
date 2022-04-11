@@ -59,6 +59,9 @@ MonoBehaviour:
   tags: 0
   initialDamage: 10
   initialRest: 0
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/SmallExplosion
   singleSFX: 0
   initialRotation: 0
@@ -312,11 +315,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c010bd3066323428f8e30831482ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 5
   shooters:
   - {fileID: 1343060354}
   - {fileID: 1343060353}
   cost: 3
   health: 150
+  restBar: {fileID: 0}
   target: {fileID: 0}
   maxAngleVariation: 60
 --- !u!114 &1343060353
@@ -339,6 +344,9 @@ MonoBehaviour:
   tags: 64
   initialDamage: 15
   initialRest: 5
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/BomberShoot
   singleSFX: 0
   initialRotation: 0
@@ -368,6 +376,9 @@ MonoBehaviour:
   tags: 64
   initialDamage: 15
   initialRest: 5
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/BomberShoot
   singleSFX: 0
   initialRotation: 0
@@ -436,6 +447,9 @@ MonoBehaviour:
   tags: 0
   initialDamage: 10
   initialRest: 0
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/SmallExplosion
   singleSFX: 0
   initialRotation: 0

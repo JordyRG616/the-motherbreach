@@ -11,7 +11,10 @@ public class SpawnAction : BossAction
     [SerializeField] private int childrenCount;
     [SerializeField] private List<Transform> positionsToSpawn;
     [SerializeField] private float cooldown;
+    [Header("Effects")]
+    [SerializeField] [FMODUnity.EventRef] private string spawnSFX;
     private ForgeController forgeController;
+    private float _ogDuration;
     private float timer;
     private int _index;
     private int index
@@ -31,22 +34,29 @@ public class SpawnAction : BossAction
     void Start()
     {
         forgeController = GetComponent<ForgeController>();
+        _ogDuration = actionDuration;
     }
 
     private void SpawnChild()
     {
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
         var rdm = UnityEngine.Random.Range(0, blueprints.Count);
         var child = Instantiate(blueprints[rdm], positionsToSpawn[index].position, Quaternion.identity);
+
         positionsToSpawn[index].GetComponentInChildren<ParticleSystem>().Play();
+        AudioManager.Main.RequestSFX(spawnSFX);
+
         index++;
+
         forgeController.Children.Add(child.GetComponent<FormationManager>());
         child.GetComponent<FormationManager>().OnFormationDefeat += removeChild;
-        var angle = UnityEngine.Random.Range(0, 360);
-        var rdmVector = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+
+        
         foreach(Rigidbody2D body in child.GetComponentsInChildren<Rigidbody2D>())
         {
-            body.AddForce(rdmVector * ChildSpeed, ForceMode2D.Impulse);
+            var _dir = body.position - (Vector2)transform.position;
+            body.AddForce(_dir.normalized * ChildSpeed, ForceMode2D.Impulse);
         }
     }
 
@@ -84,6 +94,15 @@ public class SpawnAction : BossAction
 
     public override void StartAction()
     {
-        timer = cooldown;
+        actionDuration = _ogDuration;
+        timer = 0;
+        if(forgeController.HasMaxCapacity())
+        {
+            actionDuration = 0.1f;
+            return;
+        } else
+        {
+            timer = cooldown;
+        }
     }
 }

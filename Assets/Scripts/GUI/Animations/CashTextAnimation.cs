@@ -22,6 +22,9 @@ public class CashTextAnimation : UIAnimations
     {
         int index = int.MaxValue;
         
+        var ogTotal = rewardManager.TotalCash;
+        rewardManager.TotalCash += rewardManager.SpendedCash;
+
         earnedCash.gameObject.SetActive(true);
         earnedCash.text = "+ " + rewardManager.EarnedCash + "$";
 
@@ -37,7 +40,7 @@ public class CashTextAnimation : UIAnimations
 
             step += animationSpeed;
 
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.015f);
             
         }
 
@@ -49,14 +52,14 @@ public class CashTextAnimation : UIAnimations
         while(step > 0)
         {
             step --;
-            rewardManager.TotalCash ++;
+            ogTotal ++;
 
             earnedCash.text = "+ " + step + "$";
-            inPocketCash.text = "cash = " + rewardManager.TotalCash + "$";
+            inPocketCash.text = "cash = " + ogTotal + "$";
 
 
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.15f);
         }
 
         earnedCash.gameObject.SetActive(false);
