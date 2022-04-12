@@ -98,10 +98,10 @@ public class RewardManager : MonoBehaviour, ISavable
         AudioManager.Main.RequestMusic("Reward Song 2");
     }
 
-    public void InitiateReward(float rewardValue)
+    public void InitiateReward(int rewardValue)
     {
         SpendedCash = 0;
-        EarnCash((int)rewardValue);
+        EarnCash(rewardValue);
         ShipManager.Main.transform.rotation = Quaternion.identity;
         var ship = FindObjectOfType<ShipController>();
         ship.StopFX();
@@ -229,8 +229,8 @@ public class RewardManager : MonoBehaviour, ISavable
 
     public void LoadData(SaveFile saveFile)
     {
-        TotalCash = 0;
-        var cash = BitConverter.ToInt32(saveFile.GetValue("totalCash"));
-        EarnCash(cash);
+        // TotalCash = 0;
+        // var cash = BitConverter.ToInt32(saveFile.GetValue("totalCash"));
+        // EarnCash(cash);
     }
 }

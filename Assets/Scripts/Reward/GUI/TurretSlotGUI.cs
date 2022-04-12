@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +21,20 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     [SerializeField] [FMODUnity.EventRef] private string clickSFX;
     private ParticleSystem selectedVFX;
     private BuildBox buildBox;
+    private bool initiated;
+
+    public int index;
+
+    void Awake()
+    {
+        if(!initiated)
+        {
+            var list = FindObjectsOfType<TurretSlot>().ToList();
+            associatedSlot = list.Find(x => x.index == index);
+            index ++;
+            initiated = true;
+        }
+    }
 
     void OnEnable()
     {
@@ -37,9 +52,14 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             sellButton = FindObjectOfType<SellButton>(true).GetComponent<RectTransform>();
             upgradeButton = FindObjectOfType<UpgradeButton>(true).GetComponent<RectTransform>();
 
+            offset = new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2);
+
             selfRect = GetComponent<RectTransform>();
 
-            offset = new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2);
+            var position = Camera.main.WorldToViewportPoint(associatedSlot.transform.position);
+            position.x *= 1280;
+            position.y *= 720;
+            selfRect.anchoredPosition = position;
         }
 
         if(!associatedSlot.IsOcuppied()) GetComponent<Image>().color = color;

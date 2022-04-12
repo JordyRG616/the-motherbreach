@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TurretSlot : MonoBehaviour
 {
+    public int index;
     public string slotID;
     public GameObject occupyingTurret{get; private set;}
     private bool occupied = false;

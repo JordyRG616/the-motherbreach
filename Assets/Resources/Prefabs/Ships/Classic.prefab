@@ -77988,6 +77988,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: upright2
 --- !u!1 &2758288414298197603
 GameObject:
   m_ObjectHideFlags: 0
@@ -78033,6 +78035,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: up
 --- !u!1 &4391043180923600858
 GameObject:
   m_ObjectHideFlags: 0
@@ -78078,6 +78082,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: left
 --- !u!1 &6278815087257461982
 GameObject:
   m_ObjectHideFlags: 0
@@ -78092,15 +78098,14 @@ GameObject:
   - component: {fileID: 477818584063414258}
   - component: {fileID: 7728008352821023317}
   - component: {fileID: 1647577603}
-  - component: {fileID: 1647577604}
   - component: {fileID: 1647577605}
   m_Layer: 7
-  m_Name: BaseV2
+  m_Name: Classic
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6278815087257461968
 Transform:
   m_ObjectHideFlags: 0
@@ -78217,8 +78222,8 @@ MonoBehaviour:
   damageColor: {r: 3.9686275, g: 0.5194539, b: 0.29803923, a: 1}
   damageIntensity: 1
   onHitSFX: event:/SFX/NEW/ShipHit
-  deathVFX: {fileID: 0}
-  onDeathSFX: 
+  deathVFX: {fileID: 7731019211335697498}
+  onDeathSFX: event:/SFX/NEW/ShipDeath
   fill: {fileID: 0}
   textMesh: {fileID: 0}
 --- !u!114 &7728008352821023317
@@ -78249,35 +78254,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!114 &1647577604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6278815087257461982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50d9e809d58bd554ea5d1f244d91070d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shooterParticle: {fileID: 0}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  keyword: 0
-  tags: 0
-  initialDamage: 10
-  initialRest: 0
-  damageText: 
-  specializedStatText: 
-  secondaryStatText: 
-  onShootSFX: event:/SFX/NEW/Burner2
-  singleSFX: 1
-  initialRotation: 0
-  debugStats: []
-  duration: 0
-  initialBulletSize: 0
 --- !u!114 &1647577605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78864,6 +78840,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: upleft2
 --- !u!1 &7115235568181721416
 GameObject:
   m_ObjectHideFlags: 0
@@ -78909,6 +78887,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: down
 --- !u!1 &7261018397767503638
 GameObject:
   m_ObjectHideFlags: 0
@@ -78954,6 +78934,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: downleft2
 --- !u!1 &7468691499934297832
 GameObject:
   m_ObjectHideFlags: 0
@@ -78999,6 +78981,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: downleft1
 --- !u!1 &7704460675973646625
 GameObject:
   m_ObjectHideFlags: 0
@@ -79044,6 +79028,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: downright2
 --- !u!1 &7845668396960530672
 GameObject:
   m_ObjectHideFlags: 0
@@ -79056,7 +79042,7 @@ GameObject:
   - component: {fileID: 7731019211335697498}
   - component: {fileID: 6283226345658610534}
   m_Layer: 0
-  m_Name: Phase VFX
+  m_Name: Death VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84054,6 +84040,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: upleft1
 --- !u!1 &8819129721699586670
 GameObject:
   m_ObjectHideFlags: 0
@@ -84099,6 +84087,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: upright1
 --- !u!1 &9037935340885878718
 GameObject:
   m_ObjectHideFlags: 0
@@ -84144,6 +84134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: downright1
 --- !u!1 &9053815772365646402
 GameObject:
   m_ObjectHideFlags: 0
@@ -84189,3 +84181,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a5f913cef2fe4f89c44c55ba7d4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+  slotID: right

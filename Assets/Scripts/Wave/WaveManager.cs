@@ -291,6 +291,7 @@ public class WaveManager : MonoBehaviour, ISavable
 
     public void LoadData(SaveFile saveFile)
     {
+        if(dataQueue.Count == 0) return;
         var count = BitConverter.ToInt32(saveFile.GetValue("waveIndex"));
         waveIndex = count;
         for (int i = 0; i < count; i++)

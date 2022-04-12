@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class CameraFollowComponent : MonoBehaviour
 {
-    public Transform objectToFollow;
+    private Transform objectToFollow;
     [SerializeField] private float followDistance;
     [SerializeField] private float followSpeed;
     private bool following;
 
     void OnEnable()
     {
+        objectToFollow = ShipManager.Main.transform;
+
         Vector3 direction = objectToFollow.position - transform.position + new Vector3(0, 0, transform.position.z);
         StartCoroutine(Follow(direction));
     }

@@ -41,6 +41,7 @@ public class InputManager : MonoBehaviour
 
     public event EventHandler<MovementEventArgs> OnMovementPressed;
     public event EventHandler<RotationEventArgs> OnRotationPressed;
+    public EventHandler OnMovementInertia;
     public event EventHandler OnInertia;
     public event EventHandler OnSelectionClear;
     public event EventHandler OnGamePaused;
@@ -99,34 +100,6 @@ public class InputManager : MonoBehaviour
         rotationScheme = RotationControlScheme.QE;
     }
 
-    public void initializeMouseScheme()
-    {
-        rotateRight = KeyCode.Mouse0;
-        rotateLeft = KeyCode.Mouse1;
-
-        rotationScheme = RotationControlScheme.Mouse;
-    }
-
-    public void initializeArrowScheme()
-    {
-        leftKey = KeyCode.LeftArrow;
-        rightKey = KeyCode.RightArrow;
-        upKey = KeyCode.UpArrow;
-        downKey = KeyCode.DownArrow;
-
-        movementScheme = MovementControlScheme.Arrows;
-    }
-
-    public void initializeWASDScheme()
-    {
-        leftKey = KeyCode.A;
-        rightKey = KeyCode.D;
-        upKey = KeyCode.W;
-        downKey = KeyCode.S;
-
-        movementScheme = MovementControlScheme.WASD;
-    }
-
     private void TriggerMovement()
     {
         move?.Invoke();
@@ -144,13 +117,15 @@ public class InputManager : MonoBehaviour
 
     private void MouseControlScheme()
     {
+        var pos = Vector3.zero;
+
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            var pointerPos = Input.mousePosition;
-            pointerPos -= new Vector3(720, 360, pointerPos.z);
-
-            OnMovementPressed?.Invoke(this, new MovementEventArgs(pointerPos.normalized));
+            pos = Input.mousePosition;
+            pos -= new Vector3(720, 360, pos.z);
         }
+
+        OnMovementPressed?.Invoke(this, new MovementEventArgs(pos.normalized));
     }
 
     public void SwitchMovementScheme(bool useMouse)

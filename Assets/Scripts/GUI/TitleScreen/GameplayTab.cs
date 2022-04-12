@@ -135,7 +135,7 @@ public class GameplayTab : MonoBehaviour
     private void SetRightRotation()
     {
         rightRotationText.text = newKey.ToString();
-        inputManager.rotateLeft = newKey;
+        inputManager.rotateRight = newKey;
         settings.rotateRight = newKey;
         AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
     }
@@ -143,7 +143,7 @@ public class GameplayTab : MonoBehaviour
     private void SetLeftRotation()
     {
         leftRotationText.text = newKey.ToString();
-        inputManager.rotateRight = newKey;
+        inputManager.rotateLeft = newKey;
         settings.rotateLeft = newKey;
         AudioManager.Main.RequestGUIFX("event:/UI/Title/Title_Click2");
     }

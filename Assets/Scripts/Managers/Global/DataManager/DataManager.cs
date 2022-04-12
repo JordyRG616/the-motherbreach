@@ -64,7 +64,9 @@ public class DataManager : MonoBehaviour
             using(StreamWriter writer = new StreamWriter(stream))
             {
                 writer.Write(jFile);
+                writer.Close();
             }
+            stream.Close();
         }
     }
 
@@ -85,14 +87,14 @@ public class DataManager : MonoBehaviour
 
                     text = SimpleAESEncryption.Decrypt(split[0], split[1], password );
 
-                    Debug.Log(text);
-
                     saveFile = JsonUtility.FromJson<SaveFile>(text);
 
                     UnityEngine.Random.state = saveFile.rdmState;
 
                     SetSaveData();
+                    reader.Close();
                 }
+                stream.Close();
             }
         } else 
         {

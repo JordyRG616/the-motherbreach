@@ -23,10 +23,12 @@ public class CashTextAnimation : UIAnimations
         int index = int.MaxValue;
         
         var ogTotal = rewardManager.TotalCash;
-        rewardManager.TotalCash += rewardManager.SpendedCash;
+        rewardManager.TotalCash += rewardManager.EarnedCash;
 
         earnedCash.gameObject.SetActive(true);
         earnedCash.text = "+ " + rewardManager.EarnedCash + "$";
+
+        Debug.Log(rewardManager.EarnedCash);
 
         Color textColor  = earnedCash.color;
         textColor.a = 0;

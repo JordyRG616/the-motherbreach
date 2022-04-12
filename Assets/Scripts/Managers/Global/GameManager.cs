@@ -116,6 +116,7 @@ public class GameManager : MonoBehaviour
 
     private void LateStart(Scene scene, LoadSceneMode mode)
     {
+
         rewardManager = RewardManager.Main;
         rewardManager.Initialize();
 
@@ -130,20 +131,19 @@ public class GameManager : MonoBehaviour
 
         pauseAnimation = GameObject.FindGameObjectWithTag("PauseAnimation").GetComponent<UIAnimationManager>();
 
+        if(dataManager.SaveFileExists())
+        {
+            LoadGame();
+        }
 
         EndWaveEventArgs initialArgs = new EndWaveEventArgs();
-        initialArgs.waveReward = dataManager.SaveFileExists()? 0 : initialCash;
+        initialArgs.waveReward = dataManager.SaveFileExists()? BitConverter.ToInt32(dataManager.saveFile.GetValue("totalCash")) : initialCash;
         gameState = GameState.OnReward;
         InitiateRewardPhase(this, initialArgs);
 
         FindObjectOfType<TutorialManager>().ShowSkipWindow();
 
-        SceneManager.sceneLoaded -= LateStart;
-
-        if(dataManager.SaveFileExists())
-        {
-            dataManager.LoadData();
-        }
+        SceneManager.sceneLoaded -= LateStart;    
     }
 
     private void GenerateBackground(int count)
