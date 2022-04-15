@@ -12,21 +12,59 @@ using System.Text.RegularExpressions;
 
 public class DataManager : MonoBehaviour
 {
+    #region Singleton
+    private static DataManager _instance;
+    public static DataManager Main
+    {
+        get
+        {
+            if(_instance == null)
+            {
+                _instance = FindObjectOfType<DataManager>();
+                
+                if(_instance == null)
+                {
+                    GameObject container = GameObject.Find("Game Manager");
+
+                    if(container == null)
+                    {
+                        container = new GameObject("Game manager");
+                    }
+                    
+                    _instance = container.AddComponent<DataManager>();
+                }
+            }
+
+            return _instance;
+        }
+    }
+    #endregion
+
+
     [SerializeField] private Settings settings;
+    [SerializeField] private List<GameObject> AllShips;
+    [SerializeField] private List<GameObject> AllPilots;
     private RewardManager rewardManager;
     private WaveManager waveManager;
     public SaveFile saveFile;
+    public MetaSaveFile metaProgressionSave;
 
     private List<ISavable> saveInterfaces = new List<ISavable>();
 
-    private string directoryPath = "E:/Unity Projects/#TURRENTBASE/PROJETO  - Base Invaders/saves";
+    private string directoryPath;
     private string filePath = "/save.save";
+    private string metaFilePath = "/meta.save";
     private const string password = "motherbreach";
 
     void Start()
     {
+        // directoryPath = Application.persistentDataPath + "/saves";
+        directoryPath = "E:/Unity Projects/#TURRENTBASE/PROJETO  - Base Invaders" + "/saves";
+        
         rewardManager = RewardManager.Main;
         waveManager = WaveManager.Main;
+
+        metaProgressionSave = new MetaSaveFile(null, null);
 
         saveInterfaces.Add(rewardManager);
         saveInterfaces.Add(waveManager);
@@ -67,6 +105,65 @@ public class DataManager : MonoBehaviour
                 writer.Close();
             }
             stream.Close();
+        }
+    }
+
+    public void SaveMetaData(List<int> pilots, List<int> ships)
+    {
+        metaProgressionSave = new MetaSaveFile(pilots, ships);
+
+        var jFile = JsonUtility.ToJson(metaProgressionSave);
+
+        if(!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        var _filePath = directoryPath + metaFilePath;
+
+        if(File.Exists(_filePath))
+        {
+            File.Delete(_filePath);
+        }
+
+        var encrypt = SimpleAESEncryption.Encrypt(jFile, password);
+        jFile = encrypt.EncryptedText + " " + encrypt.IV;
+
+        using(FileStream stream = new FileStream(_filePath, FileMode.CreateNew))
+        {
+            using(StreamWriter writer = new StreamWriter(stream))
+            {
+                writer.Write(jFile);
+                writer.Close();
+            }
+            stream.Close();
+        }
+    }
+
+    public void LoadMetaData()
+    {     
+        var _filePath = directoryPath + metaFilePath;
+
+        if(File.Exists(_filePath))
+        {
+            using(FileStream stream = new FileStream(_filePath, FileMode.Open))
+            {
+                using(StreamReader reader = new StreamReader(stream))
+                {
+                    var text = reader.ReadToEnd();
+                    string[] split = text.Split(" ");
+
+                    text = SimpleAESEncryption.Decrypt(split[0], split[1], password );
+
+                    metaProgressionSave = JsonUtility.FromJson<MetaSaveFile>(text);
+
+                    reader.Close();
+                }
+                stream.Close();
+            }
+        } else 
+        {
+            metaProgressionSave = null;
         }
     }
 
@@ -146,4 +243,19 @@ public class DataManager : MonoBehaviour
         settings.LoadData(saveFile);
     }
     
+    public GameObject GetLoadedShip()
+    {
+        var id = BitConverter.ToInt32(saveFile.GetValue("ShipIndex"));
+        var loadedShip = AllShips.Find(x => x.GetComponent<ShipManager>().index == id);
+        if(loadedShip == null) throw new Exception("Ship index not found");
+        return loadedShip;
+    }
+
+    public GameObject GetLoadedPilot()
+    {
+        var id = BitConverter.ToInt32(saveFile.GetValue("PilotIndex"));
+        var loadedPilot = AllPilots.Find(x => x.GetComponent<Pilot>().index == id);
+        if(loadedPilot == null) throw new Exception("Pilot index not found");
+        return loadedPilot;
+    }
 }

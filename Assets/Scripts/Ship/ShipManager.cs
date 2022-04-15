@@ -21,11 +21,12 @@ public class ShipManager : MonoBehaviour, ISavable
     }
     #endregion
 
+    public int index;
+    [HideInInspector] public int pilotIndex;
     private GameManager gameManager;
     public List<TurretManager> turrets {get; private set;}= new List<TurretManager>();
-    [SerializeField] private Transform controller;
+    private Transform controller;
     private Camera cam;
-    [SerializeField] private float beamSelfDamage;
     public List<Artifact> artifacts {get; private set;} = new List<Artifact>();
     private ArtifactsPanel artifactsPanel;
 
@@ -37,6 +38,8 @@ public class ShipManager : MonoBehaviour, ISavable
         artifactsPanel = FindObjectOfType<ArtifactsPanel>();
 
         cam = Camera.main;
+
+        controller = FindObjectOfType<ShipController>().transform;
 
         // gameManager.OnGameStateChange += HandleAnchor;
     }
@@ -89,6 +92,9 @@ public class ShipManager : MonoBehaviour, ISavable
     public Dictionary<string, byte[]> GetData()
     {
         var container = new Dictionary<string, byte[]>();
+
+        container.Add("ShipIndex", BitConverter.GetBytes(index));
+        container.Add("PilotIndex", BitConverter.GetBytes(pilotIndex));
 
         foreach(TurretManager turret in turrets)
         {

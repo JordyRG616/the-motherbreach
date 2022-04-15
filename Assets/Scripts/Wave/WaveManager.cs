@@ -52,6 +52,9 @@ public class WaveManager : MonoBehaviour, ISavable
     private TutorialManager tutorialManager;
     private ProgressionMeter progressionMeter;
 
+    [SerializeField] private GameObject Jailship;
+    private float jailshipChance;
+
     public event EventHandler<EndWaveEventArgs> OnWaveEnd;
     private EndWaveEventArgs defaultArg = new EndWaveEventArgs();
 
@@ -134,7 +137,6 @@ public class WaveManager : MonoBehaviour, ISavable
 
         activeFormations.Clear();
 
-
         while(activeWave.breachQueue.Count > 0)
         {
             var breach = activeWave.breachQueue.Dequeue();
@@ -179,6 +181,8 @@ public class WaveManager : MonoBehaviour, ISavable
                     var nextFormation = breach.formationQueue.Dequeue();
                     if(nextFormation != null)
                     {
+                        CheckJailshipChance(-spwPos);
+                        
                         var formation = Instantiate(nextFormation, spwPos, Quaternion.identity);
                         var manager = formation.GetComponent<FormationManager>();
 
@@ -198,6 +202,20 @@ public class WaveManager : MonoBehaviour, ISavable
             yield return new WaitForSeconds(breach.intervalTillNextWave);
         }
 
+    }
+
+    private void CheckJailshipChance(Vector3 position)
+    {
+        var rdm = UnityEngine.Random.Range(0, 1f);
+
+        if(rdm > jailshipChance)
+        {
+            jailshipChance += 0.01f;
+            return;
+        } 
+
+        var container = Instantiate(Jailship, position, Quaternion.identity);
+        jailshipChance = 0;
     }
 
     private IEnumerator CreateSpawnVFX(Vector3 position, float duration, bool bossWave = false)
@@ -221,10 +239,6 @@ public class WaveManager : MonoBehaviour, ISavable
         activeFormations.Remove(sender as FormationManager);
         if(CheckForEndOfWave())
         {
-            // if(dataQueue.Count == 0)
-            // {
-            //     GameManager.Main.Win();
-            // } 
             StartCoroutine(EndWave());
         } 
     }
@@ -235,10 +249,6 @@ public class WaveManager : MonoBehaviour, ISavable
         
         if(CheckForEndOfWave())
         {
-            // if(dataQueue.Count == 0)
-            // {
-            //     GameManager.Main.Win();
-            // } 
             StartCoroutine(EndWave());
         } 
     }
@@ -251,7 +261,6 @@ public class WaveManager : MonoBehaviour, ISavable
     private IEnumerator EndWave()
     {
         endOfWaveVFX.Play();
-        // AudioManager.Main.StopMusicTrack();
         AudioManager.Main.RequestGUIFX(endOfWaveSFX);
         yield return StartCoroutine(endOfWaveAnimation.Forward());
 
@@ -296,6 +305,7 @@ public class WaveManager : MonoBehaviour, ISavable
         waveIndex = count;
         for (int i = 0; i < count; i++)
         {
+            progressionMeter.AdvanceMarker();
             dataQueue.Dequeue();
         }
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class Artifact : MonoBehaviour
 {
+    public int index;
     public EffectTrigger trigger;
     public Sprite icon;
 

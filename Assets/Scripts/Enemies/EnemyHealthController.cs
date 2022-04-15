@@ -69,7 +69,17 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
         if(currentHealth <= 0)
         {
             GetComponent<Collider2D>().enabled = false;
-            GetComponent<EnemyManager>().CeaseFire();
+
+            if(TryGetComponent<EnemyManager>(out var manager))
+            {
+                manager.CeaseFire();
+            }
+
+            if(TryGetComponent<JailshipWeaponryController>(out var controller))
+            {
+                controller.CeaseFire();
+            }
+            
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             vfxManager.StartCoroutine(vfxManager.LastBreath());
             OnDeath?.Invoke(this, new EnemyEventArgs(this));

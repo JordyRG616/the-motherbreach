@@ -17,9 +17,9 @@ public class ShipDamageController : MonoBehaviour, IDamageable
 
     [SerializeField] private ParticleSystem deathVFX;
     [SerializeField] [FMODUnity.EventRef] private string onDeathSFX;
-    [Header("UI")]
-    [SerializeField] private RectTransform fill;
-    [SerializeField] private TextMeshProUGUI textMesh;
+
+    private RectTransform fill;
+    private TextMeshProUGUI textMesh;
     private Queue<IEnumerator> enqueuedUpdates = new Queue<IEnumerator>();
     private float ogIntensity;
 
@@ -43,6 +43,12 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         currentHealth = maxHealth;
         ogColor = blinkingLight.color;
         ogIntensity = blinkingLight.intensity;
+
+        var healthUI = GameObject.FindGameObjectWithTag("ShipHealth");
+
+        fill = healthUI.transform.Find("Fill").GetComponent<RectTransform>();
+        textMesh = healthUI.transform.Find("Value").GetComponent<TextMeshProUGUI>();
+
         StartCoroutine(ManageGUIUpdate());
     }
 

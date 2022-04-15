@@ -50,7 +50,8 @@ public class RewardManager : MonoBehaviour, ISavable
     public GameObject ActiveSelection {get; private set;}
 
     public event EventHandler OnRewardSelection;
-    public event EventHandler OnTurretBuild;
+    public event EventHandler<BuildEventArgs> OnTurretBuild;
+
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string buildSFX;
 
@@ -69,7 +70,7 @@ public class RewardManager : MonoBehaviour, ISavable
         {
             foreach(Delegate d in OnTurretBuild.GetInvocationList())
             {
-                OnTurretBuild -= (EventHandler)d;
+                OnTurretBuild -= (EventHandler<BuildEventArgs>)d;
             }
         }
     }
@@ -152,7 +153,7 @@ public class RewardManager : MonoBehaviour, ISavable
     {
         tutorialManager.TriggerPosBuildTutorial();
         buildBox.Clear();
-        OnTurretBuild?.Invoke(this, EventArgs.Empty);
+        OnTurretBuild?.Invoke(this, new BuildEventArgs(ActiveSelection.GetComponent<TurretManager>()));
         turretConstructor.HandleBaseEffect(ActiveSelection);
         var manager = ActiveSelection.GetComponent<TurretManager>();
         SpendCash((int)manager.Stats[Stat.Cost]);
@@ -232,5 +233,15 @@ public class RewardManager : MonoBehaviour, ISavable
         // TotalCash = 0;
         // var cash = BitConverter.ToInt32(saveFile.GetValue("totalCash"));
         // EarnCash(cash);
+    }
+}
+
+public class BuildEventArgs : EventArgs
+{
+    public TurretManager buildedTurret;
+
+    public BuildEventArgs(TurretManager turret)
+    {
+        buildedTurret = turret;
     }
 }

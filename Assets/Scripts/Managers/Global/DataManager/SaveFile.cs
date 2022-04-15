@@ -32,6 +32,19 @@ public class SaveFile
 }
 
 [System.Serializable]
+public class MetaSaveFile
+{
+    public List<int> unlockedPilotsIndices;
+    public List<int> UnlockedShipsIndices;
+    
+    public MetaSaveFile(List<int> unlockedPilots, List<int> unlockedShips)
+    {
+        unlockedPilotsIndices = unlockedPilots;
+        UnlockedShipsIndices = unlockedShips;
+    }
+}
+
+[System.Serializable]
 public class SaveContent
 {
     public string identifier;

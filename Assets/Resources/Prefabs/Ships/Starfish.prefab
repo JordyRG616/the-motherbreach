@@ -34138,7 +34138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 261712972548557653}
   m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -5.3, y: 5.3, z: 0}
+  m_LocalPosition: {x: -4.3, y: 4.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -34159,7 +34159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 6
-  slotID: 
+  slotID: pad3up
 --- !u!1 &700475818147292828
 GameObject:
   m_ObjectHideFlags: 0
@@ -34186,7 +34186,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700475818147292828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalPosition: {x: -1.5, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -34261,6 +34261,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: -0.1, y: 0.1, z: 0}
+  angleVariation: 25
+  rotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1
+      value: -25
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 25
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxDistance: 3.5
+  minDistance: 2
 --- !u!1 &805056458546596439
 GameObject:
   m_ObjectHideFlags: 0
@@ -53767,7 +53794,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145085750749338712}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.5, y: -1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53842,6 +53869,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0.1, y: -0.1, z: 0}
+  angleVariation: 25
+  rotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1
+      value: -25
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 25
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxDistance: 3.5
+  minDistance: 2
 --- !u!1 &2758288414298197603
 GameObject:
   m_ObjectHideFlags: 0
@@ -53867,7 +53921,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2758288414298197603}
   m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -5.3, y: 5.3, z: 0}
+  m_LocalPosition: {x: -4.3, y: 4.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53888,7 +53942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
-  slotID: 
+  slotID: pad1up
 --- !u!1 &3119491147944533170
 GameObject:
   m_ObjectHideFlags: 0
@@ -53914,7 +53968,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3119491147944533170}
   m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -5.3, y: 5.3, z: 0}
+  m_LocalPosition: {x: -4.3, y: 4.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53935,7 +53989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 9
-  slotID: 
+  slotID: pad4up
 --- !u!1 &3121653867126979408
 GameObject:
   m_ObjectHideFlags: 0
@@ -53962,7 +54016,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3121653867126979408}
   m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.5, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -54037,6 +54091,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0.1, y: 0.1, z: 0}
+  angleVariation: 25
+  rotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1
+      value: -25
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 25
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxDistance: 3.5
+  minDistance: 2
 --- !u!1 &3249707548472502256
 GameObject:
   m_ObjectHideFlags: 0
@@ -54048,7 +54129,7 @@ GameObject:
   - component: {fileID: 5008120292272207010}
   - component: {fileID: 4796176236349401894}
   m_Layer: 0
-  m_Name: TurretSlot - Down
+  m_Name: TurretSlot - Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54062,7 +54143,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3249707548472502256}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -4.3, y: 2.4, z: 0}
+  m_LocalPosition: {x: -3.3, y: 1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -54083,7 +54164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 10
-  slotID: 
+  slotID: pad4right
 --- !u!1 &3349727464026660205
 GameObject:
   m_ObjectHideFlags: 0
@@ -58979,7 +59060,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4391043180923600858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4, y: 4.3, z: 0}
+  m_LocalPosition: {x: -1.4, y: 3.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -59000,7 +59081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 2
-  slotID: 
+  slotID: pad1left
 --- !u!1 &4441182996561891068
 GameObject:
   m_ObjectHideFlags: 0
@@ -59026,7 +59107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4441182996561891068}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4, y: 4.3, z: 0}
+  m_LocalPosition: {x: -1.4, y: 3.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -59047,7 +59128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 8
-  slotID: 
+  slotID: pad3left
 --- !u!1 &4521871821719349082
 GameObject:
   m_ObjectHideFlags: 0
@@ -63943,7 +64024,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4723230515653942897}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4, y: 4.3, z: 0}
+  m_LocalPosition: {x: -1.4, y: 3.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -63964,7 +64045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 11
-  slotID: 
+  slotID: pad4left
 --- !u!1 &4768607267416884633
 GameObject:
   m_ObjectHideFlags: 0
@@ -63976,7 +64057,7 @@ GameObject:
   - component: {fileID: 8030678033597407645}
   - component: {fileID: 2587250855900106010}
   m_Layer: 0
-  m_Name: TurretSlot - Down
+  m_Name: TurretSlot - Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63990,7 +64071,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4768607267416884633}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -4.3, y: 2.4, z: 0}
+  m_LocalPosition: {x: -3.3, y: 1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -64011,7 +64092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 7
-  slotID: 
+  slotID: pad3right
 --- !u!1 &5079888659286433873
 GameObject:
   m_ObjectHideFlags: 0
@@ -68908,7 +68989,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5208591749987385226}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.5, y: -1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -68983,6 +69064,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: -0.1, y: -0.1, z: 0}
+  angleVariation: 25
+  rotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1
+      value: -25
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 25
+      inSlope: 25
+      outSlope: 25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxDistance: 3.5
+  minDistance: 2
 --- !u!1 &5292172272324498158
 GameObject:
   m_ObjectHideFlags: 0
@@ -69008,7 +69116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5292172272324498158}
   m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -5.3, y: 5.3, z: 0}
+  m_LocalPosition: {x: -4.3, y: 4.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -69029,7 +69137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 3
-  slotID: 
+  slotID: pad2up
 --- !u!1 &5528817399810359761
 GameObject:
   m_ObjectHideFlags: 0
@@ -69041,7 +69149,7 @@ GameObject:
   - component: {fileID: 7058594289097940289}
   - component: {fileID: 116253356303197860}
   m_Layer: 0
-  m_Name: TurretSlot - Down
+  m_Name: TurretSlot - Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69055,7 +69163,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5528817399810359761}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -4.3, y: 2.4, z: 0}
+  m_LocalPosition: {x: -3.3, y: 1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -69076,7 +69184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 4
-  slotID: 
+  slotID: pad2right
 --- !u!1 &6278815087257461982
 GameObject:
   m_ObjectHideFlags: 0
@@ -69188,8 +69296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c04e68db9b7a1347ae6d696068488d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  beamSelfDamage: 5
+  index: 1
+  pilotIndex: 0
 --- !u!114 &477818584063414258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69209,8 +69317,6 @@ MonoBehaviour:
   onHitSFX: event:/SFX/NEW/ShipHit
   deathVFX: {fileID: 0}
   onDeathSFX: 
-  fill: {fileID: 0}
-  textMesh: {fileID: 0}
 --- !u!114 &7728008352821023317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69805,7 +69911,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6936806165944174072}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4, y: 4.3, z: 0}
+  m_LocalPosition: {x: -1.4, y: 3.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -69826,7 +69932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 5
-  slotID: 
+  slotID: pad2left
 --- !u!1 &7115235568181721416
 GameObject:
   m_ObjectHideFlags: 0
@@ -69838,7 +69944,7 @@ GameObject:
   - component: {fileID: 582795921018880129}
   - component: {fileID: 8102127916312626368}
   m_Layer: 0
-  m_Name: TurretSlot - Down
+  m_Name: TurretSlot - Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69852,7 +69958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7115235568181721416}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -4.3, y: 2.4, z: 0}
+  m_LocalPosition: {x: -3.3, y: 1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -69873,7 +69979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 1
-  slotID: 
+  slotID: pad1right
 --- !u!1 &7516769557329231176
 GameObject:
   m_ObjectHideFlags: 0

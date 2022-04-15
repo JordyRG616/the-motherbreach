@@ -9,7 +9,7 @@ public class CameraFollowComponent : MonoBehaviour
     [SerializeField] private float followSpeed;
     private bool following;
 
-    void OnEnable()
+    void Start()
     {
         objectToFollow = ShipManager.Main.transform;
 

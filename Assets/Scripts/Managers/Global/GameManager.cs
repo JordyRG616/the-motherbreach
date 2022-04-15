@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float initialCash;
     [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private GameObject deleteSaveButton;
+    
+    [Header("Meta progression")]
+    [SerializeField] private List<Pilot> unlockablePilots;
+    private List<int> unlockedPilots = new List<int>();
+    private List<int> unlockedShips = new List<int>();
 
     public GameState gameState {get; private set;} = GameState.OnTitle;
     public event EventHandler<GameStateEventArgs> OnGameStateChange;
@@ -56,10 +61,14 @@ public class GameManager : MonoBehaviour
     private AudioManager audioManager;
     private PlanetSpawner planetSpawner;
 
+    private GameObject selectedShip;
+    private GameObject selectedPilot;
+
     private UIAnimationManager pauseAnimation;
     public bool onPause {get; private set;}
 
     private DataManager dataManager;
+    private bool saveFound;
 
     public Texture2D endgamePic;
 
@@ -67,6 +76,7 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         dataManager = GetComponent<DataManager>();
+        LoadMetaData();
 
         if(dataManager.SaveFileExists())
         {
@@ -75,6 +85,7 @@ public class GameManager : MonoBehaviour
             
             deleteSaveButton.SetActive(true);
             buttonText.text = "CONTINUE";
+            saveFound = true;
         }
 
         if(gameState == GameState.OnTitle)
@@ -99,12 +110,27 @@ public class GameManager : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
-        StartCoroutine(FadeScenes());
+        if(!saveFound) StartCoroutine(FadeToSelectionScreen());
+        else StartCoroutine(FadeToGame());
     }
 
-    private IEnumerator FadeScenes()
+    private IEnumerator FadeToSelectionScreen()
     {
         fadePanelAnimation = GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadeAnimation>();
+
+        yield return StartCoroutine(fadePanelAnimation.Forward());
+
+        SceneManager.LoadScene(4);
+        // SceneManager.sceneLoaded += LateStart;
+
+    }
+
+    private IEnumerator FadeToGame()
+    {
+        fadePanelAnimation = GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadeAnimation>();
+        
+        selectedShip = dataManager.GetLoadedShip();
+        selectedPilot = dataManager.GetLoadedPilot();
 
         yield return StartCoroutine(fadePanelAnimation.Forward());
 
@@ -112,10 +138,20 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += LateStart;
 
     }
+
+    public void StartGame(GameObject ship, GameObject pilot)
+    {
+        selectedShip = ship;
+        selectedPilot = pilot;
+
+        SceneManager.LoadScene(1);
+        SceneManager.sceneLoaded += LateStart;
+    }
     
 
     private void LateStart(Scene scene, LoadSceneMode mode)
     {
+        InstantiateSelections();
 
         rewardManager = RewardManager.Main;
         rewardManager.Initialize();
@@ -131,19 +167,29 @@ public class GameManager : MonoBehaviour
 
         pauseAnimation = GameObject.FindGameObjectWithTag("PauseAnimation").GetComponent<UIAnimationManager>();
 
-        if(dataManager.SaveFileExists())
+        if (dataManager.SaveFileExists())
         {
             LoadGame();
         }
 
         EndWaveEventArgs initialArgs = new EndWaveEventArgs();
-        initialArgs.waveReward = dataManager.SaveFileExists()? BitConverter.ToInt32(dataManager.saveFile.GetValue("totalCash")) : initialCash;
+        initialArgs.waveReward = dataManager.SaveFileExists() ? BitConverter.ToInt32(dataManager.saveFile.GetValue("totalCash")) : initialCash;
         gameState = GameState.OnReward;
         InitiateRewardPhase(this, initialArgs);
 
         FindObjectOfType<TutorialManager>().ShowSkipWindow();
 
-        SceneManager.sceneLoaded -= LateStart;    
+        SceneManager.sceneLoaded -= LateStart;
+    }
+
+    private void InstantiateSelections()
+    {
+        var ship = Instantiate(selectedShip, Vector3.zero, Quaternion.identity);
+        var portraitFrame = GameObject.FindGameObjectWithTag("PortraitFrame");
+        var portrait = Instantiate(selectedPilot, Vector3.zero, Quaternion.identity, portraitFrame.transform);
+        portrait.GetComponent<RectTransform>().anchoredPosition = new Vector2(50, 55);
+        ship.GetComponent<ShipManager>().pilotIndex = portrait.GetComponent<Pilot>().index;
+        portrait.GetComponent<Pilot>().Initialize();
     }
 
     private void GenerateBackground(int count)
@@ -263,6 +309,31 @@ public class GameManager : MonoBehaviour
 
         deleteSaveButton.SetActive(false);
         buttonText.text = "NEW GAME";
+        saveFound = false;
+    }
+
+    public int GetPilotIndexToUnlock()
+    {
+        var rdm = UnityEngine.Random.Range(0, unlockablePilots.Count);
+        return unlockablePilots[rdm].index;
+    }
+
+    public void UnlockPilot(int pilotIndex)
+    {
+        var pilot = unlockablePilots.Find(x => x.index == pilotIndex);
+        unlockablePilots.Remove(pilot);
+        unlockedPilots.Add(pilotIndex);
+        SaveMetaData();
+    }
+
+    private void SaveMetaData()
+    {
+        dataManager.SaveMetaData(unlockedPilots, unlockedShips);
+    }
+
+    private void LoadMetaData()
+    {
+        dataManager.LoadMetaData();
     }
 }
 

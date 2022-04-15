@@ -40,7 +40,7 @@ public abstract class ActionEffect : MonoBehaviour, ISavable
     protected int cachedCount = 0;
     protected bool onRest;
     protected float cooldown;
-    public float initialRotation;
+    [HideInInspector] public float initialRotation;
 
     [Header("Debug")]
     public string[] debugStats = new string[0];
