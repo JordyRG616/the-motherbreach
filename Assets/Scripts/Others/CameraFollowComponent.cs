@@ -13,8 +13,8 @@ public class CameraFollowComponent : MonoBehaviour
     {
         objectToFollow = ShipManager.Main.transform;
 
-        Vector3 direction = objectToFollow.position - transform.position + new Vector3(0, 0, transform.position.z);
-        StartCoroutine(Follow(direction));
+        // Vector3 direction = objectToFollow.position - transform.position + new Vector3(0, 0, transform.position.z);
+        // StartCoroutine(Follow(direction));
     }
 
     private IEnumerator Follow(Vector3 direction)
@@ -33,12 +33,17 @@ public class CameraFollowComponent : MonoBehaviour
 
     void Update()
     {
-        Vector3 direction = objectToFollow.position - transform.position + new Vector3(0, 0, transform.position.z);
-        if(direction.magnitude >= followDistance && !following)
-        {
-            following = true;
-            StartCoroutine(Follow(direction));
-        }
+        var position = objectToFollow.position;
+        position.z = transform.position.z;
+
+        transform.position = position;
+
+        // Vector3 direction = objectToFollow.position - transform.position + new Vector3(0, 0, transform.position.z);
+        // if(direction.magnitude >= followDistance && !following)
+        // {
+        //     following = true;
+        //     StartCoroutine(Follow(direction));
+        // }
     }
 
     void OnDisable()

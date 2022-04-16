@@ -55,6 +55,11 @@ MonoBehaviour:
   initialCash: 6
   buttonText: {fileID: 0}
   deleteSaveButton: {fileID: 0}
+  unlockablePilots:
+  - {fileID: 1210661023109613791, guid: e191772fc4084204f89f0c2bf0e8f703, type: 3}
+  powerCoreAmount: 0
+  reinforcedCoreAmount: 0
+  nobleCoreAmount: 0
   endgamePic: {fileID: 0}
 --- !u!114 &4174501789438114408
 MonoBehaviour:
@@ -94,6 +99,7 @@ MonoBehaviour:
   onFormationSpawnVFX: {fileID: 3124701412639239677, guid: eb6be70153871ea42ab7bc72e5b050e9, type: 3}
   onFormationSpawnSFX: event:/SFX/NEW/FormationSpawn
   endOfWaveSFX: event:/SFX/NEW/WaveClear
+  Jailship: {fileID: 7382795479067280461, guid: eb859032bb73d60418cb3f68a767397a, type: 3}
 --- !u!114 &956126525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +230,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: 0bedb04676b609c4187462aaa366de8d, type: 2}
+  AllShips:
+  - {fileID: 6278815087257461982, guid: 27718c6d9686cbf4ab6a6efe90c567ce, type: 3}
+  - {fileID: 6278815087257461982, guid: 8d6fe0cf9faa5164dad918fd2d9f2ede, type: 3}
+  AllPilots:
+  - {fileID: 3886533624807167916, guid: e191772fc4084204f89f0c2bf0e8f703, type: 3}
+  - {fileID: 3886533624807167916, guid: b863c5bb3739c37498d2ad2d9f8ee6f9, type: 3}
   saveFile:
     contents: []
     rdmState:
@@ -231,3 +243,9 @@ MonoBehaviour:
       s1: 0
       s2: 0
       s3: 0
+  metaProgressionSave:
+    unlockedPilotsIndices: 
+    UnlockedShipsIndices: 
+    powerCoreAmount: 0
+    reinforcedCoreAmount: 0
+    nobleCoreAmount: 0

@@ -54,6 +54,7 @@ public class WaveManager : MonoBehaviour, ISavable
 
     [SerializeField] private GameObject Jailship;
     private float jailshipChance;
+    private float chanceIncrement = 0.01f;
 
     public event EventHandler<EndWaveEventArgs> OnWaveEnd;
     private EndWaveEventArgs defaultArg = new EndWaveEventArgs();
@@ -103,6 +104,8 @@ public class WaveManager : MonoBehaviour, ISavable
 
     public void StartNextWave()
     {
+        GameManager.Main.SaveGame();
+
         FindObjectOfType<ShipController>().GetComponent<Rigidbody2D>().WakeUp();
 
         AudioManager.Main.GetAudioTrack("SFX").UnpauseAudio();
@@ -178,7 +181,9 @@ public class WaveManager : MonoBehaviour, ISavable
                         AudioManager.Main.RequestSFX(onFormationSpawnSFX);
                         yield return new WaitForSeconds(1f);
                     }
+
                     var nextFormation = breach.formationQueue.Dequeue();
+
                     if(nextFormation != null)
                     {
                         CheckJailshipChance(-spwPos);
@@ -206,11 +211,13 @@ public class WaveManager : MonoBehaviour, ISavable
 
     private void CheckJailshipChance(Vector3 position)
     {
+        if(GameManager.Main.GetPilotIndexToUnlock() == -1) return;
+
         var rdm = UnityEngine.Random.Range(0, 1f);
 
         if(rdm > jailshipChance)
         {
-            jailshipChance += 0.01f;
+            jailshipChance += chanceIncrement;
             return;
         } 
 
@@ -246,6 +253,7 @@ public class WaveManager : MonoBehaviour, ISavable
     internal void RemoveBoss(BossController bossController)
     {
         activeBosses.Remove(bossController);
+        chanceIncrement += 0.01f;
         
         if(CheckForEndOfWave())
         {
@@ -305,8 +313,8 @@ public class WaveManager : MonoBehaviour, ISavable
         waveIndex = count;
         for (int i = 0; i < count; i++)
         {
-            progressionMeter.AdvanceMarker();
             dataQueue.Dequeue();
+            progressionMeter.AdvanceMarker();
         }
     }
 }

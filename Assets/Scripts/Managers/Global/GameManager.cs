@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Pilot> unlockablePilots;
     private List<int> unlockedPilots = new List<int>();
     private List<int> unlockedShips = new List<int>();
+    [HideInInspector] public int powerCoreAmount = 0;
+    [HideInInspector] public int reinforcedCoreAmount = 0;
+    [HideInInspector] public int nobleCoreAmount = 0;
 
     public GameState gameState {get; private set;} = GameState.OnTitle;
     public event EventHandler<GameStateEventArgs> OnGameStateChange;
@@ -71,6 +74,14 @@ public class GameManager : MonoBehaviour
     private bool saveFound;
 
     public Texture2D endgamePic;
+
+    [ContextMenu("Teste")]
+    public void test()
+    {
+        powerCoreAmount++;
+        FindObjectOfType<CoreInventory>().SetCoresValues();
+    }
+
 
     void Start()
     {
@@ -314,6 +325,7 @@ public class GameManager : MonoBehaviour
 
     public int GetPilotIndexToUnlock()
     {
+        if(unlockablePilots.Count == 0) return -1;
         var rdm = UnityEngine.Random.Range(0, unlockablePilots.Count);
         return unlockablePilots[rdm].index;
     }
@@ -326,14 +338,44 @@ public class GameManager : MonoBehaviour
         SaveMetaData();
     }
 
+    public void UnlockShip(int shipIndex)
+    {
+        unlockedShips.Add(shipIndex);
+        SaveMetaData();
+    }
+
+    public void UpdateCoreInventory(int powerCore = 0, int reinforcedCore = 0, int nobleCore = 0)
+    {
+        powerCoreAmount += powerCore;
+        reinforcedCoreAmount += reinforcedCore;
+        nobleCoreAmount += nobleCore;
+
+        dataManager.SaveMetaData(unlockedPilots, unlockedShips, powerCoreAmount, reinforcedCoreAmount, nobleCoreAmount);
+    }
+
     private void SaveMetaData()
     {
-        dataManager.SaveMetaData(unlockedPilots, unlockedShips);
+        dataManager.SaveMetaData(unlockedPilots, unlockedShips, powerCoreAmount, reinforcedCoreAmount, nobleCoreAmount);
     }
 
     private void LoadMetaData()
     {
         dataManager.LoadMetaData();
+
+        var save = dataManager.metaProgressionSave;
+
+        if(save != null && save.unlockedPilotsIndices != null)
+        {
+            foreach(int i in save.unlockedPilotsIndices)
+            {
+                var pilot = unlockablePilots.Find(x => x.index == i);
+                unlockablePilots.Remove(pilot);
+            }
+
+            powerCoreAmount = save.powerCoreAmount;
+            reinforcedCoreAmount = save.reinforcedCoreAmount;
+            nobleCoreAmount = save.nobleCoreAmount;
+        }
     }
 }
 

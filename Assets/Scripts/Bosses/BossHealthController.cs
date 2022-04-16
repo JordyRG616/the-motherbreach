@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class BossHealthController : MonoBehaviour, IDamageable
 {
+    public enum CoreType {power, reinforced, noble}
+    public CoreType coreType;
     [SerializeField] private int maxHealth;
     [SerializeField] [Range(0, 1)] private float damageReduction;
     [SerializeField] [FMODUnity.EventRef] private string onDamageSFX;
@@ -101,5 +103,21 @@ public class BossHealthController : MonoBehaviour, IDamageable
     public void SetDamageReduction(float value)
     {
         damageReduction = value;
+    }
+
+    private void RewardCore()
+    {
+        switch (coreType)
+        {
+            case CoreType.power:
+                GameManager.Main.powerCoreAmount++;
+            break;
+            case CoreType.reinforced:
+                GameManager.Main.reinforcedCoreAmount++;
+            break;
+            case CoreType.noble:
+                GameManager.Main.nobleCoreAmount++;
+            break;
+        }
     }
 }

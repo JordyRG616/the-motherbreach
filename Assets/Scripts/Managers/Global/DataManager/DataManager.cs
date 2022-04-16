@@ -44,8 +44,6 @@ public class DataManager : MonoBehaviour
     [SerializeField] private Settings settings;
     [SerializeField] private List<GameObject> AllShips;
     [SerializeField] private List<GameObject> AllPilots;
-    private RewardManager rewardManager;
-    private WaveManager waveManager;
     public SaveFile saveFile;
     public MetaSaveFile metaProgressionSave;
 
@@ -61,13 +59,11 @@ public class DataManager : MonoBehaviour
         // directoryPath = Application.persistentDataPath + "/saves";
         directoryPath = "E:/Unity Projects/#TURRENTBASE/PROJETO  - Base Invaders" + "/saves";
         
-        rewardManager = RewardManager.Main;
-        waveManager = WaveManager.Main;
+        metaProgressionSave = new MetaSaveFile(null, null, 0, 0, 0);
 
-        metaProgressionSave = new MetaSaveFile(null, null);
-
-        saveInterfaces.Add(rewardManager);
-        saveInterfaces.Add(waveManager);
+        saveInterfaces.Add(RewardManager.Main);
+        saveInterfaces.Add(WaveManager.Main);
+        saveInterfaces.Add(RewardCalculator.Main);
         saveInterfaces.Add(settings);
     }
 
@@ -108,9 +104,9 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void SaveMetaData(List<int> pilots, List<int> ships)
+    public void SaveMetaData(List<int> pilots, List<int> ships, int powerCore, int reinforcedCore, int nobleCore)
     {
-        metaProgressionSave = new MetaSaveFile(pilots, ships);
+        metaProgressionSave = new MetaSaveFile(pilots, ships, powerCore, reinforcedCore, nobleCore);
 
         var jFile = JsonUtility.ToJson(metaProgressionSave);
 

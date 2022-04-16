@@ -28,8 +28,6 @@ public class CashTextAnimation : UIAnimations
         earnedCash.gameObject.SetActive(true);
         earnedCash.text = "+ " + rewardManager.EarnedCash + "$";
 
-        Debug.Log(rewardManager.EarnedCash);
-
         Color textColor  = earnedCash.color;
         textColor.a = 0;
 

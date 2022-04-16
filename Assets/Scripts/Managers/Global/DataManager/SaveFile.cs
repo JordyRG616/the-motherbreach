@@ -36,11 +36,18 @@ public class MetaSaveFile
 {
     public List<int> unlockedPilotsIndices;
     public List<int> UnlockedShipsIndices;
+    public int powerCoreAmount;
+    public int reinforcedCoreAmount;
+    public int nobleCoreAmount;
     
-    public MetaSaveFile(List<int> unlockedPilots, List<int> unlockedShips)
+    public MetaSaveFile(List<int> unlockedPilots, List<int> unlockedShips, int powerCore, int reinforcedCore, int nobleCore)
     {
         unlockedPilotsIndices = unlockedPilots;
         UnlockedShipsIndices = unlockedShips;
+
+        powerCoreAmount = powerCore;
+        reinforcedCoreAmount = reinforcedCore;
+        nobleCoreAmount = nobleCore;
     }
 }
 

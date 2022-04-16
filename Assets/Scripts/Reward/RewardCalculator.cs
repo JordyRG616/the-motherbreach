@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RewardCalculator : MonoBehaviour
+public class RewardCalculator : MonoBehaviour, ISavable
 {
 
     #region Singleton
@@ -54,10 +55,10 @@ public class RewardCalculator : MonoBehaviour
     private int expAmount;
     private Dictionary<int, int> expRequeriment = new Dictionary<int, int>();
     private RewardManager rewardManager;
+    private bool choosing;
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string expGained;
     [SerializeField] [FMODUnity.EventRef] private string levelGained;
-    private bool choosing;
 
     void Start()
     {
@@ -147,5 +148,68 @@ public class RewardCalculator : MonoBehaviour
         RewardLevel level = RewardLevel.Common;
         level += ShopLevel - 1;
         return level;
+    }
+
+    public Dictionary<string, byte[]> GetData()
+    {
+        var container = new Dictionary<string, byte[]>();
+
+        container.Add("ShopLevel", BitConverter.GetBytes(ShopLevel));
+        container.Add("ShopExp", BitConverter.GetBytes(expAmount));
+        container.Add("WeaponCount", BitConverter.GetBytes(weapons.Count));
+        container.Add("BaseCount", BitConverter.GetBytes(bases.Count));
+        container.Add("RemovalPoints", BitConverter.GetBytes(FindObjectOfType<OfferTweaker>().removalPoints));
+        
+        int i = 0;
+        foreach(GameObject weapon in weapons)
+        {
+            container.Add("ShopWeapon" + i, BitConverter.GetBytes(weapon.GetComponent<ActionController>().weaponID));
+            i++;
+        }
+
+        i = 0;
+        foreach(GameObject _base in bases)
+        {
+            container.Add("ShopBase" + i, BitConverter.GetBytes(_base.GetComponent<BaseEffectTemplate>().baseID));
+            i++;
+        }
+
+        return container;
+    }
+
+    public void LoadData(SaveFile saveFile)
+    {
+        ShopLevel = BitConverter.ToInt32(saveFile.GetValue("ShopLevel"));
+        expAmount = BitConverter.ToInt32(saveFile.GetValue("ShopExp"));
+
+        var w_count = BitConverter.ToInt32(saveFile.GetValue("WeaponCount"));
+        var b_count = BitConverter.ToInt32(saveFile.GetValue("BaseCount"));
+
+        weapons.Clear();
+        bases.Clear();
+
+        for (int i = 0; i < w_count; i++)
+        {
+            var id = BitConverter.ToInt32(saveFile.GetValue("ShopWeapon" + i));
+            weapons.Add(TurretConstructor.Main.GetWeaponPrefabById(id));
+        }
+
+        for (int i = 0; i < b_count; i++)
+        {
+            var id = BitConverter.ToInt32(saveFile.GetValue("ShopBase" + i));
+            bases.Add(TurretConstructor.Main.GetBasePrefabById(id));
+        }
+
+        var removalCount = BitConverter.ToInt32(saveFile.GetValue("RemovalPoints"));
+
+        var offerTweaker = FindObjectOfType<OfferTweaker>();
+
+        if(offerTweaker == null) return;
+
+        for (int i = 0; i < removalCount; i++)
+        {
+            offerTweaker.removalPoints++;
+        }
+
     }
 }

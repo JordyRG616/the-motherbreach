@@ -125,6 +125,8 @@ public class ShipManager : MonoBehaviour, ISavable
 
                 TurretConstructor.Main.HandleBaseEffect(loadedTurret);
 
+                RegisterTurret(loadedTurret.GetComponent<TurretManager>());
+
                 loadedTurret.GetComponent<TurretManager>().LoadData(saveFile);
             }
         }

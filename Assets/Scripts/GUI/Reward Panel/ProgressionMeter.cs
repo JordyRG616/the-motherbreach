@@ -16,7 +16,7 @@ public class ProgressionMeter : MonoBehaviour, IPointerEnterHandler, IPointerExi
     void Start()
     {
         waveManager = WaveManager.Main;
-        ResetMarker();
+        // ResetMarker();
     }
 
     public void ResetMarker()
@@ -28,6 +28,7 @@ public class ProgressionMeter : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void AdvanceMarker()
     {
+        Debug.Log("called");
         markerPosition ++;
         Vector4 pad = new Vector4(0, 0, markers[markerPosition], 0);
         mask.padding = pad;

@@ -168,6 +168,16 @@ public class TurretConstructor : MonoBehaviour
         return weaponInstance;
     }
 
+    public GameObject GetWeaponPrefabById(int weaponID)
+    {
+        var weapon = allWeapons.Find(x => x.GetComponent<ActionController>().weaponID == weaponID);
+        // var weaponInstance = Instantiate(weapon, Vector3.zero, Quaternion.identity);
+        // weaponInstance.name = weapon.name;
+        // weaponInstance.GetComponent<ActionController>().Initiate();
+        // weaponInstance.SetActive(false);
+        return weapon;
+    }
+
     public GameObject GetBaseById(int baseID)
     {
         var _base = allBases.Find(x => x.GetComponent<BaseEffectTemplate>().baseID == baseID);
@@ -175,5 +185,14 @@ public class TurretConstructor : MonoBehaviour
         baseInstance.name = _base.name;
         baseInstance.SetActive(false);
         return baseInstance;
+    }
+
+    public GameObject GetBasePrefabById(int baseID)
+    {
+        var _base = allBases.Find(x => x.GetComponent<BaseEffectTemplate>().baseID == baseID);
+        // var baseInstance = Instantiate(_base, Vector3.zero, Quaternion.identity);
+        // baseInstance.name = _base.name;
+        // baseInstance.SetActive(false);
+        return _base;
     }
 }
