@@ -10,12 +10,14 @@ public class ForgeController : BossController
  
     protected override void ThirdPhaseUpgrade()
     {
-       
+        intervalToCheck -= .3f;
+        maxChildCount += 3;
     }
 
     protected override void SecondPhaseUpgrade()
     {
-       
+        intervalToCheck -= .2f;
+        maxChildCount += 2;
     }
 
     public bool HasMaxCapacity()

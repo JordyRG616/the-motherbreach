@@ -8,7 +8,6 @@ public class SpawnAction : BossAction
     
     [SerializeField] private float ChildSpeed;
     [SerializeField] private List<GameObject> blueprints;
-    [SerializeField] private int childrenCount;
     [SerializeField] private List<Transform> positionsToSpawn;
     [SerializeField] private float cooldown;
     [Header("Effects")]

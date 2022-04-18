@@ -5213,6 +5213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f67d20b62c5df45a5ff562876ccb4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 0
   shooters:
   - {fileID: 874710989305440924}
   cost: 0
@@ -5244,7 +5245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03c9e513ff6a6cf4b9d2a6425f8e3e3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 60
   damageMultiplier: 1
 --- !u!114 &6390329837503872525
 MonoBehaviour:
@@ -5364,7 +5365,7 @@ MonoBehaviour:
     m_Bits: 128
   keyword: 0
   tags: 0
-  initialDamage: 5
+  initialDamage: 1
   initialRest: 0
   damageText: 
   specializedStatText: 

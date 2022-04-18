@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0f701f77d25324585ba86577dd2f08, type: 3}
+  m_Name: Wave 9
+  m_EditorClassIdentifier: 
+  enemiesInWave:
+  - drone
+  - gemini
+  breaches:
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: 20399db21b627e6458473f314a0dac94, type: 3}
+    - {fileID: 4461862019773174273, guid: 578bf746ce1162a468a81aafaad12115, type: 3}
+    intervalOfSpawn: 0
+    intervalTillNextWave: 3
+    spawnInSamePosition: 1
+    bossWave: 0
+    breachLevel: 0
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: 20399db21b627e6458473f314a0dac94, type: 3}
+    - {fileID: 4461862019773174273, guid: 578bf746ce1162a468a81aafaad12115, type: 3}
+    intervalOfSpawn: 0
+    intervalTillNextWave: 7
+    spawnInSamePosition: 1
+    bossWave: 0
+    breachLevel: 0
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: 578bf746ce1162a468a81aafaad12115, type: 3}
+    - {fileID: 4461862019773174273, guid: 578bf746ce1162a468a81aafaad12115, type: 3}
+    - {fileID: 4461862019773174273, guid: a8ddb37bf42f7d64c8ff4136c979b3ac, type: 3}
+    intervalOfSpawn: 1
+    intervalTillNextWave: 0
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 0
+  rewardValue: 10

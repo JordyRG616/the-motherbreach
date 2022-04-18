@@ -15,14 +15,25 @@ MonoBehaviour:
   enemiesInWave:
   - drones
   - spritzers
+  - gemini
   breaches:
   - availableFormations:
-    - {fileID: 6498165479843956198, guid: 6b639f24e93c02742b8e376c98847d6a, type: 3}
+    - {fileID: 4461862019773174273, guid: d02c8e82f27e3bc4cad14e5b496902ff, type: 3}
     - {fileID: 6498165479843956198, guid: 6b639f24e93c02742b8e376c98847d6a, type: 3}
     - {fileID: 6498165479843956198, guid: 6b639f24e93c02742b8e376c98847d6a, type: 3}
     intervalOfSpawn: 0.5
     intervalTillNextWave: 5
     spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 0
+  - availableFormations:
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
+    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
+    - {fileID: 4461862019773174273, guid: 578bf746ce1162a468a81aafaad12115, type: 3}
+    - {fileID: 4461862019773174273, guid: 578bf746ce1162a468a81aafaad12115, type: 3}
+    intervalOfSpawn: 0.5
+    intervalTillNextWave: 10
+    spawnInSamePosition: 1
     bossWave: 0
     breachLevel: 0
   - availableFormations:
@@ -33,14 +44,4 @@ MonoBehaviour:
     spawnInSamePosition: 1
     bossWave: 0
     breachLevel: 0
-  - availableFormations:
-    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
-    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
-    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
-    - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
-    intervalOfSpawn: 0.7
-    intervalTillNextWave: 1
-    spawnInSamePosition: 0
-    bossWave: 0
-    breachLevel: 0
-  rewardValue: 18
+  rewardValue: 9

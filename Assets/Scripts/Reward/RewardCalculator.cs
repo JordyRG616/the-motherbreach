@@ -179,6 +179,10 @@ public class RewardCalculator : MonoBehaviour, ISavable
 
     public void LoadData(SaveFile saveFile)
     {
+        var offerTweaker = FindObjectOfType<OfferTweaker>();
+
+        if(offerTweaker == null) return;
+        
         ShopLevel = BitConverter.ToInt32(saveFile.GetValue("ShopLevel"));
         expAmount = BitConverter.ToInt32(saveFile.GetValue("ShopExp"));
 
@@ -202,9 +206,6 @@ public class RewardCalculator : MonoBehaviour, ISavable
 
         var removalCount = BitConverter.ToInt32(saveFile.GetValue("RemovalPoints"));
 
-        var offerTweaker = FindObjectOfType<OfferTweaker>();
-
-        if(offerTweaker == null) return;
 
         for (int i = 0; i < removalCount; i++)
         {

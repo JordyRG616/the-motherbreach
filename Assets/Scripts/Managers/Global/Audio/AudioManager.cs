@@ -36,6 +36,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioTrack uniqueMusicTrack;
     [SerializeField] private AudioTrack SFXTrack;
     [SerializeField] private AudioTrack GUITrack;
+    [Header("Switch Track")]
+    [SerializeField] private AnimationCurve risingCurve;
+    [SerializeField] private AnimationCurve fallingCurve;
 
     void Awake()
     {
@@ -123,8 +126,8 @@ public class AudioManager : MonoBehaviour
 
         while (step <=  1)
         {
-            uniqueMusicTrack.trackVolume = Mathf.Lerp(volume, 0, step);
-            musicTrack.trackVolume = Mathf.Lerp(0, volume, step);
+            uniqueMusicTrack.trackVolume = fallingCurve.Evaluate(step) * volume;
+            musicTrack.trackVolume = risingCurve.Evaluate(step) * volume;
 
             step += 0.01f;
 
@@ -144,8 +147,9 @@ public class AudioManager : MonoBehaviour
 
         while (step <=  1)
         {
-            uniqueMusicTrack.trackVolume = Mathf.Lerp(0, volume, step);
-            musicTrack.trackVolume = Mathf.Lerp(volume, 0, step);
+            uniqueMusicTrack.trackVolume = fallingCurve.Evaluate(step) * volume;
+            musicTrack.trackVolume = risingCurve.Evaluate(step) * volume;
+
 
             step += 0.01f;
 

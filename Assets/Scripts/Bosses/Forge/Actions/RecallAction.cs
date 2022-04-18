@@ -91,9 +91,10 @@ public class RecallAction : BossAction
             actionDuration = .1f;
             return;
         }
-        var childs = forgeController.Children.FindAll(x => x.Children[0].GetComponent<EnemyHealthController>().GetHealthPercentage() >= 0.7f);
-        var rdm = UnityEngine.Random.Range(0, childs.Count);
-        var child = childs[rdm];
+        var children = forgeController.Children.FindAll(x => x.Children[0].GetComponent<EnemyHealthController>().GetHealthPercentage() >= 0.7f);
+        // children = children.FindAll(x => x.Children[0].level <= 4);
+        var rdm = UnityEngine.Random.Range(0, children.Count);
+        var child = children[rdm];
         if(child == null) 
         {
             actionDuration = .1f;

@@ -145,6 +145,7 @@ public class WaveManager : MonoBehaviour, ISavable
             var breach = activeWave.breachQueue.Dequeue();
             breach.SetQueue();
             Vector2 spwPos = PositionToSpawn();
+            
             if(breach.spawnInSamePosition)
             {
                 StartCoroutine(CreateSpawnVFX(spwPos, 5));

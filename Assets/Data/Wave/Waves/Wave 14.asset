@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0f701f77d25324585ba86577dd2f08, type: 3}
+  m_Name: Wave 14
+  m_EditorClassIdentifier: 
+  enemiesInWave:
+  - spritz
+  - miner
+  - torpedo
+  breaches:
+  - availableFormations:
+    - {fileID: 372765064990266162, guid: 606fe947b9edaf743b83f6d52896a432, type: 3}
+    - {fileID: 372765064990266162, guid: 606fe947b9edaf743b83f6d52896a432, type: 3}
+    - {fileID: 372765064990266162, guid: 606fe947b9edaf743b83f6d52896a432, type: 3}
+    intervalOfSpawn: 0
+    intervalTillNextWave: 0
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 0
+  - availableFormations:
+    - {fileID: 6498165479843956198, guid: b83e8ec43477528498bce47e2ba5a0c5, type: 3}
+    - {fileID: 6498165479843956198, guid: b83e8ec43477528498bce47e2ba5a0c5, type: 3}
+    - {fileID: 372765064990266162, guid: 0aff3363e155d4d428dee53984f49519, type: 3}
+    intervalOfSpawn: 1
+    intervalTillNextWave: 5
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 0
+  - availableFormations:
+    - {fileID: 6498165479843956198, guid: b83e8ec43477528498bce47e2ba5a0c5, type: 3}
+    - {fileID: 6498165479843956198, guid: b83e8ec43477528498bce47e2ba5a0c5, type: 3}
+    - {fileID: 372765064990266162, guid: 0aff3363e155d4d428dee53984f49519, type: 3}
+    intervalOfSpawn: 1
+    intervalTillNextWave: 5
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 0
+  - availableFormations:
+    - {fileID: 372765064990266162, guid: 606fe947b9edaf743b83f6d52896a432, type: 3}
+    - {fileID: 372765064990266162, guid: 606fe947b9edaf743b83f6d52896a432, type: 3}
+    - {fileID: 372765064990266162, guid: 606fe947b9edaf743b83f6d52896a432, type: 3}
+    intervalOfSpawn: 0
+    intervalTillNextWave: 0
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 0
+  rewardValue: 15

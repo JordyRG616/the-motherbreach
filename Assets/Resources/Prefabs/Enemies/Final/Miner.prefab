@@ -5215,6 +5215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f67d20b62c5df45a5ff562876ccb4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 0
   shooters:
   - {fileID: 636560352309026894}
   cost: 0
@@ -5246,7 +5247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03c9e513ff6a6cf4b9d2a6425f8e3e3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 70
+  maxHealth: 110
   damageMultiplier: 1
 --- !u!114 &6390329837503872525
 MonoBehaviour:
@@ -20169,7 +20170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: CollisionModule.enabled
@@ -20201,7 +20202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.radial.scalar
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: TrailModule.minVertexDistance
@@ -20265,7 +20266,7 @@ PrefabInstance:
       objectReference: {fileID: 4830895272565588353, guid: 98e9b090f93ff9744981225726a946a6, type: 3}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: EmissionModule.rateOverDistance.scalar
-      value: 0.25
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: TrailModule.widthOverTrail.minMaxState
@@ -20285,11 +20286,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.speedModifier.minMaxState
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.influenceMask.m_Bits
-      value: 2147483647
+      value: 4023
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: ExternalForcesModule.multiplierCurve.scalar
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: SubModule.subEmitters.Array.data[0].emitter
@@ -20317,7 +20322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: InitialModule.startLifetime.maxCurve.m_Curve.Array.data[0].value
@@ -20333,7 +20338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.speedModifier.maxCurve.m_Curve.Array.data[1].value
-      value: 0
+      value: 0.51597595
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.speedModifier.maxCurve.m_Curve.Array.data[0].inSlope
@@ -20341,7 +20346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.speedModifier.maxCurve.m_Curve.Array.data[1].inSlope
-      value: 0
+      value: -0.58491486
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.speedModifier.maxCurve.m_Curve.Array.data[0].inWeight
@@ -20353,11 +20358,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.speedModifier.maxCurve.m_Curve.Array.data[1].inWeight
-      value: 0
+      value: 0.1093024
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.speedModifier.maxCurve.m_Curve.Array.data[1].outSlope
-      value: 0
+      value: -0.58491486
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: VelocityModule.speedModifier.maxCurve.m_Curve.Array.data[0].outWeight
@@ -20377,15 +20382,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[1].time
-      value: 0.4958333
+      value: 0.49406236
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[2].time
-      value: 1
+      value: 0.4958333
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[3].time
-      value: 0.57499695
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[0].value
@@ -20393,7 +20398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[1].value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[2].value
@@ -20401,19 +20406,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[3].value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[1].inSlope
-      value: 0
+      value: -0.021193834
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[2].inSlope
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[1].inWeight
+      value: 0.30993226
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[1].outSlope
-      value: 0
+      value: 2.8188488
       objectReference: {fileID: 0}
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[2].inWeight
@@ -20434,6 +20443,14 @@ PrefabInstance:
     - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[3].outWeight
       value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[1].tangentMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232729688115175442, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
+      propertyPath: ExternalForcesModule.multiplierCurve.maxCurve.m_Curve.Array.data[2].tangentMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3645599520356279890, guid: 6655dab129a3d7c49b0cdb7d3ca18da0, type: 3}
       propertyPath: playOnAwake

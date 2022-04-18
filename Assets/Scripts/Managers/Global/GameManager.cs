@@ -102,6 +102,8 @@ public class GameManager : MonoBehaviour
         if(gameState == GameState.OnTitle)
         {
             // Screen.SetResolution(1280, 720, true);
+            fadePanelAnimation = GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadeAnimation>();
+            fadePanelAnimation.PlayReverse();
             inputManager = InputManager.Main;
             audioManager = AudioManager.Main;
             audioManager.Initialize();
@@ -127,11 +129,11 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FadeToSelectionScreen()
     {
-        fadePanelAnimation = GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadeAnimation>();
+        // fadePanelAnimation = GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadeAnimation>();
 
         yield return StartCoroutine(fadePanelAnimation.Forward());
 
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(5);
         // SceneManager.sceneLoaded += LateStart;
 
     }
@@ -145,7 +147,7 @@ public class GameManager : MonoBehaviour
 
         yield return StartCoroutine(fadePanelAnimation.Forward());
 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
         SceneManager.sceneLoaded += LateStart;
 
     }
@@ -155,7 +157,7 @@ public class GameManager : MonoBehaviour
         selectedShip = ship;
         selectedPilot = pilot;
 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
         SceneManager.sceneLoaded += LateStart;
     }
     
@@ -278,7 +280,7 @@ public class GameManager : MonoBehaviour
             OnGameStateChange -= (EventHandler<GameStateEventArgs>)d;
         }
 
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 
     public void Win()
@@ -299,7 +301,7 @@ public class GameManager : MonoBehaviour
             OnGameStateChange -= (EventHandler<GameStateEventArgs>)d;
         }
 
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(4);
     }
 
     public void SaveGame()

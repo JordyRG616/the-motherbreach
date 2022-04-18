@@ -30271,6 +30271,8 @@ GameObject:
   - component: {fileID: 4094973236199065584}
   - component: {fileID: 9159173850279370298}
   - component: {fileID: 7474488104916322906}
+  - component: {fileID: 8290108528634857052}
+  - component: {fileID: 6599358677836054322}
   - component: {fileID: 1256933591148766512}
   - component: {fileID: 6179695113629851792}
   - component: {fileID: 6179695113629851794}
@@ -30466,16 +30468,39 @@ MonoBehaviour:
   phases:
   - order: 0
     combos:
-    - chance: 1
+    - chance: 0.6
       actions:
       - {fileID: 9159173850279370298}
-      - {fileID: 1256933591148766512}
+    - chance: 0.4
+      actions:
+      - {fileID: 8290108528634857052}
     threshold: 1
   - order: 1
-    combos: []
+    combos:
+    - chance: 0.4
+      actions:
+      - {fileID: 8290108528634857052}
+    - chance: 0.3
+      actions:
+      - {fileID: 6599358677836054322}
+    - chance: 0.3
+      actions:
+      - {fileID: 1256933591148766512}
     threshold: 0.6
   - order: 2
-    combos: []
+    combos:
+    - chance: 0.4
+      actions:
+      - {fileID: 6599358677836054322}
+      - {fileID: 1256933591148766512}
+    - chance: 0.4
+      actions:
+      - {fileID: 7474488104916322906}
+      - {fileID: 7474488104916322906}
+    - chance: 0.2
+      actions:
+      - {fileID: 1256933591148766512}
+      - {fileID: 1256933591148766512}
     threshold: 0.25
   idle: {fileID: 4094973236199065584}
   intervalToCheck: 1.5
@@ -30497,10 +30522,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: affb723eb71470f45a3fd0c90d5324b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 4
   paused: 0
-  distanceToOrbit: 35
-  distanceToFlee: 25
+  distanceToOrbit: 45
+  distanceToFlee: 30
 --- !u!114 &9159173850279370298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30520,7 +30545,6 @@ MonoBehaviour:
   ChildSpeed: 5
   blueprints:
   - {fileID: 4461862019773174273, guid: 7943ea1b35ac80d4883e1cc0bca3892b, type: 3}
-  childrenCount: 5
   positionsToSpawn:
   - {fileID: 8679786007202397651}
   - {fileID: 3713089858736467497}
@@ -30545,7 +30569,54 @@ MonoBehaviour:
   ChildSpeed: 20
   blueprints:
   - {fileID: 372765064990266162, guid: 606fe947b9edaf743b83f6d52896a432, type: 3}
-  childrenCount: 5
+  positionsToSpawn:
+  - {fileID: 8679786007202397651}
+  - {fileID: 3713089858736467497}
+  cooldown: 1
+  spawnSFX: event:/SFX/NEW/ForgeSpawn
+--- !u!114 &8290108528634857052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6179695113629851802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e6067060eec1f4780501afa0e54b24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionWeaponry: []
+  hasMove: 1
+  speed: 0
+  actionDuration: 4
+  ChildSpeed: 5
+  blueprints:
+  - {fileID: 4461862019773174273, guid: 01b90d893ffb087418202ce694e0052a, type: 3}
+  positionsToSpawn:
+  - {fileID: 8679786007202397651}
+  - {fileID: 3713089858736467497}
+  cooldown: 1
+  spawnSFX: event:/SFX/NEW/ForgeSpawn
+--- !u!114 &6599358677836054322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6179695113629851802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e6067060eec1f4780501afa0e54b24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionWeaponry: []
+  hasMove: 1
+  speed: 0
+  actionDuration: 3
+  ChildSpeed: 5
+  blueprints:
+  - {fileID: 372765064990266162, guid: 0aff3363e155d4d428dee53984f49519, type: 3}
   positionsToSpawn:
   - {fileID: 8679786007202397651}
   - {fileID: 3713089858736467497}
