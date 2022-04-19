@@ -94,7 +94,7 @@ public class RewardCalculator : MonoBehaviour, ISavable
             GainExp();
             return;
         }
-        AudioManager.Main.PlayInvalidSelection();
+        AudioManager.Main.PlayInvalidSelection("Not enough cash");
     }
 
     public void GainExp()

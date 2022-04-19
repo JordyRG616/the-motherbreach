@@ -113,11 +113,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    internal void RequestSFX(object explosionSFX)
-    {
-        throw new NotImplementedException();
-    }
-
     private IEnumerator SwitchToWaveTrack()
     {
         musicTrack.UnpauseAudio();
@@ -226,8 +221,9 @@ public class AudioManager : MonoBehaviour
         GUITrack.StopAudio(index);
     }
 
-    public void PlayInvalidSelection()
+    public void PlayInvalidSelection(string invalidTip)
     {
+        InvalidPopup.Main.PopInvalidText(invalidTip);
         GUITrack.ReceiveAudio(library.GetGUISound("event:/UI/Reward/Reward_InvalidSelection"), true);
     }
 

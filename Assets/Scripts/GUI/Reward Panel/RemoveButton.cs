@@ -24,6 +24,8 @@ public class RemoveButton : MonoBehaviour, IPointerEnterHandler, IPointerDownHan
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         image.sprite = clickSprite;
         tweaker.Remove();
     }

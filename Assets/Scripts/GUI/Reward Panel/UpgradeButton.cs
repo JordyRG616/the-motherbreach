@@ -90,6 +90,8 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         if(!onUpgrade)
         {
             SetUpgradeOption();
@@ -120,7 +122,11 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
             SetUpgradeText();
             return;
         }
-        AudioManager.Main.PlayInvalidSelection();
+        else
+        {
+            if(turretManager.Level >= turretManager.maxLevel) AudioManager.Main.PlayInvalidSelection("Turret at maximum level");
+            else AudioManager.Main.PlayInvalidSelection("Not enough cash");
+        }
     }
 
     private void SetButtonText(int cost)

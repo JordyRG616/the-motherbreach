@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using StringHandler;
 
-public class PilotBox : MonoBehaviour, IPointerClickHandler
+public class PilotBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject pilotPrefab;
     [HideInInspector] public Pilot pilot;
@@ -14,6 +15,7 @@ public class PilotBox : MonoBehaviour, IPointerClickHandler
     [SerializeField] private bool defaultSelection;
     [SerializeField] private GameObject unknownPortrait;
     [SerializeField] private GameObject truePortrait;
+    private StatInfoBox tipbox;
     private Sprite ogSprite;
     public UnityEvent OnClickEvent;
     private bool selected;
@@ -39,6 +41,7 @@ public class PilotBox : MonoBehaviour, IPointerClickHandler
         ogSprite = frame.sprite;
 
         launchButton = FindObjectOfType<LaunchButton>();
+        tipbox = FindObjectOfType<StatInfoBox>(true);
 
         if(defaultSelection) 
         {
@@ -67,5 +70,19 @@ public class PilotBox : MonoBehaviour, IPointerClickHandler
     {
         frame.sprite = ogSprite;
         selected = false;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(!inactive) return;
+        tipbox.gameObject.SetActive(true);
+        tipbox.SetText("\nThis pilot was captured. Can be rescued by finding and destroy the corresponding" + StatColorHandler.DamagePaint("jailship") + ".\n\n");
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if(!inactive) return;
+        tipbox.gameObject.SetActive(false);
+
     }
 }

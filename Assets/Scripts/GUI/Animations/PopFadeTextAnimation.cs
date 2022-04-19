@@ -11,9 +11,10 @@ public class PopFadeTextAnimation : UIAnimations
     [SerializeField] private AnimationCurve curve;
     private TextMeshProUGUI textMesh;
     
-    
-    void Start()
+
+    protected override void Awake()
     {
+        base.Awake();
         textMesh = GetComponent<TextMeshProUGUI>();
     }
 

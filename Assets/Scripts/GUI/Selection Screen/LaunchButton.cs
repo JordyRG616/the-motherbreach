@@ -13,7 +13,7 @@ public class LaunchButton : MonoBehaviour, IPointerClickHandler
     {
          if (selectedShip == null)
         {
-            AudioManager.Main.PlayInvalidSelection();
+            AudioManager.Main.PlayInvalidSelection("Select an available ship");
             return;
         }
         StartCoroutine(FadeToGame());

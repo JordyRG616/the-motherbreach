@@ -31,6 +31,8 @@ public class LockButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         locked = !locked;
         if(locked)
         {

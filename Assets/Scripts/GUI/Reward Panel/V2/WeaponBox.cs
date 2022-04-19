@@ -50,9 +50,11 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+
         if(cachedWeapon == null || RewardManager.Main.ActiveSelection)
         {
-            AudioManager.Main.PlayInvalidSelection();
+            AudioManager.Main.PlayInvalidSelection("");
             return;
         }
         if(buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && !buildBox.CheckWeaponBox(this) && !buildBox.OnUpgrade) 
@@ -72,7 +74,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             selected = false;
             return;
         } 
-        AudioManager.Main.PlayInvalidSelection();
+        AudioManager.Main.PlayInvalidSelection("");
     }
 
     void Update()

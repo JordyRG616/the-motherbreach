@@ -89,7 +89,7 @@ public class OfferTweaker : MonoBehaviour
         {
             if (SelectionFull())
             {
-                AudioManager.Main.PlayInvalidSelection();
+                AudioManager.Main.PlayInvalidSelection("Not enough removal points");
                 return;
             }
             selectedComponents.Add(component);

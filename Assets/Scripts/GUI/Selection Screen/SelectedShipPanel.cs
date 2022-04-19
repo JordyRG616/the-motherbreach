@@ -120,7 +120,7 @@ public class SelectedShipPanel : MonoBehaviour
     {
         if(!HasEnoughCore())
         {
-            AudioManager.Main.PlayInvalidSelection();
+            AudioManager.Main.PlayInvalidSelection("Not enough cores");
         } else
         {
             gameManager.UpdateCoreInventory(-activeShip.powerCoreCost, -activeShip.reinforcedCoreCost, -activeShip.nobleCoreCost);

@@ -36,6 +36,8 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         image.sprite = clickedSprite;
         // textMesh.color = Color.white;
         if(mode == ButtonMode.BUILD) Build();
@@ -62,9 +64,26 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
                 AudioManager.Main.RequestGUIFX(clickSFX);
                 rewardManager.SetSelection(buildBox.Selections().Weapon, buildBox.Selections().Base);
             }
-            else AudioManager.Main.PlayInvalidSelection();
+            else AudioManager.Main.PlayInvalidSelection("Not enough cash");
         }
-        else AudioManager.Main.PlayInvalidSelection();
+        else
+        {
+            if(buildBox.Selections().Weapon == null && buildBox.Selections().Base == null)
+            {
+                AudioManager.Main.PlayInvalidSelection("Select a weapon and a base");
+                return;
+            }
+            if(buildBox.Selections().Weapon == null) 
+            {
+                AudioManager.Main.PlayInvalidSelection("Select a weapon first");
+                return;
+            }
+            if(buildBox.Selections().Base == null)
+            {
+                AudioManager.Main.PlayInvalidSelection("Select a base first");
+                return;
+            } 
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)

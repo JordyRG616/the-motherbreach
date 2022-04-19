@@ -64,6 +64,8 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         if(mode == ButtonMode.Sell)
         {
             StartCoroutine(Sell());
@@ -80,7 +82,7 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         var _base = buildBox.baseToReplace;
         if (_base == null) 
         {
-            AudioManager.Main.PlayInvalidSelection();
+            AudioManager.Main.PlayInvalidSelection("Select a base to replace");
             return;
         }
         var cost = _base.GetComponent<BaseEffectTemplate>().GetCost();
@@ -93,7 +95,7 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
             buildBox.UpdateStats();
             buildBox.baseToReplace = null;
         }
-        else AudioManager.Main.PlayInvalidSelection();
+        else AudioManager.Main.PlayInvalidSelection("Not enough cash");
     }
 
     private IEnumerator Sell()

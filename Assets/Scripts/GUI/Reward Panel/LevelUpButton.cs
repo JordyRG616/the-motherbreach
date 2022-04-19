@@ -41,9 +41,11 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         if(!active)
         {
-            AudioManager.Main.PlayInvalidSelection();
+            AudioManager.Main.PlayInvalidSelection("Shop is already at maximum tier");
             return;
         }
         image.sprite = clickedSprite;

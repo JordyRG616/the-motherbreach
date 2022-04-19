@@ -22,6 +22,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     private ParticleSystem selectedVFX;
     private BuildBox buildBox;
     private bool initiated;
+    private TurretPreview preview;
 
     public int index;
 
@@ -33,6 +34,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             associatedSlot = list.Find(x => x.index == index);
             index ++;
             initiated = true;
+            preview = FindObjectOfType<TurretPreview>(true);
         }
     }
 
@@ -81,23 +83,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(!associatedSlot.IsOcuppied() && manager.ActiveSelection != null)
-        {
-            var turret = manager.ActiveSelection;
-            associatedSlot.BuildTurret(turret);
-            manager.BuildSelection();
-            DeactivateSprite();
-            return;
-        }
-        else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null && !buildBox.OnUpgrade)
-        {
-            AudioManager.Main.RequestGUIFX(clickSFX);
-            selectedVFX.Play();
-            SendToBuildBox();
-            ShowOptions();
-            return;
-        }
-        AudioManager.Main.PlayInvalidSelection();
+        
     }
 
     private void SendToBuildBox()
@@ -131,6 +117,26 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
+        if(!associatedSlot.IsOcuppied() && manager.ActiveSelection != null)
+        {
+            var turret = manager.ActiveSelection;
+            associatedSlot.BuildTurret(turret);
+            manager.BuildSelection();
+            DeactivateSprite();
+            return;
+        }
+        else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null && !buildBox.OnUpgrade)
+        {
+            AudioManager.Main.RequestGUIFX(clickSFX);
+            selectedVFX.Play();
+            SendToBuildBox();
+            ShowOptions();
+            return;
+        } 
+        AudioManager.Main.PlayInvalidSelection("Select an empty slot");
+            
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -144,6 +150,10 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             {
                 foreach(TurretVFXManager vfx in manager.ActiveSelection.GetComponentsInChildren<TurretVFXManager>()) vfx.SetSelectedColor(true);
             }
+        } else if(associatedSlot.IsOcuppied())
+        {
+            preview.gameObject.SetActive(true);
+            preview.ReceiveInformation(associatedSlot.occupyingTurret.GetComponent<TurretManager>());
         }
     }
 
@@ -156,15 +166,13 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             manager.ActiveSelection.transform.rotation = Quaternion.identity;
             foreach(TurretVFXManager vfx in manager.ActiveSelection.GetComponentsInChildren<TurretVFXManager>()) vfx.SetSelectedColor(false);
 
+        } else if(associatedSlot.IsOcuppied())
+        {
+            preview.gameObject.SetActive(false);
         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-    }
-
-    void FixedUpdate()
-    {
-        // GetComponent<RectTransform>().anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position);
     }
 }
