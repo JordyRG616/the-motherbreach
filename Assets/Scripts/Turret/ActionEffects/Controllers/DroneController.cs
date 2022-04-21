@@ -1,66 +1,150 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DroneController : ActionController
 {
-    private DroneMovement movement;
-    private WaitForSeconds waitTime;
+    [SerializeField] private float speed;
+    [SerializeField] private float range;
+    [SerializeField] private float orbitRadius;
 
-    public void StartComponent()
+    [SerializeField] private Vector3 targetSize;
+    private Vector3 ogSize;
+    private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
+
+    private bool tracking;
+    private Rigidbody2D body;
+    private Vector2 direction;
+    private Transform ship;
+
+
+    void Awake()
     {
-        StartCoroutine(ManageActivation());
+        Initiate();
+        GetComponent<DeployableObject>().onBirth += Grow;
+        GetComponent<DeployableObject>().onLifetimeEnd += ResetSize;
+
+        ogSize = transform.localScale;
     }
 
-    public void Configure(float level)
+    private void ResetSize(object sender, EventArgs e)
     {
-        movement = GetComponent<DroneMovement>();
+        transform.localScale = new Vector3(0, 0, 1);
+    }
 
-        Initiate();
+    private void Grow(object sender, EventArgs e)
+    {
+        Debug.Log("called");
+        StartCoroutine(GrowToFullSize());
+    }
 
-        GetTarget();
+    private IEnumerator GrowToFullSize()
+    {
+        float step = 0;
 
-        var damage = shooters[0].StatSet[Stat.Damage];
-        shooters[0].SetStat(Stat.Damage, damage * level);
-        var rest = shooters[0].StatSet[Stat.Rest];
-        shooters[0].SetStat(Stat.Rest, rest + (level/10));
+        while(step <= 1)
+        {
+            var size = Vector3.Lerp(ogSize, targetSize, step);
+            transform.localScale = size;
 
-        waitTime = new WaitForSeconds(shooters[0].StatSet[Stat.Rest]);
+            step += 0.1f;
+            yield return waitTime;
+        }
+    }
+
+    public override void Initiate()
+    {
+        base.Initiate();
+
+        body = GetComponent<Rigidbody2D>();
+        ship = ShipManager.Main.transform;
     }
 
     public override void Activate()
     {
         foreach(ActionEffect shooter in shooters)
         {
+            if(shooter.GetShooterSystem().IsAlive()) return;
             shooter.Shoot();
-        }
-    }
-
-    public void GetTarget()
-    {
-        if(movement.GetTarget() != null)
-        {
-            target = movement.GetTarget().GetComponent<TargetableComponent>();
-            shooters[0].ReceiveTarget(target.gameObject);
-        } else
-        {
-            Stop();
         }
     }
 
     protected override IEnumerator ManageActivation()
     {
-        while(target != null)
-        {
-            yield return new WaitUntil(() => Vector2.Distance(transform.position, target.transform.position) <= movement.GetDistance());
+        yield break;
+    }
 
-            Activate();
+    private void TrackTarget()
+    {
+        direction = target.transform.position - transform.position;
+
+        if(direction.magnitude > range)
+        {
+            body.AddForce(direction.normalized * speed, ForceMode2D.Impulse);
         }
     }
 
-    public void Stop()
+    private void OrbitShip()
     {
-        StopAllCoroutines();
-        StopShooters();
+        direction = Vector2.Perpendicular(direction);
+
+        body.AddForce(direction.normalized * speed, ForceMode2D.Impulse);
+    }
+
+    private void MoveAwayFromShip()
+    {
+        direction = -direction;
+        body.AddForce(direction.normalized * speed, ForceMode2D.Impulse);
+    }
+    
+    private void RotateTowards(Vector2 direction)
+    {
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+    }
+
+    protected override void FixedUpdate()
+    {
+        body.velocity = Vector2.zero;
+
+        if(target == null)
+        {
+            direction = ship.position - transform.position;
+
+            if(direction.magnitude < orbitRadius) MoveAwayFromShip();
+            else OrbitShip();
+         
+        } else TrackTarget();
+
+
+        RotateTowards(direction);
+    }
+
+    public override void OnTriggerEnter2D(Collider2D other)
+    {
+        base.OnTriggerEnter2D(other);
+
+        if(enemiesInSight.Count == 0 || target != null) return;
+        target = enemiesInSight[0];
+
+        foreach(ActionEffect shooter in shooters)
+        {
+            shooter.ReceiveTarget(target.gameObject);
+        }
+
+        Invoke("Activate", 1f);
+
+    }
+
+    public override void OnTriggerExit2D(Collider2D other)
+    {
+        base.OnTriggerExit2D(other);
+
+        if(target != null && !enemiesInSight.Contains(target))
+        {
+            target = null;
+            StopShooters();
+        } 
     }
 }

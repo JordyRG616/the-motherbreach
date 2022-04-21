@@ -4825,6 +4825,7 @@ GameObject:
   - component: {fileID: 6133096348551807459}
   - component: {fileID: 6133096348551807458}
   - component: {fileID: 6304654335742844667}
+  - component: {fileID: 343513338319059618}
   m_Layer: 7
   m_Name: spawner
   m_TagString: Untagged
@@ -4914,11 +4915,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08cd5cd3ee97624991b88fe77300e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 21
   shooters:
   - {fileID: 6304654335742844667}
   cost: 4
   health: 100
-  enemiesInSight: []
+  restBar: {fileID: 0}
   target: {fileID: 0}
   timeBetweenActivations: 5
 --- !u!114 &6133096348551807458
@@ -4955,16 +4957,33 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  weaponClass: 5
   keyword: 0
+  tags: 0
   initialDamage: 0
   initialRest: 5
+  damageText: 
+  specializedStatText: 
+  secondaryStatText: 
   onShootSFX: event:/SFX/NEW/BomberShoot
   singleSFX: 1
-  droneTemplate: {fileID: 6131271950453116824, guid: e6c2a55d6db9e4e4d8c96edf44e39aa0, type: 3}
+  initialRotation: 0
+  debugStats: []
   capacity: 2
   droneLevel: 1
-  activeDrones: 0
+--- !u!114 &343513338319059618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2203951520013117418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1a5e7b0fe138d744a785cbabf252bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 5557661828328532713, guid: e6c2a55d6db9e4e4d8c96edf44e39aa0, type: 3}
+  estimateCount: 1
 --- !u!1 &7708607296405049995
 GameObject:
   m_ObjectHideFlags: 0

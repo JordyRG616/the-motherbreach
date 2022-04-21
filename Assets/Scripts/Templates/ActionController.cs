@@ -15,7 +15,7 @@ public abstract class ActionController : MonoBehaviour, ISavable
     public RestBarManager restBar;
 
     protected List<TargetableComponent> enemiesInSight = new List<TargetableComponent>();
-    [HideInInspector] public TargetableComponent target;
+    public TargetableComponent target;
     private IntegrityManager integrityManager;
 
     public abstract void Activate();

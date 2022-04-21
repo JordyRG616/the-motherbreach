@@ -19,6 +19,7 @@ public class SelectedShipPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI abilityDescription;
 
     [SerializeField] private Image healthRank;
+    [SerializeField] private Image rechargeRank;
     [SerializeField] private Image speedRank;
     [SerializeField] private Image handlingRank;
 
@@ -73,6 +74,7 @@ public class SelectedShipPanel : MonoBehaviour
         abilityDescription.text = activeShip.abilityDescription;
 
         healthRank.sprite = statRankSprites[activeShip.healthRank];
+        rechargeRank.sprite = statRankSprites[activeShip.rechargeRank];
         speedRank.sprite = statRankSprites[activeShip.speedRank];
         handlingRank.sprite = statRankSprites[activeShip.handlingRank];
 
@@ -157,6 +159,7 @@ public class ShipData
 
     [Header("Stats")]
     [Range(0, 4)] public int healthRank;
+    [Range(0, 4)] public int rechargeRank;
     [Range(0, 4)] public int speedRank;
     [Range(0, 4)] public int handlingRank;
 

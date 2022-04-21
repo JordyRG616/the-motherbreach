@@ -108,6 +108,7 @@ public class TitleButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        StartCoroutine(Enable());
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -116,6 +117,5 @@ public class TitleButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         audioManager.RequestGUIFX(clickSFX, out clickIndex);
         eventToTrigger.Invoke();
         clickable = false;
-        StartCoroutine(Enable());
     }
 }

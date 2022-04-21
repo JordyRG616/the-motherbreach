@@ -78099,6 +78099,7 @@ GameObject:
   - component: {fileID: 7728008352821023317}
   - component: {fileID: 1647577603}
   - component: {fileID: 1647577605}
+  - component: {fileID: -8238423512785968794}
   m_Layer: 7
   m_Name: Classic
   m_TagString: Player
@@ -78203,8 +78204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c04e68db9b7a1347ae6d696068488d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  beamSelfDamage: 5
+  index: 0
+  pilotIndex: 0
 --- !u!114 &477818584063414258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78224,8 +78225,6 @@ MonoBehaviour:
   onHitSFX: event:/SFX/NEW/ShipHit
   deathVFX: {fileID: 7731019211335697498}
   onDeathSFX: event:/SFX/NEW/ShipDeath
-  fill: {fileID: 0}
-  textMesh: {fileID: 0}
 --- !u!114 &7728008352821023317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78268,6 +78267,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
   ListenerNumber: -1
+--- !u!114 &-8238423512785968794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278815087257461982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53dd798a552425c43ae259abeac42000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyRechargeRate: 0.1
+  abilityIcon: {fileID: -1078832789, guid: ce1a2a85f41339c4a8e3e4fa8afb53cb, type: 3}
 --- !u!1 &6290039446318044611
 GameObject:
   m_ObjectHideFlags: 0

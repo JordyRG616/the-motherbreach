@@ -5,13 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using StringHandler;
 
-public class SpawnerEffect : ActionEffect
+public class SpawnerEffect : DeployerActionEffect
 {
-    [SerializeField] private GameObject droneTemplate;
-    [SerializeField] private float capacity;
     [SerializeField] private float droneLevel;
-    private List<GameObject> drones = new List<GameObject>();
-    public int activeDrones;
 
     public override Stat specializedStat => Stat.DroneLevel;
 
@@ -32,60 +28,6 @@ public class SpawnerEffect : ActionEffect
     public override void ApplyEffect(HitManager hitManager)
     {
         
-    }
-
-    public override void Shoot()
-    {
-        StartCoroutine(Spawn());
-    }
-
-    private IEnumerator Spawn()
-    {
-        while(drones.Count < capacity)
-        {
-            drones.Add(ConstructDrone());
-        }
-        
-        activeDrones = 0;
-
-        while(activeDrones < capacity)
-        {
-            drones[activeDrones].transform.rotation = transform.parent.rotation;
-            drones[activeDrones].GetComponent<DroneMovement>().StartMoving();
-            drones[activeDrones].GetComponent<DroneController>().StartComponent();
-
-            
-            AudioManager.Main.RequestSFX(onShootSFX);
-
-            activeDrones ++;
-
-            yield return new WaitForSeconds(1f);
-        }
-        
-    }
-
-    private GameObject ConstructDrone()
-    {
-        GameObject container = Instantiate(droneTemplate, Vector3.zero, Quaternion.identity, this.transform);
-        container.GetComponent<DroneMovement>().Configure(RequestTarget(), droneLevel, this);
-        container.GetComponent<DroneController>().Configure(droneLevel);
-
-        return container;
-    }
-
-    public Transform RequestTarget()
-    {
-        var enemies = FindObjectsOfType<EnemyManager>();
-
-        var enemy = enemies.OrderBy(x => Vector2.Distance(x.transform.position, transform.position)).FirstOrDefault();
-
-        if(enemy ==  null) 
-        {
-            StopAllCoroutines();
-            return null;
-        }
-
-        return enemy.transform;
     }
 
     public override string DescriptionText()
