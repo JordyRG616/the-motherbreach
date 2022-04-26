@@ -59,6 +59,7 @@ public class ChargeAction : BossAction
 
     public override void StartAction()
     {
+        controller.ActivateAnimation("Special");
         counter = 0;   
     }
 

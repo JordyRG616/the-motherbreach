@@ -23,7 +23,7 @@ public abstract class BossController : MonoBehaviour, IManager
     protected Transform ship;
     protected float chanceToAct = 0;
     protected WaitForSeconds waitTime;
-    protected bool onAction;
+    public bool onAction;
     public string currentTrigger {get; protected set;}
     protected int upgraded;
 
@@ -148,6 +148,7 @@ public abstract class BossController : MonoBehaviour, IManager
         }
 
         ActivateAnimation("Move");
+        onAction = false;
 
         chanceToAct = 0;
     }
@@ -225,7 +226,6 @@ public abstract class BossController : MonoBehaviour, IManager
         currentAction = null;
         bossAction = null;
         movement = idle.IdleMove;
-        onAction = false;
     }
 }
 

@@ -4891,8 +4891,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2006087579
+  m_SortingLayer: 5
   m_SortingOrder: -5
   m_RenderMode: 5
   m_MeshDistribution: 0
@@ -9995,6 +9995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f67d20b62c5df45a5ff562876ccb4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: 0
   shooters:
   - {fileID: 7347708281147942070}
   cost: 0
@@ -15467,6 +15468,14 @@ PrefabInstance:
       value: 0.04591835
       objectReference: {fileID: 0}
     - target: {fileID: 7314560291140547365, guid: 7db8ddcc68c0dbb439a1b4407ee1257d, type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7314560291140547365, guid: 7db8ddcc68c0dbb439a1b4407ee1257d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 2006087579
+      objectReference: {fileID: 0}
+    - target: {fileID: 7314560291140547365, guid: 7db8ddcc68c0dbb439a1b4407ee1257d, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -15995,6 +16004,14 @@ PrefabInstance:
     - target: {fileID: 6194636507427624535, guid: 5a9fd31df7f366241bbc9eebb64858f5, type: 3}
       propertyPath: m_Name
       value: Cloud shooter
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199022215864041087, guid: 5a9fd31df7f366241bbc9eebb64858f5, type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199022215864041087, guid: 5a9fd31df7f366241bbc9eebb64858f5, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 2006087579
       objectReference: {fileID: 0}
     - target: {fileID: 9196760300904785888, guid: 5a9fd31df7f366241bbc9eebb64858f5, type: 3}
       propertyPath: m_LocalPosition.y

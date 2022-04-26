@@ -41,12 +41,14 @@ public abstract class ActionEffect : MonoBehaviour, ISavable
     protected bool onRest;
     protected float cooldown;
     [HideInInspector] public float initialRotation;
+    private bool initiated;
 
     [Header("Debug")]
     public string[] debugStats = new string[0];
 
     public virtual void Initiate()
     {
+        if(initiated) return;
         shooterParticle.Stop(true);
 
         SetData();
@@ -57,6 +59,8 @@ public abstract class ActionEffect : MonoBehaviour, ISavable
         gameManager.OnGameStateChange += ClearShots;
 
         audioManager = AudioManager.Main;
+
+        initiated = true;
     }
 
     public abstract string DescriptionText();

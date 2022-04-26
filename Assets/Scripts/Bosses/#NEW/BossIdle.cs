@@ -8,10 +8,12 @@ public abstract class BossIdle : MonoBehaviour
     public bool paused;
     protected Rigidbody2D body;
     protected Transform ship;
+    protected BossController controller;
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        controller = GetComponent<BossController>();
         ship = ShipManager.Main.transform;
     }    
 

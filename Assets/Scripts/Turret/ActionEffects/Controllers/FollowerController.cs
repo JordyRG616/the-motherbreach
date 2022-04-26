@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ public class FollowerController : ActionController
         target = enemiesInSight.OrderBy(x => Vector3.Distance(transform.position, x.transform.position))
             .FirstOrDefault();
 
+        target.OnDetach += DetachTarget;
+
         foreach(ActionEffect shooter in shooters)
         {
             shooter.ReceiveTarget(target.gameObject);
@@ -34,12 +37,20 @@ public class FollowerController : ActionController
 
     }
 
+    private void DetachTarget(object sender, EventArgs e)
+    {
+        var _t = (TargetableComponent)sender;
+        enemiesInSight.Remove(_t);
+        target = null;
+        _t.OnDetach -= DetachTarget;
+    }
+
     protected IEnumerator FollowTarget(TargetableComponent target)
     {
         
         StartCoroutine(ManageActivation());
 
-        while(enemiesInSight.Contains(target))
+        while(target != null)
         {
             Vector3 direction = target.transform.position - this.transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

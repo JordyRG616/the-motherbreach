@@ -58,6 +58,7 @@ public abstract class ActionController : MonoBehaviour, ISavable
     {
         if(other.TryGetComponent<TargetableComponent>(out TargetableComponent enemy))
         {
+            if(enemiesInSight.Contains(enemy)) enemiesInSight.Remove(enemy);
             enemiesInSight.Add(enemy);
         }
     }

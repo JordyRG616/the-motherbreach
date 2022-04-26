@@ -4891,8 +4891,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2006087579
+  m_SortingLayer: 5
   m_SortingOrder: -5
   m_RenderMode: 5
   m_MeshDistribution: 0
@@ -14666,8 +14666,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2006087579
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -15456,6 +15456,14 @@ PrefabInstance:
       value: 0.04591835
       objectReference: {fileID: 0}
     - target: {fileID: 7314560291140547365, guid: 7db8ddcc68c0dbb439a1b4407ee1257d, type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7314560291140547365, guid: 7db8ddcc68c0dbb439a1b4407ee1257d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 2006087579
+      objectReference: {fileID: 0}
+    - target: {fileID: 7314560291140547365, guid: 7db8ddcc68c0dbb439a1b4407ee1257d, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -15678,6 +15686,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Simple shoot
       objectReference: {fileID: 0}
+    - target: {fileID: 6327413566281048751, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
 --- !u!198 &6390329837501499331 stripped

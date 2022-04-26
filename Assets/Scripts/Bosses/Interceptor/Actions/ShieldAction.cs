@@ -23,7 +23,7 @@ public class ShieldAction : BossAction
 
     public override void StartAction()
     {
-        controller.ActivateAnimation("Special");
+        // controller.ActivateAnimation("Special");
     }
 
     public void CreateShield()

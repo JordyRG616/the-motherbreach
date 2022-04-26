@@ -19,6 +19,11 @@ public class DeployablePool : MonoBehaviour
         }
     }
 
+    public DeployableObject GetModel()
+    {
+        return model;
+    }
+
     private void CreateDeployable()
     {
         var _obj = Instantiate(model, transform.position, Quaternion.identity);
