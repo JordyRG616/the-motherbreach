@@ -163,7 +163,7 @@ public class WaveManager : MonoBehaviour, ISavable
                         StartCoroutine(CreateSpawnVFX(spwPos, 5, true));
                         yield return new WaitForSeconds(1f);
                     } 
-                    var boss = Instantiate(breach.formationQueue.Dequeue(), spwPos, Quaternion.identity);
+                    var boss = Instantiate(breach.GetRandomBoss(), spwPos, Quaternion.identity);
 
                     activeBosses.Add(boss.GetComponent<BossController>());
 

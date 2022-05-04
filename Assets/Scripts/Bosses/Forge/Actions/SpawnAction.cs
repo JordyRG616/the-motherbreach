@@ -12,6 +12,7 @@ public class SpawnAction : BossAction
     [SerializeField] private float cooldown;
     [Header("Effects")]
     [SerializeField] [FMODUnity.EventRef] private string spawnSFX;
+    private bool onAction;
     private ForgeController forgeController;
     private float _ogDuration;
     private float timer;
@@ -30,8 +31,9 @@ public class SpawnAction : BossAction
         }
     }
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         forgeController = GetComponent<ForgeController>();
         _ogDuration = actionDuration;
     }
@@ -74,6 +76,7 @@ public class SpawnAction : BossAction
 
     public override void Action()
     {
+        if(!onAction) return;
         timer += Time.deltaTime;
 
         if(timer <= cooldown) return;
@@ -83,17 +86,17 @@ public class SpawnAction : BossAction
 
     public override void DoActionMove()
     {
-
+        LookAt(ship.position - transform.position);
     }
 
     public override void EndAction()
     {
-
+        onAction = false;
     }
 
     public override void StartAction()
     {
-        actionDuration = _ogDuration;
+        actionDuration = _ogDuration + 3;
         timer = 0;
         if(forgeController.HasMaxCapacity())
         {
@@ -101,7 +104,13 @@ public class SpawnAction : BossAction
             return;
         } else
         {
+            controller.ActivateAnimation("Deploy");
             timer = cooldown;
         }
+    }
+
+    public override void InitiateDelayedAttack()
+    {
+        onAction = true;
     }
 }

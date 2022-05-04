@@ -8,6 +8,23 @@ public class ForgeController : BossController
     [SerializeField] private int maxChildCount;
     public List<FormationManager> Children {get; private set;} = new List<FormationManager>();
  
+    protected override void Awake()
+    {
+        AudioManager.Main.RequestBossMusic(bossMusic, out musicInstance);
+
+        healthController = GetComponent<BossHealthController>();
+        healthController.Initiate();
+        animator = GetComponentInChildren<Animator>();
+        ship = ShipManager.Main.transform;
+
+        waitTime = new WaitForSeconds(intervalToCheck);
+
+        movement = idle.IdleMove;
+
+        StartCoroutine(ManageActions());
+
+        phases.ForEach(x => x.Initiate());
+    }
     protected override void ThirdPhaseUpgrade()
     {
         intervalToCheck -= .3f;

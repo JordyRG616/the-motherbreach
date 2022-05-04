@@ -6,8 +6,6 @@ public class BattlecruiserIdle : BossIdle
 {
     [SerializeField] [Range(-5, 5)] private float eccentricity;
     [SerializeField] [Range(-1, 1)] private float forceDirection;
-    [SerializeField] private float minDistance;
-    [SerializeField] private float maxDistance;
     public int sign {get; private set;} = 1;
     private Vector2 direction;
 

@@ -137,7 +137,7 @@ public class InputManager : MonoBehaviour
 
     private void TriggerRotation()
     {
-        int direction = Utilities.TestKey(rotateRight) - Utilities.TestKey(rotateLeft);
+        int direction = Utilities.TestKey(rotateLeft) - Utilities.TestKey(rotateRight);
 
         if(direction != 0)
         {

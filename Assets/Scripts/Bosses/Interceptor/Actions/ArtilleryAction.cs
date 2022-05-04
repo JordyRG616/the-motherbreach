@@ -27,6 +27,8 @@ public class ArtilleryAction : BossAction
     {
         if(controller.currentTrigger == "Attack") InitiateDelayedAttack();
         else controller.ActivateAnimation("Attack");
+
+        controller.StopMovementSFX();
     }
 
     public override void InitiateDelayedAttack()

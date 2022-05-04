@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class RecallAction : BossAction
 {
@@ -10,13 +11,17 @@ public class RecallAction : BossAction
     [SerializeField] [FMODUnity.EventRef] private string beamSFX;
     [SerializeField] private ParticleSystem levelUpVFX;
     [SerializeField] [FMODUnity.EventRef] private string levelUpSFX;
+    private Transform head;
     private float _ogDuration;
     private float vfxTime;
     private WaitForSeconds waitTime;
     private ForgeController forgeController;
+    private float refSpeed;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
+
         forgeController = GetComponent<ForgeController>();
         vfxTime = levelUpVFX.main.duration - .5f;
         waitTime = new WaitForSeconds(0.01f);
@@ -52,10 +57,14 @@ public class RecallAction : BossAction
             var newPos = Vector2.Lerp(position, recallPosition.position, step / 2);
             formationHead.position = newPos;
             trackBeam.transform.position = formationHead.position;
+
+
             step += 0.01f;
             yield return waitTime;
         }
 
+        formationHead.position = recallPosition.position;
+        controller.animator.SetTrigger("MidRecall");
         trackBeam.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         AudioManager.Main.StopSFX(instance);
         levelUpVFX.Play();
@@ -82,6 +91,22 @@ public class RecallAction : BossAction
         }
     }
 
+    private IEnumerator AdjustRotation(Transform formationHead)
+    {
+        
+            var direction = formationHead.position - transform.position;
+            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            float step = 0;
+
+            while(step <= 1)
+            {
+                var _angle = Mathf.SmoothDampAngle(transform.eulerAngles.z, angle + 90f, ref refSpeed, .01f);
+                transform.rotation = Quaternion.Euler(0, 0, _angle);
+                step += 0.01f;
+                yield return waitTime;
+            }
+    }
+
 
     public override void StartAction()
     {
@@ -93,15 +118,22 @@ public class RecallAction : BossAction
         }
         var children = forgeController.Children.FindAll(x => x.Children[0].GetComponent<EnemyHealthController>().GetHealthPercentage() >= 0.7f);
         // children = children.FindAll(x => x.Children[0].level <= 4);
-        var rdm = UnityEngine.Random.Range(0, children.Count);
-        var child = children[rdm];
+        // var rdm = UnityEngine.Random.Range(0, children.Count);
+        var child = children.OrderBy(x => Vector2.Distance(transform.position, x.transform.position)).First();
         if(child == null) 
         {
             actionDuration = .1f;
             return;
         }
-        var head = child.transform.Find("Head");
+        head = child.transform.Find("Head");
+        controller.ActivateAnimation("Recall");
+        StartCoroutine(AdjustRotation(head));
+    }
+
+    public override void InitiateDelayedAttack()
+    {
         StartCoroutine(Recall(head));
+        base.InitiateDelayedAttack();
     }
 
     public override void Action()

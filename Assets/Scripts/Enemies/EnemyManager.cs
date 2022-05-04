@@ -51,7 +51,7 @@ public class EnemyManager : MonoBehaviour, IManager
 
     public void AdjustLevel(int waveLevel)
     {
-        if(level >= 5 || waveLevel <= 0) return;
+        if(waveLevel >= 5 || waveLevel <= 0) return;
         level = waveLevel;
         attackController.LevelUp(waveLevel);
         healthController.RaiseHealthByPercentage(.1f * waveLevel);

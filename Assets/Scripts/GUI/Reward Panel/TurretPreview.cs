@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using StringHandler;
 using CraftyUtilities;
+using System;
 
 public class TurretPreview : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class TurretPreview : MonoBehaviour
     void Start()
     {
         rect = GetComponent<RectTransform>();
+        RewardManager.Main.OnRewardSelection += Deactivate;
+    }
+
+    private void Deactivate(object sender, EventArgs e)
+    {
+        gameObject.SetActive(false);
     }
 
     public void ReceiveInformation(TurretManager turret)

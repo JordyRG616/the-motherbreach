@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{86923dc3-d5bb-4d56-b2bd-149b99c0b330}">
+		<property name="name">
+			<value>DelayedTrigger</value>
+		</property>
+		<relationship name="folder">
+			<destination>{48099fc3-82be-4c28-9d95-3632aec00da6}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{624753d0-0987-4490-bfad-21b3f7cf96df}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{624753d0-0987-4490-bfad-21b3f7cf96df}">
+		<property name="parameterType">
+			<value>1</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
