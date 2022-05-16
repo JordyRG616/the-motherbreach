@@ -31,7 +31,7 @@ public class BuildBox : MonoBehaviour
 
 
 
-    private float weaponCost, baseCost;
+    [HideInInspector] public float weaponCost, baseCost;
     public float TotalCost
     {
         get
@@ -78,6 +78,11 @@ public class BuildBox : MonoBehaviour
         weaponImage.GetComponent<UIAnimations>().Play();
         weaponCost = selectedWeapon.GetComponent<ActionController>().GetCost();
         UpdateStats();
+    }
+
+    public void ReceiveWeaponBox(WeaponBox box)
+    {
+        selectedWeaponBox = box;
     }
 
     public void ReceiveBase(GameObject receveidBase, BaseBox box)
@@ -164,6 +169,12 @@ public class BuildBox : MonoBehaviour
     public void SetCostToBaseCost(bool enabled)
     {
         if(enabled) costText.text = baseCost + "$";
+        else costText.text = "-";
+    }
+
+    public void SetCostToWeaponCost(bool enabled)
+    {
+        if(enabled) costText.text = weaponCost + "$";
         else costText.text = "-";
     }
 
@@ -329,7 +340,7 @@ public class BuildBox : MonoBehaviour
 
     public void ClearWeapon()
     {
-        if (selectedWeaponBox) 
+        if (selectedWeaponBox && !OnUpgrade) 
         {
             selectedWeapon.GetComponent<ActionController>().Reset();
             selectedWeaponBox.Detach();
@@ -343,7 +354,7 @@ public class BuildBox : MonoBehaviour
 
     public void ClearWeapon(out GameObject _weapon)
     {
-        if (selectedWeaponBox) 
+        if (selectedWeaponBox && !OnUpgrade) 
         {
             selectedWeapon.GetComponent<ActionController>().Reset();
             selectedWeaponBox.Detach();
@@ -356,10 +367,16 @@ public class BuildBox : MonoBehaviour
         ResetStats();
     }
 
+    public void ClearWeaponBox()
+    {
+        selectedWeaponBox.Unselect();
+        selectedWeaponBox = null;
+    }
+
     public void ClearBase()
     {
         if (selectedBaseBox) selectedBaseBox.Detach();
-        if (selectedWeaponBox) 
+        if (selectedWeaponBox && !OnUpgrade) 
         {
             selectedWeapon.GetComponent<ActionController>().Reset();
             // selectedWeaponBox.Detach();
@@ -374,7 +391,7 @@ public class BuildBox : MonoBehaviour
     public void ClearBase(out GameObject _base)
     {
         if (selectedBaseBox) selectedBaseBox.Detach();
-        if (selectedWeaponBox) 
+        if (selectedWeaponBox && !OnUpgrade) 
         {
             selectedWeapon.GetComponent<ActionController>().Reset();
             // selectedWeaponBox.Detach();

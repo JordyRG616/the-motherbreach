@@ -7,6 +7,8 @@ public class ChargeAction : BossAction
 { 
     [SerializeField] private float chargeSpeed;
     [SerializeField] [FMODUnity.EventRef] private string ChargeSFX;
+    [SerializeField] [FMODUnity.EventRef] private string chargeOpenSFX;
+    [SerializeField] [FMODUnity.EventRef] private string chargeCloseSFX;
     [SerializeField] private ParticleSystem ChargeVFX;
     private Vector2 targetPosition = Vector2.zero;
     private float counter;
@@ -58,19 +60,17 @@ public class ChargeAction : BossAction
     public override void EndAction()
     {
         targetPosition = Vector2.zero;
+        AudioManager.Main.RequestSFX(chargeCloseSFX);
         actionWeaponry.ForEach(x => x.StopShooting());
     }
 
     public override void StartAction()
     {
-        controller.ActivateAnimation("Special");
         counter = 0;   
 
         controller.PlayMovementSFX();
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, targetPosition);
+        if(!activateWeaponry) return;
+        controller.ActivateAnimation("Special");
+        AudioManager.Main.RequestSFX(chargeOpenSFX);
     }
 }

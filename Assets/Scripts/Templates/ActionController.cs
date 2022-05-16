@@ -10,6 +10,8 @@ public abstract class ActionController : MonoBehaviour, ISavable
     [SerializeField] protected List<ActionEffect> shooters;
     [SerializeField] protected float cost;
     [SerializeField] protected float health;
+    [Header("Level Up")]
+    [SerializeField] private List<LevelUpData> levelUpDatas;
     protected float _health;
 
     public RestBarManager restBar;
@@ -48,9 +50,14 @@ public abstract class ActionController : MonoBehaviour, ISavable
 
     public void HandleLevelUp(object sender, LevelUpArgs e)
     {
-        foreach(ActionEffect shooter in shooters)
+        // foreach(ActionEffect shooter in shooters)
+        // {
+        //     shooter.LevelUp(e.toLevel);
+        // }
+
+        foreach(LevelUpData data in levelUpDatas)
         {
-            shooter.LevelUp(e.toLevel);
+            if(data.level == e.toLevel) shooters.ForEach(x => data.ApplyLevelUp(x));
         }
     }
 
@@ -109,6 +116,14 @@ public abstract class ActionController : MonoBehaviour, ISavable
         integrityManager.SetMaxIntegrity(health);
     }
 
+    public void ReduceHealthByPercentage(float percentage)
+    {
+        health /= (1 + percentage);
+        if(integrityManager == null) integrityManager = GetComponentInParent<IntegrityManager>();
+        if(integrityManager == null) return;
+        integrityManager.SetMaxIntegrity(health);
+    }
+
     public List<Stat> GetStatsOnShooters()
     {
         var container = new List<Stat>();
@@ -134,6 +149,7 @@ public abstract class ActionController : MonoBehaviour, ISavable
 
     public void LoadStats()
     {
+        ReduceHealthByPercentage(.1f);
         shooters.ForEach(x => x.ResetStatSet());
     }
 

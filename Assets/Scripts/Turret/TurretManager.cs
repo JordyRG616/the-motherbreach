@@ -21,7 +21,7 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
         {
             return _level;
         }
-        private set
+        set
         {
             if(value > 5) value = 5;
             _level = value;
@@ -76,6 +76,12 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
         actionController.SaveStats();
     }
 
+    public void PreviewLevelUp()
+    {
+        actionController.RaiseHealthByPercentage(.1f);
+        OnLevelUp?.Invoke(this, new LevelUpArgs(Level + 1));
+    }
+
     public void DestroyManager()
     {
         GetComponentInParent<ShipManager>().RemoveTurret(this);
@@ -119,7 +125,6 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
         var loadedLevel = BitConverter.ToInt32(saveFile.GetValue(slotId + "weaponLevel"));
         Level = loadedLevel;
 
-        actionController.LoadData(saveFile, slotId);
 
         var baseCount = BitConverter.ToInt32(saveFile.GetValue(slotId + "baseCount"));
 
@@ -130,6 +135,8 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
 
             TurretConstructor.Main.ReplaceBase(this.gameObject, _b);
         }
+        
+        actionController.LoadData(saveFile, slotId);
     }
 }
 

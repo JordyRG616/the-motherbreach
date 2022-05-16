@@ -21,6 +21,7 @@ public class BossHealthController : MonoBehaviour, IDamageable
     private RectTransform firstHealthBar;
 
     public event EventHandler OnDamage;
+    public event EventHandler OnDeath;
 
 
     public void Initiate()
@@ -39,7 +40,8 @@ public class BossHealthController : MonoBehaviour, IDamageable
         foreach(IManager manager in GetComponents<IManager>())
         {
             manager.DestroyManager();
-        }        
+        }
+
     }
 
     public void TriggerOnDeath()
@@ -62,6 +64,8 @@ public class BossHealthController : MonoBehaviour, IDamageable
             
         if(currentHealth <= 0)
         {
+            OnDeath?.Invoke(this, EventArgs.Empty);
+
             bossController.EndMusicInstance();
             healthBar.TerminateMarkers();
             

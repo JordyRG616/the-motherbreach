@@ -164,6 +164,11 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         
     }
 
+    public float GetMissingHealth()
+    {
+        return maxHealth - currentHealth;
+    }
+
     private IEnumerator ManageGUIUpdate()
     {
         while(true)

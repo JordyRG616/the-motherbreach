@@ -208,7 +208,7 @@ public abstract class ActionEffect : MonoBehaviour, ISavable
         if(gameManager != null) gameManager.OnGameStateChange -= ClearShots;
     }
 
-    protected virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
+    public virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
     {   
         if(target.IsUnderEffect<T>(out var status)) status.DestroyEffect();
         var effect = target.gameObject.AddComponent<T>();

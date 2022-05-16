@@ -182,6 +182,15 @@ public class InputManager : MonoBehaviour
     {
         if(GameManager.Main.gameState == GameState.OnWave) WaveControl();
         if(GameManager.Main.gameState == GameState.OnReward) RewardControl();
+        DebugControls();
+    }
+
+    private void DebugControls()
+    {
+        if(Input.GetKey(KeyCode.LeftControl))
+        {
+            if(Input.GetKeyDown(KeyCode.I)) FindObjectOfType<RewardManager>().EarnCash(5);
+        }
     }
 }
 

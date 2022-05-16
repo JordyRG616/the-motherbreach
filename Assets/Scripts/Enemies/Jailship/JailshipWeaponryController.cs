@@ -7,6 +7,7 @@ public class JailshipWeaponryController : MonoBehaviour
     [SerializeField] private ActionEffect weapon;
     [SerializeField] private float meanActivationTime;
     [SerializeField] private float activationTimeDeviation;
+    [SerializeField] private float range;
     public bool fixedRotation;
     private WaitForSeconds activationTime;
     private Transform ship;
@@ -28,8 +29,14 @@ public class JailshipWeaponryController : MonoBehaviour
         {
             yield return activationTime;
             
-            weapon.Shoot();
+            if(ShipIsInRange()) weapon.Shoot();
         }
+    }
+
+    private bool ShipIsInRange()
+    {
+        var distance = Vector2.Distance(transform.position, ship.position);
+        return distance <= range;
     }
 
     private void LookAtShip()

@@ -685,6 +685,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 219041972}
   m_CullTransparentMesh: 1
+--- !u!1 &225609246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8709597602442045554, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+  m_PrefabInstance: {fileID: 8709597602260479596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &225609247 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+  m_PrefabInstance: {fileID: 8709597602260479596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &239284204
 GameObject:
   m_ObjectHideFlags: 0
@@ -5478,6 +5488,8 @@ RectTransform:
   - {fileID: 1311517804}
   - {fileID: 1412517281}
   - {fileID: 460467625}
+  - {fileID: 225609247}
+  - {fileID: 1673510780}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6540,6 +6552,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1673438769}
   m_CullTransparentMesh: 1
+--- !u!224 &1673510780 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+  m_PrefabInstance: {fileID: 7231824869911577295}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1673510781 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7231824869415321010, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+  m_PrefabInstance: {fileID: 7231824869911577295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c00ca8b61eb324bad9b3ac39326cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1703517815
 GameObject:
   m_ObjectHideFlags: 0
@@ -7010,6 +7038,267 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!1 &1780662866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1780662867}
+  - component: {fileID: 1780662868}
+  m_Layer: 0
+  m_Name: Tutorial Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1780662867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780662866}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.0176823, y: 0.783186, z: -131.59993}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1780662868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780662866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931e69867571de04aa70f67cba14509d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skipWindowPosition: {x: 0, y: 0}
+  SelectionScreenTutorial:
+  - boxPosition: {x: 0, y: 0}
+    panelPosition: {x: 18, y: -15}
+    panelSize: {x: 230, y: 15}
+    lines: 5
+    arrowPosition: 4
+    stepText: Welcome to the selection screen. Here, you'll be able to select which
+      pilot and ship you'll be using on your next incursion.
+  - boxPosition: {x: -44, y: 68}
+    panelPosition: {x: -408.24, y: 67.64998}
+    panelSize: {x: 342.31, y: 257.64}
+    lines: 2
+    arrowPosition: 3
+    stepText: Here you can see all available pilots.
+  - boxPosition: {x: -44, y: 68}
+    panelPosition: {x: -408.24, y: 67.64998}
+    panelSize: {x: 342.31, y: 257.64}
+    lines: 4
+    arrowPosition: 3
+    stepText: Some pilots have been captured by the enemy. Find and destroy jailships
+      during incursions to unlock them.
+  - boxPosition: {x: 44, y: -171.71}
+    panelPosition: {x: -368.65, y: -171.71}
+    panelSize: {x: 421.48, y: 235.54}
+    lines: 3
+    arrowPosition: 3
+    stepText: Every pilot has an unique passive skill that is always active.
+  - boxPosition: {x: -282.69, y: 91.69}
+    panelPosition: {x: 155.4, y: 91.69}
+    panelSize: {x: 484.34, y: 263.69}
+    lines: 3
+    arrowPosition: 2
+    stepText: Those are your available ships. Click in the arrow to browse the options.
+  - boxPosition: {x: 246, y: 52.71}
+    panelPosition: {x: 527.3, y: 52.71}
+    panelSize: {x: 193.06, y: 421.92}
+    lines: 4
+    arrowPosition: 2
+    stepText: To unlock new ships, you'll need "cores" that you can acquire by defeating
+      bosses.
+  - boxPosition: {x: -275.3601, y: -170.54}
+    panelPosition: {x: 155.4, y: -170.54}
+    panelSize: {x: 484.34, y: 282.03}
+    lines: 4
+    arrowPosition: 2
+    stepText: Each ship has an unique set of characteristics rated from 1 to 5, as
+      well as an active ability.
+  - boxPosition: {x: -275.3601, y: -170.54}
+    panelPosition: {x: 155.4, y: -170.54}
+    panelSize: {x: 484.34, y: 282.03}
+    lines: 2
+    arrowPosition: 2
+    stepText: Mouse over each characteristic to see more information about it.
+  - boxPosition: {x: -275.3601, y: -170.54}
+    panelPosition: {x: 155.4, y: -170.54}
+    panelSize: {x: 484.34, y: 282.03}
+    lines: 3
+    arrowPosition: 2
+    stepText: Once you're satisfied with your selection, click the Launch button
+      to initiate an incursion.
+  initialTutorial:
+  - boxPosition: {x: 346, y: 41}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 3
+    arrowPosition: 4
+    stepText: welcome to motherbreach. this is the reward screen. here you can build
+      and upgrade your turrets.
+  - boxPosition: {x: 346, y: -50}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 1
+    arrowPosition: 0
+    stepText: this is your ship.
+  - boxPosition: {x: 346, y: -50}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 0
+    stepText: you can build up to twelve turrets.
+  - boxPosition: {x: 346, y: -50}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 4
+    stepText: each reward phase, you can build as many turrets you want and can afford.
+  - boxPosition: {x: -152, y: 41}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 3
+    arrowPosition: 4
+    stepText: you'll be offered a choice of three weapons and three bases.
+  - boxPosition: {x: -152, y: 41}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 4
+    stepText: to build a turret, you have to choose one of each.
+  - boxPosition: {x: -152, y: 110}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 0
+    stepText: the total cost is equal to the sum of the cost of its components.
+  - boxPosition: {x: 120, y: -174}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 3
+    stepText: here, you can preview the ability and stats of the selected turret.
+  - boxPosition: {x: 205, y: -174}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 3
+    arrowPosition: 3
+    stepText: use this buttons to switch between informations.
+  - boxPosition: {x: -152, y: 100}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 3
+    arrowPosition: 1
+    stepText: click here once you have made your choice to build the selected turret.
+      Try building one now!
+  posBuildTutorial:
+  - boxPosition: {x: 345, y: 50}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 4
+    stepText: great! you can also sell or upgrade your turrets by selecting it.
+  - boxPosition: {x: -233, y: 84.5}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 3
+    stepText: if you don't like the offer, you can click this button to reroll it.
+  - boxPosition: {x: -233, y: 184}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 3
+    arrowPosition: 3
+    stepText: you might want to upgrade the offer before though, to be offered better
+      components.
+  - boxPosition: {x: -233, y: -14.5}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 4
+    arrowPosition: 3
+    stepText: if you like the offer, but is out of cash, you can lock the offer until
+      the next construction phase. you cannot rerrol a locked offer.
+  - boxPosition: {x: 340, y: -229}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 3
+    arrowPosition: 2
+    stepText: this meter represents your progression towards the next boss. Hover
+      over it to see some information about the next wave.
+  - boxPosition: {x: 510, y: -229}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 2
+    stepText: once you're done, click here to initiate the next wave.
+  waveTutorial:
+  - boxPosition: {x: 143.55, y: 50}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 4
+    stepText: each wave you'll have to defeat a certain amount of enemies.
+  - boxPosition: {x: 143, y: 50}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 4
+    stepText: you'll then return to the construction screen to further upgrade your
+      ship.
+  - boxPosition: {x: -352, y: -195}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 1
+    stepText: this is yous ship's health. once it reaches zero, you lose.
+  - boxPosition: {x: 143.55, y: -23.5}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 0
+    stepText: the ship takes damage when an enemy hits the core. try to avoid that.
+  - boxPosition: {x: 143.55, y: 50}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 4
+    stepText: click anywhere to start moving in that direction.
+  - boxPosition: {x: 143.55, y: 50}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 4
+    stepText: rotate the ship by pressing      Q and E.
+  - boxPosition: {x: 143.55, y: 50}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 2
+    arrowPosition: 4
+    stepText: you can change the control scheme in the menu.
+  - boxPosition: {x: 143.55, y: 50}
+    panelPosition: {x: 0, y: 0}
+    panelSize: {x: 0, y: 0}
+    lines: 1
+    arrowPosition: 4
+    stepText: that's all! have fun!
+  box: {fileID: 1673510781}
+  blockPanel: {fileID: 225609246}
+  highlightPanel: {fileID: 225609247}
 --- !u!1001 &1782744221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8950,3 +9239,205 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2133922636}
   m_CullTransparentMesh: 1
+--- !u!1001 &7231824869911577295
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1549046551}
+    m_Modifications:
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 82.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321011, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824869415321012, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_Name
+      value: Tutorial Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 7231824870066897654, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1780662868}
+    - target: {fileID: 7231824870443384846, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1780662868}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2ae07e92caaca234291dfb0ad4241e63, type: 3}
+--- !u!1001 &8709597602260479596
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1549046551}
+    m_Modifications:
+    - target: {fileID: 8709597602442045554, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_Name
+      value: Tutorial Highlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 229.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 43.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 7.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709597602442045555, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7b256e72126dfa344b3d9c8bcb0aab66, type: 3}

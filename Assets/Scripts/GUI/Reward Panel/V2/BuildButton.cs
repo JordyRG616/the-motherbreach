@@ -8,7 +8,7 @@ using System;
 
 public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
 {
-    public enum ButtonMode {BUILD, DONE};
+    public enum ButtonMode {BUILD, DONE, UPGRADE};
 
 
     [SerializeField] private Sprite clickedSprite;
@@ -42,6 +42,17 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         // textMesh.color = Color.white;
         if(mode == ButtonMode.BUILD) Build();
         if (mode == ButtonMode.DONE) Done();
+        if (mode == ButtonMode.UPGRADE) Upgrade();
+    }
+
+    private void Upgrade()
+    {
+        if(rewardManager.TotalCash >= buildBox.weaponCost)
+            {
+                AudioManager.Main.RequestGUIFX(clickSFX);
+                upgradeButton.Upgrade(buildBox.weaponCost);
+            }
+            else AudioManager.Main.PlayInvalidSelection("Not enough cash");
     }
 
     private void Done()
@@ -49,10 +60,10 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         AudioManager.Main.RequestGUIFX(clickSFX);
         if(buildBox.baseToReplace)
         {
-            FindObjectOfType<SellButton>().Replace();
+            FindObjectOfType<SellButton>(true).Replace();
         }
         upgradeButton.Disable();
-        FindObjectOfType<SellButton>().Disable();
+        // FindObjectOfType<SellButton>().Disable();
     }
 
     private void Build()

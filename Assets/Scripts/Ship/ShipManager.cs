@@ -93,6 +93,7 @@ public class ShipManager : MonoBehaviour, ISavable
     {
         var container = new Dictionary<string, byte[]>();
 
+        container.Add("ShipHealth", BitConverter.GetBytes(GetComponent<ShipDamageController>().GetMissingHealth()));
         container.Add("ShipIndex", BitConverter.GetBytes(index));
         container.Add("PilotIndex", BitConverter.GetBytes(pilotIndex));
 
@@ -111,6 +112,9 @@ public class ShipManager : MonoBehaviour, ISavable
 
     public void LoadData(SaveFile saveFile)
     {
+        var health = BitConverter.ToSingle(saveFile.GetValue("ShipHealth"));
+        GetComponent<ShipDamageController>().UpdateHealthNoEffects(-health);
+
         var slots = FindObjectsOfType<TurretSlot>();
 
         foreach(TurretSlot slot in slots)

@@ -59,7 +59,7 @@ public class ShipController : MonoBehaviour
         //     burner.Play();
         // }
         body.velocity = Vector2.zero;
-        body.AddForce(e.direction * speed, ForceMode2D.Impulse);
+        body.AddForce(e.direction.normalized * speed, ForceMode2D.Impulse);
     }
 
     void Update()

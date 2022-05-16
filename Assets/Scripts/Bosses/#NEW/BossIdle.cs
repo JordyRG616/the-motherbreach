@@ -13,7 +13,7 @@ public abstract class BossIdle : MonoBehaviour
     protected BossController controller;
     private float refSpeed;
 
-    void Start()
+    protected virtual void Start()
     {
         body = GetComponent<Rigidbody2D>();
         controller = GetComponent<BossController>();

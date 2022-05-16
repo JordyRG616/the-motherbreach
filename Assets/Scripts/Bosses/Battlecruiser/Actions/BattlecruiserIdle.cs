@@ -9,6 +9,14 @@ public class BattlecruiserIdle : BossIdle
     public int sign {get; private set;} = 1;
     private Vector2 direction;
 
+    private WaitForSeconds waitTime = new WaitForSeconds(1f);
+
+    protected override void Start()
+    {
+        base.Start();
+        StartCoroutine(ChangeEccentricity());
+    }
+
     public override void IdleMove()
     {
         body.velocity = Vector2.zero;
@@ -26,5 +34,17 @@ public class BattlecruiserIdle : BossIdle
     public void CHANGEDIRECTION()
     {
         sign *= -1;
+    }
+
+    private IEnumerator ChangeEccentricity()
+    {
+        while(true)
+        {
+            yield return waitTime;
+
+            var rdm = Random.Range(-1, 1);
+
+            eccentricity += rdm;
+        }
     }
 }

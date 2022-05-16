@@ -223,6 +223,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayInvalidSelection(string invalidTip)
     {
+        if(GameManager.Main.gameState != GameState.OnReward) return;
         InvalidPopup.Main.PopInvalidText(invalidTip);
         GUITrack.ReceiveAudio(library.GetGUISound("event:/UI/Reward/Reward_InvalidSelection"), true);
     }

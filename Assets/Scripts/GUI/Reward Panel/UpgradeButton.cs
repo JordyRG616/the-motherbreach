@@ -28,7 +28,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     private BuildButton buildButton;
     public bool onUpgrade {get; private set;}
     private RectTransform infoBox;
-
+    private static bool tutorialTaken;
 
     void Awake()
     {
@@ -51,6 +51,8 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     public void SetButton(TurretSlot slot)
     {
         Disable();
+        image.sprite = ogSprite;
+        onUpgrade = false;
         gameObject.SetActive(true);
         clickedSlot = slot;
         textMesh.text = "MODIFY";
@@ -60,15 +62,17 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         if(clickedSlot == null) return;
         clickedSlot.GetComponentInChildren<ParticleSystem>().Stop();
-        inputManager.OnSelectionClear -= Disable;
-        gameObject.SetActive(false);
-        clickedSlot = null;
         if(onUpgrade) 
         {
+            var box = buildBox.selectedWeaponBox;
+            if(box != null) box.Unselect(sender, e);
             buildBox.Clear(); 
             buildBox.OnUpgrade = false;
             buildButton.mode = BuildButton.ButtonMode.BUILD;
         }
+        inputManager.OnSelectionClear -= Disable;
+        gameObject.SetActive(false);
+        clickedSlot = null;
         onUpgrade = false;
     }
 
@@ -76,15 +80,17 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         if(clickedSlot == null) return;
         clickedSlot.GetComponentInChildren<ParticleSystem>().Stop();
-        inputManager.OnSelectionClear -= Disable;
-        gameObject.SetActive(false);
-        clickedSlot = null;
         if(onUpgrade) 
         {
+            var box = buildBox.selectedWeaponBox;
+            if(box != null) box.Unselect(this, EventArgs.Empty);
             buildBox.Clear(); 
             buildBox.OnUpgrade = false;
             buildButton.mode = BuildButton.ButtonMode.BUILD;
         }
+        inputManager.OnSelectionClear -= Disable;
+        gameObject.SetActive(false);
+        clickedSlot = null;
         onUpgrade = false;
     }
 
@@ -95,31 +101,33 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         if(!onUpgrade)
         {
             SetUpgradeOption();
-            SetUpgradeText();
+            // SetUpgradeText();
         }
-        else
-        {
-            Upgrade();
-        }
+        // else
+        // {
+            // Upgrade();
+        // }
     }
 
-    private void Upgrade()
+    public void Upgrade(float cost)
     {
         image.sprite = clickSprite;
 
         var turretManager = clickedSlot.occupyingTurret.GetComponent<TurretManager>();
-        var cost = turretManager.Level + 1;
 
         if(RewardManager.Main.TotalCash >= cost && turretManager.Level < turretManager.maxLevel)
         {
             GetComponentInChildren<ParticleSystem>().Play();
             AudioManager.Main.RequestGUIFX(upgradeSFX);
-            RewardManager.Main.SpendCash(cost);
+            RewardManager.Main.SpendCash((int)cost);
+            turretManager.actionController.LoadStats();
+            // turretManager.Level --;
             turretManager.LevelUp();
             buildBox.UpdateStats();
-            cost = turretManager.Level + 1;
-            SetButtonText(cost);
-            SetUpgradeText();
+            buildBox.selectedWeaponBox.Clear();
+            buildButton.mode = BuildButton.ButtonMode.DONE;
+            // SetButtonText((int)cost);
+            // SetUpgradeText();
             return;
         }
         else
@@ -141,7 +149,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        image.sprite = ogSprite;
+        // image.sprite = ogSprite;
     }
 
     private void SetUpgradeOption()
@@ -150,12 +158,21 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
         var cost = clickedSlot.occupyingTurret.GetComponent<TurretManager>().Level + 1;
 
-        SetButtonText(cost);
+        // SetButtonText(cost);
 
+        // FindObjectOfType<SellButton>().Disable();
         FindObjectOfType<SellButton>().SetButton(0, clickedSlot, SellButton.ButtonMode.Replace);
         buildButton.mode = BuildButton.ButtonMode.DONE;
 
         onUpgrade = true;
+
+        if(!tutorialTaken)
+        {
+            FindObjectOfType<TutorialManager>().TriggerUpgradeTutorial();
+            tutorialTaken = true;
+        }
+
+        // gameObject.SetActive(false);
     }
 
     void OnDisable()
@@ -165,12 +182,12 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!onUpgrade) return;
         GetComponent<ShaderAnimation>().Play();
         AudioManager.Main.RequestGUIFX(hoverSFX);
 
-        if (!onUpgrade) return;
 
-        SetUpgradeText();
+        // SetUpgradeText();
     }
 
     private void SetUpgradeText()

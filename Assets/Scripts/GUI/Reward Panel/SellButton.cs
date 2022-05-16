@@ -60,6 +60,7 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         this.mode = mode;
         this.refund = refund;
         cachedSlot = turretSlot;
+        if(mode == ButtonMode.Replace) gameObject.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -71,10 +72,10 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
             StartCoroutine(Sell());
             OnTurretSell?.Invoke(this, EventArgs.Empty);
         }
-        else
-        {
-            Replace();
-        }
+        // else
+        // {
+        //     Replace();
+        // }
     }
 
     public void Replace()

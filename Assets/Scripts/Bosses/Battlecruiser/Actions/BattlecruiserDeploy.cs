@@ -5,9 +5,16 @@ using UnityEngine;
 public class BattlecruiserDeploy : BossAction
 {
     [SerializeField] private GameObject deployable;
+    [SerializeField] private Transform spawnPoint;
     [SerializeField] private int quantity;
-    [SerializeField] private float launchSpeed;
 
+    [SerializeField] private AnimationCurve launchSpeed;
+    [SerializeField] private Vector2 launchDuration;
+    [SerializeField] private Vector2 launchAngleVariation;
+
+    private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
+
+    
     public override void Action()
     {
     }
@@ -22,28 +29,41 @@ public class BattlecruiserDeploy : BossAction
 
     public override void StartAction()
     {
-        var angleIncrement = 360 / quantity;
+
         for (int i = 0; i < quantity; i++)
         {
-            var container = Instantiate(deployable, transform.position, Quaternion.identity);
+            var container = Instantiate(deployable, spawnPoint.position, Quaternion.identity);
             container.GetComponent<BattlecruiserDeployable>().Initiate(transform);
 
-            var angle = i * angleIncrement;
-            var direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-
-            StartCoroutine(Launch(container.transform, direction));
+            StartCoroutine(Launch(container));
         }
     }
 
-    private IEnumerator Launch(Transform deployable, Vector3 direction)
+    private IEnumerator Launch(GameObject cannon)
     {
+        var direction = spawnPoint.position - transform.position;
+        var _d = ship.position - transform.position;
+
+        direction += _d.normalized;
+
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        // var rdm = Random.Range(launchAngleVariation.x, launchAngleVariation.y);
+
+        // angle += rdm;
+
+        // direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+        var duration = Random.Range(launchDuration.x, launchDuration.y);
         float step = 0;
 
-        while(step <= 1)
+        cannon.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+
+        while(step <= duration)
         {
-            deployable.transform.position += launchSpeed * direction;
-            step += 0.1f;
-            yield return new WaitForSeconds(0.01f);
+            cannon.transform.position += direction.normalized * launchSpeed.Evaluate(step / duration);
+            step += 0.01f;
+            yield return waitTime;
         }
+
+        cannon.GetComponent<BattlecruiserDeployable>().LateInitiate();
     }
 }

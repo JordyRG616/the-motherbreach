@@ -39,6 +39,8 @@ public class JailShipManager : MonoBehaviour
             activeArsenal.Add(weapon);
         }
 
+        WaveManager.Main.OnWaveEnd += DestroyJail;
+
         ship = ShipManager.Main.transform;
 
         indexToUnlock = GameManager.Main.GetPilotIndexToUnlock();
@@ -57,9 +59,15 @@ public class JailShipManager : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    private void DestroyJail(object sender, System.EventArgs e)
+    {
+        WaveManager.Main.OnWaveEnd -= DestroyJail;
+        Destroy(this.gameObject);
+    }
+
     void FixedUpdate()
     {
-        MoveAway();
+        // MoveAway();
         Rotate();
     }
 

@@ -43,7 +43,7 @@ public class RewardManager : MonoBehaviour, ISavable
     private TurretConstructor turretConstructor;
     private RewardCalculator calculator;
     private UIAnimationManager animationManager;
-    public int TotalCash, EarnedCash, SpendedCash;
+    [HideInInspector] public int TotalCash, EarnedCash, SpendedCash;
     private BuildBox buildBox;
     private TutorialManager tutorialManager;
 
@@ -54,7 +54,6 @@ public class RewardManager : MonoBehaviour, ISavable
 
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string buildSFX;
-
 
     public void ClearEvents()
     {
@@ -110,11 +109,6 @@ public class RewardManager : MonoBehaviour, ISavable
         ship.GetComponent<Rigidbody2D>().Sleep();
         animationManager.Play();
         
-        AudioManager.Main.GetAudioTrack("SFX").PauseAudio();
-
-        AudioManager.Main.SwitchMusicTracks("Special");
-
-
         var locked = FindObjectOfType<LockButton>().locked;
 
         if(!locked) GenerateOffer();
@@ -170,6 +164,10 @@ public class RewardManager : MonoBehaviour, ISavable
         var locked = FindObjectOfType<LockButton>().locked;
 
         if(!locked) EliminateOffer();
+        
+        AudioManager.Main.GetAudioTrack("SFX").UnpauseAudio();
+        AudioManager.Main.SwitchMusicTracks("Music");
+        
         OnRewardSelection?.Invoke(this, EventArgs.Empty);
     }
 

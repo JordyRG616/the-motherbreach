@@ -91,7 +91,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1195522291
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 6d3c6fe0efa8c374f93fde2366b41c6b, type: 3}
   m_Color: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
@@ -155,6 +155,23 @@ MonoBehaviour:
   - {fileID: 3534781280390107309}
   cost: 2
   health: 100
+  levelUpDatas:
+  - level: 1
+    stat: 6
+    type: 0
+    amount: 2
+  - level: 2
+    stat: 6
+    type: 0
+    amount: 1
+  - level: 2
+    stat: 7
+    type: 0
+    amount: 0.25
+  - level: 3
+    stat: 2
+    type: 1
+    amount: 1
   restBar: {fileID: 0}
   target: {fileID: 0}
   maxAngleVariation: 60
@@ -5026,7 +5043,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 5
   m_MeshDistribution: 0
@@ -5508,7 +5525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6327413566281048751, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
       propertyPath: m_SortingLayer
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6327413566281048751, guid: d2b6d69412595814f824a3bacdff7321, type: 3}
       propertyPath: m_SortingLayerID

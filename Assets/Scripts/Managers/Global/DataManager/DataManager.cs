@@ -57,7 +57,7 @@ public class DataManager : MonoBehaviour
     void Start()
     {
         // directoryPath = Application.persistentDataPath + "/saves";
-        directoryPath = "E:/Unity Projects/#TURRENTBASE/PROJETO  - Base Invaders" + "/saves";
+        directoryPath = Application.persistentDataPath + "/saves";
         
         metaProgressionSave = new MetaSaveFile(null, null, 0, 0, 0);
 

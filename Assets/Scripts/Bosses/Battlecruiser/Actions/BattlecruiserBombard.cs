@@ -6,6 +6,8 @@ public class BattlecruiserBombard : BossAction
 {
     [SerializeField] private List<ActionEffect> rightCannons;
     [SerializeField] private List<ActionEffect> leftCannons;
+    [SerializeField] [FMODUnity.EventRef] private string openSFX;
+    [SerializeField] [FMODUnity.EventRef] private string closeSFX;
 
     public override void Start()
     {
@@ -31,12 +33,15 @@ public class BattlecruiserBombard : BossAction
     {
         rightCannons.ForEach(x => x.StopShooting());
         leftCannons.ForEach(x => x.StopShooting());
+        AudioManager.Main.RequestSFX(closeSFX);
         
     }
 
     public override void StartAction()
     {
         var sign = GetComponent<BattlecruiserIdle>().sign;
+
+        AudioManager.Main.RequestSFX(openSFX);
 
         if(sign == 1) controller.ActivateAnimation("Right");
         if(sign == -1) controller.ActivateAnimation("Left");

@@ -30,10 +30,6 @@ AnimationClip:
     - time: 0.33333334
       value: {fileID: -48421391, guid: 3b9ba04c0db7a344ab679f2fe73af9df, type: 3}
     - time: 0.41666666
-      value: {fileID: 1515627088, guid: 3b9ba04c0db7a344ab679f2fe73af9df, type: 3}
-    - time: 0.5
-      value: {fileID: 1663734210, guid: 3b9ba04c0db7a344ab679f2fe73af9df, type: 3}
-    - time: 0.5833333
       value: {fileID: -880147558, guid: 3b9ba04c0db7a344ab679f2fe73af9df, type: 3}
     attribute: m_Sprite
     path: 
@@ -59,15 +55,13 @@ AnimationClip:
     - {fileID: -1502024504, guid: 3b9ba04c0db7a344ab679f2fe73af9df, type: 3}
     - {fileID: 425643991, guid: 3b9ba04c0db7a344ab679f2fe73af9df, type: 3}
     - {fileID: -48421391, guid: 3b9ba04c0db7a344ab679f2fe73af9df, type: 3}
-    - {fileID: 1515627088, guid: 3b9ba04c0db7a344ab679f2fe73af9df, type: 3}
-    - {fileID: 1663734210, guid: 3b9ba04c0db7a344ab679f2fe73af9df, type: 3}
     - {fileID: -880147558, guid: 3b9ba04c0db7a344ab679f2fe73af9df, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.6666666
+    m_StopTime: 0.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -86,11 +80,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.5833333
-    functionName: TRIGGERDELAYEDACTION
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

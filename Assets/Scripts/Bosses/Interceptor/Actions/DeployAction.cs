@@ -9,6 +9,7 @@ public class DeployAction : BossAction
     [SerializeField] private float interval;
     [SerializeField] private float deployForce;
     [SerializeField] private float deployableDuration;
+    [SerializeField] [FMODUnity.EventRef] private string deploySFX;
     private int sign = 1;
 
     private void AddForce(GameObject deployedModel)
@@ -29,6 +30,7 @@ public class DeployAction : BossAction
         _obj.GetComponent<ActionEffect>().Initiate();
         _obj.GetComponentInChildren<ParticleSystem>().Play();
         AddForce(_obj);
+        AudioManager.Main.RequestSFX(deploySFX);
     }
 
     public override void Action()

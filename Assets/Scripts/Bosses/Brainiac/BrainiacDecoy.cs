@@ -17,12 +17,24 @@ public class BrainiacDecoy : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         var _p = Instantiate(pointer, transform.position, Quaternion.identity);
         _p.GetComponent<EnemyPointer>().ReceiveTarget(transform);
+
+        var direction = ship.position - transform.position;
+        LookAt(direction);
+
+        Invoke("Shoot", .1f);
+    }
+
+    private void Shoot()
+    {
+        var beam = GetComponent<ActionEffect>();
+        beam.Initiate();
+        beam.ReceiveTarget(ship.gameObject);
+        beam.Shoot();
     }
 
     void FixedUpdate()
     {
         var direction = ship.position - transform.position;
-        LookAt(direction);
 
         var _d = Random.onUnitSphere;
         

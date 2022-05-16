@@ -108,9 +108,6 @@ public class WaveManager : MonoBehaviour, ISavable
 
         FindObjectOfType<ShipController>().GetComponent<Rigidbody2D>().WakeUp();
 
-        AudioManager.Main.GetAudioTrack("SFX").UnpauseAudio();
-        AudioManager.Main.SwitchMusicTracks("Music");
-
         if(dataQueue.Count > 0)
         {
             activeWave = dataQueue.Dequeue();
@@ -216,6 +213,8 @@ public class WaveManager : MonoBehaviour, ISavable
 
         var rdm = UnityEngine.Random.Range(0, 1f);
 
+        Debug.Log(rdm + " / " + jailshipChance); 
+
         if(rdm > jailshipChance)
         {
             jailshipChance += chanceIncrement;
@@ -223,6 +222,8 @@ public class WaveManager : MonoBehaviour, ISavable
         } 
 
         var container = Instantiate(Jailship, position, Quaternion.identity);
+        var formationPointer = Instantiate(pointer, container.transform.position, Quaternion.identity);
+        formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(container.transform);
         jailshipChance = 0;
     }
 
@@ -285,6 +286,9 @@ public class WaveManager : MonoBehaviour, ISavable
 
             GameManager.Main.Win();
         }
+
+        AudioManager.Main.GetAudioTrack("SFX").PauseAudio();
+        AudioManager.Main.SwitchMusicTracks("Special");
 
         progressionMeter.AdvanceMarker();
 

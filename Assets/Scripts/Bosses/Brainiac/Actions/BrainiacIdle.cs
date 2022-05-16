@@ -28,6 +28,8 @@ public class BrainiacIdle : BossIdle
 
     private void Wiggle()
     {
+        controller.PlayMovementSFX();
+
         direction = Random.onUnitSphere;
         var _d = ship.position - transform.position;
         

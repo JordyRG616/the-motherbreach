@@ -45,9 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8565f5642dd4b8b49880984fdbf254a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 0bedb04676b609c4187462aaa366de8d, type: 2}
   musicTrack:
     trackVolume: 1
-    maxChannels: 2
+    maxChannels: 1
     invoker: {fileID: 3018682489552691877}
   uniqueMusicTrack:
     trackVolume: 1
@@ -61,6 +62,54 @@ MonoBehaviour:
     trackVolume: 0.6
     maxChannels: 16
     invoker: {fileID: 3018682489552691877}
+  risingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fallingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -3.292567
+      outSlope: -3.292567
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.03731343
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.0000013745702
+      outSlope: 0.0000013745702
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06343299
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3018682489856898820
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +381,146 @@ MonoBehaviour:
     unique: 0
     playlistEvent: 0
     eventPath: event:/SFX/NEW/ShipDeath
+  - eventName: ForgeSpawn
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ForgeSpawn
+  - eventName: ForgeRecall
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ForgeRecall
+  - eventName: ForgeLevelUp
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/ForgeLevelUp
+  - eventName: shoot4
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Shoots/shoot4
+  - eventName: shoot5
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Shoots/shoot5
+  - eventName: shoot6
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Shoots/shoot6
+  - eventName: shoot7
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Shoots/shoot7
+  - eventName: shoot8
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Shoots/shoot8
+  - eventName: EmptyShoot
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Shoots/Empty
+  - eventName: Beam5
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Beams/Beam5
+  - eventName: Beam6
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Beams/Beam6
+  - eventName: Bomber2
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bombers/Bomber2
+  - eventName: Bomber3
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bombers/Bomber3
+  - eventName: Bomber4
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bombers/Bomber4
+  - eventName: Explosion2
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Explosions/Explosion2
+  - eventName: Explosion3
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Explosions/Explosion3
+  - eventName: burner3
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Burners/Burner3
+  - eventName: burner4
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Burners/Burner4
+  - eventName: Burner4 - NoSmoothing
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Burners/Burner4 - NoSmoothing
+  - eventName: Burner5
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Burners/Burner5
+  - eventName: InterceptorCharge
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Interceptor/Charge
+  - eventName: InterceptorOpenWeapons
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Interceptor/OpenWeapons
+  - eventName: InterceptorCloseWeapons
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Interceptor/CloseWeapons
+  - eventName: InterceptorDeploy
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Interceptor/Deploy
+  - eventName: InterceptorOpenSprayer
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Interceptor/Cloud
+  - eventName: BrainiacMovement
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Brainiac/Brainiac_movement
+  - eventName: BrainiacTeleport
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Brainiac/Brainiac_Teleport
+  - eventName: BrainiacOH
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Brainiac/BrainiacOpenHead
+  - eventName: BrainiacCH
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Brainiac/BrainiacCloseHead
+  - eventName: BrainiacOB
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Brainiac/BrainiacOpenBeam
+  - eventName: BrainiacCB
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Brainiac/BrainiacCloseBeam
+  - eventName: BattlecruiserHC
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Battlecruiser/ChargeHighCannon
+  - eventName: BattlecruiserOB
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Battlecruiser/OpenBombard
+  - eventName: BattlecruiserCB
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Battlecruiser/CloseBombard
+  - eventName: BattlecruiserSD
+    unique: 0
+    playlistEvent: 0
+    eventPath: event:/SFX/NEW/Bosses/Battlecruiser/ShellDeploy
   GUIEvents:
   - eventName: Title_ButtonMouseEnter
     unique: 0

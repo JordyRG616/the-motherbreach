@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5585461370461364990}
   - component: {fileID: 671060097700699465}
   - component: {fileID: 1604125827997987388}
+  - component: {fileID: 3564416077964379405}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -43,14 +44,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088159257776527998}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -225,7 +226,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.49803922, b: 0.42352942, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4899,6 +4900,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnemy: 1
+--- !u!114 &3564416077964379405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088159257776527998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Explosions/Explosion2
 --- !u!1 &1390574586571994468
 GameObject:
   m_ObjectHideFlags: 0
@@ -19461,6 +19475,7 @@ Transform:
   - {fileID: 3398014460195538060}
   - {fileID: 1023776921913049568}
   - {fileID: 1684463914950809076}
+  - {fileID: 2011157529325006381}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19549,7 +19564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coreType: 1
-  maxHealth: 850
+  maxHealth: 750
   damageReduction: 0.66
   onDamageSFX: event:/SFX/NEW/BossHit 1
   onDeathSFX: event:/SFX/NEW/EnemyDeath
@@ -19672,9 +19687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4beb906a94759a4db1509fc4bb6f044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3.5
+  speed: 3
   paused: 0
-  eccentricity: 5
+  eccentricity: 2.5
   forceDirection: 1
 --- !u!114 &894223943184150729
 MonoBehaviour:
@@ -19731,6 +19746,8 @@ MonoBehaviour:
   leftCannons:
   - {fileID: 2167092003067006470}
   - {fileID: 2798248273891348057}
+  openSFX: event:/SFX/NEW/Bosses/Battlecruiser/OpenBombard
+  closeSFX: event:/SFX/NEW/Bosses/Battlecruiser/CloseBombard
 --- !u!114 &7106282890005391936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19748,8 +19765,34 @@ MonoBehaviour:
   speed: 0
   actionDuration: 1.5
   deployable: {fileID: 851593154502901483, guid: ad9697952d4154b4ab43d7182807bd4e, type: 3}
-  quantity: 8
-  launchSpeed: 0.5
+  spawnPoint: {fileID: 2011157529325006381}
+  quantity: 1
+  launchSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0.041766323
+      outSlope: 0.041766323
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.06840795
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.4423903
+      outSlope: -1.4423903
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05348265
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  launchDuration: {x: 0.5, y: 1}
+  launchAngleVariation: {x: 30, y: 60}
 --- !u!114 &6819842409397528471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19770,27 +19813,30 @@ MonoBehaviour:
       - {fileID: 1507990033320942492}
     - chance: 0.4
       actions:
-      - {fileID: 894223943184150729}
+      - {fileID: 7106282890005391936}
     threshold: 1
   - order: 1
     combos:
-    - chance: 0.6
+    - chance: 0.5
       actions:
+      - {fileID: 7106282890005391936}
       - {fileID: 1507990033320942492}
-      - {fileID: 1507990033320942492}
-    - chance: 0.4
+    - chance: 0.5
       actions:
       - {fileID: 870642919284186131}
     threshold: 0.65
   - order: 2
     combos:
-    - chance: 0.5
+    - chance: 0.2
       actions:
       - {fileID: 1507990033320942492}
-    - chance: 0.5
+    - chance: 0.4
       actions:
       - {fileID: 870642919284186131}
-      - {fileID: 870642919284186131}
+    - chance: 0.4
+      actions:
+      - {fileID: 7106282890005391936}
+      - {fileID: 7106282890005391936}
     threshold: 0.3
   idle: {fileID: 2249536344249012421}
   intervalToCheck: 1.2
@@ -19799,6 +19845,7 @@ MonoBehaviour:
   secondPhaseTrail: {fileID: 6248142551499362717}
   bossMusic: Forge
   musicParameterName: DefeatedPhase
+  movementSFX: event:/SFX/NEW/Burners/Burner5
   onAction: 0
   deployAction: {fileID: 7106282890005391936}
 --- !u!114 &2912082262338778106
@@ -19819,12 +19866,12 @@ MonoBehaviour:
     m_Bits: 128
   keyword: 0
   tags: 0
-  initialDamage: 5
+  initialDamage: 3
   initialRest: 0
   damageText: 
   specializedStatText: 
   secondaryStatText: 
-  onShootSFX: event:/SFX/NEW/Blunderbuss
+  onShootSFX: event:/SFX/NEW/Bosses/Battlecruiser/ChargeHighCannon
   singleSFX: 1
   initialRotation: 0
   debugStats: []
@@ -19851,8 +19898,8 @@ MonoBehaviour:
   damageText: 
   specializedStatText: 
   secondaryStatText: 
-  onShootSFX: event:/SFX/NEW/SmallExplosion
-  singleSFX: 1
+  onShootSFX: event:/SFX/NEW/Bombers/Bomber3
+  singleSFX: 0
   initialRotation: 0
   debugStats: []
 --- !u!114 &2167092003067006470
@@ -19878,8 +19925,8 @@ MonoBehaviour:
   damageText: 
   specializedStatText: 
   secondaryStatText: 
-  onShootSFX: event:/SFX/NEW/SmallExplosion
-  singleSFX: 1
+  onShootSFX: event:/SFX/NEW/Bombers/Bomber3
+  singleSFX: 0
   initialRotation: 0
   debugStats: []
 --- !u!114 &2798248273891348057
@@ -19905,8 +19952,8 @@ MonoBehaviour:
   damageText: 
   specializedStatText: 
   secondaryStatText: 
-  onShootSFX: event:/SFX/NEW/SmallExplosion
-  singleSFX: 1
+  onShootSFX: event:/SFX/NEW/Bombers/Bomber3
+  singleSFX: 0
   initialRotation: 0
   debugStats: []
 --- !u!114 &7486745164300639901
@@ -19932,8 +19979,8 @@ MonoBehaviour:
   damageText: 
   specializedStatText: 
   secondaryStatText: 
-  onShootSFX: event:/SFX/NEW/SmallExplosion
-  singleSFX: 1
+  onShootSFX: event:/SFX/NEW/Bombers/Bomber3
+  singleSFX: 0
   initialRotation: 0
   debugStats: []
 --- !u!1 &2706567296801485209
@@ -20053,7 +20100,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -20160,7 +20207,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.49803922, b: 0.42352942, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -21495,7 +21542,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 4830895272565588353, guid: 98e9b090f93ff9744981225726a946a6, type: 3}
+    - sprite: {fileID: 21300000, guid: 059c3fabffe54b44caa3b1f9afc433ac, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -22381,22 +22428,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1.7116938
-          tangentMode: 1
+          value: 1
+          inSlope: -2
+          outSlope: -2
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.14444785
+          inWeight: 0
+          outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.21969609
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -24845,6 +24892,7 @@ GameObject:
   - component: {fileID: 822673617550057870}
   - component: {fileID: 5540820859730175223}
   - component: {fileID: 8805911473671211853}
+  - component: {fileID: 1201578487937661072}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -24876,14 +24924,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2931872590794373316}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -24950,9 +24998,9 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 2.5
-      minScalar: 5
+      minMaxState: 3
+      scalar: 5
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -25866,20 +25914,29 @@ ParticleSystem:
       repeatInterval: 0.01
       probability: 1
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 1
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
+          value: 0.49465942
           inSlope: 0
-          outSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.8910168
+          value: 0.49467272
+          inSlope: 0
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
@@ -25888,7 +25945,7 @@ ParticleSystem:
           time: 1
           value: 1
           inSlope: 1
-          outSlope: 0
+          outSlope: 1
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
@@ -26382,8 +26439,8 @@ ParticleSystem:
     enabled: 0
     x:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 1
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -26435,8 +26492,8 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 1
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -26488,8 +26545,8 @@ ParticleSystem:
         m_RotationOrder: 4
     z:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 1
+      scalar: 20
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -26504,8 +26561,17 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 1
+          time: 0.4937107
           value: 0
+          inSlope: 0
+          outSlope: 0.013515237
+          tangentMode: 1
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.4285714
+        - serializedVersion: 3
+          time: 0.4968567
+          value: -1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -26859,8 +26925,8 @@ ParticleSystem:
         m_RotationOrder: 4
     radial:
       serializedVersion: 2
-      minMaxState: 1
-      scalar: 5
+      minMaxState: 0
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -26884,8 +26950,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.60654473
-          value: 1
+          time: 0.60339606
+          value: -1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -26894,7 +26960,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: -1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -27263,7 +27329,7 @@ ParticleSystem:
     multiplierCurve:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 0.5
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -27278,7 +27344,7 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.1978417
         - serializedVersion: 3
-          time: 0.4006238
+          time: 0.20251894
           value: 0
           inSlope: 0
           outSlope: 2.6538198
@@ -27287,14 +27353,23 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.10976932
         - serializedVersion: 3
-          time: 0.41726685
+          time: 0.20343018
           value: 1
           inSlope: 0.022467867
-          outSlope: 0.022467867
-          tangentMode: 0
+          outSlope: -4.251715
+          tangentMode: 1
           weightedMode: 0
           inWeight: 0.4064749
-          outWeight: 0.33333334
+          outWeight: 0.13461453
+        - serializedVersion: 3
+          time: 0.5
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -29733,6 +29808,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &1201578487937661072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931872590794373316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Blunderbuss
 --- !u!1 &2968516860861797995
 GameObject:
   m_ObjectHideFlags: 0
@@ -34567,6 +34655,7 @@ GameObject:
   - component: {fileID: 2967280123181927627}
   - component: {fileID: 3155334654640457105}
   - component: {fileID: 3438373554030473743}
+  - component: {fileID: 7903451536593301578}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -34597,14 +34686,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3166335625554124609}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -34779,7 +34868,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.49803922, b: 0.42352942, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -39453,6 +39542,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnemy: 1
+--- !u!114 &7903451536593301578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3166335625554124609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Explosions/Explosion2
 --- !u!1 &3839058295741352671
 GameObject:
   m_ObjectHideFlags: 0
@@ -42574,7 +42676,7 @@ ParticleSystem:
     positionAmount:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -49319,7 +49421,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -49426,7 +49528,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.49803922, b: 0.42352942, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -50761,7 +50863,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 4830895272565588353, guid: 98e9b090f93ff9744981225726a946a6, type: 3}
+    - sprite: {fileID: 21300000, guid: 059c3fabffe54b44caa3b1f9afc433ac, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -51647,22 +51749,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1.7116938
-          tangentMode: 1
+          value: 1
+          inSlope: -2
+          outSlope: -2
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.14444785
+          inWeight: 0
+          outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.21969609
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -54112,7 +54214,7 @@ GameObject:
   - component: {fileID: 3223676632487618491}
   - component: {fileID: 5911735497782427485}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: High Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58925,6 +59027,7 @@ GameObject:
   - component: {fileID: 3260207060759300803}
   - component: {fileID: 8367015603344945734}
   - component: {fileID: 4236160809505655047}
+  - component: {fileID: 319999256356911951}
   m_Layer: 0
   m_Name: Particle System (1)
   m_TagString: Untagged
@@ -58956,14 +59059,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5123612402464392245}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -61662,11 +61765,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 0
+    enabled: 1
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.25
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -61831,8 +61934,8 @@ ParticleSystem:
     quality: 2
     scrollSpeed:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 1
+      scalar: 10
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -61848,7 +61951,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
+          value: 0.9902677
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -62045,7 +62148,7 @@ ParticleSystem:
     positionAmount:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -62150,8 +62253,8 @@ ParticleSystem:
         m_RotationOrder: 4
     sizeAmount:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 1
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -62166,8 +62269,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 1
-          value: 0
+          time: 0.98428345
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -63794,6 +63897,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &319999256356911951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123612402464392245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Bombers/Bomber4
 --- !u!1 &6887481553337164630
 GameObject:
   m_ObjectHideFlags: 0
@@ -63807,6 +63923,7 @@ GameObject:
   - component: {fileID: 7924846774731912332}
   - component: {fileID: 3497835553361270142}
   - component: {fileID: 1962680147468520050}
+  - component: {fileID: 5793210897826298669}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -63837,14 +63954,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6887481553337164630}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -64019,7 +64136,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.49803922, b: 0.42352942, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -68693,6 +68810,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnemy: 1
+--- !u!114 &5793210897826298669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6887481553337164630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Explosions/Explosion2
 --- !u!1 &7068913793220109946
 GameObject:
   m_ObjectHideFlags: 0
@@ -68810,7 +68940,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -68917,7 +69047,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.49803922, b: 0.42352942, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -70252,7 +70382,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 4830895272565588353, guid: 98e9b090f93ff9744981225726a946a6, type: 3}
+    - sprite: {fileID: 21300000, guid: 059c3fabffe54b44caa3b1f9afc433ac, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -71138,22 +71268,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1.7116938
-          tangentMode: 1
+          value: 1
+          inSlope: -2
+          outSlope: -2
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.14444785
+          inWeight: 0
+          outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.21969609
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -73604,6 +73734,7 @@ GameObject:
   - component: {fileID: 7203948111181670431}
   - component: {fileID: 8315685039819015372}
   - component: {fileID: 494347137996894693}
+  - component: {fileID: 8939265274092328287}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -73634,14 +73765,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275977676141089216}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -78490,6 +78621,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnemy: 1
+--- !u!114 &8939265274092328287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275977676141089216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/SmallExplosion
+--- !u!1 &8459996937177944799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2011157529325006381}
+  m_Layer: 0
+  m_Name: Spawn Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2011157529325006381
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8459996937177944799}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.3, z: 0.24289632}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2635984711344348255}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8692492998749055886
 GameObject:
   m_ObjectHideFlags: 0
@@ -78607,7 +78782,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -78714,7 +78889,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.49803922, b: 0.42352942, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -80049,7 +80224,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 4830895272565588353, guid: 98e9b090f93ff9744981225726a946a6, type: 3}
+    - sprite: {fileID: 21300000, guid: 059c3fabffe54b44caa3b1f9afc433ac, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -80935,22 +81110,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1.7116938
-          tangentMode: 1
+          value: 1
+          inSlope: -2
+          outSlope: -2
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.14444785
+          inWeight: 0
+          outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.21969609
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -83401,6 +83576,7 @@ GameObject:
   - component: {fileID: 3052833822169012635}
   - component: {fileID: 6622296524891333933}
   - component: {fileID: 1830409970341033561}
+  - component: {fileID: 2960125493510226119}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -83431,14 +83607,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8704790207263178182}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -83613,7 +83789,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.49803922, b: 0.42352942, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -88287,6 +88463,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnemy: 1
+--- !u!114 &2960125493510226119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8704790207263178182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Explosions/Explosion2
 --- !u!1001 &1800623809937790202
 PrefabInstance:
   m_ObjectHideFlags: 0

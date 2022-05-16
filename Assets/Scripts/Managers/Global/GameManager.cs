@@ -62,7 +62,6 @@ public class GameManager : MonoBehaviour
     private WaveManager waveManager;
     private InputManager inputManager;
     private AudioManager audioManager;
-    private PlanetSpawner planetSpawner;
 
     private GameObject selectedShip;
     private GameObject selectedPilot;
@@ -108,13 +107,6 @@ public class GameManager : MonoBehaviour
             audioManager = AudioManager.Main;
             audioManager.Initialize();
             audioManager.RequestMusic("Title");
-            planetSpawner = GetComponent<PlanetSpawner>();
-            planetSpawner.Initialize();
-
-            for(int i = 0; i < 3; i++)
-            {
-                planetSpawner.SpawnNewPlanet();
-            }
         }
     }
 
@@ -130,7 +122,10 @@ public class GameManager : MonoBehaviour
     private IEnumerator FadeToSelectionScreen()
     {
         // fadePanelAnimation = GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadeAnimation>();
-
+        
+        var rdm = new System.Random();
+        var _rdm = rdm.Next();
+        UnityEngine.Random.InitState(_rdm);
         yield return StartCoroutine(fadePanelAnimation.Forward());
 
         SceneManager.LoadScene(5);
@@ -190,7 +185,7 @@ public class GameManager : MonoBehaviour
         gameState = GameState.OnReward;
         InitiateRewardPhase(this, initialArgs);
 
-        FindObjectOfType<TutorialManager>().ShowSkipWindow();
+        FindObjectOfType<TutorialManager>().TriggerInitialTutorial();
 
         SceneManager.sceneLoaded -= LateStart;
     }
@@ -207,14 +202,7 @@ public class GameManager : MonoBehaviour
 
     private void GenerateBackground(int count)
     {
-        planetSpawner.Initialize();
-
-        for (int i = 0; i < count; i++)
-        {
-            var rdm = UnityEngine.Random.Range(20, 40);
-            planetSpawner.distanceIncrement += rdm;
-            planetSpawner.SpawnNewPlanet();
-        }
+        
     }
 
     private void InitiateWavePhase(object sender, EventArgs e)
