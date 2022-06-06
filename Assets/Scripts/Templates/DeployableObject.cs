@@ -31,4 +31,9 @@ public class DeployableObject : MonoBehaviour
         onLifetimeEnd?.Invoke(this, EventArgs.Empty);
         gameObject.SetActive(false);
     }
+
+    public void SetLifetime(float newLifetime)
+    {
+        lifetime = newLifetime;
+    }
 }

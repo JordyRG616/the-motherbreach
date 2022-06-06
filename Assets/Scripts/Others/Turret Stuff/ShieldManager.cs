@@ -36,6 +36,12 @@ public class ShieldManager : MonoBehaviour, IDamageable
         }
     }
 
+    public void DestroyShield()
+    {
+        gameManager.OnGameStateChange -= DestroyShield;
+        Destroy(gameObject);
+    }
+
     public void DestroyDamageable()
     {
         StartCoroutine(DestructionAnimation());

@@ -8,15 +8,17 @@ public class ShellEffect : ActionEffect
     [SerializeField] private float initialBulletSize;
     [SerializeField] private float initialBurstSize;
 
-    public override Stat specializedStat => Stat.BurstSize;
+    public override Stat specializedStat => Stat.Projectiles;
 
     public override Stat secondaryStat => Stat.Size;
+    private string extraInfo = "";
+    private bool exposeOn;
 
     public override void SetData()
     {
         StatSet.Add(Stat.Size, initialBulletSize);
         SetBulletSize();
-        StatSet.Add(Stat.BurstSize, initialBurstSize);
+        StatSet.Add(Stat.Projectiles, initialBurstSize);
         SetBurstSize();
 
         base.SetData();
@@ -39,7 +41,7 @@ public class ShellEffect : ActionEffect
     {
         var module = shooterParticle.emission;
         var burst = module.GetBurst(0);
-        burst.cycleCount = (int)StatSet[Stat.BurstSize];
+        burst.cycleCount = (int)StatSet[Stat.Projectiles];
         module.SetBurst(0, burst);
         // main.duration = ;
     }
@@ -47,11 +49,13 @@ public class ShellEffect : ActionEffect
     public override void ApplyEffect(HitManager hitManager)
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
+        if(exposeOn) ApplyStatusEffect<Expose>(hitManager, 4f, new float[] {.25f});
     }
 
     public override string DescriptionText()
     {
-        string description = "shoots " + StatColorHandler.StatPaint(StatSet[Stat.BurstSize].ToString()) + " burst of bullets. Each bullet deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
+        string description = "shoots " + StatColorHandler.StatPaint(StatSet[Stat.Projectiles].ToString()) + " bursts of bullets. Each bullet deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
+        description += extraInfo;
         return description;
     }
 
@@ -72,23 +76,27 @@ public class ShellEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5) 
-            GainBurst();
-        else 
-            GainDamage();
+        exposeOn = true;
+
+        extraInfo = " and apply 25% " + KeywordHandler.KeywordPaint(Keyword.Expose) + " for 4 seconds";
+        keyword = Keyword.Expose;
     }
 
-    private void GainBurst()
+    public override void RemoveLevelUp()
     {
-        var projectiles = StatSet[Stat.BurstSize];
-        projectiles += 1;
-        SetStat(Stat.BurstSize, projectiles);
+        exposeOn = false;
+        
+        extraInfo = "";
+        keyword = Keyword.None;
     }
 
-    public void GainDamage()
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        var damage = StatSet[Stat.Damage];
-        damage *= 1.15f;
-        SetStat(Stat.Damage, damage);
+        initialBurstSize *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        initialBulletSize *= 1 + percentage;
     }
 }

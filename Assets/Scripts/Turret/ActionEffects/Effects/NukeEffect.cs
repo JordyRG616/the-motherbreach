@@ -5,49 +5,51 @@ using StringHandler;
 
 public class NukeEffect : ActionEffect
 {
-    [SerializeField] private float blastDuration;
-    [SerializeField] private float initalRate;
+    [SerializeField] private float blastSize;
+    [SerializeField] private float initalBurst;
     [SerializeField] private ParticleSystem subEmitter;
     [SerializeField] [FMODUnity.EventRef] private string explosionSFX;
     private FMOD.Studio.EventInstance instance;
+    private int bombCount = 3;
 
-    public override Stat specializedStat => Stat.Rate;
+    public override Stat specializedStat => Stat.Size;
 
-    public override Stat secondaryStat => Stat.Duration;
+    public override Stat secondaryStat => Stat.BurstCount;
 
     public override void SetData()
     {
-        StatSet.Add(Stat.Duration, blastDuration);
-        SetDuration();
-        StatSet.Add(Stat.Rate, initalRate);
-        SetRate();
+        StatSet.Add(Stat.BurstCount, initalBurst);
+        StatSet.Add(Stat.Size, blastSize);
+        SetBurstCount();
+        SetBlastSize();
         base.SetData();
     }
 
     public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
-        SetRate();
-        SetDuration();
+        SetBurstCount();
+        SetBlastSize();
     }
 
-    private void SetDuration()
+    private void SetBlastSize()
     {
-        var main = subEmitter.main;
-        main.startLifetime = StatSet[Stat.Duration];
+        var shape = subEmitter.shape;
+        shape.radius = StatSet[Stat.Size];
     }
 
-    private void SetRate()
+    private void SetBurstCount()
     {
-        var module = shooterParticle.main;
-        module.duration = StatSet[Stat.Rate];
+        var module = shooterParticle.emission;
+        var burst = module.GetBurst(0);
+
+        burst.cycleCount = Mathf.CeilToInt(StatSet[Stat.BurstCount]);
+        module.SetBurst(0, burst);
     }
 
     protected override void PlaySFX()
     {
         base.PlaySFX();
-        // Invoke("PlayExplosion", shooterParticle.main.startLifetime.constant);
-
     }
 
 
@@ -67,13 +69,12 @@ public class NukeEffect : ActionEffect
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
-
+        //hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
     }
 
     public override string DescriptionText()
     {
-        string description = "releases a barrage of nukes for " + StatColorHandler.StatPaint(StatSet[Stat.Rate].ToString()) + " seconds that explodes in a small radius and deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage to all enemies hit";
+        string description = "releases " + StatColorHandler.StatPaint(StatSet[Stat.BurstCount]) + " barrages of " + bombCount + " nukes that explodes in a small radius and deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage to all enemies hit";
         return description;
     }
 
@@ -86,27 +87,39 @@ public class NukeEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5)
-        {
-            GainDuration();
-        }
-        else
-        {
-            GainRate();
-        }
+        var emission = shooterParticle.emission;
+        var burst = emission.GetBurst(0);
+        burst.count = new ParticleSystem.MinMaxCurve(burst.count.constant + 1);
+        bombCount += 1;
+        emission.SetBurst(0, burst);
+
+        var main = subEmitter.main;
+        main.startLifetime = new ParticleSystem.MinMaxCurve(main.startLifetime.constant + 0.5f);
+        maxedOut = true;
     }
 
-    private void GainDuration()
+    public override void RemoveLevelUp()
     {
-        var _duration = StatSet[Stat.Duration];
-        _duration *= 1.25f;
-        SetStat(Stat.Duration, _duration);
+        if (!maxedOut) return;
+
+        var emission = shooterParticle.emission;
+        var burst = emission.GetBurst(0);
+        burst.count = new ParticleSystem.MinMaxCurve(burst.count.constant - 1);
+        bombCount -= 1;
+        emission.SetBurst(0, burst);
+
+        var main = subEmitter.main;
+        main.startLifetime = new ParticleSystem.MinMaxCurve(main.startLifetime.constant - 0.5f);
     }
 
-    private void GainRate()
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        var _rate = StatSet[Stat.Rate];
-        _rate *= 1.2f;
-        SetStat(Stat.Rate, _rate);
+        blastSize *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        initalBurst *= 1 + percentage;
     }
 }
+ 

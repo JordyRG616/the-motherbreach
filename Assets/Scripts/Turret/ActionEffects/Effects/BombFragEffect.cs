@@ -30,4 +30,14 @@ public class BombFragEffect : ActionEffect
     {
         
     }
+
+    public override void RaiseInitialSpecializedStat(float percentage)
+    {
+        
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        
+    }
 }

@@ -7,6 +7,11 @@ public class EnhanceEffect : ActionEffect
 {
     [SerializeField] [Range(0, 1)] private float percentage;
     private Dictionary<ActionEffect, float> targetedWeaponsOriginalDamage = new Dictionary<ActionEffect, float>();
+    [SerializeField] private float maxRadius;
+    private SupportController controller;
+    private float ogRadius;
+
+    private string extraInfo = "until the end of the wave";
 
     public override Stat specializedStat => Stat.Efficiency;
 
@@ -30,10 +35,15 @@ public class EnhanceEffect : ActionEffect
 
         gameManager = GameManager.Main;
         gameManager.OnGameStateChange += ResetTurrets;
+
+        controller = GetComponent<SupportController>();
+
+        ogRadius = GetComponent<CircleCollider2D>().radius;
     }
 
     private void ResetTurrets(object sender, GameStateEventArgs e)
     {
+        if (maxedOut) return;
         if(e.newState == GameState.OnReward)
         {
             foreach(ActionEffect weapon in targetedWeaponsOriginalDamage.Keys)
@@ -59,13 +69,15 @@ public class EnhanceEffect : ActionEffect
     private void Enhance()
     {
         AudioManager.Main.RequestSFX(onShootSFX);
-        target = GetComponentInParent<SupportController>().GetTarget().gameObject;
+        var _t = controller.GetTarget();
+        if (_t == null) return;
+        target = _t.gameObject;
         shooterParticle.transform.position = target.transform.position;
         shooterParticle.transform.rotation = target.transform.rotation;
         shooterParticle.Play();
-        var controller = target.GetComponentInChildren<ActionController>();
+        var _c = target.GetComponentInChildren<ActionController>();
 
-        foreach(ActionEffect weapon in controller.GetShooters())
+        foreach(ActionEffect weapon in _c.GetShooters())
         {
             if(!targetedWeaponsOriginalDamage.ContainsKey(weapon))
             {
@@ -78,7 +90,7 @@ public class EnhanceEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        return "raises the " + StatColorHandler.DamagePaint("damage") + " of " + StatColorHandler.StatPaint(StatSet[Stat.Triggers].ToString()) + " neighboring turrets in " + StatColorHandler.StatPaint((StatSet[Stat.Efficiency] * 100).ToString()) + "% until the end of the wave";
+        return "raises the " + StatColorHandler.DamagePaint("damage") + " of a neighbouring turret in " + StatColorHandler.StatPaint((StatSet[Stat.Efficiency] * 100).ToString()) + "% " + extraInfo + ". repeats " + StatColorHandler.StatPaint(StatSet[Stat.Triggers]) + " times";
     }
 
     public override string upgradeText(int nextLevel)
@@ -90,17 +102,24 @@ public class EnhanceEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel < 5)
-        {
-            var _eff = StatSet[Stat.Efficiency];
-            _eff += 0.03f;
-            SetStat(Stat.Efficiency, _eff);
-        }
-        else
-        {
-            var _tr = StatSet[Stat.Triggers];
-            _tr ++;
-            SetStat(Stat.Triggers, _tr);
-        }
+        extraInfo = "permanently";
+        maxedOut = true;
+    }
+
+    public override void RemoveLevelUp()
+    {
+        if (!maxedOut) return;
+        extraInfo = "until the end of the wave";
+        maxedOut = false;
+    }
+
+    public override void RaiseInitialSpecializedStat(float percentage)
+    {
+        this.percentage *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        
     }
 }

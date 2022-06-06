@@ -6,15 +6,16 @@ using StringHandler;
 
 public class BlunderbussEffect : ActionEffect
 {
-    [SerializeField] private float initialFuseTime;
+    [SerializeField] private float initialBlastDuration;
     [SerializeField] private float initalBulletSize;
     [SerializeField] private ParticleSystem subShooter;
     [SerializeField] private ActionEffect fragEffect;
     [SerializeField] [FMODUnity.EventRef] private string explosionSFX;
+    private string extraInfo = "";
 
-    public override Stat specializedStat => Stat.FuseTime;
+    public override Stat specializedStat => Stat.Size;
 
-    public override Stat secondaryStat => Stat.Size;
+    public override Stat secondaryStat => Stat.Duration;
 
     public override void Initiate()
     {
@@ -25,8 +26,8 @@ public class BlunderbussEffect : ActionEffect
 
     public override void SetData()
     {
-        StatSet.Add(Stat.FuseTime, initialFuseTime);
-        SetFuseTime();
+        StatSet.Add(Stat.Duration, initialBlastDuration);
+        SetBlastDuration();
         StatSet.Add(Stat.Size, initalBulletSize);
         SetBulletSize();
         base.SetData();
@@ -35,14 +36,14 @@ public class BlunderbussEffect : ActionEffect
     public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
-        SetFuseTime();
+        SetBlastDuration();
         SetBulletSize();
     }
 
-    private void SetFuseTime()
+    private void SetBlastDuration()
     {
-        var main = shooterParticle.main;
-        main.startLifetime = StatSet[Stat.FuseTime];
+        var main = subShooter.main;
+        main.startLifetime = StatSet[Stat.Duration];
     }
 
     private void SetBulletSize()
@@ -69,7 +70,8 @@ public class BlunderbussEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "shoots a bomb that explodes after " + StatColorHandler.StatPaint(StatSet[Stat.FuseTime].ToString()) + " and that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage to every enemy in the blast";
+        string description = "shoots a bomb that explodes after " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " and deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage to every enemy in the blast";
+        description += extraInfo;
         return description;
     }
 
@@ -81,21 +83,23 @@ public class BlunderbussEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5) ReduceFuseTime();
-        else GainSize();
+        subShooter.subEmitters.SetSubEmitterEmitProbability(0, .5f);
+        extraInfo += ". Triggers an additional explosion after the first";
     }
 
-    private void ReduceFuseTime()
+    public override void RemoveLevelUp()
     {
-        var fuseTime = StatSet[Stat.FuseTime];
-        fuseTime *= 1.15f;
-        SetStat(Stat.FuseTime, fuseTime);
+        subShooter.subEmitters.SetSubEmitterEmitProbability(0, 0);
+        extraInfo = "";
     }
 
-    public void GainSize()
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        var size = StatSet[Stat.Size];
-        size *= 1.1f;
-        SetStat(Stat.Size, size);
+        initalBulletSize *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        initialBlastDuration *= 1 + percentage;
     }
 }

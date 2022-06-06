@@ -27,7 +27,8 @@ public class BuildBox : MonoBehaviour
 
     [Header("Additional stats")]
     [SerializeField] private List<StatBox> additionalStatBoxes;
-    [SerializeField] private TextMeshProUGUI tags;
+    [SerializeField] private TextMeshProUGUI _class;
+    [SerializeField] private TextMeshProUGUI classDescription;
 
 
 
@@ -206,19 +207,10 @@ public class BuildBox : MonoBehaviour
         additionalStatBoxes[2].SetValueText(_txt);
         additionalStatBoxes[2].description = effect.secondaryStatText;
 
-        string container = string.Empty;
-
-        foreach(Enum value in Enum.GetValues(effect.tags.GetType()))
-        {
-            if(effect.tags.HasFlag(value)) 
-            {
-                var tag = (WeaponTag)value;
-                if(tag == WeaponTag.none) continue;
-                container += tag.ToSplittedString().ToLower() + "\n";
-            }
-        }
-
-        tags.text = StatColorHandler.RestPaint(container);
+        string container = effect.weaponClass.ToSplittedString();
+        
+        _class.text = StatColorHandler.RestPaint(container);
+        classDescription.text = DescriptionDictionary.Main.GetDescription(effect.weaponClass.ToString());
     }
 
     private string GetTriggerText(EffectTrigger baseEffectTrigger)
@@ -271,7 +263,7 @@ public class BuildBox : MonoBehaviour
         {
             if(testSubject.StatIsTarget(stat)) return true;
         }
-        var tags = controller.GetShooters()[0].tags;
+        var tags = controller.GetShooters()[0].weaponClass;
         return testSubject.ContainsTag(tags);
     }
 
@@ -285,7 +277,7 @@ public class BuildBox : MonoBehaviour
         {
             if(_base.StatIsTarget(stat)) return true;
         }
-        var tags = testSubject.GetShooters()[0].tags;
+        var tags = testSubject.GetShooters()[0].weaponClass;
         return _base.ContainsTag(tags);
     }
 
@@ -306,7 +298,7 @@ public class BuildBox : MonoBehaviour
             box.description = "";
         }
 
-        tags.text = "";
+        _class.text = "";
 
         UpdateStats();
     }

@@ -178,6 +178,7 @@ public class GameManager : MonoBehaviour
         if (dataManager.SaveFileExists())
         {
             LoadGame();
+            FindObjectOfType<TutorialManager>().No();
         }
 
         EndWaveEventArgs initialArgs = new EndWaveEventArgs();

@@ -55,4 +55,9 @@ public abstract class ShipAbility : MonoBehaviour
             DoAction();
         }
     }
+
+    public void ModifyEnergyGainByPercentage(float percentage)
+    {
+        energyRechargeRate *= 1 + percentage;
+    }
 }

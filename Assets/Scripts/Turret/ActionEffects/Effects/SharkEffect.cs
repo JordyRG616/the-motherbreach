@@ -78,4 +78,14 @@ public class SharkEffect : ActionEffect
         damage *= 1.1f;
         SetStat(Stat.Damage, damage);
     }
+
+    public override void RaiseInitialSpecializedStat(float percentage)
+    {
+        
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        
+    }
 }

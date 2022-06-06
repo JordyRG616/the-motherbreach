@@ -5,20 +5,14 @@ using System.Linq;
 
 public class SeekerParticleComponent : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    private float _speed;
-    private float RisingSpeed
-    {
-        get
-        {
-            if(_speed < speed) _speed += 0.01f;
-            return _speed;
-        }
-    }
+    [SerializeField] private AnimationCurve speedCurve;
+    public float speedMagnitude;
+    public int count;
 
     private ParticleSystem _particleSystem;
     private ParticleSystem.Particle[] particles;
     private Transform target;
+    private ActionEffect shooter;
 
     void Awake()
     {
@@ -29,22 +23,36 @@ public class SeekerParticleComponent : MonoBehaviour
 
         particles = new ParticleSystem.Particle[_particleSystem.main.maxParticles];
 
-        target = ShipManager.Main.transform;
+        shooter = GetComponentInParent<ActionEffect>();
     }
 
     void LateUpdate()
     {
-        // if(target == null) return;
-        int count = _particleSystem.GetParticles(particles);
+        if(!_particleSystem.isPlaying || GameManager.Main.onPause) return;
+
+        if(shooter.GetTarget() == null) return;
+
+        target = shooter.GetTarget().transform;
+        count = _particleSystem.GetParticles(particles);
 
         for(int i = 0; i < count; i++)
         {
             var direction = target.position - particles[i].position;
-            particles[i].velocity += direction.normalized * RisingSpeed;
+            var velocityDirection = particles[i].velocity.normalized;
+            direction.z = 0;
+            particles[i].velocity = speedMagnitude * (direction.normalized * speedCurve.Evaluate(1 - NormalizedLifetime(particles[i])) + velocityDirection);
+
+            // var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            // particles[i].rotation = angle;
         }
 
         _particleSystem.SetParticles(particles);
         // particles = new ParticleSystem.Particle[_particleSystem.main.maxParticles];
+    }
+
+    private float NormalizedLifetime(ParticleSystem.Particle particle)
+    {
+        return particle.remainingLifetime / particle.startLifetime;
     }
 
     private void Seek(ParticleSystem.Particle particle)

@@ -33,7 +33,6 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
     public event EventHandler<LevelUpArgs> OnLevelUp;
     public string slotId;
 
-
     public void Initiate()
     {
         baseEffect = GetComponentInChildren<BaseEffectTemplate>();
@@ -94,6 +93,19 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
         baseHistory.Add(baseEffect);
     }
 
+    public void ReplaceWeapon(ActionController weapon)
+    {
+        weapon.gameObject.SetActive(true);
+        weapon.transform.SetParent(transform);
+        weapon.transform.localPosition = Vector3.zero;
+
+        weapon.restBar = GetComponent<RestBarManager>();
+        TurretConstructor.Main.HandleBaseEffect(gameObject);
+
+        Destroy(actionController.gameObject);
+        actionController = weapon;
+    }
+
     public Dictionary<string, byte[]> GetData()
     {
         Dictionary<string, byte[]> container = new Dictionary<string, byte[]>();
@@ -123,8 +135,6 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
     public void LoadData(SaveFile saveFile)
     {
         var loadedLevel = BitConverter.ToInt32(saveFile.GetValue(slotId + "weaponLevel"));
-        Level = loadedLevel;
-
 
         var baseCount = BitConverter.ToInt32(saveFile.GetValue(slotId + "baseCount"));
 
@@ -134,6 +144,11 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
             var _b = TurretConstructor.Main.GetBaseById(baseId);
 
             TurretConstructor.Main.ReplaceBase(this.gameObject, _b);
+        }
+
+        for(int i = 1; i <= loadedLevel; i++)
+        {
+            LevelUp();
         }
         
         actionController.LoadData(saveFile, slotId);

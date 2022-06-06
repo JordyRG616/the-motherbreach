@@ -61,8 +61,16 @@ public class ArtilleryEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        var damage = StatSet[Stat.Damage];
-        damage *= 1f + (((float)toLevel * 5) / 100);
-        SetStat(Stat.Damage, damage);
+        
+    }
+
+    public override void RaiseInitialSpecializedStat(float percentage)
+    {
+        initialBulletSpeed *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        initialBurstSize *= 1 + percentage;
     }
 }

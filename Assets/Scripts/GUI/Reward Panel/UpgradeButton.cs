@@ -121,10 +121,11 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
             AudioManager.Main.RequestGUIFX(upgradeSFX);
             RewardManager.Main.SpendCash((int)cost);
             turretManager.actionController.LoadStats();
-            // turretManager.Level --;
+            turretManager.actionController.GetShooters().ForEach(x => x.RemoveLevelUp());
             turretManager.LevelUp();
             buildBox.UpdateStats();
             buildBox.selectedWeaponBox.Clear();
+            buildBox.ClearWeaponBox();
             buildButton.mode = BuildButton.ButtonMode.DONE;
             // SetButtonText((int)cost);
             // SetUpgradeText();

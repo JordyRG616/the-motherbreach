@@ -7,6 +7,7 @@ public class GuardianEffect : ActionEffect
 {
     [SerializeField] private GameObject shieldTemplate;
     private float extraHealth;
+    private float initialSize = 1;
 
     public override Stat specializedStat => Stat.Efficiency;
 
@@ -16,7 +17,7 @@ public class GuardianEffect : ActionEffect
     public override void SetData()
     {
         StatSet.Add(Stat.Efficiency, extraHealth);
-        StatSet.Add(Stat.Size, 1);
+        StatSet.Add(Stat.Size, initialSize);
         base.SetData();
     }
 
@@ -43,13 +44,27 @@ public class GuardianEffect : ActionEffect
     private void GetTarget()
     {
         var turrets = ShipManager.Main.turrets;
+        turrets.Remove(GetComponentInParent<TurretManager>());
+
+        //foreach (TurretManager turret in turrets)
+        //{
+        //    if (turret.GetComponentInChildren<ShieldManager>())
+        //    {
+        //        turrets.Remove(turret);
+        //    }
+        //}
+
+        //if (turrets.Count == 0) return;
+
         var rdm = Random.Range(0, turrets.Count);
 
         target = turrets[rdm].gameObject;
 
-        if(target.GetComponentInChildren<ShieldManager>())
+        var existingShield = target.GetComponentInChildren<ShieldManager>();
+
+        if (existingShield != null)
         {
-            GetTarget();
+            existingShield.DestroyShield();
         }
     }
 
@@ -66,19 +81,16 @@ public class GuardianEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5) ReduceRest();
-        else RaiseHealth();
+        
     }
 
-    private void RaiseHealth()
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        StatSet[Stat.Efficiency] += .33f;
+        extraHealth += percentage;
     }
 
-    private void ReduceRest()
+    public override void RaiseInitialSecondaryStat(float percentage)
     {
-        var rest = StatSet[Stat.Rest];
-        rest *= .9f;
-        SetStat(Stat.Rest, rest);
+        initialSize *= 1 + percentage;
     }
 }

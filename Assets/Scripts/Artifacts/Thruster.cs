@@ -13,6 +13,6 @@ public class Thruster : Artifact
 
     protected override void Effect()
     {
-        FindObjectOfType<ShipController>().ModifySpeedByPercentage(percentage);
+        FindObjectOfType<ShipController>().ModifyMovementSpeedByPercentage(percentage);
     }
 }

@@ -12,7 +12,7 @@ public abstract class ActionEffect : MonoBehaviour, ISavable
     [SerializeField] protected ParticleSystem shooterParticle;
     [SerializeField] protected LayerMask targetLayer;
     [SerializeField] protected Keyword keyword;
-    public WeaponTag tags;
+    public WeaponClass weaponClass;
     protected GameObject target;
 
     [Header("Initial basic stats")]
@@ -29,7 +29,7 @@ public abstract class ActionEffect : MonoBehaviour, ISavable
     public string secondaryStatText;
 
     protected AudioManager audioManager;
-    protected GameManager gameManager;
+    protected GameManager gameManager; 
     [SerializeField] [FMODUnity.EventRef] protected string onShootSFX;
     protected List<FMOD.Studio.EventInstance> sfxInstances = new List<FMOD.Studio.EventInstance>();
 
@@ -42,6 +42,7 @@ public abstract class ActionEffect : MonoBehaviour, ISavable
     protected float cooldown;
     [HideInInspector] public float initialRotation;
     private bool initiated;
+    protected bool maxedOut;
 
     [Header("Debug")]
     public string[] debugStats = new string[0];
@@ -82,6 +83,12 @@ public abstract class ActionEffect : MonoBehaviour, ISavable
 
     public abstract void LevelUp(int toLevel);
 
+    public virtual void RemoveLevelUp()
+    {
+        //if (!maxedOut) return;
+        //maxedOut = false;
+    }
+
     public virtual void SetData()
     {
         StatSet.Add(Stat.Damage, initialDamage);
@@ -96,13 +103,18 @@ public abstract class ActionEffect : MonoBehaviour, ISavable
         if(StatSet.ContainsKey(statName))
         {
             StatSet[statName] = value;
-            StatSet[statName] = (float)Math.Round(StatSet[statName], 1);
+            StatSet[statName] = (float)Math.Round(StatSet[statName], 2);
         } 
     }
 
     public virtual void ReceiveTarget(GameObject parentTarget)
     {
         target = parentTarget;
+    }
+
+    public GameObject GetTarget()
+    {
+        return target;
     }
 
     public virtual void Shoot()
@@ -243,6 +255,19 @@ public abstract class ActionEffect : MonoBehaviour, ISavable
         cooldown = 0;
         onRest = true;
     }
+
+    public void RaiseInitialDamage(float percentage)
+    {
+        initialDamage *= 1 + percentage;
+    }
+
+    public void RaiseInitialRest(float percentage)
+    {
+        initialRest *= 1 + percentage;
+    }
+
+    public virtual void RaiseInitialSpecializedStat(float percentage) { }
+    public virtual void RaiseInitialSecondaryStat(float percentage) { }
 
     public Dictionary<string, byte[]> GetData()
     {

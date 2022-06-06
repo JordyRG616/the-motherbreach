@@ -9,6 +9,7 @@ public class BeamEffect : ActionEffect
     [SerializeField] private float duration;
     [SerializeField] private float initialBulletSize;
     private FMOD.Studio.EventInstance instance;
+    private string acidInfo = "";
 
     public override Stat specializedStat => Stat.Duration;
 
@@ -61,12 +62,12 @@ public class BeamEffect : ActionEffect
     public override void ApplyEffect(HitManager hitManager)
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
-        // ApplyStatusEffect<Acid>(hitManager, 2f, new float[] {1f, .1f});
     }
 
     public override string DescriptionText()
     {
         string description = "releases a beam of energy for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact";
+        description += acidInfo;
         return description;
     }
 
@@ -79,27 +80,29 @@ public class BeamEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5)
-        {
-            GainDuration();
-        }
-        else
-        {
-            GainDamage();
-        }
+        totalEffect += ApplyAcid;
+        acidInfo = " and applies " + KeywordHandler.KeywordPaint(Keyword.Acid) + " (deals " + StatColorHandler.DamagePaint(20) + " damage over 2 seconds)";
     }
 
-    private void GainDuration()
+    public override void RemoveLevelUp()
     {
-        var _duration = StatSet[Stat.Duration];
-        _duration *= 1.2f;
-        SetStat(Stat.Duration, _duration);
+        Debug.Log("removed");
+        totalEffect -= ApplyAcid;
+        acidInfo = "";
     }
 
-    private void GainDamage()
+    private void ApplyAcid(HitManager hitManager)
     {
-        var damage = StatSet[Stat.Damage];
-        damage *= 1.1f;
-        SetStat(Stat.Damage, damage);
+        ApplyStatusEffect<Acid>(hitManager, 2f, new float[] {1f, .1f});
+    }
+
+    public override void RaiseInitialSpecializedStat(float percentage)
+    {
+        duration *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        initialBulletSize *= percentage;
     }
 }

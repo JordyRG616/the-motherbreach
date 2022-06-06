@@ -5,6 +5,8 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private Vector2 skipWindowPosition;
+
+    [Header("Tutorials")]
     [SerializeField] private List<TutorialStep> SelectionScreenTutorial;
     [SerializeField] private List<TutorialStep> initialTutorial;
     [SerializeField] private List<TutorialStep> posBuildTutorial;
@@ -13,15 +15,19 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private List<TutorialStep> lockTutorial;
     [SerializeField] private List<TutorialStep> rerollTutorial;
     [SerializeField] private List<TutorialStep> shopTutorial;
+    [SerializeField] private List<TutorialStep> techTutorial;
+    [SerializeField] private List<TutorialStep> statsTutorial;
+
+    [Header("Components")]
     [SerializeField] private TutorialBox box;
     [SerializeField] private GameObject blockPanel;
     [SerializeField] private RectTransform highlightPanel;
-    private static bool tutorialFinished;
+    public static bool tutorialFinished;
     private static bool initiated;
     
     void Start()
     {
-        if(!initiated)
+        if(!initiated && !tutorialFinished)
         {
             ShowSkipWindow();
             initiated = true;
@@ -80,6 +86,18 @@ public class TutorialManager : MonoBehaviour
     {
         if(tutorialFinished) return;
         StartCoroutine(ShowTutorial(shopTutorial));
+    }
+
+    public void TriggerTechTutorial()
+    {
+        if(tutorialFinished) return;
+        StartCoroutine(ShowTutorial(techTutorial));
+    }
+
+    public void TriggerStatTutorial()
+    {
+        if(tutorialFinished) return;
+        StartCoroutine(ShowTutorial(statsTutorial));
     }
 
     public void No()

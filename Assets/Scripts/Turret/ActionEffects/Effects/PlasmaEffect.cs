@@ -13,10 +13,11 @@ public class PlasmaEffect : ActionEffect
 
     public override Stat secondaryStat => Stat.Efficiency;
 
+    private bool maximized;
+
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, duration);
-        SetDuration();
         StatSet.Add(Stat.Efficiency, initialEfficiency);
 
         base.SetData();
@@ -25,13 +26,6 @@ public class PlasmaEffect : ActionEffect
     public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
-        SetDuration();
-    }
-
-    private void SetDuration()
-    {
-        var main = shooterParticle.main;
-        main.duration = StatSet[Stat.Duration];
     }
 
     public override void Shoot()
@@ -53,12 +47,12 @@ public class PlasmaEffect : ActionEffect
     public override void ApplyEffect(HitManager hitManager)
     {
         hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
-        ApplyStatusEffect<Slug>(hitManager, StatSet[secondaryStat], new float[] {.66f});
+        ApplyStatusEffect<Slug>(hitManager, StatSet[Stat.Duration], new float[] {StatSet[secondaryStat]});
     }
 
     public override string DescriptionText()
     {
-        string description = "releases a stream of particles for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage to all enemies in the area and applies " + KeywordHandler.KeywordPaint(keyword) + " for " + StatColorHandler.StatPaint(StatSet[secondaryStat].ToString()) + " seconds";
+        string description = "releases a stream of particles for " + shooterParticle.main.duration + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage to all enemies in the area and applies " + KeywordHandler.KeywordPaint(keyword) + " ("+ StatColorHandler.StatPaint(StatSet[Stat.Efficiency] * 100) + "% speed reduction for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds)";
         return description;
     }
 
@@ -71,27 +65,25 @@ public class PlasmaEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5)
-        {
-            GainEfficiency();
-        }
-        else
-        {
-            GainDuration();
-        }
+        var main = shooterParticle.main;
+        main.duration *= 1.7f;
+        maximized = true;
     }
 
-    private void GainDuration()
+    public override void RemoveLevelUp()
     {
-        var _duration = StatSet[Stat.Duration];
-        _duration *= 1.25f;
-        SetStat(Stat.Duration, _duration);
+        if(!maximized) return;
+        var main = shooterParticle.main;
+        main.duration /= 1.7f;
     }
 
-    private void GainEfficiency()
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        var _eff = StatSet[secondaryStat];
-        _eff += 1;
-        SetStat(secondaryStat, _eff);
+        duration *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        initialEfficiency *= 1 + percentage;
     }
 }

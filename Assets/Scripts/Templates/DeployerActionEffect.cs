@@ -5,13 +5,12 @@ using UnityEngine;
 public abstract class DeployerActionEffect : ActionEffect
 {
     [SerializeField] protected float capacity;
+    [SerializeField] protected DeployablePool pool;
 
-    private DeployablePool pool;
 
     public override void Initiate()
     {
         base.Initiate();
-        pool = GetComponent<DeployablePool>();
         pool.Initiate();
     }
 
@@ -21,7 +20,7 @@ public abstract class DeployerActionEffect : ActionEffect
         var deployable = pool.RequestDeployable();
         deployable.transform.position = transform.position;
         deployable.Born();
-        deployable.transform.SetParent(transform);
+        // deployable.transform.SetParent(transform);
     }
     
 }

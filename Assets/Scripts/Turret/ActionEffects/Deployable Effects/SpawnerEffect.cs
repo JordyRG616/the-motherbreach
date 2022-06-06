@@ -13,6 +13,7 @@ public class SpawnerEffect : DeployerActionEffect
 
     public override Stat secondaryStat => Stat.Capacity;
 
+
     public override void SetData()
     {
         StatSet.Add(Stat.Capacity, capacity);
@@ -21,10 +22,23 @@ public class SpawnerEffect : DeployerActionEffect
         base.SetData();
     }
 
-    public override void SetStat(Stat statName, float value)
+    public override void Initiate()
     {
-        base.SetStat(statName, value);
+        base.Initiate();
     }
+
+    public override void Shoot()
+    {
+        if(pool.GetDeployedObjectCount() == StatSet[Stat.Capacity]) return;
+        var deployable = pool.RequestDeployable();
+        deployable.transform.position = transform.position;
+        deployable.Born();
+        var droneShooter = deployable.GetComponent<ActionEffect>();
+        droneShooter.Initiate();
+        droneShooter.SetStat(Stat.Damage, StatSet[Stat.DroneLevel] * 5);
+        pool.GetModel().SetLifetime((StatSet[Stat.DroneLevel] * 10) + 15);
+    }
+
     public override void ApplyEffect(HitManager hitManager)
     {
         
@@ -32,7 +46,7 @@ public class SpawnerEffect : DeployerActionEffect
 
     public override string DescriptionText()
     {
-        string description = "spawn up to " + StatColorHandler.StatPaint(StatSet[Stat.Capacity].ToString()) + " drones of level " + StatColorHandler.StatPaint(StatSet[Stat.DroneLevel].ToString());
+        string description = "spawn up to " + StatColorHandler.StatPaint(StatSet[Stat.Capacity].ToString()) + " drones of level " + StatColorHandler.StatPaint(StatSet[Stat.DroneLevel].ToString()) + ". (Deals " + StatColorHandler.DamagePaint(StatSet[Stat.DroneLevel] * 5) + " damage and lasts for " + StatColorHandler.StatPaint((StatSet[Stat.DroneLevel] * 10) + 15) + " seconds)";
         return description;
     }
 
@@ -45,21 +59,5 @@ public class SpawnerEffect : DeployerActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5) GainCapacity();
-        if(toLevel == 2 || toLevel == 4) GainLevel();
-    }
-
-    private void GainLevel()
-    {
-        var droneLevel = StatSet[Stat.DroneLevel];
-        droneLevel += 1;
-        SetStat(Stat.DroneLevel, droneLevel);
-    }
-
-    private void GainCapacity()
-    {
-        var capacity = StatSet[Stat.Capacity];
-        capacity += 1;
-        SetStat(Stat.Capacity, capacity);
     }
 }

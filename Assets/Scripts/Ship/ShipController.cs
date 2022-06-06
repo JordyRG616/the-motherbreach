@@ -101,9 +101,14 @@ public class ShipController : MonoBehaviour
         Destroy(this);
     }
 
-    public void ModifySpeedByPercentage(float percentage)
+    public void ModifyMovementSpeedByPercentage(float percentage)
     {
         speed *= (1 + percentage);
+    }
+
+    public void ModifyTurnSpeedByPercentage(float percentage)
+    {
+        rotationSpeed *= (1 + percentage);
     }
 
 }

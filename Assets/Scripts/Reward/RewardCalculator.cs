@@ -150,6 +150,11 @@ public class RewardCalculator : MonoBehaviour, ISavable
         return level;
     }
 
+    public void ApplyLevelUpToModelOfClass(WeaponClass weaponClass, LevelUpData levelUp)
+    {
+        
+    }
+
     public Dictionary<string, byte[]> GetData()
     {
         var container = new Dictionary<string, byte[]>();

@@ -7,7 +7,7 @@ public class TimedController : ActionController
 {
     [SerializeField] private float timeBetweenActivations;
     private WaitForSeconds wait;
-    private GameManager gameManager;
+    private WaitUntil until;
 
     void OnEnable()
     {
@@ -15,6 +15,7 @@ public class TimedController : ActionController
         gameManager.OnGameStateChange += HandleActivation;
 
         wait = new WaitForSeconds(timeBetweenActivations);
+        until = new WaitUntil(() => shooters[0].GetShooterSystem().isEmitting == false);
     }
 
     private void HandleActivation(object sender, GameStateEventArgs e)
@@ -25,26 +26,19 @@ public class TimedController : ActionController
 
     protected override IEnumerator ManageActivation()
     {
-        while(true)
+        SetOnRest();
+
+        while (true)
         {
-            // yield return wait;
+
+            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest]);
 
             Activate();
 
-            float duration = 0;
-            if (shooters[0].StatSet.ContainsKey(Stat.Duration)) duration = GetAttackDuration();
-
-            yield return new WaitForSeconds(duration);
+            yield return until;
 
             SetOnRest();
-
-            yield return new WaitForSeconds(shooters[0].StatSet[Stat.Rest]);
         }
-    }
-
-    private float GetAttackDuration()
-    {
-        return shooters[0].StatSet[Stat.Duration] + shooters[0].GetShooterSystem().main.startLifetime.constant;
     }
 
     public override void Activate()
@@ -56,8 +50,9 @@ public class TimedController : ActionController
         }
     }
 
-    void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         if(gameManager !=null) gameManager.OnGameStateChange -= HandleActivation;
     }
 }

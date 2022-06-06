@@ -7,6 +7,7 @@ using System;
 public abstract class ActionController : MonoBehaviour, ISavable
 {
     public int weaponID;
+
     [SerializeField] protected List<ActionEffect> shooters;
     [SerializeField] protected float cost;
     [SerializeField] protected float health;
@@ -19,6 +20,7 @@ public abstract class ActionController : MonoBehaviour, ISavable
     protected List<TargetableComponent> enemiesInSight = new List<TargetableComponent>();
     public TargetableComponent target;
     private IntegrityManager integrityManager;
+    protected GameManager gameManager;
 
     public abstract void Activate();
 
@@ -27,6 +29,16 @@ public abstract class ActionController : MonoBehaviour, ISavable
     protected virtual void StopShooters()
     {
         foreach(ActionEffect shooter in shooters)
+        {
+            shooter.StopShooting();
+            shooter.ReceiveTarget(null);
+        }
+    }
+
+    protected virtual void StopShooters(object sender, GameStateEventArgs e)
+    {
+        if (e.newState != GameState.OnWave) return;
+        foreach (ActionEffect shooter in shooters)
         {
             shooter.StopShooting();
             shooter.ReceiveTarget(null);
@@ -42,6 +54,9 @@ public abstract class ActionController : MonoBehaviour, ISavable
     {
         _health = health;
 
+        gameManager = GameManager.Main;
+        gameManager.OnGameStateChange += StopShooters;
+
         foreach(ActionEffect shooter in shooters)
         {
             shooter.Initiate();
@@ -50,11 +65,6 @@ public abstract class ActionController : MonoBehaviour, ISavable
 
     public void HandleLevelUp(object sender, LevelUpArgs e)
     {
-        // foreach(ActionEffect shooter in shooters)
-        // {
-        //     shooter.LevelUp(e.toLevel);
-        // }
-
         foreach(LevelUpData data in levelUpDatas)
         {
             if(data.level == e.toLevel) shooters.ForEach(x => data.ApplyLevelUp(x));
@@ -98,6 +108,11 @@ public abstract class ActionController : MonoBehaviour, ISavable
         }
     }
 
+    protected virtual void OnDisable()
+    {
+        if (gameManager != null) gameManager.OnGameStateChange -= StopShooters;
+    }
+
     public float GetCost()
     {
         return cost;
@@ -106,6 +121,11 @@ public abstract class ActionController : MonoBehaviour, ISavable
     public float GetHealth()
     {
         return health;
+    }
+
+    public WeaponClass GetWeaponClass()
+    {
+        return shooters[0].weaponClass;
     }
 
     public void RaiseHealthByPercentage(float percentage)

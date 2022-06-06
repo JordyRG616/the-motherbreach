@@ -6,7 +6,11 @@ using StringHandler;
 public class HealEffect : ActionEffect
 {
     [SerializeField] [Range(0, 1)] private float initialHealPercentage;
+    [SerializeField] private float maxRadius;
     private SupportController controller;
+    private float ogRadius;
+
+    private string extraInfo = "a neighbouring turret";
 
     public override Stat specializedStat => Stat.Efficiency;
 
@@ -30,6 +34,8 @@ public class HealEffect : ActionEffect
         base.Initiate();
 
         controller = GetComponent<SupportController>();
+
+        ogRadius = GetComponent<CircleCollider2D>().radius;
     }
 
     public override void ApplyEffect(HitManager hitManager)
@@ -60,7 +66,7 @@ public class HealEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        return "heals a neighboring turret for " + StatColorHandler.DamagePaint((StatSet[Stat.Efficiency] * 100).ToString()) + "% of it's maximum health " + StatColorHandler.StatPaint(StatSet[Stat.Triggers].ToString()) + " times";
+        return "heals " + extraInfo + " for " + StatColorHandler.DamagePaint((StatSet[Stat.Efficiency] * 100).ToString()) + "% of it's maximum health. repeats " + StatColorHandler.StatPaint(StatSet[Stat.Triggers].ToString()) + " times and cannot target itself";
     }
 
     public override string upgradeText(int nextLevel)
@@ -72,18 +78,23 @@ public class HealEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel < 5)
-        {
-            var value = StatSet[Stat.Efficiency];
-            value *= 1.15f;
-            SetStat(Stat.Efficiency, value);
-        }
-        else
-        {
-            var _tr = StatSet[Stat.Triggers];
-            _tr ++;
-            SetStat(Stat.Triggers, _tr);
-        }
+        GetComponent<CircleCollider2D>().radius = maxRadius;
+        extraInfo = "a random turret in the ship";
     }
 
+    public override void RemoveLevelUp()
+    {
+        GetComponent<CircleCollider2D>().radius = ogRadius;
+        extraInfo = "a neighbouring turret";
+    }
+
+    public override void RaiseInitialSpecializedStat(float percentage)
+    {
+        initialHealPercentage *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        
+    }
 }

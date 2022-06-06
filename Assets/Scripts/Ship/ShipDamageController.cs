@@ -25,6 +25,7 @@ public class ShipDamageController : MonoBehaviour, IDamageable
 
     private WaitForEndOfFrame waitTime = new WaitForEndOfFrame();
     private WaitForSeconds blinkTime = new WaitForSeconds(0.15f);
+    private WaitForSeconds regenTime = new WaitForSeconds(1f);
     private float currentHealth
     {
         get
@@ -37,6 +38,9 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         }
     }
     private float _cHealth;
+
+    private float healthRegen = 0;
+    private float damageReduction = 0;
     
     void Awake()
     {
@@ -50,6 +54,7 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         textMesh = healthUI.transform.Find("Value").GetComponent<TextMeshProUGUI>();
 
         StartCoroutine(ManageGUIUpdate());
+        StartCoroutine(Regen());
     }
 
     public void DestroyDamageable()
@@ -59,7 +64,7 @@ public class ShipDamageController : MonoBehaviour, IDamageable
 
     public void UpdateHealth(float amount)
     {
-        currentHealth += amount;
+        currentHealth += amount * (1 - damageReduction);
         if(currentHealth <= 0)
         {
             StartCoroutine(DeathAnimation());
@@ -119,6 +124,16 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         fill.localScale = new Vector2(percentage, fill.localScale.y);
 
         textMesh.text = currentHealth.ToString("0");
+    }
+
+    private IEnumerator Regen()
+    {
+        while(gameObject.activeSelf)
+        {
+            yield return regenTime;
+
+            if(GameManager.Main.gameState == GameState.OnWave) UpdateHealthNoEffects(healthRegen);
+        }
     }
 
     private IEnumerator Blink()
@@ -189,5 +204,19 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         
         var newUpdate = UpdateGUI();
         enqueuedUpdates.Enqueue(newUpdate);
+    }
+
+    public void ModifyHealthRegen(float amount)
+    {
+        healthRegen += amount;
+    }
+
+    public void ModifyDamageReduction(float amount)
+    {
+        damageReduction += amount;
+        if(damageReduction > 1)
+        {
+            damageReduction = 1;
+        }
     }
 }

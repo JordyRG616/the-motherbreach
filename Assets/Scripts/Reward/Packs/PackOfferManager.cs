@@ -38,6 +38,7 @@ public class PackOfferManager : MonoBehaviour
     [SerializeField] private List<Pack> packs;
     private List<Pack> unlockedPacks = new List<Pack>();
     private List<int> unlockedIndexes = new List<int>();
+    private bool tutorialTaken;
 
     void Start()
     {
@@ -74,6 +75,11 @@ public class PackOfferManager : MonoBehaviour
 
     public void IniatiatePackChoice()
     {
+        if(!tutorialTaken)
+        {
+            FindObjectOfType<TutorialManager>().TriggerTechTutorial();
+            tutorialTaken = true;
+        }
         var rewardPacks = SelectPacks();
 
         for(int i = 0; i < packBoxes.Count; i++)

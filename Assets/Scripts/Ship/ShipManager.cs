@@ -30,6 +30,8 @@ public class ShipManager : MonoBehaviour, ISavable
     public List<Artifact> artifacts {get; private set;} = new List<Artifact>();
     private ArtifactsPanel artifactsPanel;
 
+    private List<ShipSubroutine> subroutines = new List<ShipSubroutine>();
+
     void Awake()
     {
         gameManager = GameManager.Main;
@@ -87,6 +89,12 @@ public class ShipManager : MonoBehaviour, ISavable
         artifact.Initialize();
         artifacts.Add(artifact);
         artifactsPanel.CreateNewBox(artifact);
+    }
+
+    public void ReceiveSubroutine(ShipSubroutine subroutine)
+    {
+        subroutines.Add(subroutine);
+        subroutines.ForEach(x => x.UpdateSubroutine());
     }
 
     public Dictionary<string, byte[]> GetData()

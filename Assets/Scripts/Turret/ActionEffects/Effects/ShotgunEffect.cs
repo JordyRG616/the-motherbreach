@@ -81,4 +81,14 @@ public class ShotgunEffect : ActionEffect
         projectiles += 1;
         SetStat(Stat.Projectiles, projectiles);
     }
+
+    public override void RaiseInitialSpecializedStat(float percentage)
+    {
+        initialProjectiles *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        initialbulletSize += 1 + percentage;
+    }
 }

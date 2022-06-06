@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Interceptor_SpecialState : BossState
 {
-    [SerializeField] private List<WeaponTag> weaponsOnEnter;
-    [SerializeField] private List<WeaponTag> weaponsOnAction;
+    [SerializeField] private List<WeaponClass> weaponsOnEnter;
+    [SerializeField] private List<WeaponClass> weaponsOnAction;
     [SerializeField] private float delayToSpreader;
     private float angle;
 

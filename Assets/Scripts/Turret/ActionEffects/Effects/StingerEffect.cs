@@ -5,20 +5,20 @@ using StringHandler;
 
 public class StingerEffect : ActionEffect
 {
-   [SerializeField] private float initialDuration;
-    [SerializeField] private float initialSize;
+   [SerializeField] private float initialProjectiles;
+    [SerializeField] private float initialDuration;
     [SerializeField] private ParticleSystem subShooter;
 
-    public override Stat specializedStat => Stat.Size;
+    public override Stat specializedStat => Stat.Duration;
 
-    public override Stat secondaryStat => Stat.Duration;
+    public override Stat secondaryStat => Stat.Projectiles;
 
     public override void SetData()
     {
-        StatSet.Add(Stat.Size, initialSize);
-        SetBulletSize();
         StatSet.Add(Stat.Duration, initialDuration);
         SetDuration();
+        StatSet.Add(Stat.Projectiles, initialProjectiles);
+        SetProjectiles();
 
         base.SetData();
     }
@@ -26,8 +26,8 @@ public class StingerEffect : ActionEffect
     public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
+        SetProjectiles();
         SetDuration();
-        SetBulletSize();
     }
 
     private void SetDuration()
@@ -39,14 +39,12 @@ public class StingerEffect : ActionEffect
         main.startLifetime = lifetime;
     }
 
-    private void SetBulletSize()
+    private void SetProjectiles()
     {
-        var main = subShooter.main;
-        Vector2 minMax = new Vector2();
-        minMax.x = StatSet[Stat.Size] - 0.5f;
-        minMax.y = StatSet[Stat.Size] + 0.5f;
-        ParticleSystem.MinMaxCurve curve = new ParticleSystem.MinMaxCurve(minMax.x, minMax.y);
-        main.startSize = curve;
+        var emission = shooterParticle.emission;
+        var burst = emission.GetBurst(0);
+        burst.count = new ParticleSystem.MinMaxCurve(StatSet[Stat.Projectiles]);
+        emission.SetBurst(0, burst);
     }
 
     public override void Shoot()
@@ -78,7 +76,7 @@ public class StingerEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "releases a burst of bullets that explodes in a cloud that lasts for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds and deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact to the target";
+        string description = "shoots " + StatColorHandler.StatPaint(StatSet[Stat.Projectiles]) + " bolts that explodes in a cloud that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage]) + " damage on contact";
         return description;
     }
 
@@ -90,21 +88,16 @@ public class StingerEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel < 4) GainDuration();
-        else GainSize(1);
+        
     }
 
-    private void GainSize(float percentage)
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        var size = StatSet[Stat.Size];
-        size += percentage;
-        SetStat(Stat.Size, size);
+        initialDuration *= 1 + percentage;
     }
 
-    private void GainDuration()
+    public override void RaiseInitialSecondaryStat(float percentage)
     {
-        var duration = StatSet[Stat.Duration];
-        duration += 0.5f;
-        SetStat(Stat.Duration, duration);
+        initialProjectiles *= 1 + percentage;
     }
 }

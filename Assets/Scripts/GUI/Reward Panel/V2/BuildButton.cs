@@ -8,7 +8,7 @@ using System;
 
 public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
 {
-    public enum ButtonMode {BUILD, DONE, UPGRADE};
+    public enum ButtonMode {BUILD, DONE, UPGRADE, EVOLVE};
 
 
     [SerializeField] private Sprite clickedSprite;

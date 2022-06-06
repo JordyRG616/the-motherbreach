@@ -84,7 +84,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
                 turret.PreviewLevelUp();
                 buildBox.UpdateStats();
                 buildBox.SetCostToWeaponCost(true);
-                buildButton.mode = BuildButton.ButtonMode.UPGRADE;
+                buildButton.mode = (turret.Level < 3)? BuildButton.ButtonMode.UPGRADE : BuildButton.ButtonMode.DONE;
                 selected = true;
 
                 return;
@@ -108,6 +108,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
                 var turret = upgradeButton.slot.occupyingTurret.GetComponent<TurretManager>();
                 buildButton.mode = BuildButton.ButtonMode.DONE;
                 turret.actionController.LoadStats();
+                turret.actionController.GetShooters().ForEach(x => x.RemoveLevelUp());
                 // turret.Level --;
                 buildBox.UpdateStats();
             }
@@ -137,10 +138,10 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void Unselect(object sender, EventArgs e)
     {
-        // if(!buildBox.OnUpgrade) return;
         activeVFX.Stop();
         var turret = upgradeButton.slot.occupyingTurret.GetComponent<TurretManager>();
         turret.actionController.LoadStats();
+        turret.actionController.GetShooters().ForEach(x => x.RemoveLevelUp());
         // turret.Level --;
     }
 
