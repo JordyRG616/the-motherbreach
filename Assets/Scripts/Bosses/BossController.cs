@@ -9,13 +9,20 @@ public abstract class BossController : MonoBehaviour, IManager
     [SerializeField] protected BossIdle idle;
     [SerializeField] protected float intervalToCheck;
 
+
     [SerializeField] protected ParticleSystem phaseFeedbackVFX;
     [SerializeField] [FMODUnity.EventRef] protected string phaseFeedbackSFX;
     [SerializeField] protected ParticleSystem secondPhaseTrail;
 
     [SerializeField] protected string bossMusic;
     [SerializeField] protected string musicParameterName;
+    [SerializeField] [FMODUnity.EventRef] private string movementSFX;
+    private bool playingSFX;
+    private FMOD.Studio.EventInstance burnerInstance;
+
     protected FMOD.Studio.EventInstance musicInstance;
+    private AudioManager audioManager;
+
 
     protected BossHealthController healthController;
     protected BossPhase activePhase;
@@ -23,11 +30,11 @@ public abstract class BossController : MonoBehaviour, IManager
     protected Transform ship;
     protected float chanceToAct = 0;
     protected WaitForSeconds waitTime;
-    protected bool onAction;
+    public bool onAction;
     public string currentTrigger {get; protected set;}
     protected int upgraded;
 
-    protected Animator animator;
+    public Animator animator {get; protected set;}
 
     public delegate void BossMovement();
     public BossMovement movement;
@@ -37,7 +44,6 @@ public abstract class BossController : MonoBehaviour, IManager
 
     protected virtual void Awake()
     {
-        AudioManager.Main.RequestBossMusic(bossMusic, out musicInstance);
 
         healthController = GetComponent<BossHealthController>();
         healthController.Initiate();
@@ -51,6 +57,11 @@ public abstract class BossController : MonoBehaviour, IManager
         StartCoroutine(ManageActions());
 
         phases.ForEach(x => x.Initiate());
+
+        audioManager = AudioManager.Main;
+
+        audioManager.RequestBossMusic(bossMusic, out musicInstance);
+        PlayMovementSFX();
     }
 
     public void VerifyPhase()
@@ -148,6 +159,7 @@ public abstract class BossController : MonoBehaviour, IManager
         }
 
         ActivateAnimation("Move");
+        onAction = false;
 
         chanceToAct = 0;
     }
@@ -203,6 +215,24 @@ public abstract class BossController : MonoBehaviour, IManager
         musicInstance.setParameterByName(musicParameterName, 3);
     }
 
+    public void PlayMovementSFX()
+    {
+        if(!playingSFX)
+        {
+            audioManager.RequestSFX(movementSFX, out burnerInstance);
+            playingSFX = true;
+        }
+    }
+
+    public void StopMovementSFX()
+    {
+        if(playingSFX)
+        {
+            audioManager.StopSFX(burnerInstance);
+            playingSFX = false;
+        }
+    }
+
     public void Sleep()
     {
 
@@ -225,7 +255,6 @@ public abstract class BossController : MonoBehaviour, IManager
         currentAction = null;
         bossAction = null;
         movement = idle.IdleMove;
-        onAction = false;
     }
 }
 

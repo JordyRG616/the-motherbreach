@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TurretSlot : MonoBehaviour
 {
+    public int index;
+    public string slotID;
     public GameObject occupyingTurret{get; private set;}
     private bool occupied = false;
 
@@ -17,11 +19,15 @@ public class TurretSlot : MonoBehaviour
         //occupyingTurret = Instantiate(turret, Vector3.zero, transform.rotation, transform);
         // turret.transform.position = transform.position;
         occupyingTurret = turret;
-        occupyingTurret.GetComponent<TrackingDevice>().StopTracking();
+        if(occupyingTurret.TryGetComponent<TrackingDevice>(out var device))
+        {   
+            device.StopTracking();
+        }
         occupyingTurret.transform.SetParent(transform);
         occupyingTurret.transform.rotation = transform.rotation;
         occupyingTurret.transform.localPosition = Vector2.zero;
         occupyingTurret.GetComponent<TurretManager>().ReceiveInitialRotation(transform.eulerAngles.z);
+        occupyingTurret.GetComponent<TurretManager>().slotId = slotID;
 
         foreach(TurretVFXManager vfx in occupyingTurret.GetComponentsInChildren<VFXManager>())
         {   

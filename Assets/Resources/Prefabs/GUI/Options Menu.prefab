@@ -6528,8 +6528,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb7f502e29cf744cbbeb68a1c9ecb5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlight: {fileID: 1637401670}
-  hoverParticles: {fileID: 326370405}
+  highlightableText: {fileID: 0}
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}
   eventToTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -6547,6 +6547,13 @@ MonoBehaviour:
         m_CallState: 2
   clickSFX: event:/UI/Title/Title_OptionsBack
   hoverSFX: event:/UI/Title/Title_ButtonMouseEnter
+  targetedSize: {x: 0, y: 0}
+  onExpand:
+    m_PersistentCalls:
+      m_Calls: []
+  onContract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &685757662
 GameObject:
   m_ObjectHideFlags: 0
@@ -14443,8 +14450,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb7f502e29cf744cbbeb68a1c9ecb5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlight: {fileID: 842621644}
-  hoverParticles: {fileID: 1293997973}
+  highlightableText: {fileID: 0}
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}
   eventToTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -14462,6 +14469,13 @@ MonoBehaviour:
         m_CallState: 2
   clickSFX: event:/UI/Title/Title_Options2
   hoverSFX: event:/UI/Title/Title_ButtonMouseEnter
+  targetedSize: {x: 0, y: 0}
+  onExpand:
+    m_PersistentCalls:
+      m_Calls: []
+  onContract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1790248187
 GameObject:
   m_ObjectHideFlags: 0
@@ -15940,8 +15954,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb7f502e29cf744cbbeb68a1c9ecb5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlight: {fileID: 971848276976266804}
-  hoverParticles: {fileID: 971848275952721432}
+  highlightableText: {fileID: 0}
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}
   eventToTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -15983,6 +15997,13 @@ MonoBehaviour:
         m_CallState: 2
   clickSFX: event:/UI/Title/Title_Click1
   hoverSFX: event:/UI/Title/Title_Click2
+  targetedSize: {x: 0, y: 0}
+  onExpand:
+    m_PersistentCalls:
+      m_Calls: []
+  onContract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &971848275506280900
 GameObject:
   m_ObjectHideFlags: 0
@@ -16229,8 +16250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb7f502e29cf744cbbeb68a1c9ecb5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlight: {fileID: 971848277315273596}
-  hoverParticles: {fileID: 971848277567403666}
+  highlightableText: {fileID: 0}
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}
   eventToTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -16248,6 +16269,13 @@ MonoBehaviour:
         m_CallState: 2
   clickSFX: event:/UI/Title/Title_OptionsBack
   hoverSFX: event:/UI/Title/Title_ButtonMouseEnter
+  targetedSize: {x: 0, y: 0}
+  onExpand:
+    m_PersistentCalls:
+      m_Calls: []
+  onContract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &971848275665127992
 GameObject:
   m_ObjectHideFlags: 0
@@ -35922,8 +35950,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb7f502e29cf744cbbeb68a1c9ecb5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlight: {fileID: 971848276425809636}
-  hoverParticles: {fileID: 971848276532441550}
+  highlightableText: {fileID: 0}
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}
   eventToTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -35965,6 +35993,13 @@ MonoBehaviour:
         m_CallState: 2
   clickSFX: event:/UI/Title/Title_Click1
   hoverSFX: event:/UI/Title/Title_Click2
+  targetedSize: {x: 0, y: 0}
+  onExpand:
+    m_PersistentCalls:
+      m_Calls: []
+  onContract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &971848277150205549
 GameObject:
   m_ObjectHideFlags: 0
@@ -37440,8 +37475,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb7f502e29cf744cbbeb68a1c9ecb5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlight: {fileID: 971848277014389161}
-  hoverParticles: {fileID: 971848276403988727}
+  highlightableText: {fileID: 0}
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}
   eventToTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -37483,6 +37518,13 @@ MonoBehaviour:
         m_CallState: 2
   clickSFX: event:/UI/Title/Title_Click1
   hoverSFX: event:/UI/Title/Title_Click2
+  targetedSize: {x: 0, y: 0}
+  onExpand:
+    m_PersistentCalls:
+      m_Calls: []
+  onContract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &971848277567403665
 GameObject:
   m_ObjectHideFlags: 0

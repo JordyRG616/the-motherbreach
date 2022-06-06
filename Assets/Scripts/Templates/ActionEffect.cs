@@ -4,13 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using StringHandler;
 
-public abstract class ActionEffect : MonoBehaviour
+public abstract class ActionEffect : MonoBehaviour, ISavable
 {
+
     [SerializeField] protected ParticleSystem shooterParticle;
     [SerializeField] protected LayerMask targetLayer;
     [SerializeField] protected Keyword keyword;
-    public WeaponTag tags;
+    public WeaponClass weaponClass;
     protected GameObject target;
 
     [Header("Initial basic stats")]
@@ -27,7 +29,7 @@ public abstract class ActionEffect : MonoBehaviour
     public string secondaryStatText;
 
     protected AudioManager audioManager;
-    protected GameManager gameManager;
+    protected GameManager gameManager; 
     [SerializeField] [FMODUnity.EventRef] protected string onShootSFX;
     protected List<FMOD.Studio.EventInstance> sfxInstances = new List<FMOD.Studio.EventInstance>();
 
@@ -38,13 +40,16 @@ public abstract class ActionEffect : MonoBehaviour
     protected int cachedCount = 0;
     protected bool onRest;
     protected float cooldown;
-    public float initialRotation;
+    [HideInInspector] public float initialRotation;
+    private bool initiated;
+    protected bool maxedOut;
 
     [Header("Debug")]
     public string[] debugStats = new string[0];
 
     public virtual void Initiate()
     {
+        if(initiated) return;
         shooterParticle.Stop(true);
 
         SetData();
@@ -56,6 +61,7 @@ public abstract class ActionEffect : MonoBehaviour
 
         audioManager = AudioManager.Main;
 
+        initiated = true;
     }
 
     public abstract string DescriptionText();
@@ -77,6 +83,12 @@ public abstract class ActionEffect : MonoBehaviour
 
     public abstract void LevelUp(int toLevel);
 
+    public virtual void RemoveLevelUp()
+    {
+        //if (!maxedOut) return;
+        //maxedOut = false;
+    }
+
     public virtual void SetData()
     {
         StatSet.Add(Stat.Damage, initialDamage);
@@ -91,13 +103,18 @@ public abstract class ActionEffect : MonoBehaviour
         if(StatSet.ContainsKey(statName))
         {
             StatSet[statName] = value;
-            StatSet[statName] = (float)Math.Round(StatSet[statName], 1);
+            StatSet[statName] = (float)Math.Round(StatSet[statName], 2);
         } 
     }
 
     public virtual void ReceiveTarget(GameObject parentTarget)
     {
         target = parentTarget;
+    }
+
+    public GameObject GetTarget()
+    {
+        return target;
     }
 
     public virtual void Shoot()
@@ -203,7 +220,7 @@ public abstract class ActionEffect : MonoBehaviour
         if(gameManager != null) gameManager.OnGameStateChange -= ClearShots;
     }
 
-    protected virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
+    public virtual void ApplyStatusEffect<T>(HitManager target, float duration, params float[] parameters) where T : StatusEffect
     {   
         if(target.IsUnderEffect<T>(out var status)) status.DestroyEffect();
         var effect = target.gameObject.AddComponent<T>();
@@ -229,6 +246,7 @@ public abstract class ActionEffect : MonoBehaviour
 
     public float GetRestPercentual()
     {
+        if(!StatSet.ContainsKey(Stat.Rest)) return 0;
         return cooldown / StatSet[Stat.Rest];
     }
 
@@ -237,4 +255,37 @@ public abstract class ActionEffect : MonoBehaviour
         cooldown = 0;
         onRest = true;
     }
+
+    public void RaiseInitialDamage(float percentage)
+    {
+        initialDamage *= 1 + percentage;
+    }
+
+    public void RaiseInitialRest(float percentage)
+    {
+        initialRest *= 1 + percentage;
+    }
+
+    public virtual void RaiseInitialSpecializedStat(float percentage) { }
+    public virtual void RaiseInitialSecondaryStat(float percentage) { }
+
+    public Dictionary<string, byte[]> GetData()
+    {
+        var container = new Dictionary<string, byte[]>();
+
+        foreach(Stat stat in StatSet.Keys)
+        {
+            var key = stat.ToString();
+            var value = BitConverter.GetBytes(StatSet[stat]);
+            container.Add(key, value);
+        }
+
+        return container;
+    }
+
+    public void LoadData(SaveFile saveFile)
+    {
+        
+    }
+
 }

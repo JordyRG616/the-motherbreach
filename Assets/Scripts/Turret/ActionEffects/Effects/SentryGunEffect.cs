@@ -7,18 +7,20 @@ using System;
 public class SentryGunEffect : ActionEffect
 {
     [SerializeField] private float rateMultiplier;
-    [SerializeField] private float duration;
+    [SerializeField] private float initialBulletSpeed;
 
-    public override Stat specializedStat => Stat.Rate;
+    public override Stat specializedStat => Stat.BulletSpeed;
 
-    public override Stat secondaryStat => Stat.Duration;
+    public override Stat secondaryStat => Stat.Rate;
+
+    private string extraInfo = "for 3 seconds";
 
     public override void SetData()
     {
         StatSet.Add(Stat.Rate, rateMultiplier);
         SetRateMultiplier();
-        StatSet.Add(Stat.Duration, duration);
-        SetDuration();
+        StatSet.Add(Stat.BulletSpeed, initialBulletSpeed);
+        SetBulletSpeed();
 
         base.SetData();
     }
@@ -27,7 +29,7 @@ public class SentryGunEffect : ActionEffect
     {
         base.SetStat(statName, value);
         SetRateMultiplier();
-        SetDuration();
+        SetBulletSpeed();
     }
 
     private void SetRateMultiplier()
@@ -36,10 +38,10 @@ public class SentryGunEffect : ActionEffect
         emission.rateOverTimeMultiplier = StatSet[Stat.Rate];
     }
 
-    private void SetDuration()
+    private void SetBulletSpeed()
     {
         var main = shooterParticle.main;
-        main.duration = StatSet[Stat.Duration];
+        main.startSpeed = StatSet[Stat.BulletSpeed];
     }
 
     public override void ApplyEffect(HitManager hitManager)
@@ -49,7 +51,7 @@ public class SentryGunEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "shoots " + StatColorHandler.StatPaint(StatSet[Stat.Rate].ToString()) + " bullets per second for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + ". Each bullet deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
+        string description = "shoots " + StatColorHandler.StatPaint(StatSet[Stat.Rate].ToString()) + " bullets per second " + extraInfo + ". Each bullet deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
         return description;
     }
 
@@ -61,21 +63,27 @@ public class SentryGunEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 2 || toLevel == 4) ReduceRest();
-        else GainRate();
+        var main = shooterParticle.main;
+        main.loop = true;
+
+        extraInfo = "continuously";
     }
 
-    private void ReduceRest()
+    public override void RemoveLevelUp()
     {
-        var rest = StatSet[Stat.Rest];
-        rest *= .9f;
-        SetStat(Stat.Rest, rest);
+        var main = shooterParticle.main;
+        main.loop = false;
+
+        extraInfo = "for 3 seconds";
     }
 
-    private void GainRate()
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        var rate = StatSet[Stat.Rate];
-        rate *= 1.15f;
-        SetStat(Stat.Rate, rate);
+        initialBulletSpeed *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        rateMultiplier *= 1 + percentage;
     }
 }

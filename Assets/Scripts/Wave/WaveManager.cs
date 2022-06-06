@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class WaveManager : MonoBehaviour
+public class WaveManager : MonoBehaviour, ISavable
 {
     #region Singleton
     private static WaveManager _instance;
@@ -46,10 +46,15 @@ public class WaveManager : MonoBehaviour
     private WaveData activeWave;
     private ShipManager ship;
     private int spawnIndex;
+    private int waveIndex;
     public List<FormationManager> activeFormations {get; private set;} = new List<FormationManager>();
     public List<BossController> activeBosses {get; private set;} = new List<BossController>();
     private TutorialManager tutorialManager;
     private ProgressionMeter progressionMeter;
+
+    [SerializeField] private GameObject Jailship;
+    private float jailshipChance;
+    private float chanceIncrement = 0.01f;
 
     public event EventHandler<EndWaveEventArgs> OnWaveEnd;
     private EndWaveEventArgs defaultArg = new EndWaveEventArgs();
@@ -99,14 +104,14 @@ public class WaveManager : MonoBehaviour
 
     public void StartNextWave()
     {
-        FindObjectOfType<ShipController>().GetComponent<Rigidbody2D>().WakeUp();
+        GameManager.Main.SaveGame();
 
-        AudioManager.Main.GetAudioTrack("SFX").UnpauseAudio();
-        AudioManager.Main.SwitchMusicTracks("Music");
+        FindObjectOfType<ShipController>().GetComponent<Rigidbody2D>().WakeUp();
 
         if(dataQueue.Count > 0)
         {
             activeWave = dataQueue.Dequeue();
+            waveIndex ++;
             activeWave.SetQueue();
             spawnIndex = 0;
             StartCoroutine(InstantiateFormations());
@@ -132,12 +137,12 @@ public class WaveManager : MonoBehaviour
 
         activeFormations.Clear();
 
-
         while(activeWave.breachQueue.Count > 0)
         {
             var breach = activeWave.breachQueue.Dequeue();
             breach.SetQueue();
             Vector2 spwPos = PositionToSpawn();
+            
             if(breach.spawnInSamePosition)
             {
                 StartCoroutine(CreateSpawnVFX(spwPos, 5));
@@ -155,7 +160,7 @@ public class WaveManager : MonoBehaviour
                         StartCoroutine(CreateSpawnVFX(spwPos, 5, true));
                         yield return new WaitForSeconds(1f);
                     } 
-                    var boss = Instantiate(breach.formationQueue.Dequeue(), spwPos, Quaternion.identity);
+                    var boss = Instantiate(breach.GetRandomBoss(), spwPos, Quaternion.identity);
 
                     activeBosses.Add(boss.GetComponent<BossController>());
 
@@ -174,9 +179,13 @@ public class WaveManager : MonoBehaviour
                         AudioManager.Main.RequestSFX(onFormationSpawnSFX);
                         yield return new WaitForSeconds(1f);
                     }
+
                     var nextFormation = breach.formationQueue.Dequeue();
+
                     if(nextFormation != null)
                     {
+                        CheckJailshipChance(-spwPos);
+                        
                         var formation = Instantiate(nextFormation, spwPos, Quaternion.identity);
                         var manager = formation.GetComponent<FormationManager>();
 
@@ -196,6 +205,26 @@ public class WaveManager : MonoBehaviour
             yield return new WaitForSeconds(breach.intervalTillNextWave);
         }
 
+    }
+
+    private void CheckJailshipChance(Vector3 position)
+    {
+        if(GameManager.Main.GetPilotIndexToUnlock() == -1) return;
+
+        var rdm = UnityEngine.Random.Range(0, 1f);
+
+        Debug.Log(rdm + " / " + jailshipChance); 
+
+        if(rdm > jailshipChance)
+        {
+            jailshipChance += chanceIncrement;
+            return;
+        } 
+
+        var container = Instantiate(Jailship, position, Quaternion.identity);
+        var formationPointer = Instantiate(pointer, container.transform.position, Quaternion.identity);
+        formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(container.transform);
+        jailshipChance = 0;
     }
 
     private IEnumerator CreateSpawnVFX(Vector3 position, float duration, bool bossWave = false)
@@ -219,10 +248,6 @@ public class WaveManager : MonoBehaviour
         activeFormations.Remove(sender as FormationManager);
         if(CheckForEndOfWave())
         {
-            // if(dataQueue.Count == 0)
-            // {
-            //     GameManager.Main.Win();
-            // } 
             StartCoroutine(EndWave());
         } 
     }
@@ -230,13 +255,10 @@ public class WaveManager : MonoBehaviour
     internal void RemoveBoss(BossController bossController)
     {
         activeBosses.Remove(bossController);
+        chanceIncrement += 0.01f;
         
         if(CheckForEndOfWave())
         {
-            // if(dataQueue.Count == 0)
-            // {
-            //     GameManager.Main.Win();
-            // } 
             StartCoroutine(EndWave());
         } 
     }
@@ -249,7 +271,6 @@ public class WaveManager : MonoBehaviour
     private IEnumerator EndWave()
     {
         endOfWaveVFX.Play();
-        // AudioManager.Main.StopMusicTrack();
         AudioManager.Main.RequestGUIFX(endOfWaveSFX);
         yield return StartCoroutine(endOfWaveAnimation.Forward());
 
@@ -266,6 +287,9 @@ public class WaveManager : MonoBehaviour
             GameManager.Main.Win();
         }
 
+        AudioManager.Main.GetAudioTrack("SFX").PauseAudio();
+        AudioManager.Main.SwitchMusicTracks("Special");
+
         progressionMeter.AdvanceMarker();
 
         StopAllCoroutines();
@@ -277,7 +301,27 @@ public class WaveManager : MonoBehaviour
     {
         StartCoroutine(InstantiateFormations());
     }
-    
+
+    public Dictionary<string, byte[]> GetData()
+    {
+        var container = new Dictionary<string, byte[]>();
+
+        container.Add("waveIndex", BitConverter.GetBytes(waveIndex));
+
+        return container;
+    }
+
+    public void LoadData(SaveFile saveFile)
+    {
+        if(dataQueue.Count == 0) return;
+        var count = BitConverter.ToInt32(saveFile.GetValue("waveIndex"));
+        waveIndex = count;
+        for (int i = 0; i < count; i++)
+        {
+            dataQueue.Dequeue();
+            progressionMeter.AdvanceMarker();
+        }
+    }
 }
 
 public class EndWaveEventArgs : EventArgs

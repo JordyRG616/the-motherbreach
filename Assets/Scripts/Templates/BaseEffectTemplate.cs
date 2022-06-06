@@ -5,11 +5,12 @@ using UnityEngine;
 
 public abstract class BaseEffectTemplate : MonoBehaviour
 {
+    public int baseID;
     [SerializeField] protected EffectTrigger trigger;
     public bool targetStats;
     [SerializeField] protected List<Stat> targetedStats;
     public bool targetTags;
-    [SerializeField] protected List<WeaponTag> targetedTags;
+    [SerializeField] protected List<WeaponClass> targetedClasses;
     [SerializeField] protected float cost;
     [SerializeField] protected Keyword keyword;
     public bool previewable;
@@ -106,9 +107,9 @@ public abstract class BaseEffectTemplate : MonoBehaviour
         else return false;
     }
 
-    public bool ContainsTag(WeaponTag tagToCheck)
+    public bool ContainsTag(WeaponClass tagToCheck)
     {
-        foreach(WeaponTag tag in targetedTags)
+        foreach(WeaponClass tag in targetedClasses)
         {
             if(tagToCheck.HasFlag(tag)) return true;
         }

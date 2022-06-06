@@ -34,6 +34,9 @@ public class TurretConstructor : MonoBehaviour
 
 
     [SerializeField] private GameObject TurretTemplate;
+    [SerializeField] private List<GameObject> allWeapons;
+    [SerializeField] private List<GameObject> allBases;
+
     private int lastRdmBase = int.MaxValue;
     private int lastRdmWeapon = int.MaxValue;
     private RewardCalculator rewardCalculator;
@@ -153,5 +156,43 @@ public class TurretConstructor : MonoBehaviour
                 RewardManager.Main.OnTurretBuild += effect.HandleCommonTrigger;
             break;
         }
+    }
+
+    public GameObject GetWeaponById(int weaponID)
+    {
+        var weapon = allWeapons.Find(x => x.GetComponent<ActionController>().weaponID == weaponID);
+        var weaponInstance = Instantiate(weapon, Vector3.zero, Quaternion.identity);
+        weaponInstance.name = weapon.name;
+        weaponInstance.GetComponent<ActionController>().Initiate();
+        weaponInstance.SetActive(false);
+        return weaponInstance;
+    }
+
+    public GameObject GetWeaponPrefabById(int weaponID)
+    {
+        var weapon = allWeapons.Find(x => x.GetComponent<ActionController>().weaponID == weaponID);
+        // var weaponInstance = Instantiate(weapon, Vector3.zero, Quaternion.identity);
+        // weaponInstance.name = weapon.name;
+        // weaponInstance.GetComponent<ActionController>().Initiate();
+        // weaponInstance.SetActive(false);
+        return weapon;
+    }
+
+    public GameObject GetBaseById(int baseID)
+    {
+        var _base = allBases.Find(x => x.GetComponent<BaseEffectTemplate>().baseID == baseID);
+        var baseInstance = Instantiate(_base, Vector3.zero, Quaternion.identity);
+        baseInstance.name = _base.name;
+        baseInstance.SetActive(false);
+        return baseInstance;
+    }
+
+    public GameObject GetBasePrefabById(int baseID)
+    {
+        var _base = allBases.Find(x => x.GetComponent<BaseEffectTemplate>().baseID == baseID);
+        // var baseInstance = Instantiate(_base, Vector3.zero, Quaternion.identity);
+        // baseInstance.name = _base.name;
+        // baseInstance.SetActive(false);
+        return _base;
     }
 }

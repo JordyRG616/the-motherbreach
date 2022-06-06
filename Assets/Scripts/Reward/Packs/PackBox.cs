@@ -9,6 +9,7 @@ public class PackBox : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameMesh;
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI description;
+    [SerializeField] private TextMeshProUGUI requirement;
     [SerializeField] private RectTransform componentsPanel;
     [SerializeField] private GameObject componentBox;
     [SerializeField] private Color weaponColor;
@@ -21,12 +22,15 @@ public class PackBox : MonoBehaviour
     public void ConfigureBox(Pack pack)
     {
         storagedPack = pack;
-        nameMesh.text = pack.name;
-        iconImage.sprite = pack.icon;
-        iconImage.GetComponent<Animator>().SetInteger("Index", pack.index);
-        description.text = pack.description;
+        storagedPack.Initiate();
+        nameMesh.text = storagedPack.name;
+        iconImage.sprite = storagedPack.icon;
+        iconImage.GetComponent<Animator>().SetInteger("Index", storagedPack.index);
+        description.text = storagedPack.selectedSubroutine.description;
+        requirement.text = " " + storagedPack.selectedSubroutine.RequirementText();
 
-        foreach(GameObject component in pack.rewards)
+
+        foreach(GameObject component in storagedPack.rewards)
         {
             NewComponentBox(component);
         }
@@ -81,6 +85,7 @@ public class PackBox : MonoBehaviour
     public void SelectPack()
     {
         RewardCalculator.Main.ReceiveRewards(storagedPack.rewards);
+        ShipManager.Main.ReceiveSubroutine(storagedPack.selectedSubroutine);
         PackOfferManager.Main.RemovePack(storagedPack);
     }
 }

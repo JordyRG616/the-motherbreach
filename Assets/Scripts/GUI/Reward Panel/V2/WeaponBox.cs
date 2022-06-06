@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     private BuildBox buildBox;
     private bool selected;
     private RectTransform statInfoBox;
+    private BuildButton buildButton;
 
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
@@ -26,6 +28,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color selectable;
     [SerializeField] private Color notSelectable;
+    private UpgradeButton upgradeButton;
     
 
     void Start()
@@ -36,6 +39,9 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         GetComponent<Image>().material = _material;
         light2D = GetComponentInChildren<Light2D>();
         statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
+        upgradeButton = FindObjectOfType<UpgradeButton>();
+        // FindObjectOfType<InputManager>().OnSelectionClear += Unselect;
+        buildButton = FindObjectOfType<BuildButton>();
     }
 
     public void GenerateNewWeapon()
@@ -50,41 +56,93 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+
         if(cachedWeapon == null || RewardManager.Main.ActiveSelection)
         {
-            AudioManager.Main.PlayInvalidSelection();
+            AudioManager.Main.PlayInvalidSelection("");
             return;
         }
-        if(buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && !buildBox.CheckWeaponBox(this) && !buildBox.OnUpgrade) 
+        if(buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && !buildBox.CheckWeaponBox(this)) 
         {
-            activeVFX.Play();
-            light2D.color = selectedColor;
-            AudioManager.Main.RequestGUIFX(clickSFX);
-            buildBox.ReceiveWeapon(cachedWeapon, this);
-            selected = true;
-            return;
+            if(!buildBox.OnUpgrade)
+            {
+                activeVFX.Play();
+                light2D.color = selectedColor;
+                AudioManager.Main.RequestGUIFX(clickSFX);
+                buildBox.ReceiveWeapon(cachedWeapon, this);
+                selected = true;
+                return;
+            }
+            else if(upgradeButton.onUpgrade && IsSameWeapon())
+            {
+                activeVFX.Play();
+                light2D.color = selectedColor;
+                AudioManager.Main.RequestGUIFX(clickSFX);
+                buildBox.ReceiveWeaponBox(this);
+                var turret = upgradeButton.slot.occupyingTurret.GetComponent<TurretManager>();
+                turret.PreviewLevelUp();
+                buildBox.UpdateStats();
+                buildBox.SetCostToWeaponCost(true);
+                buildButton.mode = (turret.Level < 3)? BuildButton.ButtonMode.UPGRADE : BuildButton.ButtonMode.DONE;
+                selected = true;
+
+                return;
+            }
+
+
         }
         else if(buildBox.CheckWeaponBox(this))
         {
-            AudioManager.Main.RequestGUIFX(returnSFX);
-            buildBox.ClearWeapon(out cachedWeapon);
-            image.color = Color.white;
-            selected = false;
-            return;
+            if(!buildBox.OnUpgrade)
+            {
+                AudioManager.Main.RequestGUIFX(returnSFX);
+                buildBox.ClearWeapon(out cachedWeapon);
+                image.color = Color.white;
+                selected = false;
+                return;
+            }
+            else
+            {
+                buildBox.ClearWeaponBox();
+                var turret = upgradeButton.slot.occupyingTurret.GetComponent<TurretManager>();
+                buildButton.mode = BuildButton.ButtonMode.DONE;
+                turret.actionController.LoadStats();
+                turret.actionController.GetShooters().ForEach(x => x.RemoveLevelUp());
+                // turret.Level --;
+                buildBox.UpdateStats();
+            }
         } 
-        AudioManager.Main.PlayInvalidSelection();
+        AudioManager.Main.PlayInvalidSelection("");
+    }
+
+    private bool IsSameWeapon()
+    {
+        if(buildBox.selectedWeapon == null || cachedWeapon == null) return false;
+        return buildBox.selectedWeapon.GetComponent<ActionController>().weaponID == cachedWeapon.GetComponent<ActionController>().weaponID;
     }
 
     void Update()
     {
         light2D.color = notSelectable;
         if(cachedWeapon == null) return;
-        if(buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && cachedWeapon && !buildBox.OnUpgrade) light2D.color = selectable;
+        var check = buildBox.CheckCompability(cachedWeapon.GetComponent<ActionController>()) && cachedWeapon && !buildBox.OnUpgrade;
+        var secondCheck = upgradeButton.onUpgrade && IsSameWeapon();
+        if(check || secondCheck) light2D.color = selectable;
     }
 
     public void Unselect()
     {
         activeVFX.Stop();
+    }
+
+    public void Unselect(object sender, EventArgs e)
+    {
+        activeVFX.Stop();
+        var turret = upgradeButton.slot.occupyingTurret.GetComponent<TurretManager>();
+        turret.actionController.LoadStats();
+        turret.actionController.GetShooters().ForEach(x => x.RemoveLevelUp());
+        // turret.Level --;
     }
 
     public void Detach()

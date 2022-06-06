@@ -12,9 +12,7 @@ public class InterceptorIdle : BossIdle
     [SerializeField] private float distanceToFollow;
     [SerializeField] private float distanceToDisengage;
     [SerializeField] private float disengageDuration;
-    [SerializeField] [FMODUnity.EventRef] private string movementSFX;
-    private bool playingSFX;
-    private FMOD.Studio.EventInstance SFXinstance;
+    
     private float counter;
     private float distance;
     private Vector2 direction;
@@ -49,6 +47,7 @@ public class InterceptorIdle : BossIdle
         perpendicular *= Mathf.Sin(Time.time);
 
         body.AddForce(perpendicular * wiggleSpeed, ForceMode2D.Impulse);
+        controller.StopMovementSFX();
 
         if(moveState != InterceptorMoveState.Wiggle)
         {
@@ -62,7 +61,8 @@ public class InterceptorIdle : BossIdle
         var perpendicular = Vector2.Perpendicular(direction);
         perpendicular +=  perpendicular - direction;
         body.AddForce(perpendicular.normalized * disengageSpeed, ForceMode2D.Impulse);
-        
+        controller.PlayMovementSFX();
+
         if(moveState != InterceptorMoveState.Disengage)
         {
             // Invoke("StopDisengage", disengageDuration);
@@ -84,7 +84,7 @@ public class InterceptorIdle : BossIdle
         var perpendicular = Vector2.Perpendicular(direction) * Mathf.Sin(Time.timeSinceLevelLoad);
         var _direction = perpendicular + direction;
         body.AddForce(_direction.normalized * RisingSpeed, ForceMode2D.Impulse);
-
+        controller.PlayMovementSFX();
     }
 
     void FixedUpdate()

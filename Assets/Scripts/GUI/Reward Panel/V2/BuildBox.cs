@@ -27,11 +27,12 @@ public class BuildBox : MonoBehaviour
 
     [Header("Additional stats")]
     [SerializeField] private List<StatBox> additionalStatBoxes;
-    [SerializeField] private TextMeshProUGUI tags;
+    [SerializeField] private TextMeshProUGUI _class;
+    [SerializeField] private TextMeshProUGUI classDescription;
 
 
 
-    private float weaponCost, baseCost;
+    [HideInInspector] public float weaponCost, baseCost;
     public float TotalCost
     {
         get
@@ -78,6 +79,11 @@ public class BuildBox : MonoBehaviour
         weaponImage.GetComponent<UIAnimations>().Play();
         weaponCost = selectedWeapon.GetComponent<ActionController>().GetCost();
         UpdateStats();
+    }
+
+    public void ReceiveWeaponBox(WeaponBox box)
+    {
+        selectedWeaponBox = box;
     }
 
     public void ReceiveBase(GameObject receveidBase, BaseBox box)
@@ -167,6 +173,12 @@ public class BuildBox : MonoBehaviour
         else costText.text = "-";
     }
 
+    public void SetCostToWeaponCost(bool enabled)
+    {
+        if(enabled) costText.text = weaponCost + "$";
+        else costText.text = "-";
+    }
+
     public void PreviewBaseEffect(GameObject baseToPreview, GameObject weapon)
     {
         var _base = baseToPreview.GetComponent<BaseEffectTemplate>();
@@ -195,19 +207,10 @@ public class BuildBox : MonoBehaviour
         additionalStatBoxes[2].SetValueText(_txt);
         additionalStatBoxes[2].description = effect.secondaryStatText;
 
-        string container = string.Empty;
-
-        foreach(Enum value in Enum.GetValues(effect.tags.GetType()))
-        {
-            if(effect.tags.HasFlag(value)) 
-            {
-                var tag = (WeaponTag)value;
-                if(tag == WeaponTag.none) continue;
-                container += tag.ToSplittedString().ToLower() + "\n";
-            }
-        }
-
-        tags.text = StatColorHandler.RestPaint(container);
+        string container = effect.weaponClass.ToSplittedString();
+        
+        _class.text = StatColorHandler.RestPaint(container);
+        classDescription.text = DescriptionDictionary.Main.GetDescription(effect.weaponClass.ToString());
     }
 
     private string GetTriggerText(EffectTrigger baseEffectTrigger)
@@ -260,7 +263,7 @@ public class BuildBox : MonoBehaviour
         {
             if(testSubject.StatIsTarget(stat)) return true;
         }
-        var tags = controller.GetShooters()[0].tags;
+        var tags = controller.GetShooters()[0].weaponClass;
         return testSubject.ContainsTag(tags);
     }
 
@@ -274,7 +277,7 @@ public class BuildBox : MonoBehaviour
         {
             if(_base.StatIsTarget(stat)) return true;
         }
-        var tags = testSubject.GetShooters()[0].tags;
+        var tags = testSubject.GetShooters()[0].weaponClass;
         return _base.ContainsTag(tags);
     }
 
@@ -295,7 +298,7 @@ public class BuildBox : MonoBehaviour
             box.description = "";
         }
 
-        tags.text = "";
+        _class.text = "";
 
         UpdateStats();
     }
@@ -329,7 +332,7 @@ public class BuildBox : MonoBehaviour
 
     public void ClearWeapon()
     {
-        if (selectedWeaponBox) 
+        if (selectedWeaponBox && !OnUpgrade) 
         {
             selectedWeapon.GetComponent<ActionController>().Reset();
             selectedWeaponBox.Detach();
@@ -343,7 +346,7 @@ public class BuildBox : MonoBehaviour
 
     public void ClearWeapon(out GameObject _weapon)
     {
-        if (selectedWeaponBox) 
+        if (selectedWeaponBox && !OnUpgrade) 
         {
             selectedWeapon.GetComponent<ActionController>().Reset();
             selectedWeaponBox.Detach();
@@ -356,10 +359,16 @@ public class BuildBox : MonoBehaviour
         ResetStats();
     }
 
+    public void ClearWeaponBox()
+    {
+        selectedWeaponBox.Unselect();
+        selectedWeaponBox = null;
+    }
+
     public void ClearBase()
     {
         if (selectedBaseBox) selectedBaseBox.Detach();
-        if (selectedWeaponBox) 
+        if (selectedWeaponBox && !OnUpgrade) 
         {
             selectedWeapon.GetComponent<ActionController>().Reset();
             // selectedWeaponBox.Detach();
@@ -374,7 +383,7 @@ public class BuildBox : MonoBehaviour
     public void ClearBase(out GameObject _base)
     {
         if (selectedBaseBox) selectedBaseBox.Detach();
-        if (selectedWeaponBox) 
+        if (selectedWeaponBox && !OnUpgrade) 
         {
             selectedWeapon.GetComponent<ActionController>().Reset();
             // selectedWeaponBox.Detach();

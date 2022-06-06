@@ -7,19 +7,7 @@
             "m_Id": "e0276f6179e24c12812afa50731c27e5"
         },
         {
-            "m_Id": "0dbe03ee49d542c0b4490bbe88294f6f"
-        },
-        {
             "m_Id": "658ce0e6ac074315b430ed020f4fc057"
-        },
-        {
-            "m_Id": "eecb621018c34953872eb13f3126cb65"
-        },
-        {
-            "m_Id": "f129ef6ebc734bfe8a2692b1ad049025"
-        },
-        {
-            "m_Id": "8c92290eeab24826b46a55ec38989ecf"
         }
     ],
     "m_Keywords": [],
@@ -232,33 +220,6 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
-}
-
-{
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
-    "m_ObjectId": "0dbe03ee49d542c0b4490bbe88294f6f",
-    "m_Guid": {
-        "m_GuidSerialized": "164f151f-0757-449d-9def-c7e0925e2906"
-    },
-    "m_Name": "Speed",
-    "m_DefaultRefNameVersion": 0,
-    "m_RefNameGeneratedByDisplayName": "",
-    "m_DefaultReferenceName": "Vector1_0dbe03ee49d542c0b4490bbe88294f6f",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": true,
-    "hlslDeclarationOverride": 2,
-    "m_Hidden": false,
-    "m_Value": 3.5,
-    "m_FloatType": 0,
-    "m_RangeValues": {
-        "x": 0.0,
-        "y": 1.0
-    }
 }
 
 {
@@ -837,33 +798,6 @@
 }
 
 {
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
-    "m_ObjectId": "8c92290eeab24826b46a55ec38989ecf",
-    "m_Guid": {
-        "m_GuidSerialized": "2dbfe7e5-8e60-4b59-bd46-d6bf024deb93"
-    },
-    "m_Name": "Stripe Size",
-    "m_DefaultRefNameVersion": 0,
-    "m_RefNameGeneratedByDisplayName": "",
-    "m_DefaultReferenceName": "Vector1_8c92290eeab24826b46a55ec38989ecf",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_Value": 0.10000000149011612,
-    "m_FloatType": 1,
-    "m_RangeValues": {
-        "x": 0.0,
-        "y": 0.10000000149011612
-    }
-}
-
-{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.ColorRGBAMaterialSlot",
     "m_ObjectId": "9211f619a6ce4e5fa09d788e89f8e6e6",
@@ -917,19 +851,7 @@
             "m_Id": "e0276f6179e24c12812afa50731c27e5"
         },
         {
-            "m_Id": "0dbe03ee49d542c0b4490bbe88294f6f"
-        },
-        {
             "m_Id": "658ce0e6ac074315b430ed020f4fc057"
-        },
-        {
-            "m_Id": "eecb621018c34953872eb13f3126cb65"
-        },
-        {
-            "m_Id": "f129ef6ebc734bfe8a2692b1ad049025"
-        },
-        {
-            "m_Id": "8c92290eeab24826b46a55ec38989ecf"
         }
     ]
 }
@@ -1121,7 +1043,7 @@
     ],
     "synonyms": [],
     "m_Precision": 0,
-    "m_PreviewExpanded": true,
+    "m_PreviewExpanded": false,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -1175,62 +1097,6 @@
         "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
         "m_Guid": ""
     },
-    "m_DefaultType": 0
-}
-
-{
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
-    "m_ObjectId": "eecb621018c34953872eb13f3126cb65",
-    "m_Guid": {
-        "m_GuidSerialized": "9ef57123-f72f-4eea-b7d6-c9b87af2ff8d"
-    },
-    "m_Name": "Angle",
-    "m_DefaultRefNameVersion": 0,
-    "m_RefNameGeneratedByDisplayName": "",
-    "m_DefaultReferenceName": "Vector1_eecb621018c34953872eb13f3126cb65",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": true,
-    "hlslDeclarationOverride": 2,
-    "m_Hidden": false,
-    "m_Value": 45.0,
-    "m_FloatType": 0,
-    "m_RangeValues": {
-        "x": 0.0,
-        "y": 1.0
-    }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
-    "m_ObjectId": "f129ef6ebc734bfe8a2692b1ad049025",
-    "m_Guid": {
-        "m_GuidSerialized": "51080874-2fe3-46de-975a-4b647ead9749"
-    },
-    "m_Name": "Outline",
-    "m_DefaultRefNameVersion": 0,
-    "m_RefNameGeneratedByDisplayName": "",
-    "m_DefaultReferenceName": "Texture2D_f129ef6ebc734bfe8a2692b1ad049025",
-    "m_OverrideReferenceName": "_outline",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": true,
-    "hlslDeclarationOverride": 2,
-    "m_Hidden": false,
-    "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"9633948dfe3fbef4d97acd3faca8a63d\",\"type\":3}}",
-        "m_Guid": ""
-    },
-    "isMainTexture": false,
-    "useTilingAndOffset": false,
-    "m_Modifiable": true,
     "m_DefaultType": 0
 }
 

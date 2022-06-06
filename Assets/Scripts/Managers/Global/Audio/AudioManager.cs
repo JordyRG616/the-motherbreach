@@ -36,6 +36,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioTrack uniqueMusicTrack;
     [SerializeField] private AudioTrack SFXTrack;
     [SerializeField] private AudioTrack GUITrack;
+    [Header("Switch Track")]
+    [SerializeField] private AnimationCurve risingCurve;
+    [SerializeField] private AnimationCurve fallingCurve;
 
     void Awake()
     {
@@ -44,15 +47,19 @@ public class AudioManager : MonoBehaviour
 
     public void Initialize()
     {
-        musicTrack.trackVolume = settings.musicVolume;
-        uniqueMusicTrack.trackVolume = settings.musicVolume;
-        SFXTrack.trackVolume = settings.sfxVolume;
-        GUITrack.trackVolume = settings.guiVolume;
-
+        SetVolume();
 
         effects = new AudioEffects(this);
         library = GetComponentInChildren<AudioLibrary>();
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void SetVolume()
+    {
+        musicTrack.trackVolume = settings.musicVolume;
+        uniqueMusicTrack.trackVolume = settings.musicVolume;
+        SFXTrack.trackVolume = settings.sfxVolume;
+        GUITrack.trackVolume = settings.guiVolume;
     }
 
     public void RequestMusic()
@@ -106,11 +113,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    internal void RequestSFX(object explosionSFX)
-    {
-        throw new NotImplementedException();
-    }
-
     private IEnumerator SwitchToWaveTrack()
     {
         musicTrack.UnpauseAudio();
@@ -119,8 +121,8 @@ public class AudioManager : MonoBehaviour
 
         while (step <=  1)
         {
-            uniqueMusicTrack.trackVolume = Mathf.Lerp(volume, 0, step);
-            musicTrack.trackVolume = Mathf.Lerp(0, volume, step);
+            uniqueMusicTrack.trackVolume = fallingCurve.Evaluate(step) * volume;
+            musicTrack.trackVolume = risingCurve.Evaluate(step) * volume;
 
             step += 0.01f;
 
@@ -140,8 +142,9 @@ public class AudioManager : MonoBehaviour
 
         while (step <=  1)
         {
-            uniqueMusicTrack.trackVolume = Mathf.Lerp(0, volume, step);
-            musicTrack.trackVolume = Mathf.Lerp(volume, 0, step);
+            uniqueMusicTrack.trackVolume = fallingCurve.Evaluate(step) * volume;
+            musicTrack.trackVolume = risingCurve.Evaluate(step) * volume;
+
 
             step += 0.01f;
 
@@ -218,8 +221,10 @@ public class AudioManager : MonoBehaviour
         GUITrack.StopAudio(index);
     }
 
-    public void PlayInvalidSelection()
+    public void PlayInvalidSelection(string invalidTip)
     {
+        if(GameManager.Main.gameState != GameState.OnReward) return;
+        InvalidPopup.Main.PopInvalidText(invalidTip);
         GUITrack.ReceiveAudio(library.GetGUISound("event:/UI/Reward/Reward_InvalidSelection"), true);
     }
 

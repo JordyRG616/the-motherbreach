@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour, IManager
 {
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private List<Color> levelColors;
     private FormationManager owner;
-    private EnemyAttackController attackController;
+    public EnemyAttackController attackController {get; private set;}
     private EnemyHealthController healthController;
     private bool attacking;
     public int level {get; private set;}
@@ -49,9 +51,10 @@ public class EnemyManager : MonoBehaviour, IManager
 
     public void AdjustLevel(int waveLevel)
     {
-        if(level >= 5 || waveLevel <= 0) return;
+        if(waveLevel >= 5 || waveLevel <= 0) return;
         level = waveLevel;
         attackController.LevelUp(waveLevel);
         healthController.RaiseHealthByPercentage(.1f * waveLevel);
+        spriteRenderer.color = levelColors[waveLevel - 1];
     }
 }

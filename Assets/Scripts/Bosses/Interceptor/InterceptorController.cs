@@ -10,10 +10,14 @@ public class InterceptorController : BossController
     [SerializeField] private float emissionModifier;
     [Header("Third Phase Upgrade")]
     [SerializeField] private float intervalReduction;
+    [Header("Interceptor SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string openWeaponsSFX;
+    [SerializeField] [FMODUnity.EventRef] private string closeWeaponsSFX;
 
     protected override void SecondPhaseUpgrade()
     {
         GetComponent<ChargeAction>().activateWeaponry = true;
+        GetComponent<DeployAction>().StartAction();
 
         var gunsToUpgrade = GetComponents<InterceptorArtillery>();
 
@@ -26,7 +30,18 @@ public class InterceptorController : BossController
 
     protected override void ThirdPhaseUpgrade()
     {
+        GetComponent<DeployAction>().StartAction();
         intervalToCheck -= intervalReduction;
         waitTime = new WaitForSeconds(intervalToCheck);
+    }
+
+    public void PlayOpenSFX()
+    {
+        AudioManager.Main.RequestSFX(openWeaponsSFX);
+    }
+
+    public void PlayCloseSFX()
+    {
+        AudioManager.Main.RequestSFX(closeWeaponsSFX);
     }
 }

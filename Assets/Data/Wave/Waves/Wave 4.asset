@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Wave 4
   m_EditorClassIdentifier: 
   enemiesInWave:
-  - drones
-  - ???
+  - drone
+  - spritz
   breaches:
   - availableFormations:
     - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
@@ -22,12 +22,20 @@ MonoBehaviour:
     - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
     - {fileID: 4461862019773174273, guid: db7fa447c27f0384a86139cd65f0f287, type: 3}
     intervalOfSpawn: 0.5
-    intervalTillNextWave: 3
+    intervalTillNextWave: 7
     spawnInSamePosition: 0
     bossWave: 0
     breachLevel: 0
   - availableFormations:
     - {fileID: 6498165479843956198, guid: 6b639f24e93c02742b8e376c98847d6a, type: 3}
+    - {fileID: 6498165479843956198, guid: 6b639f24e93c02742b8e376c98847d6a, type: 3}
+    intervalOfSpawn: 0.5
+    intervalTillNextWave: 10
+    spawnInSamePosition: 0
+    bossWave: 0
+    breachLevel: 0
+  - availableFormations:
+    - {fileID: 6498165479843956198, guid: b83e8ec43477528498bce47e2ba5a0c5, type: 3}
     - {fileID: 6498165479843956198, guid: 6b639f24e93c02742b8e376c98847d6a, type: 3}
     intervalOfSpawn: 0.5
     intervalTillNextWave: 20

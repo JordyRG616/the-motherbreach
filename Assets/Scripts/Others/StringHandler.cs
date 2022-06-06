@@ -1,5 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace StringHandler 
 {
@@ -8,28 +9,28 @@ namespace StringHandler
         public static string DamagePaint(object text)
         {
             text = text.ToString();
-            var container = "<#ff5cff>" + text + "</color>";
+            var container = "<#ff5cff><b>" + text + "</b></color>";
             return container;
         }
 
         public static string RestPaint(object text)
         {
             text = text.ToString();
-            var container = "<#00f7ff>" + text + "</color>";
+            var container = "<#00f7ff><b>" + text + "</b></color>";
             return container;
         }
 
         public static string HealthPaint(object text)
         {
             text = text.ToString();
-            var container = "<#009d4a>" + text + "</color>";
+            var container = "<#009d4a><b>" + text + "</b></color>";
             return container;
         }
 
         public static string StatPaint(object text)
         {
             text = text.ToString();
-            var container = "<#d0ff00>" + text + "</color>";
+            var container = "<#d0ff00><b>" + text + "</b></color>";
             return container;
         }
     }
@@ -61,6 +62,19 @@ namespace StringHandler
                 container += str + " ";
             }
             return container;
+        }
+
+        public static void TurnIntoUiD(this string uId)
+        {
+            var _id = "";
+
+            for(int i = 0; i < 5; i++)
+            {
+                var rdm = UnityEngine.Random.Range(48, 91);
+                _id += ((char)rdm);
+            }
+
+            uId = _id;
         }
     }
 }

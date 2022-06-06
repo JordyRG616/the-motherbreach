@@ -51,6 +51,8 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         var locked = FindObjectOfType<LockButton>().locked;
 
         if(rewardManager.TotalCash >= rerrollCost && !locked && !buildBox.OnUpgrade)
@@ -64,8 +66,11 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             Reroll();
             OnReroll?.Invoke(this, EventArgs.Empty);
             return;
+        } else
+        {
+            if(locked) AudioManager.Main.PlayInvalidSelection("Offer is locked");
+            else AudioManager.Main.PlayInvalidSelection("Not enough cash");
         }
-        AudioManager.Main.PlayInvalidSelection();
     }
 
     public void Reroll()

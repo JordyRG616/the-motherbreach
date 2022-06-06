@@ -7,11 +7,13 @@ using StringHandler;
 public class AcidSprayEffect : ActionEffect
 {
     [SerializeField] private float acidDuration;
-    [SerializeField] private float tickInterval = .25f;
+    [SerializeField] private float tickInterval;
     private FMOD.Studio.EventInstance instance;
 
     public override Stat specializedStat => Stat.Duration;
     public override Stat secondaryStat => Stat.Efficiency;
+
+    private int directDamageModifier = 0;
 
     public override void SetData()
     {
@@ -37,6 +39,10 @@ public class AcidSprayEffect : ActionEffect
     private void SetEfficiency()
     {
         tickInterval = 1 - StatSet[Stat.Efficiency];
+        if(tickInterval < .1f)
+        {
+            tickInterval = .1f;
+        }
     }
 
     public override void Shoot()
@@ -55,13 +61,17 @@ public class AcidSprayEffect : ActionEffect
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        // hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
+        hitManager.HealthInterface.UpdateHealth(-(StatSet[Stat.Damage] * directDamageModifier) / 2);
         ApplyStatusEffect<Acid>(hitManager, acidDuration, new float[] {StatSet[Stat.Damage], tickInterval});
     }
 
     public override string DescriptionText()
     {
-        string description = "releases a conic spray of " + KeywordHandler.KeywordPaint(keyword) + " that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage overtime for " + StatColorHandler.DamagePaint(StatSet[Stat.Duration].ToString()) + " seconds";
+        string description = "releases a conic spray that applies " + KeywordHandler.KeywordPaint(keyword) + " (deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage over time for " + StatColorHandler.DamagePaint(StatSet[Stat.Duration].ToString()) + " seconds)";
+        if(directDamageModifier == 1)
+        {
+            description += ". also deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage] / 2) + " damage on contact";
+        }
         return description;
     }
 
@@ -74,27 +84,21 @@ public class AcidSprayEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5)
-        {
-            GainDuration();
-        }
-        else
-        {
-            GainDamage();
-        }
+        directDamageModifier = 1;
     }
 
-    private void GainDuration()
+    public override void RemoveLevelUp()
     {
-        var _duration = StatSet[Stat.Duration];
-        _duration *= 1.2f;
-        SetStat(Stat.Duration, _duration);
+        directDamageModifier = 0;
     }
 
-    private void GainDamage()
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        var damage = StatSet[Stat.Damage];
-        damage *= 1.1f;
-        SetStat(Stat.Damage, damage);
+        acidDuration *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        tickInterval *= 1 - percentage;
     }
 }

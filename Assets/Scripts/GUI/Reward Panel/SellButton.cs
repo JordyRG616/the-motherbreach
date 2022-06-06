@@ -60,19 +60,22 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         this.mode = mode;
         this.refund = refund;
         cachedSlot = turretSlot;
+        if(mode == ButtonMode.Replace) gameObject.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         if(mode == ButtonMode.Sell)
         {
             StartCoroutine(Sell());
             OnTurretSell?.Invoke(this, EventArgs.Empty);
         }
-        else
-        {
-            Replace();
-        }
+        // else
+        // {
+        //     Replace();
+        // }
     }
 
     public void Replace()
@@ -80,7 +83,7 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         var _base = buildBox.baseToReplace;
         if (_base == null) 
         {
-            AudioManager.Main.PlayInvalidSelection();
+            AudioManager.Main.PlayInvalidSelection("Select a base to replace");
             return;
         }
         var cost = _base.GetComponent<BaseEffectTemplate>().GetCost();
@@ -88,12 +91,12 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         {
             AudioManager.Main.RequestGUIFX(replaceSFX);
             TurretConstructor.Main.ReplaceBase(cachedSlot.occupyingTurret, _base);
-            rewardManager.SpendCash(cost);
+            rewardManager.SpendCash((int)cost);
             buildBox.selectedBaseBox.Detach();
             buildBox.UpdateStats();
             buildBox.baseToReplace = null;
         }
-        else AudioManager.Main.PlayInvalidSelection();
+        else AudioManager.Main.PlayInvalidSelection("Not enough cash");
     }
 
     private IEnumerator Sell()

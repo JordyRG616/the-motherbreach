@@ -47,4 +47,13 @@ public class Breach
             formationQueue.Enqueue(formation);
         }
     }
+
+    public GameObject GetRandomBoss()
+    {
+        var rdm = Random.Range(0, availableFormations.Count);
+        var boss = availableFormations[rdm];
+        formationQueue.Clear();
+
+        return boss;
+    }
 }

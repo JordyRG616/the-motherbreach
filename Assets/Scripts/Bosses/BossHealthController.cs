@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class BossHealthController : MonoBehaviour, IDamageable
 {
+    public enum CoreType {power, reinforced, noble}
+    public CoreType coreType;
     [SerializeField] private int maxHealth;
     [SerializeField] [Range(0, 1)] private float damageReduction;
     [SerializeField] [FMODUnity.EventRef] private string onDamageSFX;
@@ -19,6 +21,7 @@ public class BossHealthController : MonoBehaviour, IDamageable
     private RectTransform firstHealthBar;
 
     public event EventHandler OnDamage;
+    public event EventHandler OnDeath;
 
 
     public void Initiate()
@@ -37,7 +40,8 @@ public class BossHealthController : MonoBehaviour, IDamageable
         foreach(IManager manager in GetComponents<IManager>())
         {
             manager.DestroyManager();
-        }        
+        }
+
     }
 
     public void TriggerOnDeath()
@@ -60,6 +64,8 @@ public class BossHealthController : MonoBehaviour, IDamageable
             
         if(currentHealth <= 0)
         {
+            OnDeath?.Invoke(this, EventArgs.Empty);
+
             bossController.EndMusicInstance();
             healthBar.TerminateMarkers();
             
@@ -101,5 +107,21 @@ public class BossHealthController : MonoBehaviour, IDamageable
     public void SetDamageReduction(float value)
     {
         damageReduction = value;
+    }
+
+    private void RewardCore()
+    {
+        switch (coreType)
+        {
+            case CoreType.power:
+                GameManager.Main.powerCoreAmount++;
+            break;
+            case CoreType.reinforced:
+                GameManager.Main.reinforcedCoreAmount++;
+            break;
+            case CoreType.noble:
+                GameManager.Main.nobleCoreAmount++;
+            break;
+        }
     }
 }

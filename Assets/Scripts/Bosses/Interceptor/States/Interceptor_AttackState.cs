@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Interceptor_AttackState : BossState
 {
-    [SerializeField] private List<WeaponTag> weapons;
+    [SerializeField] private List<WeaponClass> weapons;
     private bool slowingDown;
 
 

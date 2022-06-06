@@ -14,6 +14,8 @@ public class ArrowButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         if(open == false)
         {
             clickAnimation.Play();

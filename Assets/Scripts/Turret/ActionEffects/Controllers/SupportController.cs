@@ -9,10 +9,12 @@ public class SupportController : ActionController
     [SerializeField] private LayerMask playerLayer;
     private List<IntegrityManager> turrets = new List<IntegrityManager>();
     private WaitForSeconds wait;
-    private GameManager gameManager;
+    private Collider2D coll;
 
     void OnEnable()
     {
+        coll = GetComponent<Collider2D>();
+
         gameManager = GameManager.Main;
         gameManager.OnGameStateChange += HandleActivation;
 
@@ -69,14 +71,17 @@ public class SupportController : ActionController
     private void GetNeighbouringTurrets()
     {
         turrets.Clear();
-        var targets = Physics2D.CircleCastAll(transform.position, 4.5f, Vector2.up, 0, playerLayer);
-        foreach(RaycastHit2D target in targets)
+
+        var radius = GetComponent<CircleCollider2D>().radius;
+        var targets = Physics2D.CircleCastAll(transform.position, radius, Vector2.up, 0, playerLayer);
+        foreach (RaycastHit2D target in targets)
         {
-            if(target.collider.TryGetComponent<IntegrityManager>(out var integrityManager))
+            if (target.collider.TryGetComponent<IntegrityManager>(out var integrityManager))
             {
                 turrets.Add(integrityManager);
             }
         }
+
         turrets.Remove(GetComponentInParent<IntegrityManager>());
     }
 

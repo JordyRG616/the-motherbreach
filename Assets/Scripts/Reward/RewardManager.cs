@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RewardManager : MonoBehaviour
+public class RewardManager : MonoBehaviour, ISavable
 {
     #region Singleton
     private static RewardManager _instance;
@@ -43,17 +43,17 @@ public class RewardManager : MonoBehaviour
     private TurretConstructor turretConstructor;
     private RewardCalculator calculator;
     private UIAnimationManager animationManager;
-    public float TotalCash, EarnedCash, SpendedCash;
+    [HideInInspector] public int TotalCash, EarnedCash, SpendedCash;
     private BuildBox buildBox;
     private TutorialManager tutorialManager;
 
     public GameObject ActiveSelection {get; private set;}
 
     public event EventHandler OnRewardSelection;
-    public event EventHandler OnTurretBuild;
+    public event EventHandler<BuildEventArgs> OnTurretBuild;
+
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string buildSFX;
-
 
     public void ClearEvents()
     {
@@ -69,7 +69,7 @@ public class RewardManager : MonoBehaviour
         {
             foreach(Delegate d in OnTurretBuild.GetInvocationList())
             {
-                OnTurretBuild -= (EventHandler)d;
+                OnTurretBuild -= (EventHandler<BuildEventArgs>)d;
             }
         }
     }
@@ -98,7 +98,7 @@ public class RewardManager : MonoBehaviour
         AudioManager.Main.RequestMusic("Reward Song 2");
     }
 
-    public void InitiateReward(float rewardValue)
+    public void InitiateReward(int rewardValue)
     {
         SpendedCash = 0;
         EarnCash(rewardValue);
@@ -109,14 +109,11 @@ public class RewardManager : MonoBehaviour
         ship.GetComponent<Rigidbody2D>().Sleep();
         animationManager.Play();
         
-        AudioManager.Main.GetAudioTrack("SFX").PauseAudio();
-
-        AudioManager.Main.SwitchMusicTracks("Special");
-
-
         var locked = FindObjectOfType<LockButton>().locked;
 
         if(!locked) GenerateOffer();
+
+        GameManager.Main.SaveGame();
     }
 
     public void GenerateOffer()
@@ -134,13 +131,13 @@ public class RewardManager : MonoBehaviour
         }
     }
 
-    public void EarnCash(float amount)
+    public void EarnCash(int amount)
     {
         EarnedCash = amount;
         cashTextAnimation.Play();
     }
 
-    public void SpendCash(float amount)
+    public void SpendCash(int amount)
     {
         SpendedCash = amount;
         cashTextAnimation.PlayReverse();
@@ -150,10 +147,10 @@ public class RewardManager : MonoBehaviour
     {
         tutorialManager.TriggerPosBuildTutorial();
         buildBox.Clear();
-        OnTurretBuild?.Invoke(this, EventArgs.Empty);
+        OnTurretBuild?.Invoke(this, new BuildEventArgs(ActiveSelection.GetComponent<TurretManager>()));
         turretConstructor.HandleBaseEffect(ActiveSelection);
         var manager = ActiveSelection.GetComponent<TurretManager>();
-        SpendCash(manager.Stats[Stat.Cost]);
+        SpendCash((int)manager.Stats[Stat.Cost]);
         ShipManager.Main.RegisterTurret(manager);
 
 
@@ -167,6 +164,10 @@ public class RewardManager : MonoBehaviour
         var locked = FindObjectOfType<LockButton>().locked;
 
         if(!locked) EliminateOffer();
+        
+        AudioManager.Main.GetAudioTrack("SFX").UnpauseAudio();
+        AudioManager.Main.SwitchMusicTracks("Music");
+        
         OnRewardSelection?.Invoke(this, EventArgs.Empty);
     }
 
@@ -216,4 +217,29 @@ public class RewardManager : MonoBehaviour
         Destroy(ActiveSelection);
     }
 
+    public Dictionary<string, byte[]> GetData()
+    {
+        var container = new Dictionary<string, byte[]>();
+
+        container.Add("totalCash", BitConverter.GetBytes(TotalCash));
+
+        return container;
+    }
+
+    public void LoadData(SaveFile saveFile)
+    {
+        // TotalCash = 0;
+        // var cash = BitConverter.ToInt32(saveFile.GetValue("totalCash"));
+        // EarnCash(cash);
+    }
+}
+
+public class BuildEventArgs : EventArgs
+{
+    public TurretManager buildedTurret;
+
+    public BuildEventArgs(TurretManager turret)
+    {
+        buildedTurret = turret;
+    }
 }

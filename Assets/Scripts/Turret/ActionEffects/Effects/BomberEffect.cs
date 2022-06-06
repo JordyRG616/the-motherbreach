@@ -13,9 +13,9 @@ public class BomberEffect : ActionEffect
     [SerializeField] private ActionEffect fragEffect;
     
 
-    public override Stat specializedStat => Stat.Projectiles;
+    public override Stat specializedStat => Stat.Size;
 
-    public override Stat secondaryStat => Stat.Size;
+    public override Stat secondaryStat => Stat.Projectiles;
 
     public override void Initiate()
     {
@@ -38,6 +38,7 @@ public class BomberEffect : ActionEffect
         base.SetStat(statName, value);
         SetProjectiles();
         SetBulletSize();
+        if(statName == Stat.Damage) fragEffect.SetStat(Stat.Damage, value);
     }
 
     private void SetProjectiles()
@@ -49,8 +50,10 @@ public class BomberEffect : ActionEffect
 
     private void SetBulletSize()
     {
-        var main = shooterParticle.main;
+        var main = subShooter.main;
         main.startSize = StatSet[Stat.Size];
+        var _main = shooterParticle.main;
+        _main.startSize = StatSet[Stat.Size] * 2;
     }
 
     public override void ApplyEffect(HitManager hitManager)
@@ -84,21 +87,16 @@ public class BomberEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 5) GainDamage();
-        else GainProjectile();
+        
     }
 
-    private void GainProjectile()
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        var projectiles = StatSet[Stat.Projectiles];
-        projectiles += 1;
-        SetStat(Stat.Projectiles, projectiles);
+        initalBulletSize *= 1 + percentage;
     }
 
-    public void GainDamage()
+    public override void RaiseInitialSecondaryStat(float percentage)
     {
-        var damage =fragEffect.StatSet[Stat.Damage];
-        damage *= 1.5f;
-        fragEffect.SetStat(Stat.Damage, damage);
+        initialProjectiles++;
     }
 }

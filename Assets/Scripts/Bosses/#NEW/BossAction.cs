@@ -15,7 +15,7 @@ public abstract class BossAction : MonoBehaviour
     protected Rigidbody2D body;
     protected Transform ship;
 
-    void Start()
+    public virtual void Start()
     {
         controller = GetComponent<BossController>();
         body = GetComponent<Rigidbody2D>();

@@ -87,9 +87,9 @@ public class TurretVFXManager : VFXManager
 
     void Update()
     {
-        if(activeSelection && Input.GetMouseButtonDown(0))
+        if(activeSelection && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0))
         {
-            audioManager.PlayInvalidSelection();
+            audioManager.PlayInvalidSelection("");
         }
     }
 }

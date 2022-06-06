@@ -5,35 +5,40 @@ using UnityEngine;
 
 public class ForgeController : BossController
 {
+    [SerializeField] private int maxChildCount;
     public List<FormationManager> Children {get; private set;} = new List<FormationManager>();
-    
-    // protected override void ManageStates(int phaseOrder)
-    // {
-    //     var distance = ship.transform.position - transform.position;
-    //     if(distance.magnitude < distanceToFlee)
-    //     {
-    //         var fleeState = GetComponent<Interceptor_Disengage>();
-    //         ChangeStates(fleeState);
-    //         return;
-    //     }
-    //     if (distance.magnitude > distanceToChase)
-    //     {
-    //         var chaseState = GetComponent<Interceptor_MoveState>();
-    //         ChangeStates(chaseState);
-    //         return;
-    //     }
+ 
+    protected override void Awake()
+    {
+        AudioManager.Main.RequestBossMusic(bossMusic, out musicInstance);
 
-    //     var moveState = GetComponent<Forge_OrbitState>();
-    //     ChangeStates(moveState);
-    // }
+        healthController = GetComponent<BossHealthController>();
+        healthController.Initiate();
+        animator = GetComponentInChildren<Animator>();
+        ship = ShipManager.Main.transform;
 
+        waitTime = new WaitForSeconds(intervalToCheck);
+
+        movement = idle.IdleMove;
+
+        StartCoroutine(ManageActions());
+
+        phases.ForEach(x => x.Initiate());
+    }
     protected override void ThirdPhaseUpgrade()
     {
-       
+        intervalToCheck -= .3f;
+        maxChildCount += 3;
     }
 
     protected override void SecondPhaseUpgrade()
     {
-       
+        intervalToCheck -= .2f;
+        maxChildCount += 2;
+    }
+
+    public bool HasMaxCapacity()
+    {
+        return Children.Count >= maxChildCount;
     }
 }

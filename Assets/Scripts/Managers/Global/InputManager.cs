@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using CraftyUtilities;
 using UnityEngine;
-
+//* CLEAN
 public class InputManager : MonoBehaviour
 {
     #region Singleton
@@ -41,6 +41,7 @@ public class InputManager : MonoBehaviour
 
     public event EventHandler<MovementEventArgs> OnMovementPressed;
     public event EventHandler<RotationEventArgs> OnRotationPressed;
+    public EventHandler OnMovementInertia;
     public event EventHandler OnInertia;
     public event EventHandler OnSelectionClear;
     public event EventHandler OnGamePaused;
@@ -70,31 +71,12 @@ public class InputManager : MonoBehaviour
 
     void Start()
     {
-        if (movementScheme == MovementControlScheme.None || movementScheme == MovementControlScheme.WASD)
-        {
-            initializeWASDScheme();
-        }
-        else if (movementScheme == MovementControlScheme.Arrows)
-        {
-            initializeArrowScheme();
-        }
-
-        if (rotationScheme == RotationControlScheme.None || rotationScheme == RotationControlScheme.QE)
-        {
-            initializeQEScheme();
-        }
-        else if (rotationScheme == RotationControlScheme.Mouse)
-        {
-            initializeMouseScheme();
-        }
+        SetKeys();
 
         move = MouseControlScheme;
-
-        // _waveControl = WaveControl();
-        // _rewardControl = RewardControl();
     }
 
-    private void SetKeys()
+    public void SetKeys()
     {
         leftKey = settings.moveLeft;
         rightKey= settings.moveRight;
@@ -103,23 +85,6 @@ public class InputManager : MonoBehaviour
 
         rotateLeft = settings.rotateLeft;
         rotateRight = settings.rotateRight;
-    }
-
-
-    public void HandleWaveControl(object sender, GameStateEventArgs e)
-    { 
-        // if(e.newState == GameState.OnWave)
-        // {
-        //     StopAllCoroutines();
-        //     OnSelectionClear -= PlaySFX;
-        //     StartCoroutine(_waveControl);
-        // }
-        // if(e.newState == GameState.OnReward)
-        // {
-        //     StopAllCoroutines();
-        //     OnSelectionClear += PlaySFX;
-        //     StartCoroutine(_rewardControl);
-        // }
     }
 
     private void PlaySFX(object sender, EventArgs e)
@@ -133,34 +98,6 @@ public class InputManager : MonoBehaviour
         rotateLeft = KeyCode.E;
 
         rotationScheme = RotationControlScheme.QE;
-    }
-
-    public void initializeMouseScheme()
-    {
-        rotateRight = KeyCode.Mouse0;
-        rotateLeft = KeyCode.Mouse1;
-
-        rotationScheme = RotationControlScheme.Mouse;
-    }
-
-    public void initializeArrowScheme()
-    {
-        leftKey = KeyCode.LeftArrow;
-        rightKey = KeyCode.RightArrow;
-        upKey = KeyCode.UpArrow;
-        downKey = KeyCode.DownArrow;
-
-        movementScheme = MovementControlScheme.Arrows;
-    }
-
-    public void initializeWASDScheme()
-    {
-        leftKey = KeyCode.A;
-        rightKey = KeyCode.D;
-        upKey = KeyCode.W;
-        downKey = KeyCode.S;
-
-        movementScheme = MovementControlScheme.WASD;
     }
 
     private void TriggerMovement()
@@ -180,15 +117,15 @@ public class InputManager : MonoBehaviour
 
     private void MouseControlScheme()
     {
+        var pos = Vector3.zero;
+
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            var pointerPos = Input.mousePosition;
-            pointerPos -= new Vector3(720, 360, pointerPos.z);
-            // var direction = pointerPos - transform.position;
-            // direction.z = 0;
-
-            OnMovementPressed?.Invoke(this, new MovementEventArgs(pointerPos.normalized));
+            pos = Input.mousePosition;
+            pos -= new Vector3(720, 360, pos.z);
         }
+
+        OnMovementPressed?.Invoke(this, new MovementEventArgs(pos.normalized));
     }
 
     public void SwitchMovementScheme(bool useMouse)
@@ -200,7 +137,7 @@ public class InputManager : MonoBehaviour
 
     private void TriggerRotation()
     {
-        int direction = Utilities.TestKey(rotateRight) - Utilities.TestKey(rotateLeft);
+        int direction = Utilities.TestKey(rotateLeft) - Utilities.TestKey(rotateRight);
 
         if(direction != 0)
         {
@@ -245,6 +182,15 @@ public class InputManager : MonoBehaviour
     {
         if(GameManager.Main.gameState == GameState.OnWave) WaveControl();
         if(GameManager.Main.gameState == GameState.OnReward) RewardControl();
+        DebugControls();
+    }
+
+    private void DebugControls()
+    {
+        if(Input.GetKey(KeyCode.LeftControl))
+        {
+            if(Input.GetKeyDown(KeyCode.I)) FindObjectOfType<RewardManager>().EarnCash(5);
+        }
     }
 }
 

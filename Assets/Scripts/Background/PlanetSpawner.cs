@@ -4,69 +4,61 @@ using UnityEngine;
 
 public class PlanetSpawner : MonoBehaviour
 {
+    [SerializeField] private GameObject star;
+    [SerializeField] private float starDistance;
     [SerializeField] private List<GameObject> planets;
-    [SerializeField] private float distanceToSpawn;
-    [SerializeField] private Vector2 scaleMinMax;
-    [SerializeField] private float initialForce;
-    public float distanceIncrement = 0;
-    private Camera cam;
-    private int lastAngle = 0;
-    private Dictionary<GameObject, IEnumerator> activeRoutines =  new Dictionary<GameObject, IEnumerator>();
+    [SerializeField] private Vector2Int planetCount;
+    [SerializeField] private Vector2 initialDistanceFromStar;
+    [SerializeField] private Vector2 distanceFromStarIncrement;
+    private Queue<GameObject> planetQueue = new Queue<GameObject>();
+    private GameObject createdStar;
 
-    public void Initialize()
+    void Start()
     {
-        cam = GameObject.FindWithTag("SecCamera").GetComponent<Camera>();
+        GeneratePlanetQueue();
+        CreateStarSystem();
     }
 
-    public void SpawnNewPlanet()
+    private void GeneratePlanetQueue()
     {
-        var rdm = Random.Range(0, planets.Count);
-        var planet = Instantiate(planets[rdm], GeneratePosition(), GenerateRotation());
-        SetScale(planet);
+        var _list = new List<GameObject>(planets);
 
-        var routine = MovePlanet(planet);
-        activeRoutines.Add(planet, routine);
-        StartCoroutine(routine);
-    }
-
-    private Quaternion GenerateRotation()
-    {
-        var rdm = Random.Range(lastAngle, lastAngle + 90);
-        lastAngle += rdm;
-        var quaternion = Quaternion.Euler(0, 0, rdm);
-        return quaternion;
-    }
-
-    private Vector3 GeneratePosition()
-    {
-        var rdm = Random.Range(0, 2 * Mathf.PI);
-        var vector = new Vector3(Mathf.Cos(rdm), Mathf.Sin(rdm)) * (distanceToSpawn + distanceIncrement);
-        vector += cam.transform.position;
-        vector.z = 0;
-        return vector;
-    }
-
-    private void SetScale(GameObject planet)
-    {
-        var scale = planet.transform.localScale;
-        var rdm = Random.Range(scaleMinMax.x, scaleMinMax.y);
-        scale.x += rdm;
-        scale.y += rdm;
-        planet.transform.localScale = scale;
-    }
-
-    private IEnumerator MovePlanet(GameObject planet)
-    {
-        var body = planet.GetComponent<Rigidbody2D>();
-
-        while(true)
+        while (_list.Count > 0)
         {
-            if(body == null) yield break;
-            body.velocity = Vector2.zero;
-            var direction = cam.transform.position - planet.transform.position;
-            body.AddForce(Vector2.Perpendicular(direction).normalized * initialForce, ForceMode2D.Impulse);
-
-            yield return new WaitForEndOfFrame();
+            var rdm = Random.Range(0, _list.Count);
+            planetQueue.Enqueue(_list[rdm]);
+            _list.RemoveAt(rdm);
         }
+    }
+
+    private void CreateStarSystem()
+    {
+        var angle = Random.Range(0, 360f);
+        createdStar = Instantiate(star, RadialPosition(starDistance), Quaternion.Euler(0, 0, angle));
+
+        var _count = Random.Range(planetCount.x, planetCount.y + 1);
+        var distance = Random.Range(initialDistanceFromStar.x, initialDistanceFromStar.y);
+
+        for (int i = 0; i < _count; i++)
+        {
+            CreatePlanet(distance);
+            distance += Random.Range(distanceFromStarIncrement.x, distanceFromStarIncrement.y);
+        }
+
+    }
+
+    private Vector2 RadialPosition(float radius)
+    {
+        var angle = Random.Range(0, 360f) * Mathf.Deg2Rad;
+        var direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+
+        return direction * radius;
+    }
+
+    private void CreatePlanet(float distanceFromStar)
+    {
+        if(planetQueue.Count == 0) GeneratePlanetQueue();
+        var angle = Random.Range(0, 360f);
+        Instantiate(planetQueue.Dequeue(), (Vector2)createdStar.transform.position + RadialPosition(distanceFromStar), Quaternion.Euler(0, 0, angle));
     }
 }

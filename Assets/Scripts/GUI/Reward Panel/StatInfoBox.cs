@@ -15,7 +15,7 @@ public class StatInfoBox : MonoBehaviour
     private float ogWidth;
     private float _width;
 
-    void Start()
+    void Awake()
     {
         ogWidth = rects[0].sizeDelta.x;
         _width = ogWidth;
@@ -32,6 +32,18 @@ public class StatInfoBox : MonoBehaviour
         {
             rect.sizeDelta = vector;
         }
+    }
+
+    public void InvertBox()
+    {
+        selfRect.localScale = new Vector3(-1, 1, 1);
+        description.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
+    }
+    
+    public void ResetBox()
+    {
+        selfRect.localScale = new Vector3(1, 1, 1);
+        description.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
     }
 
     public void SetText(string text)

@@ -40,9 +40,6 @@
             "m_Id": "c80401003f6c4133a65c9b49390598dd"
         },
         {
-            "m_Id": "87b3219306be47b3b48811502cf3a243"
-        },
-        {
             "m_Id": "50142c11651f41d5917930503da12a11"
         },
         {
@@ -105,6 +102,20 @@
                     "m_Id": "f8cc03893a27439abb99fabfefa7b27b"
                 },
                 "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "4eabd6a02f184e54b073f35377a655b8"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "11844a3257c7455c861cda31181b8d10"
+                },
+                "m_SlotId": 2
             }
         },
         {
@@ -208,20 +219,6 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "f8cc03893a27439abb99fabfefa7b27b"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "11844a3257c7455c861cda31181b8d10"
-                },
-                "m_SlotId": 2
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
                     "m_Id": "faed167129bd4374b350ed73168ea619"
                 },
                 "m_SlotId": 0
@@ -262,9 +259,6 @@
             },
             {
                 "m_Id": "c80401003f6c4133a65c9b49390598dd"
-            },
-            {
-                "m_Id": "87b3219306be47b3b48811502cf3a243"
             },
             {
                 "m_Id": "50142c11651f41d5917930503da12a11"
@@ -457,6 +451,12 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalSpriteUnlitSubTarget",
+    "m_ObjectId": "24812bd6db8d4f8a87e2daf41b35600a"
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.BooleanMaterialSlot",
     "m_ObjectId": "24d20fdcb4214cc5a2681434d8dca9e6",
     "m_Id": 0,
@@ -509,12 +509,6 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalSpriteLitSubTarget",
-    "m_ObjectId": "2e15dc9a227f4d49a0b8231c87c18ed3"
 }
 
 {
@@ -1012,39 +1006,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
-    "m_ObjectId": "87b3219306be47b3b48811502cf3a243",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "SurfaceDescription.NormalTS",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "ea17a3b1283e437dac8dc0c86c888508"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedDescriptor": "SurfaceDescription.NormalTS"
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "889c49381ebc46f6bba7752bb8f93e5e",
     "m_Id": 0,
@@ -1271,7 +1232,7 @@
     "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalTarget",
     "m_ObjectId": "b7cfb7d59abf4eccba576af27919fc8f",
     "m_ActiveSubTarget": {
-        "m_Id": "2e15dc9a227f4d49a0b8231c87c18ed3"
+        "m_Id": "24812bd6db8d4f8a87e2daf41b35600a"
     },
     "m_AllowMaterialOverride": false,
     "m_SurfaceType": 0,
@@ -1689,30 +1650,6 @@
     "m_Property": {
         "m_Id": "731860f9b2574a4686af5a3e1b14e44c"
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.NormalMaterialSlot",
-    "m_ObjectId": "ea17a3b1283e437dac8dc0c86c888508",
-    "m_Id": 0,
-    "m_DisplayName": "Normal (Tangent Space)",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "NormalTS",
-    "m_StageCapability": 2,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-    },
-    "m_Labels": [],
-    "m_Space": 3
 }
 
 {

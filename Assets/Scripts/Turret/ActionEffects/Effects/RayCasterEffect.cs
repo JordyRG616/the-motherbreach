@@ -6,17 +6,17 @@ using StringHandler;
 public class RayCasterEffect : ActionEffect
 {
     [SerializeField] private float duration;
-    [SerializeField] private int emission;
+    [SerializeField] private float startSize;
     private FMOD.Studio.EventInstance instance;
 
-    public override Stat specializedStat => Stat.Projectiles;
+    public override Stat specializedStat => Stat.Duration;
 
-    public override Stat secondaryStat => Stat.Duration;
+    public override Stat secondaryStat => Stat.Size;
 
     public override void SetData()
     {
         StatSet.Add(Stat.Duration, duration);
-        StatSet.Add(Stat.Projectiles, emission);
+        StatSet.Add(Stat.Size, startSize);
         SetDuration();
         SetEmission();
         base.SetData();
@@ -31,13 +31,13 @@ public class RayCasterEffect : ActionEffect
     private void SetDuration()
     {
         var main = shooterParticle.main;
-        main.duration = StatSet[Stat.Duration];
+        main.startLifetime = StatSet[Stat.Duration];
     }
 
     private void SetEmission()
     {
-        var emission = shooterParticle.emission;
-        emission.rateOverTime = StatSet[Stat.Projectiles];
+        var emission = shooterParticle.main;
+        emission.startSize = StatSet[Stat.Size];
     }
 
     // public override void Shoot()
@@ -65,7 +65,7 @@ public class RayCasterEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "releases a stream of" + StatColorHandler.StatPaint(StatSet[Stat.Projectiles].ToString()) + " rays for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and apply";
+        string description = "launches a growing area that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage]) + " damage on contact and lasts for " + StatColorHandler.StatPaint(StatSet[Stat.Duration]) + " seconds";
         return description;
     }
 
@@ -78,27 +78,26 @@ public class RayCasterEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5)
-        {
-            GainDuration();
-        }
-        else
-        {
-            GainRay();
-        }
+        var forceOverTime = shooterParticle.forceOverLifetime;
+        forceOverTime.enabled = true;
+        maxedOut = true;
     }
 
-    private void GainDuration()
+    public override void RemoveLevelUp()
     {
-        var _duration = StatSet[Stat.Duration];
-        _duration *= 1.2f;
-        SetStat(Stat.Duration, _duration);
+        if (!maxedOut) return;
+        var forceOverTime = shooterParticle.forceOverLifetime;
+        forceOverTime.enabled = false;
+        maxedOut = false;
     }
 
-    private void GainRay()
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        var projectiles = StatSet[Stat.Projectiles];
-        projectiles += 2f;
-        SetStat(Stat.Projectiles, projectiles);
+        duration *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        startSize *= 1 + percentage;
     }
 }

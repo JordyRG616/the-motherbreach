@@ -10,7 +10,7 @@ public class CometEffect : ActionEffect
     [SerializeField] private float initialDuration;
     [SerializeField] private float initialBurstSize;
 
-    public override Stat specializedStat => Stat.BurstSize;
+    public override Stat specializedStat => Stat.BurstCount;
 
     public override Stat secondaryStat => Stat.Duration;
 
@@ -18,7 +18,7 @@ public class CometEffect : ActionEffect
     {
         StatSet.Add(Stat.Duration, initialDuration);
         SetDuration();
-        StatSet.Add(Stat.BurstSize, initialBurstSize);
+        StatSet.Add(Stat.BurstCount, initialBurstSize);
         SetBurstSize();
 
         base.SetData();
@@ -43,7 +43,7 @@ public class CometEffect : ActionEffect
         {
             var main = emitter.emission;
             var burst = main.GetBurst(0);
-            var minMax = new ParticleSystem.MinMaxCurve(1, StatSet[Stat.BurstSize]);
+            var minMax = new ParticleSystem.MinMaxCurve(1, StatSet[Stat.BurstCount]);
             burst.count = minMax;
         }
         
@@ -56,7 +56,7 @@ public class CometEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        return "shoots a volley of shots. each deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage and have a chance of shooting up to " + StatColorHandler.StatPaint(StatSet[Stat.BurstSize].ToString()) + " extra projectiles";
+        return "shoots a volley of shots. each deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage and have a chance of shooting up to " + StatColorHandler.StatPaint(StatSet[Stat.BurstCount].ToString()) + " extra projectiles";
     }
 
     public override string upgradeText(int nextLevel)
@@ -73,9 +73,9 @@ public class CometEffect : ActionEffect
 
     private void GainBurstSize()
     {
-        var burst = StatSet[Stat.BurstSize];
+        var burst = StatSet[Stat.BurstCount];
         burst ++;
-        SetStat(Stat.BurstSize, burst);
+        SetStat(Stat.BurstCount, burst);
     }
 
     private void GainDuration()
@@ -83,5 +83,15 @@ public class CometEffect : ActionEffect
         var duration = StatSet[Stat.Duration];
         duration *= 1.1f;
         SetStat(Stat.Duration, duration);
+    }
+
+    public override void RaiseInitialSpecializedStat(float percentage)
+    {
+        
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        
     }
 }

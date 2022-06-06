@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,10 @@ public class FollowerController : ActionController
 
     protected void GetTarget()
     {
-        // yield return new WaitUntil(() => enemiesInSight.Count > 0);
         target = enemiesInSight.OrderBy(x => Vector3.Distance(transform.position, x.transform.position))
             .FirstOrDefault();
+
+        target.OnDetach += DetachTarget;
 
         foreach(ActionEffect shooter in shooters)
         {
@@ -34,12 +36,20 @@ public class FollowerController : ActionController
 
     }
 
+    private void DetachTarget(object sender, EventArgs e)
+    {
+        var _t = (TargetableComponent)sender;
+        enemiesInSight.Remove(_t);
+        target = null;
+        _t.OnDetach -= DetachTarget;
+    }
+
     protected IEnumerator FollowTarget(TargetableComponent target)
     {
         
         StartCoroutine(ManageActivation());
 
-        while(enemiesInSight.Contains(target))
+        while (target != null)
         {
             Vector3 direction = target.transform.position - this.transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -52,7 +62,7 @@ public class FollowerController : ActionController
         }
 
         StopCoroutine(ManageActivation());
-        
+
         StopShooters();
 
         StartCoroutine(ReturnToInitialRotation());
@@ -74,8 +84,6 @@ public class FollowerController : ActionController
             float duration = shooters[0].GetShooterSystem().main.duration;
 
             yield return new WaitForSeconds(duration);    
-            // StopShooters();
-   
         }
 
     }
@@ -83,6 +91,7 @@ public class FollowerController : ActionController
     
     public override void Activate()
     {
+        Debug.Log("working");
         foreach(ActionEffect shooter in shooters)
         {
             if(shooter.GetShooterSystem().IsAlive()) return;
@@ -102,5 +111,7 @@ public class FollowerController : ActionController
 
         seeking = false;
     }
+
+
 
 }

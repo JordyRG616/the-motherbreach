@@ -48,7 +48,7 @@ public class OptionsMenu : MonoBehaviour
         Destroy(GameManager.Main.gameObject);
         Destroy(AudioManager.Main.gameObject);
         Time.timeScale = 1;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     public void UnPause()

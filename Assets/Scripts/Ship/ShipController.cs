@@ -59,7 +59,7 @@ public class ShipController : MonoBehaviour
         //     burner.Play();
         // }
         body.velocity = Vector2.zero;
-        body.AddForce(e.direction * speed, ForceMode2D.Impulse);
+        body.AddForce(e.direction.normalized * speed, ForceMode2D.Impulse);
     }
 
     void Update()
@@ -101,9 +101,14 @@ public class ShipController : MonoBehaviour
         Destroy(this);
     }
 
-    public void ModifySpeedByPercentage(float percentage)
+    public void ModifyMovementSpeedByPercentage(float percentage)
     {
         speed *= (1 + percentage);
+    }
+
+    public void ModifyTurnSpeedByPercentage(float percentage)
+    {
+        rotationSpeed *= (1 + percentage);
     }
 
 }

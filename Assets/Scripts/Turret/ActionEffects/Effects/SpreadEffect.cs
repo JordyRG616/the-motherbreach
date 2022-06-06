@@ -9,9 +9,9 @@ public class SpreadEffect : ActionEffect
     [SerializeField] private float initialDuration;
     [SerializeField] private float initialSize;
 
-    public override Stat specializedStat => Stat.Size;
+    public override Stat specializedStat => Stat.Duration;
 
-    public override Stat secondaryStat => Stat.Duration;
+    public override Stat secondaryStat => Stat.Size;
 
     public override void SetData()
     {
@@ -66,7 +66,7 @@ public class SpreadEffect : ActionEffect
 
     public override void ApplyEffect(HitManager hitManager)
     {
-        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage]);
+        hitManager.HealthInterface.UpdateHealth(-StatSet[Stat.Damage] * 0.05f);
         ApplyStatusEffect<Slug>(hitManager, 2f, new float[] {.66f});
     }
 
@@ -90,8 +90,16 @@ public class SpreadEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        var duration = StatSet[Stat.Duration];
-        duration += 0.5f;
-        SetStat(Stat.Duration, duration);
+        
+    }
+
+    public override void RaiseInitialSpecializedStat(float percentage)
+    {
+        initialDuration *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        initialSize *= 1 + percentage;
     }
 }

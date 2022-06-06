@@ -17,14 +17,15 @@ public class ShipDamageController : MonoBehaviour, IDamageable
 
     [SerializeField] private ParticleSystem deathVFX;
     [SerializeField] [FMODUnity.EventRef] private string onDeathSFX;
-    [Header("UI")]
-    [SerializeField] private RectTransform fill;
-    [SerializeField] private TextMeshProUGUI textMesh;
+
+    private RectTransform fill;
+    private TextMeshProUGUI textMesh;
     private Queue<IEnumerator> enqueuedUpdates = new Queue<IEnumerator>();
     private float ogIntensity;
 
     private WaitForEndOfFrame waitTime = new WaitForEndOfFrame();
     private WaitForSeconds blinkTime = new WaitForSeconds(0.15f);
+    private WaitForSeconds regenTime = new WaitForSeconds(1f);
     private float currentHealth
     {
         get
@@ -37,13 +38,23 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         }
     }
     private float _cHealth;
+
+    private float healthRegen = 0;
+    private float damageReduction = 0;
     
     void Awake()
     {
         currentHealth = maxHealth;
         ogColor = blinkingLight.color;
         ogIntensity = blinkingLight.intensity;
+
+        var healthUI = GameObject.FindGameObjectWithTag("ShipHealth");
+
+        fill = healthUI.transform.Find("Fill").GetComponent<RectTransform>();
+        textMesh = healthUI.transform.Find("Value").GetComponent<TextMeshProUGUI>();
+
         StartCoroutine(ManageGUIUpdate());
+        StartCoroutine(Regen());
     }
 
     public void DestroyDamageable()
@@ -53,7 +64,7 @@ public class ShipDamageController : MonoBehaviour, IDamageable
 
     public void UpdateHealth(float amount)
     {
-        currentHealth += amount;
+        currentHealth += amount * (1 - damageReduction);
         if(currentHealth <= 0)
         {
             StartCoroutine(DeathAnimation());
@@ -115,6 +126,16 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         textMesh.text = currentHealth.ToString("0");
     }
 
+    private IEnumerator Regen()
+    {
+        while(gameObject.activeSelf)
+        {
+            yield return regenTime;
+
+            if(GameManager.Main.gameState == GameState.OnWave) UpdateHealthNoEffects(healthRegen);
+        }
+    }
+
     private IEnumerator Blink()
     {
         blinkingLight.color = damageColor;
@@ -158,6 +179,11 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         
     }
 
+    public float GetMissingHealth()
+    {
+        return maxHealth - currentHealth;
+    }
+
     private IEnumerator ManageGUIUpdate()
     {
         while(true)
@@ -178,5 +204,19 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         
         var newUpdate = UpdateGUI();
         enqueuedUpdates.Enqueue(newUpdate);
+    }
+
+    public void ModifyHealthRegen(float amount)
+    {
+        healthRegen += amount;
+    }
+
+    public void ModifyDamageReduction(float amount)
+    {
+        damageReduction += amount;
+        if(damageReduction > 1)
+        {
+            damageReduction = 1;
+        }
     }
 }

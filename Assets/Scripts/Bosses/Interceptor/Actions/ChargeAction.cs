@@ -6,6 +6,10 @@ using UnityEngine;
 public class ChargeAction : BossAction
 { 
     [SerializeField] private float chargeSpeed;
+    [SerializeField] [FMODUnity.EventRef] private string ChargeSFX;
+    [SerializeField] [FMODUnity.EventRef] private string chargeOpenSFX;
+    [SerializeField] [FMODUnity.EventRef] private string chargeCloseSFX;
+    [SerializeField] private ParticleSystem ChargeVFX;
     private Vector2 targetPosition = Vector2.zero;
     private float counter;
     public bool activateWeaponry;
@@ -21,6 +25,8 @@ public class ChargeAction : BossAction
         {
             targetPosition = ship.position - transform.position;
             targetPosition += Vector2.Perpendicular(targetPosition);
+            AudioManager.Main.RequestSFX(ChargeSFX);
+            ChargeVFX.Play();
             if(activateWeaponry) actionWeaponry.ForEach(x => x.Shoot());
             // targetPosition -= (Vector2)transform.position;
         }
@@ -54,16 +60,17 @@ public class ChargeAction : BossAction
     public override void EndAction()
     {
         targetPosition = Vector2.zero;
+        AudioManager.Main.RequestSFX(chargeCloseSFX);
         actionWeaponry.ForEach(x => x.StopShooting());
     }
 
     public override void StartAction()
     {
         counter = 0;   
-    }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, targetPosition);
+        controller.PlayMovementSFX();
+        if(!activateWeaponry) return;
+        controller.ActivateAnimation("Special");
+        AudioManager.Main.RequestSFX(chargeOpenSFX);
     }
 }

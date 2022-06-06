@@ -8,7 +8,7 @@ using System;
 
 public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
 {
-    public enum ButtonMode {BUILD, DONE};
+    public enum ButtonMode {BUILD, DONE, UPGRADE, EVOLVE};
 
 
     [SerializeField] private Sprite clickedSprite;
@@ -36,10 +36,23 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         image.sprite = clickedSprite;
         // textMesh.color = Color.white;
         if(mode == ButtonMode.BUILD) Build();
         if (mode == ButtonMode.DONE) Done();
+        if (mode == ButtonMode.UPGRADE) Upgrade();
+    }
+
+    private void Upgrade()
+    {
+        if(rewardManager.TotalCash >= buildBox.weaponCost)
+            {
+                AudioManager.Main.RequestGUIFX(clickSFX);
+                upgradeButton.Upgrade(buildBox.weaponCost);
+            }
+            else AudioManager.Main.PlayInvalidSelection("Not enough cash");
     }
 
     private void Done()
@@ -47,10 +60,10 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         AudioManager.Main.RequestGUIFX(clickSFX);
         if(buildBox.baseToReplace)
         {
-            FindObjectOfType<SellButton>().Replace();
+            FindObjectOfType<SellButton>(true).Replace();
         }
         upgradeButton.Disable();
-        FindObjectOfType<SellButton>().Disable();
+        // FindObjectOfType<SellButton>().Disable();
     }
 
     private void Build()
@@ -62,9 +75,26 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
                 AudioManager.Main.RequestGUIFX(clickSFX);
                 rewardManager.SetSelection(buildBox.Selections().Weapon, buildBox.Selections().Base);
             }
-            else AudioManager.Main.PlayInvalidSelection();
+            else AudioManager.Main.PlayInvalidSelection("Not enough cash");
         }
-        else AudioManager.Main.PlayInvalidSelection();
+        else
+        {
+            if(buildBox.Selections().Weapon == null && buildBox.Selections().Base == null)
+            {
+                AudioManager.Main.PlayInvalidSelection("Select a weapon and a base");
+                return;
+            }
+            if(buildBox.Selections().Weapon == null) 
+            {
+                AudioManager.Main.PlayInvalidSelection("Select a weapon first");
+                return;
+            }
+            if(buildBox.Selections().Base == null)
+            {
+                AudioManager.Main.PlayInvalidSelection("Select a base first");
+                return;
+            } 
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)

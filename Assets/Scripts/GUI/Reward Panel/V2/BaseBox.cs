@@ -51,9 +51,11 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+        
         if(cachedBase == null || RewardManager.Main.ActiveSelection)
         {
-            AudioManager.Main.PlayInvalidSelection();
+            AudioManager.Main.PlayInvalidSelection("");
             return;
         }
         if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && !buildBox.CheckBaseBox(this)) 
@@ -102,7 +104,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
             selected = false;
             return;
         }
-        AudioManager.Main.PlayInvalidSelection();
+        AudioManager.Main.PlayInvalidSelection("");
     }
 
     void Update()

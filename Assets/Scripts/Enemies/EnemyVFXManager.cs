@@ -22,8 +22,11 @@ public class EnemyVFXManager : VFXManager
         audioManager.StopSFX(audioInstance);
         audioManager.RequestSFX(deathSFX, out audioInstance);
 
-        GetComponent<EnemyAttackController>().Stop();
-        GetComponent<EnemyAttackController>().Sleeping = true;
+        if(TryGetComponent<EnemyAttackController>(out var controller))
+        {
+            controller.Stop();
+            controller.Sleeping = true;
+        }
 
         GetComponent<Collider2D>().enabled = false;
 

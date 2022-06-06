@@ -5,39 +5,39 @@ using StringHandler;
 
 public class LeechEffect : ActionEffect
 {
-    [SerializeField] private float duration;
+    [SerializeField] private float projectiles;
     [SerializeField] [Range(0, 1)] private float leech;
-    [SerializeField] private float initalBulletSize;
+    [SerializeField] private float initialArcSize;
 
-    public override Stat specializedStat => Stat.Size;
+    public override Stat specializedStat => Stat.Projectiles;
 
-    public override Stat secondaryStat => Stat.Duration;
+    public override Stat secondaryStat => Stat.Size;
 
     public override void SetData()
     {
-        StatSet.Add(Stat.Duration, duration);
-        SetDuration();
-        StatSet.Add(Stat.Size, initalBulletSize);
-        SetBulletSize();
+        StatSet.Add(Stat.Projectiles, projectiles);
+        SetProjectiles();
+        StatSet.Add(Stat.Size, initialArcSize);
+        SetSize();
         base.SetData();
     }
 
     public override void SetStat(Stat statName, float value)
     {
         base.SetStat(statName, value);
-        SetDuration();
+        SetProjectiles();
     }
 
-    private void SetDuration()
+    private void SetProjectiles()
+    {
+        var emission = shooterParticle.emission;
+        emission.rateOverTime = StatSet[Stat.Projectiles];
+    }
+
+    private void SetSize()
     {
         var main = shooterParticle.main;
-        main.duration = StatSet[Stat.Duration];
-    }
-
-    private void SetBulletSize()
-    {
-        var module = shooterParticle.sizeOverLifetime;
-        module.sizeMultiplier = StatSet[Stat.Size];
+        main.startSpeed = StatSet[Stat.Size];
     }
 
     public override void ApplyEffect(HitManager hitManager)
@@ -49,7 +49,7 @@ public class LeechEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "releases a barrage of shoots in a small area for " + StatColorHandler.StatPaint(StatSet[Stat.Duration].ToString()) + " seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on contact and heals the ship for " + StatColorHandler.HealthPaint((StatSet[Stat.Damage] * leech).ToString());
+        string description = "shoots " + StatColorHandler.StatPaint(StatSet[Stat.Projectiles]) + " returning bullets per second for 4 seconds that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage]) + " damage and heals the ship for " + StatColorHandler.StatPaint(leech * 100) + "%  of the damage dealt";
         return description;
     }
 
@@ -62,25 +62,24 @@ public class LeechEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5)
-        {
-            GainDuration();
-        }
-        else
-        {
-            GainLeech();
-        }
+        leech += .3f;
+        maxedOut = true;
     }
 
-    private void GainDuration()
+    public override void RemoveLevelUp()
     {
-        var _duration = StatSet[Stat.Duration];
-        _duration *= 1.2f;
-        SetStat(Stat.Duration, _duration);
+        if(!maxedOut) return;
+        leech -= .3f;
+        maxedOut = false;
     }
 
-    private void GainLeech()
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        leech += 0.15f;
+        projectiles *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        initialArcSize *= 1 + percentage;
     }
 }

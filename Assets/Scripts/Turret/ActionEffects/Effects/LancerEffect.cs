@@ -8,6 +8,7 @@ public class LancerEffect : ActionEffect
 {
     [SerializeField] private float initialBulletSpeed;
     [SerializeField] private float initialBulletSize;
+    private string extraInfo = "a piercing arrow";
 
     public override Stat specializedStat => Stat.BulletSpeed;
 
@@ -49,7 +50,7 @@ public class LancerEffect : ActionEffect
 
     public override string DescriptionText()
     {
-        string description = "shoots a piercing arrow that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
+        string description = "shoots " + extraInfo + " that deals " + StatColorHandler.DamagePaint(StatSet[Stat.Damage].ToString()) + " damage on hit";
         return description;
     }
 
@@ -61,27 +62,23 @@ public class LancerEffect : ActionEffect
 
     public override void LevelUp(int toLevel)
     {
-        if(toLevel == 3 || toLevel == 5)
-        {
-            GainSize(toLevel * 10);
-        }
-        else
-        {
-            GainDamage();
-        }
+        shooterParticle.GetComponent<SeekerParticleComponent>().enabled = true;
+        extraInfo = "a homing piercing arrow";
     }
 
-    private void GainDamage()
+    public override void RemoveLevelUp()
     {
-        var damage = StatSet[Stat.Damage];
-        damage *= 1.1f;
-        SetStat(Stat.Damage, damage);
+        shooterParticle.GetComponent<SeekerParticleComponent>().enabled = false;        
+        extraInfo = "a piercing arrow";
     }
 
-    private void GainSize(float percentage)
+    public override void RaiseInitialSpecializedStat(float percentage)
     {
-        var size = StatSet[Stat.Size];
-        size *= 1 + (percentage / 100);
-        SetStat(Stat.Size, size);
+        initialBulletSpeed *= 1 + percentage;
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        initialBulletSize *= 1 + percentage;
     }
 }

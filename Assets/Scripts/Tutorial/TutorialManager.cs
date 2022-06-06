@@ -4,18 +4,46 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
+    [SerializeField] private Vector2 skipWindowPosition;
+
+    [Header("Tutorials")]
+    [SerializeField] private List<TutorialStep> SelectionScreenTutorial;
     [SerializeField] private List<TutorialStep> initialTutorial;
     [SerializeField] private List<TutorialStep> posBuildTutorial;
     [SerializeField] private List<TutorialStep> waveTutorial;
+    [SerializeField] private List<TutorialStep> upgradeTutorial;
+    [SerializeField] private List<TutorialStep> lockTutorial;
+    [SerializeField] private List<TutorialStep> rerollTutorial;
+    [SerializeField] private List<TutorialStep> shopTutorial;
+    [SerializeField] private List<TutorialStep> techTutorial;
+    [SerializeField] private List<TutorialStep> statsTutorial;
+
+    [Header("Components")]
     [SerializeField] private TutorialBox box;
     [SerializeField] private GameObject blockPanel;
-    private bool tutorialFinished;
+    [SerializeField] private RectTransform highlightPanel;
+    public static bool tutorialFinished;
+    private static bool initiated;
     
+    void Start()
+    {
+        if(!initiated && !tutorialFinished)
+        {
+            ShowSkipWindow();
+            initiated = true;
+        }
+    }
 
     public void ShowSkipWindow()
     {
         var text = "do you want to take the tutorial?";
-        box.ReceiveTutorialInfo(new Vector2(336, -20), text, Direction.None, 1, true);
+        box.ReceiveTutorialInfo(skipWindowPosition, text, Direction.None, 1, true);
+    }
+
+    public void TriggerSelectionTutorial()
+    {
+        if(tutorialFinished) return;
+        StartCoroutine(ShowTutorial(SelectionScreenTutorial));
     }
 
     public void TriggerInitialTutorial()
@@ -34,7 +62,42 @@ public class TutorialManager : MonoBehaviour
     {
         if(tutorialFinished) return;
         StartCoroutine(ShowTutorial(waveTutorial));
-        tutorialFinished = true;
+    }
+
+    public void TriggerUpgradeTutorial()
+    {
+        if(tutorialFinished) return;
+        StartCoroutine(ShowTutorial(upgradeTutorial));
+    }
+
+    public void TriggerLockTutorial()
+    {
+        if(tutorialFinished) return;
+        StartCoroutine(ShowTutorial(lockTutorial));
+    }
+
+    public void TriggerRerollTutorial()
+    {
+        if(tutorialFinished) return;
+        StartCoroutine(ShowTutorial(rerollTutorial));
+    }
+
+    public void TriggerShopTutorial()
+    {
+        if(tutorialFinished) return;
+        StartCoroutine(ShowTutorial(shopTutorial));
+    }
+
+    public void TriggerTechTutorial()
+    {
+        if(tutorialFinished) return;
+        StartCoroutine(ShowTutorial(techTutorial));
+    }
+
+    public void TriggerStatTutorial()
+    {
+        if(tutorialFinished) return;
+        StartCoroutine(ShowTutorial(statsTutorial));
     }
 
     public void No()
@@ -51,6 +114,8 @@ public class TutorialManager : MonoBehaviour
         for (int i = 0; i < steps.Count; i++)
         {
             var step = steps[i];
+            highlightPanel.anchoredPosition = step.panelPosition;
+            highlightPanel.sizeDelta = step.panelSize;
             box.ReceiveTutorialInfo(step.boxPosition, step.stepText, step.arrowPosition, step.lines);
 
             yield return new WaitForSeconds(.2f);
@@ -61,6 +126,7 @@ public class TutorialManager : MonoBehaviour
         box.Terminate();
 
         blockPanel.SetActive(false);
+        steps.Clear();
     }
 
     public IEnumerator ShowWaveTutorial()
@@ -74,7 +140,8 @@ public class TutorialManager : MonoBehaviour
         for (int i = 0; i < waveTutorial.Count; i++)
         {
             var step = waveTutorial[i];
-            box.ReceiveTutorialInfo(step.boxPosition, step.stepText, step.arrowPosition, step.lines);
+            box.ReceiveTutorialInfo(step.boxPosition, step.stepText, step.arrowPosition, step.lines);highlightPanel.anchoredPosition = step.panelPosition;
+            highlightPanel.sizeDelta = step.panelSize;
 
             yield return new WaitForSeconds(.2f);
 
@@ -91,6 +158,8 @@ public class TutorialManager : MonoBehaviour
 public struct TutorialStep
 {
     public Vector2 boxPosition;
+    public Vector2 panelPosition;
+    public Vector2 panelSize;
     public int lines;
     public Direction arrowPosition;    
     [TextArea] public string stepText;

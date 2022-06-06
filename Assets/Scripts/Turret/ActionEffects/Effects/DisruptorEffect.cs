@@ -98,4 +98,14 @@ public class DisruptorEffect : ActionEffect
         _efficiency += 0.05f;
         SetStat(Stat.Efficiency, _efficiency);
     }
+
+    public override void RaiseInitialSpecializedStat(float percentage)
+    {
+        
+    }
+
+    public override void RaiseInitialSecondaryStat(float percentage)
+    {
+        
+    }
 }
