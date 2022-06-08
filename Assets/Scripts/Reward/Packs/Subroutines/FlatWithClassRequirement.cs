@@ -21,7 +21,7 @@ public class FlatWithClassRequirement : ShipSubroutine
 
         foreach (TurretManager turret in turrets)
         {
-            if (turret.actionController.GetWeaponClass() == weaponClass) count++;
+            //if (turret.actionController.GetWeaponClass() == weaponClass) count++;
         }
 
         if (count >= requirement) return true;

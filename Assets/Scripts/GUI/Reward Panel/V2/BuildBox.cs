@@ -21,16 +21,16 @@ public class BuildBox : MonoBehaviour
     [SerializeField] private TextMeshProUGUI restValue;
 
     [Header("Descriptions")]
-    [SerializeField] private TextMeshProUGUI weaponEffect;
-    [SerializeField] private TextMeshProUGUI baseEffect;
-    [SerializeField] private TextMeshProUGUI baseTrigger;
+    [SerializeField] private TextMeshProUGUI weaponDescription;
+    [SerializeField] private TextMeshProUGUI upgradePoints;
 
     [Header("Additional stats")]
-    [SerializeField] private List<StatBox> additionalStatBoxes;
+    [SerializeField] private List<StatBox> statBoxes;
     [SerializeField] private TextMeshProUGUI _class;
     [SerializeField] private TextMeshProUGUI classDescription;
 
-
+    [Header("Programs")]
+    [SerializeField] private List<ProgramBox> programBoxes;
 
     [HideInInspector] public float weaponCost, baseCost;
     public float TotalCost
@@ -49,11 +49,25 @@ public class BuildBox : MonoBehaviour
     private List<Keyword> keywords = new List<Keyword>();
     private RectTransform statInfoBox;
     public bool OnUpgrade;
+    private BuildButton buildButton;
 
+    public void ActivateUpgradeMode()
+    {
+        OnUpgrade = true;
+        buildButton.mode = BuildButton.ButtonMode.UPGRADE;
+
+    }
+
+    public void DeactivateUpgradeMode()
+    {
+        OnUpgrade = false;
+        buildButton.mode = BuildButton.ButtonMode.BUILD;
+    }
 
     void Start()
     {
         statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
+        buildButton = FindObjectOfType<BuildButton>();
         FindObjectOfType<SellButton>(true).OnTurretSell += Unselect;
         InputManager.Main.OnSelectionClear += Unselect;
     }
@@ -66,7 +80,7 @@ public class BuildBox : MonoBehaviour
         weaponImage.color = Color.white;
         weaponImage.GetComponent<UIAnimations>().Play();
         selectedWeaponBox = box;
-        weaponCost = selectedWeapon.GetComponent<ActionController>().GetCost();
+        weaponCost = selectedWeapon.GetComponent<Weapon>().Cost;
         UpdateStats();
     }
 
@@ -77,13 +91,22 @@ public class BuildBox : MonoBehaviour
         weaponImage.sprite = selectedWeapon.GetComponent<SpriteRenderer>().sprite;
         weaponImage.color = Color.white;
         weaponImage.GetComponent<UIAnimations>().Play();
-        weaponCost = selectedWeapon.GetComponent<ActionController>().GetCost();
+        weaponCost = selectedWeapon.GetComponent<Weapon>().Cost;
         UpdateStats();
     }
 
     public void ReceiveWeaponBox(WeaponBox box)
     {
+        ClearWeaponBox();
+        ClearBaseBox();
         selectedWeaponBox = box;
+    }
+
+    public void ReceiveBaseBox(BaseBox box)
+    {
+        ClearWeaponBox();
+        ClearBaseBox();
+        selectedBaseBox = box;
     }
 
     public void ReceiveBase(GameObject receveidBase, BaseBox box)
@@ -94,7 +117,7 @@ public class BuildBox : MonoBehaviour
         baseImage.color = Color.white;
         baseImage.GetComponent<UIAnimations>().Play();
         selectedBaseBox = box;
-        baseCost = selectedBase.GetComponent<BaseEffectTemplate>().GetCost();
+        baseCost = selectedBase.GetComponent<Foundation>().Cost;
         UpdateStats();
     }
 
@@ -105,7 +128,7 @@ public class BuildBox : MonoBehaviour
         baseImage.sprite = selectedBase.GetComponent<SpriteRenderer>().sprite;
         baseImage.color = Color.white;
         baseImage.GetComponent<UIAnimations>().Play();
-        baseCost = selectedBase.GetComponent<BaseEffectTemplate>().GetCost();
+        baseCost = selectedBase.GetComponent<Foundation>().Cost;
         UpdateStats();
     }
     
@@ -114,56 +137,62 @@ public class BuildBox : MonoBehaviour
         keywords.Clear();
         costText.text = (OnUpgrade)? "-" : TotalCost + "$";
         nameText.text = "";
-        baseTrigger.text = "";
         if(selectedWeapon && selectedBase)
         {
-            var _base = selectedBase.GetComponent<BaseEffectTemplate>();
-            var _weapon = selectedWeapon.GetComponent<ActionController>();
+            var _base = selectedBase.GetComponent<Foundation>();
+            var _weapon = selectedWeapon.GetComponent<Weapon>();
+
+            weaponDescription.text = _weapon.Description;
 
             if(!OnUpgrade)
             {
-                PreviewBaseEffect(selectedBase, selectedWeapon);
-                nameText.text = "</uppercase>" + _base.name + " " + _weapon.name + "<lowercase> \n level <size=125%>0";
+                nameText.text = _base.name + " " + _weapon.name + "\n level 0";
             }
             else
             {
-                nameText.text = "</uppercase>" + selectedBase.name + " " + selectedWeapon.name + "<lowercase> \n level <size=125%>" + selectedWeapon.GetComponentInParent<TurretManager>().Level;
+                nameText.text = selectedBase.name + " " + selectedWeapon.name + "\n level " + selectedWeapon.GetComponentInParent<TurretManager>().Level;
+                upgradePoints.text = _weapon.GetComponentInParent<TurretManager>().upgradePoints + " upgrade point(s) available";
             }
-        }
-        if(selectedBase) 
-        {
-            var _base = selectedBase.GetComponent<BaseEffectTemplate>();
-            Keyword baseKeyword;
-            if(selectedWeapon)
-            {
-                var _weapon = selectedWeapon.GetComponent<ActionController>();
-                baseEffect.text = _base.DescriptionText(out baseKeyword);
-                if(_base.targetStats)
-                {
-                    var container = "";
-                    foreach(Stat stat in _weapon.GetStatsOnShooters())
-                    {
-                        if(_base.StatIsTarget(stat))
-                        {
-                            container += _base.DescriptionTextByStat(stat) + "\n";
-                        }
-                    }
-
-                    baseEffect.text = container;
-                }
-            }
-            else baseEffect.text = _base.DescriptionText(out baseKeyword);
-            baseTrigger.text = GetTriggerText(_base.GetTrigger());
-            if(baseKeyword != Keyword.None) keywords.Add(baseKeyword);
         }
         if(selectedWeapon)
         {
-            var effect = selectedWeapon.GetComponent<ActionEffect>();
-            healthValue.text = selectedWeapon.GetComponent<ActionController>().GetHealth().ToString("0");
-            restValue.text = effect.StatSet[Stat.Rest].ToString();
-            weaponEffect.text = effect.DescriptionText(out var weaponKeyword);
-            if(weaponKeyword != Keyword.None) keywords.Add(weaponKeyword);
-            UpdateAdditionalStats(effect);
+            var weapon = selectedWeapon.GetComponent<Weapon>();
+            List<Program> _programs = new List<Program>();
+
+            foreach(Program program in weapon.InitialPrograms)
+            {
+                _programs.Add(program);
+            }
+            
+            if(selectedBase) 
+            {
+                var foundation = selectedBase.GetComponent<Foundation>();
+
+                foreach(TurretStat stat in foundation.exposedStats)
+                {
+                    if (weapon.HasDormentStat(stat)) weapon.ExposeDormentStat(stat);
+                }
+
+                foreach (Program program in foundation.programs)
+                {
+                    _programs.Add(program);
+                }
+            }
+
+            UpdateAdditionalStats(weapon);
+            UpdateProgramBoxes(_programs);
+        }
+        if (selectedBase && !selectedWeapon)
+        {
+            var foundation = selectedBase.GetComponent<Foundation>();
+            List<Program> _programs = new List<Program>();
+
+            foreach (Program program in foundation.programs)
+            {
+                _programs.Add(program);
+            }
+
+            UpdateProgramBoxes(_programs);
         }
     }
 
@@ -179,124 +208,119 @@ public class BuildBox : MonoBehaviour
         else costText.text = "-";
     }
 
-    public void PreviewBaseEffect(GameObject baseToPreview, GameObject weapon)
+    public float GetUpgradeCost()
     {
-        var _base = baseToPreview.GetComponent<BaseEffectTemplate>();
-        var _weapon = weapon.GetComponent<ActionController>();
+        if (!OnUpgrade) return 0;
+        if (selectedWeaponBox) return weaponCost;
+        if (selectedBaseBox) return baseCost;
+        return 0;
+    }
 
-        if (_base.previewable)
+    public void UpgradeTurret()
+    {
+        if(selectedWeaponBox)
         {
-            _base.ReceiveWeapon(_weapon);
-            _base.ApplyEffect();
+            selectedWeapon.GetComponentInParent<TurretManager>().LevelUp();
+            selectedWeaponBox.Clear();
+            ClearWeaponBox();
+        }
+        if (selectedBaseBox)
+        {
+            selectedWeapon.GetComponentInParent<TurretManager>().LevelUp();
+            selectedBaseBox.Clear();
+            ClearBaseBox();
+        }
+        UpdateStats();
+    }
+
+    private void UpdateAdditionalStats(Weapon weapon)
+    {
+        var stats = weapon.GetTurretStats();
+
+        for(int i = 0; i < stats.Count; i++)
+        {
+            var statbox = statBoxes[i];
+            var stat = stats[i];
+            statbox.Activate();
+            statbox.SetHeaderText(stat.publicName);
+            var desc = (stat.Initiated) ? stat.GetLiteralValue() : stat.GetLiteralStartingValue();
+            statbox.SetValueText(desc);
+            statbox.description = stat.statDescription;
+            statbox.ReceiveStat(stat);
         }
     }
 
-    private void UpdateAdditionalStats(ActionEffect effect)
+    private void UpdateProgramBoxes(List<Program> programs)
     {
-        additionalStatBoxes[0].SetHeaderText(StatColorHandler.DamagePaint(Stat.Damage.ToString()) + ":");
-        additionalStatBoxes[0].SetValueText(effect.StatSet[Stat.Damage].ToString());
-        additionalStatBoxes[0].description = effect.damageText;
+        var lockedLevel = 1;
+        var component = (selectedBase == null) ? selectedWeapon : selectedBase;
+        var manager = component.GetComponentInParent<TurretManager>();
 
-        additionalStatBoxes[1].SetHeaderText(StatColorHandler.StatPaint(effect.specializedStat.ToSplittedString()) + ":");
-        var _txt = (effect.specializedStat == Stat.Efficiency) ? (effect.StatSet[effect.specializedStat] * 100).ToString() + "%" : effect.StatSet[effect.specializedStat].ToString();
-        additionalStatBoxes[1].SetValueText(_txt);
-        additionalStatBoxes[1].description = effect.specializedStatText;
+        for(int i = 0; i < programBoxes.Count; i++)
+        {
+            var box = programBoxes[i];
+            var program = (i >= programs.Count) ? null : programs[i];
 
-        additionalStatBoxes[2].SetHeaderText(StatColorHandler.StatPaint(effect.secondaryStat.ToSplittedString()) + ":");
-        _txt = (effect.secondaryStat == Stat.Efficiency) ? (effect.StatSet[effect.secondaryStat] * 100).ToString() + "%" : effect.StatSet[effect.secondaryStat].ToString();
-        additionalStatBoxes[2].SetValueText(_txt);
-        additionalStatBoxes[2].description = effect.secondaryStatText;
+            if(program != null)
+            {
+                box.SetupFilledBox(program);
+            } else if(manager != null && manager.Level >= lockedLevel * 3)
+            {
+                box.SetupAvailableBox(manager.upgradePoints > 0);
+                lockedLevel++;
+            } else
+            {
+                box.SetupLockedBox(lockedLevel * 3);
+                lockedLevel++;
+            }
+        }
+    }
 
-        string container = effect.weaponClass.ToSplittedString();
+    public bool CheckCompability(Foundation testedFoundation)
+    {
+        if (!selectedWeapon) return true;
+        var weapon = selectedWeapon.GetComponent<Weapon>();
+
+        foreach(TurretStat stat in testedFoundation.exposedStats)
+        {
+            if (!weapon.HasDormentStat(stat)) return false;
+        }
+
+        return true;
+    }
+
+    public bool CheckCompability(Weapon testedWeapon)
+    {
+        if (!selectedBase) return true;
+        var foundation = selectedBase.GetComponent<Foundation>();
         
-        _class.text = StatColorHandler.RestPaint(container);
-        classDescription.text = DescriptionDictionary.Main.GetDescription(effect.weaponClass.ToString());
-    }
-
-    private string GetTriggerText(EffectTrigger baseEffectTrigger)
-    {
-        var container = string.Empty;
-        switch(baseEffectTrigger)
+        foreach(TurretStat stat in foundation.exposedStats)
         {
-            case EffectTrigger.Immediate:
-                container = "when constructed:";
-            break;
-            case EffectTrigger.EndOfWave:
-                container = "at the end of each wave:";
-            break;
-            case EffectTrigger.StartOfWave:
-                container = "at the start of each wave:";
-            break;
-            case EffectTrigger.OnDestruction:
-                container = "when destructed:";
-            break;
-            case EffectTrigger.OnLevelUp:
-                container = "when upgraded:";
-            break;
-            case EffectTrigger.OnHit:
-                container = "when hit:";
-            break;
-            case EffectTrigger.OnEnemyDefeat:
-                container = "when a enemy is defeated:";
-            break;
-            case EffectTrigger.OnTurretBuild:
-                container = "when a turret is built:";
-            break;
-            case EffectTrigger.OnTurretSell:
-                container = "when a turret is sold:";
-            break;
-            case EffectTrigger.Special:
-                container = selectedBase.GetComponent<BaseEffectTemplate>().GetSpecialTrigger();
-            break;
+            if (!testedWeapon.HasDormentStat(stat)) return false;
         }
 
-        return container;
-    }
-
-    public bool CheckCompability(BaseEffectTemplate testSubject)
-    {
-        if(!testSubject.targetStats && !testSubject.targetTags) return true;
-        if(!selectedWeapon) return true;
-        var controller = selectedWeapon.GetComponent<ActionController>();
-        var stats = controller.GetStatsOnShooters();
-        foreach(Stat stat in stats)
-        {
-            if(testSubject.StatIsTarget(stat)) return true;
-        }
-        var tags = controller.GetShooters()[0].weaponClass;
-        return testSubject.ContainsTag(tags);
-    }
-
-    public bool CheckCompability(ActionController testSubject)
-    {
-        if(!selectedBase) return true;
-        var _base = selectedBase.GetComponent<BaseEffectTemplate>();
-        if(!_base.targetStats && !_base.targetTags) return true;
-        var stats = testSubject.GetStatsOnShooters();
-        foreach(Stat stat in stats)
-        {
-            if(_base.StatIsTarget(stat)) return true;
-        }
-        var tags = testSubject.GetShooters()[0].weaponClass;
-        return _base.ContainsTag(tags);
+        return true;
     }
 
     private void ResetStats()
     {
         costText.text = "0$";
-        baseEffect.text = "";
         healthValue.text = "";
         restValue.text = "";
-        weaponEffect.text = "";
         nameText.text = "";
-        baseTrigger.text = "";
+        weaponDescription.text = "";
+        upgradePoints.text = "";
 
-        foreach(StatBox box in additionalStatBoxes)
+        foreach(StatBox box in statBoxes)
         {
             box.SetHeaderText("");
             box.SetValueText("");
             box.description = "";
+            box.ReceiveStat(null);
+            box.Deactivate();
         }
+
+        programBoxes.ForEach(x => x.SetupAvailableBox(false));
 
         _class.text = "";
 
@@ -308,11 +332,25 @@ public class BuildBox : MonoBehaviour
         return (selectedWeapon, selectedBase);
     }
 
+    private void UndoFoundationEffect()
+    {
+        if (selectedWeapon && selectedBase)
+        {
+            var weapon = selectedWeapon.GetComponent<Weapon>();
+            var foundation = selectedBase.GetComponent<Foundation>();
+            
+            foreach (TurretStat stat in foundation.exposedStats)
+            {
+                if (weapon.HasStat(stat)) weapon.HideExposedStat(stat);
+            }
+        }
+    }
+
     public void Clear()
     {
         ClearBase();
         ClearWeapon();
-        OnUpgrade = false;
+        DeactivateUpgradeMode();
     }
 
     public void Unselect(object sender, EventArgs e)
@@ -328,15 +366,18 @@ public class BuildBox : MonoBehaviour
             selectedBaseBox = null;
         }
         Clear();
+        DeactivateUpgradeMode();
     }
 
     public void ClearWeapon()
     {
-        if (selectedWeaponBox && !OnUpgrade) 
-        {
-            selectedWeapon.GetComponent<ActionController>().Reset();
-            selectedWeaponBox.Detach();
-        }
+        if (selectedWeaponBox) selectedWeaponBox.Detach();
+        //if (selectedWeaponBox && !OnUpgrade) 
+        //{
+        //    //selectedWeapon.GetComponent<ActionController>().Reset();
+        //    selectedWeaponBox.Detach();
+        //}
+        UndoFoundationEffect();
         selectedWeaponBox = null;
         selectedWeapon = null;
         weaponImage.color = Color.clear;
@@ -346,11 +387,12 @@ public class BuildBox : MonoBehaviour
 
     public void ClearWeapon(out GameObject _weapon)
     {
-        if (selectedWeaponBox && !OnUpgrade) 
-        {
-            selectedWeapon.GetComponent<ActionController>().Reset();
-            selectedWeaponBox.Detach();
-        }
+        if (selectedWeaponBox) selectedWeaponBox.Detach();
+            //{
+            //    //selectedWeapon.GetComponent<ActionController>().Reset();
+            //    selectedWeaponBox.Detach();
+            //}
+            UndoFoundationEffect();
         selectedWeaponBox = null;
         _weapon = selectedWeapon;
         selectedWeapon = null;
@@ -361,18 +403,25 @@ public class BuildBox : MonoBehaviour
 
     public void ClearWeaponBox()
     {
-        selectedWeaponBox.Unselect();
+        if(selectedWeaponBox) selectedWeaponBox.Unselect();
         selectedWeaponBox = null;
+    }
+
+    public void ClearBaseBox()
+    {
+        if(selectedBaseBox) selectedBaseBox.Unselect();
+        selectedBaseBox = null;
     }
 
     public void ClearBase()
     {
         if (selectedBaseBox) selectedBaseBox.Detach();
-        if (selectedWeaponBox && !OnUpgrade) 
-        {
-            selectedWeapon.GetComponent<ActionController>().Reset();
-            // selectedWeaponBox.Detach();
-        }
+        //if (selectedWeaponBox && !OnUpgrade) 
+        //{
+        //    //selectedWeapon.GetComponent<ActionController>().Reset();
+        //    // selectedWeaponBox.Detach();
+        //}
+        UndoFoundationEffect();
         selectedBaseBox = null;
         selectedBase = null;
         baseImage.color = Color.clear;
@@ -383,11 +432,12 @@ public class BuildBox : MonoBehaviour
     public void ClearBase(out GameObject _base)
     {
         if (selectedBaseBox) selectedBaseBox.Detach();
-        if (selectedWeaponBox && !OnUpgrade) 
-        {
-            selectedWeapon.GetComponent<ActionController>().Reset();
-            // selectedWeaponBox.Detach();
-        }
+        //if (selectedWeaponBox && !OnUpgrade) 
+        //{
+        //    //selectedWeapon.GetComponent<ActionController>().Reset();
+        //    // selectedWeaponBox.Detach();
+        //}
+        UndoFoundationEffect();
         selectedBaseBox = null;
         _base = selectedBase;
         selectedBase = null;
@@ -406,25 +456,25 @@ public class BuildBox : MonoBehaviour
         return selectedBaseBox == checkTarget;
     }
 
-    public void ShowKeywordInfo()
-    {
-        if(keywords.Count == 0) return;
-        var text = string.Empty;
+    //public void ShowKeywordInfo()
+    //{
+    //    if(keywords.Count == 0) return;
+    //    var text = string.Empty;
 
-        foreach(Keyword keyword in keywords)
-        {
-            text += KeywordHandler.KeywordDescription(keyword);
-        }
+    //    foreach(Keyword keyword in keywords)
+    //    {
+    //        text += KeywordHandler.KeywordDescription(keyword);
+    //    }
 
-        if(!statInfoBox.gameObject.activeSelf)
-        {
-            statInfoBox.gameObject.SetActive(true);
-            statInfoBox.GetComponent<StatInfoBox>().SetText(text);
-        }
-    }
+    //    if(!statInfoBox.gameObject.activeSelf)
+    //    {
+    //        statInfoBox.gameObject.SetActive(true);
+    //        statInfoBox.GetComponent<StatInfoBox>().SetText(text);
+    //    }
+    //}
 
-    public void HideKeywordInfo()
-    {
-        statInfoBox.gameObject.SetActive(false);
-    }
+    //public void HideKeywordInfo()
+    //{
+    //    statInfoBox.gameObject.SetActive(false);
+    //}
 }

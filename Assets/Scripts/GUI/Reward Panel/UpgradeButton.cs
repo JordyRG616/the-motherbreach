@@ -117,19 +117,19 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
         if(RewardManager.Main.TotalCash >= cost && turretManager.Level < turretManager.maxLevel)
         {
-            GetComponentInChildren<ParticleSystem>().Play();
-            AudioManager.Main.RequestGUIFX(upgradeSFX);
-            RewardManager.Main.SpendCash((int)cost);
-            turretManager.actionController.LoadStats();
-            turretManager.actionController.GetShooters().ForEach(x => x.RemoveLevelUp());
-            turretManager.LevelUp();
-            buildBox.UpdateStats();
-            buildBox.selectedWeaponBox.Clear();
-            buildBox.ClearWeaponBox();
-            buildButton.mode = BuildButton.ButtonMode.DONE;
-            // SetButtonText((int)cost);
-            // SetUpgradeText();
-            return;
+            //GetComponentInChildren<ParticleSystem>().Play();
+            //AudioManager.Main.RequestGUIFX(upgradeSFX);
+            //RewardManager.Main.SpendCash((int)cost);
+            //turretManager.actionController.LoadStats();
+            //turretManager.actionController.GetShooters().ForEach(x => x.RemoveLevelUp());
+            //turretManager.LevelUp();
+            //buildBox.UpdateStats();
+            //buildBox.selectedWeaponBox.Clear();
+            //buildBox.ClearWeaponBox();
+            //buildButton.mode = BuildButton.ButtonMode.DONE;
+            //// SetButtonText((int)cost);
+            //// SetUpgradeText();
+            //return;
         }
         else
         {
@@ -193,14 +193,14 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     private void SetUpgradeText()
     {
-        var action = clickedSlot.occupyingTurret.GetComponent<TurretManager>().actionController;
-        var level = clickedSlot.occupyingTurret.GetComponent<TurretManager>().Level;
-        if(level >= 5) return;
-        var text = action.GetShooters()[0].upgradeText(level + 1);
-        text = "<size=125%>" + text;
+        ////var action = clickedSlot.occupyingTurret.GetComponent<TurretManager>().actionController;
+        //var level = clickedSlot.occupyingTurret.GetComponent<TurretManager>().Level;
+        //if(level >= 5) return;
+        ////var text = action.GetShooters()[0].upgradeText(level + 1);
+        //text = "<size=125%>" + text;
 
-        infoBox.gameObject.SetActive(true);
-        infoBox.GetComponent<StatInfoBox>().SetText(text);
+        //infoBox.gameObject.SetActive(true);
+        //infoBox.GetComponent<StatInfoBox>().SetText(text);
     }
 
     public void OnPointerExit(PointerEventData eventData)

@@ -148,9 +148,9 @@ public class RewardManager : MonoBehaviour, ISavable
         tutorialManager.TriggerPosBuildTutorial();
         buildBox.Clear();
         OnTurretBuild?.Invoke(this, new BuildEventArgs(ActiveSelection.GetComponent<TurretManager>()));
-        turretConstructor.HandleBaseEffect(ActiveSelection);
+        //turretConstructor.HandleBaseEffect(ActiveSelection);
         var manager = ActiveSelection.GetComponent<TurretManager>();
-        SpendCash((int)manager.Stats[Stat.Cost]);
+        //SpendCash((int)manager.Stats[Stat.Cost]);
         ShipManager.Main.RegisterTurret(manager);
 
 

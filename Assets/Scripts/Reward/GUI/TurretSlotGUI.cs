@@ -13,6 +13,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     [SerializeField] private Color color;
     private RectTransform sellButton;
     private RectTransform upgradeButton;
+    private bool turretOnUpgrade;
     private RewardManager manager;
     private RectTransform selfRect;
     private Vector3 offset;
@@ -71,7 +72,8 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     public void StopVFX(object sender, EventArgs e)
     {
-        selectedVFX.Stop();
+        turretOnUpgrade = false;
+        selectedVFX.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public void DeactivateSprite()
@@ -88,13 +90,13 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
     private void SendToBuildBox()
     {   
-        var _weapon = associatedSlot.occupyingTurret.GetComponentInChildren<ActionController>().gameObject;
-        var _base = associatedSlot.occupyingTurret.GetComponentInChildren<BaseEffectTemplate>().gameObject;
+        var _weapon = associatedSlot.occupyingTurret.GetComponentInChildren<Weapon>().gameObject;
+        var _base = associatedSlot.occupyingTurret.GetComponentInChildren<Foundation>().gameObject;
 
-        buildBox.OnUpgrade = true;
-        _weapon.GetComponent<ActionController>().SaveStats();
+        //_weapon.GetComponent<ActionController>().SaveStats();
         buildBox.ReceiveWeapon(_weapon);
         buildBox.ReceiveBase(_base);
+        buildBox.ActivateUpgradeMode();
     }
 
     private void ShowOptions()
@@ -119,6 +121,12 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     {
         if(eventData.button != PointerEventData.InputButton.Left) return;
         
+        if(turretOnUpgrade)
+        {
+            selectedVFX.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            buildBox.Clear();
+            return;
+        }
         if(!associatedSlot.IsOcuppied() && manager.ActiveSelection != null)
         {
             var turret = manager.ActiveSelection;
@@ -127,12 +135,13 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             DeactivateSprite();
             return;
         }
-        else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null && !buildBox.OnUpgrade)
+        else if(associatedSlot.IsOcuppied() && manager.ActiveSelection == null)
         {
+            inputManager.ForceSelectionClear();
             AudioManager.Main.RequestGUIFX(clickSFX);
             selectedVFX.Play();
             SendToBuildBox();
-            ShowOptions();
+            turretOnUpgrade = true;
             return;
         } 
         AudioManager.Main.PlayInvalidSelection("Select an empty slot");

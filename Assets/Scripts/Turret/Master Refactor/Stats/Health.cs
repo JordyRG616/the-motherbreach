@@ -9,8 +9,9 @@ public class Health : TurretStat
 
     public override void Initiate(ParticleSystem shooter, Weapon weapon)
     {
+        integrityManager = GetComponentInParent<IntegrityManager>(true);
         base.Initiate(shooter, weapon);
-        integrityManager = weapon.GetComponent<IntegrityManager>();
+        integrityManager.Initiate(Value);
     }
 
     protected override void SetValue(float value)

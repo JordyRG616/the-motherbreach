@@ -69,7 +69,7 @@ public class EmpoweringEffect : BaseEffectTemplate
         _turrets.Remove(turretManager);
         var rdm = Random.Range(0, _turrets.Count);
 
-        target = _turrets[rdm].actionController;
+        //target = _turrets[rdm].actionController;
 
         if(!targetedWeaponsOriginalDamage.ContainsKey(target))
         {

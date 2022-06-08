@@ -192,6 +192,11 @@ public class InputManager : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.I)) FindObjectOfType<RewardManager>().EarnCash(5);
         }
     }
+
+    public void ForceSelectionClear()
+    {
+        OnSelectionClear?.Invoke(this, EventArgs.Empty);
+    }
 }
 
 public class MovementEventArgs : EventArgs

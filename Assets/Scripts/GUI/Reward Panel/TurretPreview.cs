@@ -30,24 +30,24 @@ public class TurretPreview : MonoBehaviour
 
     public void ReceiveInformation(TurretManager turret)
     {
-        var shooter = turret.actionController.GetShooters()[0];
+        //var shooter = turret.actionController.GetShooters()[0];
 
-        nameAndLevel.text = turret.baseEffect.name + " " + turret.actionController.name + "\nLevel " + turret.Level;
+        //nameAndLevel.text = turret.baseEffect.name + " " + turret.actionController.name + "\nLevel " + turret.Level;
 
-        health.statName.text = StatColorHandler.HealthPaint(Stat.Health.ToSplittedString()) + ":";
-        health.statValue.text = turret.integrityManager.GetMaxIntegrity().ToString();
+        //health.statName.text = StatColorHandler.HealthPaint(Stat.Health.ToSplittedString()) + ":";
+        //health.statValue.text = turret.integrityManager.GetMaxIntegrity().ToString();
 
-        rest.statName.text = StatColorHandler.RestPaint(Stat.Rest.ToSplittedString()) + ":";
-        rest.statValue.text = shooter.StatSet[Stat.Rest].ToString();
+        //rest.statName.text = StatColorHandler.RestPaint(Stat.Rest.ToSplittedString()) + ":";
+        //rest.statValue.text = shooter.StatSet[Stat.Rest].ToString();
 
-        damage.statName.text = StatColorHandler.DamagePaint(Stat.Damage.ToSplittedString()) + ":";
-        damage.statValue.text = shooter.StatSet[Stat.Damage].ToString();
+        //damage.statName.text = StatColorHandler.DamagePaint(Stat.Damage.ToSplittedString()) + ":";
+        //damage.statValue.text = shooter.StatSet[Stat.Damage].ToString();
 
-        secondaryStat.statName.text = StatColorHandler.StatPaint(shooter.secondaryStat.ToSplittedString()) + ":";
-        secondaryStat.statValue.text = shooter.StatSet[shooter.secondaryStat].ToString();
+        //secondaryStat.statName.text = StatColorHandler.StatPaint(shooter.secondaryStat.ToSplittedString()) + ":";
+        //secondaryStat.statValue.text = shooter.StatSet[shooter.secondaryStat].ToString();
         
-        specialStat.statName.text = StatColorHandler.StatPaint(shooter.specializedStat.ToSplittedString()) + ":";
-        specialStat.statValue.text = shooter.StatSet[shooter.specializedStat].ToString();
+        //specialStat.statName.text = StatColorHandler.StatPaint(shooter.specializedStat.ToSplittedString()) + ":";
+        //specialStat.statValue.text = shooter.StatSet[shooter.specializedStat].ToString();
     }
     
     void Update()

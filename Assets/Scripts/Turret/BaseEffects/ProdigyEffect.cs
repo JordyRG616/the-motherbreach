@@ -14,7 +14,7 @@ public class ProdigyEffect : BaseEffectTemplate
         currentExp ++;
         if(currentExp == expRequirement)
         {
-            turretManager.LevelUp();
+            //turretManager.LevelUp();
             currentExp = 0;
         }
     }

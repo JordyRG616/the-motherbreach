@@ -135,7 +135,7 @@ public class ShipManager : MonoBehaviour, ISavable
 
                 slot.BuildTurret(loadedTurret);
 
-                TurretConstructor.Main.HandleBaseEffect(loadedTurret);
+                //TurretConstructor.Main.HandleBaseEffect(loadedTurret);
 
                 RegisterTurret(loadedTurret.GetComponent<TurretManager>());
 

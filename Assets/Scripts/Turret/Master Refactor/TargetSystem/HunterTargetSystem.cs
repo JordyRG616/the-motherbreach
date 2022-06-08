@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HunterTargetSystem : MonoBehaviour
+public class HunterTargetSystem : TargetSystem
 {
     
-    private Transform target;
     private Collider2D fieldOfView;
     private List<Collider2D> contacts = new List<Collider2D>();
     private float refSpeed;
     [SerializeField] private float trackSpeed;
+
+    private void Start()
+    {
+        fieldOfView = GetComponent<Collider2D>();
+    }
 
     private void Update()
     {

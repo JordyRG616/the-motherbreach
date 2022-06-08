@@ -7,14 +7,12 @@ using UnityEngine;
 public class TurretManager : MonoBehaviour, IManager, ISavable
 {
     
-    public BaseEffectTemplate baseEffect {get; private set;}
-    public ActionController actionController {get; private set;}
-    public Dictionary<Stat, float> Stats {get; protected set;} = new Dictionary<Stat, float>();
+    public Foundation foundation {get; private set;}
+    public Weapon weapon { get; private set; }
     public IntegrityManager integrityManager {get; private set;}
 
-    private List<BaseEffectTemplate> baseHistory = new List<BaseEffectTemplate>();
 
-    public int maxLevel = 5;
+    public int maxLevel = 10;
     public int Level 
     {
         get
@@ -23,11 +21,12 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
         }
         set
         {
-            if(value > 5) value = 5;
+            if(value > maxLevel) value = maxLevel;
             _level = value;
         }
     }
     private int _level = 0;
+    public int upgradePoints;
 
 
     public event EventHandler<LevelUpArgs> OnLevelUp;
@@ -35,50 +34,17 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
 
     public void Initiate()
     {
-        baseEffect = GetComponentInChildren<BaseEffectTemplate>();
-        actionController = GetComponentInChildren<ActionController>();
-
-        baseHistory.Add(baseEffect);
-
-        OnLevelUp += actionController.HandleLevelUp;
-
-        GetStats();
+        weapon = GetComponentInChildren<Weapon>();
+        weapon.Initiate();
+        foundation = GetComponentInChildren<Foundation>();
+        foundation.Initiate();
 
         integrityManager = GetComponent<IntegrityManager>();
-        integrityManager.Initiate(Stats[Stat.Health]);
     }
 
     public void ReceiveInitialRotation(float rotation)
     {
-        actionController.GetShooters().ForEach(x => x.initialRotation = rotation);
-    }
-
-    private void GetStats()
-    {
-        Stats.Add(Stat.Cost, baseEffect.GetCost() + actionController.GetCost());
-        Stats.Add(Stat.Health, actionController.GetHealth());
-
-        var stats = actionController.GetShooters()[0].StatSet;
-
-        foreach(Stat stat in stats.Keys)
-        {
-            Stats.Add(stat, stats[stat]);
-        }
-
-    }
-
-    public void LevelUp()
-    {
-        Level ++;
-        actionController.RaiseHealthByPercentage(.1f);
-        OnLevelUp?.Invoke(this, new LevelUpArgs(Level));
-        actionController.SaveStats();
-    }
-
-    public void PreviewLevelUp()
-    {
-        actionController.RaiseHealthByPercentage(.1f);
-        OnLevelUp?.Invoke(this, new LevelUpArgs(Level + 1));
+        //actionController.GetShooters().ForEach(x => x.initialRotation = rotation);
     }
 
     public void DestroyManager()
@@ -86,25 +52,12 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
         GetComponentInParent<ShipManager>().RemoveTurret(this);
     }
 
-    public void ReplaceBase(BaseEffectTemplate newBase)
+    public void LevelUp()
     {
-        Destroy(baseEffect.gameObject);
-        baseEffect = newBase;
-        baseHistory.Add(baseEffect);
+        upgradePoints++;
+        Level++;
     }
 
-    public void ReplaceWeapon(ActionController weapon)
-    {
-        weapon.gameObject.SetActive(true);
-        weapon.transform.SetParent(transform);
-        weapon.transform.localPosition = Vector3.zero;
-
-        weapon.restBar = GetComponent<RestBarManager>();
-        TurretConstructor.Main.HandleBaseEffect(gameObject);
-
-        Destroy(actionController.gameObject);
-        actionController = weapon;
-    }
 
     public Dictionary<string, byte[]> GetData()
     {
@@ -112,22 +65,22 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
 
         container.Add(slotId + "weaponLevel", BitConverter.GetBytes(Level));
         
-        var weaponData = actionController.GetData();
+        //var weaponData = actionController.GetData();
 
-        foreach(string key in weaponData.Keys)
-        {
-            container.Add(slotId + key, weaponData[key]);
-        }
+        //foreach(string key in weaponData.Keys)
+        //{
+        //    container.Add(slotId + key, weaponData[key]);
+        //}
 
-        container.Add(slotId + "baseCount", BitConverter.GetBytes(baseHistory.Count));
+        //container.Add(slotId + "baseCount", BitConverter.GetBytes(baseHistory.Count));
 
-        int i = 0;
+        //int i = 0;
 
-        foreach(BaseEffectTemplate _b in baseHistory)
-        {
-            container.Add(slotId + "base" + i, BitConverter.GetBytes(_b.baseID));
-            i++;
-        }
+        //foreach(BaseEffectTemplate _b in baseHistory)
+        //{
+        //    container.Add(slotId + "base" + i, BitConverter.GetBytes(_b.baseID));
+        //    i++;
+        //}
 
         return container;
     }
@@ -143,15 +96,15 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
             var baseId = BitConverter.ToInt32(saveFile.GetValue(slotId + "base" + i));
             var _b = TurretConstructor.Main.GetBaseById(baseId);
 
-            TurretConstructor.Main.ReplaceBase(this.gameObject, _b);
+            //TurretConstructor.Main.ReplaceBase(this.gameObject, _b);
         }
 
-        for(int i = 1; i <= loadedLevel; i++)
-        {
-            LevelUp();
-        }
+        //for(int i = 1; i <= loadedLevel; i++)
+        //{
+        //    LevelUp();
+        //}
         
-        actionController.LoadData(saveFile, slotId);
+        //actionController.LoadData(saveFile, slotId);
     }
 }
 

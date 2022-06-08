@@ -26,7 +26,7 @@ public class Enrage : ShipAbility
         var rdm = Random.Range(0, shipManager.GetTurretCount());
         var turret = shipManager.turrets[rdm];
 
-        turret.actionController.GetShooters().ForEach(ReduceRest);
+        //turret.actionController.GetShooters().ForEach(ReduceRest);
     }
 
     private void ReduceRest(ActionEffect shooter)

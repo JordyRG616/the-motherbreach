@@ -20,7 +20,7 @@ public class VeteranEffect : BaseEffectTemplate
 
     private void LevelUp()
     {
-        turretManager.LevelUp();
+        //turretManager.LevelUp();
     }
 
     public override string DescriptionText()

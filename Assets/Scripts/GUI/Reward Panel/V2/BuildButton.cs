@@ -47,12 +47,12 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     private void Upgrade()
     {
-        if(rewardManager.TotalCash >= buildBox.weaponCost)
-            {
-                AudioManager.Main.RequestGUIFX(clickSFX);
-                upgradeButton.Upgrade(buildBox.weaponCost);
-            }
-            else AudioManager.Main.PlayInvalidSelection("Not enough cash");
+        if(rewardManager.TotalCash >= buildBox.GetUpgradeCost())
+        {
+            AudioManager.Main.RequestGUIFX(clickSFX);
+            buildBox.UpgradeTurret();
+        }
+        else AudioManager.Main.PlayInvalidSelection("Not enough cash");
     }
 
     private void Done()

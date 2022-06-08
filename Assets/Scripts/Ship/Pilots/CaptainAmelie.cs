@@ -8,8 +8,8 @@ public class CaptainAmelie : Pilot
 
     protected override void HandleBuildEffect(object sender, BuildEventArgs e)
     {
-        var shooters = e.buildedTurret.actionController.GetShooters();
-        shooters.ForEach(x => RaiseDamage(x));
+        //var shooters = e.buildedTurret.actionController.GetShooters();
+        //shooters.ForEach(x => RaiseDamage(x));
     }
     
     public override string AbilityDescription()

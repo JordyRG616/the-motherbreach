@@ -168,14 +168,14 @@ public class RewardCalculator : MonoBehaviour, ISavable
         int i = 0;
         foreach(GameObject weapon in weapons)
         {
-            container.Add("ShopWeapon" + i, BitConverter.GetBytes(weapon.GetComponent<ActionController>().weaponID));
+            container.Add("ShopWeapon" + i, BitConverter.GetBytes(weapon.GetComponent<Weapon>().Id));
             i++;
         }
 
         i = 0;
         foreach(GameObject _base in bases)
         {
-            container.Add("ShopBase" + i, BitConverter.GetBytes(_base.GetComponent<BaseEffectTemplate>().baseID));
+            container.Add("ShopBase" + i, BitConverter.GetBytes(_base.GetComponent<Foundation>().Id));
             i++;
         }
 

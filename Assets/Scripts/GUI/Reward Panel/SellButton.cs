@@ -90,7 +90,7 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         if (rewardManager.TotalCash >= cost)
         {
             AudioManager.Main.RequestGUIFX(replaceSFX);
-            TurretConstructor.Main.ReplaceBase(cachedSlot.occupyingTurret, _base);
+            //TurretConstructor.Main.ReplaceBase(cachedSlot.occupyingTurret, _base);
             rewardManager.SpendCash((int)cost);
             buildBox.selectedBaseBox.Detach();
             buildBox.UpdateStats();

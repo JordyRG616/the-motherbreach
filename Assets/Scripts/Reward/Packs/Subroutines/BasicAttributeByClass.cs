@@ -29,7 +29,7 @@ public class BasicAttributeByClass : ShipSubroutine
 
         foreach (TurretManager turret in turrets)
         {
-            if (turret.actionController.GetWeaponClass() == weaponClass) count++;
+            //if (turret.actionController.GetWeaponClass() == weaponClass) count++;
         }
 
         value = ogValue * count;

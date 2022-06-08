@@ -59,7 +59,6 @@ public class TurretConstructor : MonoBehaviour
 
         var container = Instantiate(list[rdm]);
         container.name = list[rdm].name;
-        container.GetComponent<ActionController>().Initiate();
         container.SetActive(false);
         //GameObject container = Instantiate(_instance, transform.position, Quaternion.identity);
         return container;
@@ -87,7 +86,7 @@ public class TurretConstructor : MonoBehaviour
         GameObject blueprint = Instantiate(TurretTemplate, transform.position, Quaternion.identity);
         
         var manager = blueprint.GetComponent<TurretManager>();
-        var baseEffect = _base.GetComponent<BaseEffectTemplate>();
+        //var baseEffect = _base.GetComponent<BaseEffectTemplate>();
 
         _weapon.SetActive(true);
         _weapon.transform.SetParent(blueprint.transform);
@@ -97,8 +96,8 @@ public class TurretConstructor : MonoBehaviour
         _base.transform.localPosition = Vector3.zero;
 
         manager.Initiate();
-        baseEffect.Initiate();
-        manager.actionController.restBar = manager.GetComponent<RestBarManager>();
+        //baseEffect.Initiate();
+        //manager.actionController.restBar = manager.GetComponent<RestBarManager>();
 
         // if(baseEffect.GetTrigger() == EffectTrigger.OnLevelUp) 
         // {
@@ -109,54 +108,54 @@ public class TurretConstructor : MonoBehaviour
         return blueprint;
     }
 
-    public void ReplaceBase(GameObject turret, GameObject newBase)
-    {
-        var manager = turret.GetComponent<TurretManager>();
+    //public void ReplaceBase(GameObject turret, GameObject newBase)
+    //{
+    //    var manager = turret.GetComponent<TurretManager>();
 
 
-        newBase.SetActive(true);
-        newBase.transform.SetParent(turret.transform);
-        newBase.transform.localPosition = Vector3.zero;
-        newBase.transform.rotation = turret.transform.rotation;
+    //    newBase.SetActive(true);
+    //    newBase.transform.SetParent(turret.transform);
+    //    newBase.transform.localPosition = Vector3.zero;
+    //    newBase.transform.rotation = turret.transform.rotation;
 
-        manager.actionController.LoadStats();
+    //    //manager.actionController.LoadStats();
 
-        var effect = newBase.GetComponent<BaseEffectTemplate>();
-        effect.Initiate();
-        manager.ReplaceBase(effect);
+    //    var effect = newBase.GetComponent<BaseEffectTemplate>();
+    //    effect.Initiate();
+    //    //manager.ReplaceBase(effect);
 
-        HandleBaseEffect(turret);
-        manager.actionController.SaveStats();
-    }
+    //    HandleBaseEffect(turret);
+    //    //manager.actionController.SaveStats();
+    //}
     
-    public void HandleBaseEffect(GameObject occupyingTurret)
-    {
-        var manager = occupyingTurret.GetComponent<TurretManager>();
-        BaseEffectTemplate effect = manager.baseEffect;
-        var weapon = manager.actionController;
-        effect.ReceiveWeapon(weapon);
-        switch(effect.GetTrigger())
-        {
-            case EffectTrigger.Immediate:
-                effect.ApplyEffect();
-            break;
-            case EffectTrigger.OnLevelUp:
-                occupyingTurret.GetComponent<TurretManager>().OnLevelUp += effect.HandleLevelTrigger;
-            break;
-            case EffectTrigger.OnHit:
-                occupyingTurret.GetComponent<HitManager>().OnHit += effect.HandleCommonTrigger;
-            break;
-            case EffectTrigger.OnDestruction:
-                occupyingTurret.GetComponent<HitManager>().OnDeath += effect.HandleCommonTrigger;
-            break;
-            case EffectTrigger.OnTurretSell:
-                FindObjectOfType<SellButton>(true).OnTurretSell += effect.HandleCommonTrigger;
-            break;
-            case EffectTrigger.OnTurretBuild:
-                RewardManager.Main.OnTurretBuild += effect.HandleCommonTrigger;
-            break;
-        }
-    }
+    //public void HandleBaseEffect(GameObject occupyingTurret)
+    //{
+    //    var manager = occupyingTurret.GetComponent<TurretManager>();
+    //    BaseEffectTemplate effect = manager.baseEffect;
+    //    //var weapon = manager.actionController;
+    //    //effect.ReceiveWeapon(weapon);
+    //    switch(effect.GetTrigger())
+    //    {
+    //        case EffectTrigger.Immediate:
+    //            effect.ApplyEffect();
+    //        break;
+    //        case EffectTrigger.OnLevelUp:
+    //            occupyingTurret.GetComponent<TurretManager>().OnLevelUp += effect.HandleLevelTrigger;
+    //        break;
+    //        case EffectTrigger.OnHit:
+    //            occupyingTurret.GetComponent<HitManager>().OnHit += effect.HandleCommonTrigger;
+    //        break;
+    //        case EffectTrigger.OnDestruction:
+    //            occupyingTurret.GetComponent<HitManager>().OnDeath += effect.HandleCommonTrigger;
+    //        break;
+    //        case EffectTrigger.OnTurretSell:
+    //            FindObjectOfType<SellButton>(true).OnTurretSell += effect.HandleCommonTrigger;
+    //        break;
+    //        case EffectTrigger.OnTurretBuild:
+    //            RewardManager.Main.OnTurretBuild += effect.HandleCommonTrigger;
+    //        break;
+    //    }
+    //}
 
     public GameObject GetWeaponById(int weaponID)
     {

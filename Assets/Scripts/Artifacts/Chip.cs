@@ -15,7 +15,7 @@ public class Chip : Artifact
 
         foreach(TurretManager turret in turrets)
         {
-            turret.LevelUp();
+            //turret.LevelUp();
         }
     }
 }

@@ -16,26 +16,26 @@ public class StatPanel : MonoBehaviour
 
     public void ReceiveStats(GameObject turret)
     {
-        var stats = turret.GetComponent<TurretManager>().Stats;
-        foreach(Stat stat in stats.Keys)
-        {
-            switch(stat)
-            {
-                case Stat.Cost:
-                    SetCost(stats[stat]);
-                    break;
-                case Stat.Health:
-                    BuildHealthBox(stats[stat]);
-                    break;
-                case Stat.Damage:
-                    BuildDamageBox(stats[stat]);
-                    break;
-                default:
-                    BuildStatBox(stat, stats[stat]);
-                    break;
-            }
+        //var stats = turret.GetComponent<TurretManager>().Stats;
+        //foreach(Stat stat in stats.Keys)
+        //{
+        //    switch(stat)
+        //    {
+        //        case Stat.Cost:
+        //            SetCost(stats[stat]);
+        //            break;
+        //        case Stat.Health:
+        //            BuildHealthBox(stats[stat]);
+        //            break;
+        //        case Stat.Damage:
+        //            BuildDamageBox(stats[stat]);
+        //            break;
+        //        default:
+        //            BuildStatBox(stat, stats[stat]);
+        //            break;
+        //    }
 
-        }
+        //}
     }
 
     private void BuildDamageBox(float value)

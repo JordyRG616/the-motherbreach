@@ -58,7 +58,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
             AudioManager.Main.PlayInvalidSelection("");
             return;
         }
-        if(buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && !buildBox.CheckBaseBox(this)) 
+        if(buildBox.CheckCompability(cachedBase.GetComponent<Foundation>()) && !buildBox.CheckBaseBox(this)) 
         {
             if(!buildBox.OnUpgrade)
             {
@@ -69,20 +69,20 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
                 selected = true;
                 return;
             }
-            else if(upgradeButton.onUpgrade)
-            {
-                activeVFX.Play();
-                light2D.color = selectedColor;
-                AudioManager.Main.RequestGUIFX(clickSFX);
-                replacedBase = buildBox.selectedBase;
-                buildBox.PreviewBaseEffect(cachedBase, buildBox.selectedWeapon);
-                buildBox.ReceiveBase(cachedBase, this);
-                buildBox.baseToReplace = cachedBase;
-                buildBox.SetCostToBaseCost(true);
-                selected = true;
+        }
+        else if(buildBox.OnUpgrade && IsSameBase())
+        {
+            activeVFX.Play();
+            light2D.color = selectedColor;
+            AudioManager.Main.RequestGUIFX(clickSFX);
+            //replacedBase = buildBox.selectedBase;
+            //buildBox.PreviewBaseEffect(cachedBase, buildBox.selectedWeapon);
+            buildBox.ReceiveBaseBox(this);
+            //buildBox.baseToReplace = cachedBase;
+            buildBox.SetCostToBaseCost(true);
+            selected = true;
 
-                return;
-            }
+            return;
         }
         else if(buildBox.CheckBaseBox(this))
         {
@@ -107,12 +107,19 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
         AudioManager.Main.PlayInvalidSelection("");
     }
 
+    private bool IsSameBase()
+    {
+        if (buildBox.selectedBase == null || cachedBase == null) return false;
+        return buildBox.selectedBase.GetComponent<Foundation>().Id == cachedBase.GetComponent<Foundation>().Id;
+    }
+
     void Update()
     {
         light2D.color = notSelectable;
         if(cachedBase == null) return;
-        var check = buildBox.CheckCompability(cachedBase.GetComponent<BaseEffectTemplate>()) && cachedBase && !buildBox.OnUpgrade;
-        if(check || upgradeButton.onUpgrade) light2D.color = selectable;
+        var check = buildBox.CheckCompability(cachedBase.GetComponent<Foundation>()) && cachedBase && !buildBox.OnUpgrade;
+        var secondCheck = buildBox.OnUpgrade && IsSameBase();
+        if (check || secondCheck) light2D.color = selectable;
     }
     
     public void Unselect()
