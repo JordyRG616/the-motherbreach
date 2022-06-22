@@ -130,7 +130,7 @@ public class ShipManager : MonoBehaviour, ISavable
             if(saveFile.ContainsSavedContent(slot.slotID + "weaponLevel"))
             {
                 var _w = TurretConstructor.Main.GetWeaponById(BitConverter.ToInt32(saveFile.GetValue(slot.slotID + "weaponID")));
-                var _b = TurretConstructor.Main.GetBaseById(BitConverter.ToInt32(saveFile.GetValue(slot.slotID + "base0")));
+                var _b = TurretConstructor.Main.GetBaseById(BitConverter.ToInt32(saveFile.GetValue(slot.slotID + "Foundation")));
                 var loadedTurret = TurretConstructor.Main.Construct(_w, _b);
 
                 slot.BuildTurret(loadedTurret);

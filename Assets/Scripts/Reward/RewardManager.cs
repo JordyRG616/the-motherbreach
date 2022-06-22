@@ -210,10 +210,10 @@ public class RewardManager : MonoBehaviour, ISavable
     private void ClearSelection(object sender, EventArgs e)
     {
         if(ActiveSelection == null) return;
-        ActiveSelection.GetComponentInChildren<ActionController>().gameObject.SetActive(false);
-        ActiveSelection.GetComponentInChildren<ActionController>(true).transform.parent = null;
-        ActiveSelection.GetComponentInChildren<BaseEffectTemplate>().gameObject.SetActive(false);
-        ActiveSelection.GetComponentInChildren<BaseEffectTemplate>(true).transform.parent = null;
+        ActiveSelection.GetComponentInChildren<Weapon>().gameObject.SetActive(false);
+        ActiveSelection.GetComponentInChildren<Weapon>(true).transform.parent = null;
+        ActiveSelection.GetComponentInChildren<Foundation>().gameObject.SetActive(false);
+        ActiveSelection.GetComponentInChildren<Foundation>(true).transform.parent = null;
         Destroy(ActiveSelection);
     }
 

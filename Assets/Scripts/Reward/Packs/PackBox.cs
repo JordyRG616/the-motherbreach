@@ -8,16 +8,17 @@ public class PackBox : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nameMesh;
     [SerializeField] private Image iconImage;
-    [SerializeField] private TextMeshProUGUI description;
-    [SerializeField] private TextMeshProUGUI requirement;
-    [SerializeField] private RectTransform componentsPanel;
-    [SerializeField] private GameObject componentBox;
     [SerializeField] private Color weaponColor;
     [SerializeField] private Color baseColor;
-    [SerializeField] private Color artifactColor;
     [SerializeField] private GameObject packLight;
+    [SerializeField] private List<ComponentBox> componentBoxes;
+    [SerializeField] private List<ProgramBox> programBoxes;
     private Pack storagedPack;
 
+    private void Start()
+    {
+        componentBoxes.ForEach(x => x.Clear());
+    }
 
     public void ConfigureBox(Pack pack)
     {
@@ -26,13 +27,22 @@ public class PackBox : MonoBehaviour
         nameMesh.text = storagedPack.name;
         iconImage.sprite = storagedPack.icon;
         iconImage.GetComponent<Animator>().SetInteger("Index", storagedPack.index);
-        description.text = storagedPack.selectedSubroutine.description;
-        requirement.text = " " + storagedPack.selectedSubroutine.RequirementText();
 
-
-        foreach(GameObject component in storagedPack.rewards)
+        int i = 0;
+        foreach(ComponentBox box in componentBoxes)
         {
-            NewComponentBox(component);
+            if (pack.rewards.Count == i) break;
+            box.ReceiveComponent(pack.rewards[i]);
+            i++;
+        }
+
+        i = 0;
+        foreach(ProgramBox programBox in programBoxes)
+        {
+            if (pack.programs.Count == i) break;
+            if (pack.programs[i] != null) programBox.SetupFilledBox(pack.programs[i]);
+            else programBox.EmptyBox();
+            i++;
         }
 
         foreach(UIAnimations animation in GetComponents<UIAnimations>())
@@ -52,40 +62,18 @@ public class PackBox : MonoBehaviour
 
         iconImage.GetComponent<Animator>().SetTrigger("Reset");
 
-        var components = componentsPanel.GetComponentsInChildren<ComponentBox>();
+        componentBoxes.ForEach(x => x.Clear());
+        programBoxes.ForEach(x => x.EmptyBox());
 
-        foreach(ComponentBox componentBox in components)
-        {
-            Destroy(componentBox.gameObject);
-        }
 
         packLight.SetActive(false);
 
     }
 
-    private GameObject NewComponentBox(GameObject component)
-    {
-        Color color;
-        Sprite sprite;
-
-        if(component.TryGetComponent<Artifact>(out var artifact))
-        {
-            color = artifactColor;
-            sprite = artifact.icon;
-        } else
-        {
-            color = component.TryGetComponent<ActionController>(out var controller) ? weaponColor : baseColor;
-            sprite = component.GetComponent<SpriteRenderer>().sprite;
-        } 
-        var container = Instantiate(componentBox, Vector3.zero, Quaternion.identity, componentsPanel);
-        container.GetComponent<ComponentBox>().ConfigureBox(component.name, sprite, color);
-        return container;
-    }
-
     public void SelectPack()
     {
         RewardCalculator.Main.ReceiveRewards(storagedPack.rewards);
-        ShipManager.Main.ReceiveSubroutine(storagedPack.selectedSubroutine);
+        storagedPack.programs.ForEach(x => TurretConstructor.Main.AddUnlockedProgram(x));
         PackOfferManager.Main.RemovePack(storagedPack);
     }
 }

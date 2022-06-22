@@ -8,7 +8,10 @@ public class BulletsPerSecond : TurretStat
 
     protected override void SetValue(float value)
     {
-        var emission = shooter.emission;
-        emission.rateOverTime = new ParticleSystem.MinMaxCurve(value);
+        foreach (ParticleSystem shooter in shooters)
+        {
+            var emission = shooter.emission;
+            emission.rateOverTime = new ParticleSystem.MinMaxCurve(value);
+        }
     }
 }

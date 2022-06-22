@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5650093040656436329}
   - component: {fileID: 6577637652991871279}
   - component: {fileID: -3990971221881004395}
-  - component: {fileID: -8242224298943986605}
+  - component: {fileID: 9174989051983120165}
+  - component: {fileID: 1443714341241779331}
   m_Layer: 7
   m_Name: basic 1
   m_TagString: Untagged
@@ -119,7 +120,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 0
   _cost: 0
---- !u!114 &-8242224298943986605
+  _programs:
+  - {fileID: 11400000, guid: 4b5475e44c7c6734f94fb440e1876dbf, type: 2}
+--- !u!114 &9174989051983120165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604402440299492591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0005ee4ea33b9204ca0b5135edfdcbe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingIndex: 0
+  publicName: bullet size
+  startingValue: 0
+  statDescription: 
+  incrementType: 0
+  increment: 0
+--- !u!114 &1443714341241779331
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,3 +156,5 @@ MonoBehaviour:
   publicName: 
   startingValue: 0
   statDescription: 
+  incrementType: 0
+  increment: 0

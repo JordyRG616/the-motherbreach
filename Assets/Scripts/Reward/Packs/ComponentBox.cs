@@ -3,84 +3,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using TMPro;
 
-public class ComponentBox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class ComponentBox : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI componentName;
     [SerializeField] private Image componentImage;
-    [SerializeField] private bool clickable;
-    [SerializeField] private GameObject selectedOverlay;
-    private OfferTweaker tweaker;
-    private Image image;
-    private string componentName;
-    private RectTransform infoBox;
-    private GameObject _object;
-    private bool selected;
+    [SerializeField] private TextMeshProUGUI componentDescription;
+    [SerializeField] private Image background;
+    [SerializeField] private Color weaponColor;
+    [SerializeField] private Color foundationColor;
 
-    public delegate void ClickDelegate(GameObject component);
-    public ClickDelegate OnClick;
-
-    void Awake()
+    public void ReceiveComponent(GameObject component)
     {
-        image = GetComponent<Image>();
-        infoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
-        
-        if(clickable) OnClick += HandleClick;
-        tweaker = FindObjectOfType<OfferTweaker>();
-    }
+        componentName.text = component.name;
+        componentImage.sprite = component.GetComponent<SpriteRenderer>().sprite;
 
-    private void HandleClick(GameObject component)
-    {
-        if(!selected)
+        if(component.TryGetComponent<Weapon>(out var weapon))
         {
-            if(tweaker.SelectionFull()) return;
-            selectedOverlay.SetActive(true);
-            selected = true;
-        }
-        else
-        {    
-            selectedOverlay.SetActive(false);
-            selected = false;
-        }
-    }
-
-    public void ConfigureBox(string name, Sprite sprite, Color color)
-    {
-        componentImage.sprite = sprite;
-        componentName = name;
-        image.color = color;
-    }
-
-    public void ReceiveComponentObject(GameObject component)
-    {
-        _object = component;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        // GetComponent<ShaderAnimation>().Play();
-        // AudioManager.Main.RequestGUIFX(hoverSFX);
-
-        infoBox.gameObject.SetActive(true);
-        infoBox.GetComponent<StatInfoBox>().SetText(componentName);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        infoBox.gameObject.SetActive(false);
-    }
-
-    void Update()
-    {
-        if(infoBox.gameObject.activeSelf)
+            componentDescription.text = weapon.Description;
+            background.color = weaponColor;
+            componentName.color = weaponColor;
+        } else
         {
-            Vector2 mousePos = Input.mousePosition + new Vector3(2, -2) - new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2, 0);
-            infoBox.anchoredPosition = mousePos;
+            var foundation = component.GetComponent<Foundation>();
+            componentDescription.text = foundation.Description();
+            background.color = foundationColor;
+            componentName.color = foundationColor;
         }
+
+        gameObject.SetActive(true);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void Clear()
     {
-        OnClick?.Invoke(_object);
+        componentName.text = "";
+        componentDescription.text = "";
+        background.color = Color.clear;
+        componentName.color = Color.white;
+        componentImage.sprite = null;
+
+        gameObject.SetActive(false);
     }
 }

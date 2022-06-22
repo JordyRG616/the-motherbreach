@@ -14,14 +14,14 @@ public abstract class TurretStat : MonoBehaviour
     [SerializeField] private IncrementType incrementType;
     public float increment;
     public bool Initiated { get; protected set; }
-    protected ParticleSystem shooter;
+    protected List<ParticleSystem> shooters = new List<ParticleSystem>();
     protected Weapon weapon;
     protected TurretManager manager;
 
     public delegate void IncrementDelegate(float amount);
     public IncrementDelegate incrementDelegate;
 
-    public abstract float Value { get; protected set; }
+    public abstract float Value { get; protected set; } 
     protected float _value;
 
     protected abstract void SetValue(float value);
@@ -30,7 +30,7 @@ public abstract class TurretStat : MonoBehaviour
     {
         if (Initiated) return;
 
-        this.shooter = shooter;
+        shooters.Add(shooter);
         this.weapon = weapon;
         manager = GetComponentInParent<TurretManager>();
 
@@ -42,10 +42,20 @@ public abstract class TurretStat : MonoBehaviour
         Initiated = true;
     }
 
+    public void ReceiveShooter(ParticleSystem shooter)
+    {
+        shooters.Add(shooter);
+    }
+
+    public void RemoveShooter(ParticleSystem shooter)
+    {
+        shooters.Remove(shooter);
+    }
+
     private void RegisterIncrement()
     {
         incrementDelegate += SpendUpgradePoint;
-        switch (incrementType)
+        switch (incrementType) 
         {
             case IncrementType.Flat:
                 incrementDelegate += ApplyFlat;
@@ -81,11 +91,16 @@ public abstract class TurretStat : MonoBehaviour
 
     public virtual string GetLiteralValue()
     {
-        return Value.ToString();
+        return Value.ToString("#.#");
     }
 
     public virtual string GetLiteralStartingValue()
     {
-        return startingValue.ToString();
+        return startingValue.ToString("#.#");
+    }
+
+    public void SetStatToValue(float value)
+    {
+        SetValue(value);
     }
 }

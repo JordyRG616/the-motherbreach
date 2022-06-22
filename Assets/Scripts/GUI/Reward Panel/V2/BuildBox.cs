@@ -173,7 +173,7 @@ public class BuildBox : MonoBehaviour
                     if (weapon.HasDormentStat(stat)) weapon.ExposeDormentStat(stat);
                 }
 
-                foreach (Program program in foundation.programs)
+                foreach (Program program in foundation.Programs)
                 {
                     _programs.Add(program);
                 }
@@ -187,7 +187,7 @@ public class BuildBox : MonoBehaviour
             var foundation = selectedBase.GetComponent<Foundation>();
             List<Program> _programs = new List<Program>();
 
-            foreach (Program program in foundation.programs)
+            foreach (Program program in foundation.Programs)
             {
                 _programs.Add(program);
             }
@@ -252,7 +252,7 @@ public class BuildBox : MonoBehaviour
 
     private void UpdateProgramBoxes(List<Program> programs)
     {
-        var lockedLevel = 1;
+        var lockedLevel = -1;
         var component = (selectedBase == null) ? selectedWeapon : selectedBase;
         var manager = component.GetComponentInParent<TurretManager>();
 
@@ -264,9 +264,10 @@ public class BuildBox : MonoBehaviour
             if(program != null)
             {
                 box.SetupFilledBox(program);
+                lockedLevel++;
             } else if(manager != null && manager.Level >= lockedLevel * 3)
             {
-                box.SetupAvailableBox(manager.upgradePoints > 0);
+                box.SetupAvailableBox();
                 lockedLevel++;
             } else
             {
@@ -283,10 +284,10 @@ public class BuildBox : MonoBehaviour
 
         foreach(TurretStat stat in testedFoundation.exposedStats)
         {
-            if (!weapon.HasDormentStat(stat)) return false;
+            if (weapon.HasDormentStat(stat)) return true;
         }
 
-        return true;
+        return false;
     }
 
     public bool CheckCompability(Weapon testedWeapon)
@@ -296,10 +297,10 @@ public class BuildBox : MonoBehaviour
         
         foreach(TurretStat stat in foundation.exposedStats)
         {
-            if (!testedWeapon.HasDormentStat(stat)) return false;
+            if (testedWeapon.HasDormentStat(stat)) return true;
         }
 
-        return true;
+        return false;
     }
 
     private void ResetStats()
@@ -320,7 +321,7 @@ public class BuildBox : MonoBehaviour
             box.Deactivate();
         }
 
-        programBoxes.ForEach(x => x.SetupAvailableBox(false));
+        programBoxes.ForEach(x => x.EmptyBox());
 
         _class.text = "";
 
@@ -338,7 +339,9 @@ public class BuildBox : MonoBehaviour
         {
             var weapon = selectedWeapon.GetComponent<Weapon>();
             var foundation = selectedBase.GetComponent<Foundation>();
-            
+
+            if (weapon.GetComponentInParent<TurretManager>() != null) return;
+
             foreach (TurretStat stat in foundation.exposedStats)
             {
                 if (weapon.HasStat(stat)) weapon.HideExposedStat(stat);

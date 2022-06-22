@@ -8,7 +8,10 @@ public class BulletSpeed : TurretStat
 
     protected override void SetValue(float value)
     {
-        var main = shooter.main;
-        main.startSpeed = value;
+        foreach (ParticleSystem shooter in shooters)
+        {
+            var main = shooter.main;
+            main.startSpeed = value;
+        }
     }
 }

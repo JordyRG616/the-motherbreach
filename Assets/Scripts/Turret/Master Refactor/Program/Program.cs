@@ -9,7 +9,12 @@ public abstract class Program : ScriptableObject
     public int level;
     public List<string> LevelDescription;
 
-    public abstract void ApplyEffect();
+    public virtual void Initiate()
+    {
+
+    }
+
+    public abstract void ApplyEffect(Weapon weapon);
     public virtual bool CheckRequirement()
     {
         return true;

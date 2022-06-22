@@ -4,11 +4,30 @@ using UnityEngine;
 
 public class Size : TurretStat
 {
-    public override float Value { get => _value; protected set => _value = value; }
+    public override float Value 
+    {
+        get => _value;
+        protected set => _value = value; 
+    }
 
     protected override void SetValue(float value)
     {
-        var main = shooter.main;
-        main.startSize = value;
+        foreach (ParticleSystem shooter in shooters)
+        {
+            var main = shooter.main;
+            main.startSize = value;
+        }
+    }
+
+    public override string GetLiteralValue()
+    {
+        var percentage = _value / startingValue;
+        percentage *= 100;
+        return percentage.ToString("#.#") + "%";
+    }
+
+    public override string GetLiteralStartingValue()
+    {
+        return "100%";
     }
 }

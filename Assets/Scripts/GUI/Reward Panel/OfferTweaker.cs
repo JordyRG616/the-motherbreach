@@ -60,10 +60,10 @@ public class OfferTweaker : MonoBehaviour
     {
         Sprite sprite = component.GetComponent<SpriteRenderer>().sprite;
         var container = Instantiate(componentBox, Vector3.zero, Quaternion.identity, weaponsPanel);
-        var box = container.GetComponent<ComponentBox>();
-        box.ConfigureBox(component.name, sprite, weaponColor);
-        box.ReceiveComponentObject(component);
-        box.OnClick += HandleComponentClick;
+        //var box = container.GetComponent<ComponentBox>();
+        //box.ConfigureBox(component.name, sprite, weaponColor);
+        //box.ReceiveComponentObject(component);
+        //box.OnClick += HandleComponentClick;
         return container;
     }
 
@@ -72,10 +72,10 @@ public class OfferTweaker : MonoBehaviour
     {
         Sprite sprite = component.GetComponent<SpriteRenderer>().sprite;
         var container = Instantiate(componentBox, Vector3.zero, Quaternion.identity, basesPanel);
-        var box = container.GetComponent<ComponentBox>();
-        box.ConfigureBox(component.name, sprite, baseColor);
-        box.ReceiveComponentObject(component);
-        box.OnClick += HandleComponentClick;
+        //var box = container.GetComponent<ComponentBox>();
+        //box.ConfigureBox(component.name, sprite, baseColor);
+        //box.ReceiveComponentObject(component);
+        //box.OnClick += HandleComponentClick;
         return container;
     }
 

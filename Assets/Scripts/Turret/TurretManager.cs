@@ -35,9 +35,9 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
     public void Initiate()
     {
         weapon = GetComponentInChildren<Weapon>();
-        weapon.Initiate();
         foundation = GetComponentInChildren<Foundation>();
-        foundation.Initiate();
+        foundation.Initiate(weapon);
+        weapon.Initiate();
 
         integrityManager = GetComponent<IntegrityManager>();
     }
@@ -64,47 +64,35 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
         Dictionary<string, byte[]> container = new Dictionary<string, byte[]>();
 
         container.Add(slotId + "weaponLevel", BitConverter.GetBytes(Level));
-        
-        //var weaponData = actionController.GetData();
+        container.Add(slotId + "upgradePoints", BitConverter.GetBytes(upgradePoints));
+        container.Add(slotId + "Foundation", BitConverter.GetBytes(foundation.Id));
 
-        //foreach(string key in weaponData.Keys)
-        //{
-        //    container.Add(slotId + key, weaponData[key]);
-        //}
+        var weaponData = weapon.GetData();
 
-        //container.Add(slotId + "baseCount", BitConverter.GetBytes(baseHistory.Count));
+        foreach (string key in weaponData.Keys)
+        {
+            container.Add(key, weaponData[key]);
+        }
 
-        //int i = 0;
+        var foundationData = foundation.GetData();
 
-        //foreach(BaseEffectTemplate _b in baseHistory)
-        //{
-        //    container.Add(slotId + "base" + i, BitConverter.GetBytes(_b.baseID));
-        //    i++;
-        //}
+        foreach (string key in foundationData.Keys)
+        {
+            container.Add(key, foundationData[key]);
+        }
+
 
         return container;
     }
 
     public void LoadData(SaveFile saveFile)
     {
-        var loadedLevel = BitConverter.ToInt32(saveFile.GetValue(slotId + "weaponLevel"));
+        Level = BitConverter.ToInt32(saveFile.GetValue(slotId + "weaponLevel"));
 
-        var baseCount = BitConverter.ToInt32(saveFile.GetValue(slotId + "baseCount"));
+        upgradePoints = BitConverter.ToInt32(saveFile.GetValue(slotId + "upgradePoints"));
 
-        for (int i = 1; i < baseCount; i++)
-        {
-            var baseId = BitConverter.ToInt32(saveFile.GetValue(slotId + "base" + i));
-            var _b = TurretConstructor.Main.GetBaseById(baseId);
-
-            //TurretConstructor.Main.ReplaceBase(this.gameObject, _b);
-        }
-
-        //for(int i = 1; i <= loadedLevel; i++)
-        //{
-        //    LevelUp();
-        //}
-        
-        //actionController.LoadData(saveFile, slotId);
+        weapon.LoadData(saveFile);
+        foundation.LoadData(saveFile);
     }
 }
 

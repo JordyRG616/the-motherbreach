@@ -18,17 +18,18 @@ public class PlusButton : MonoBehaviour, IPointerEnterHandler, IPointerDownHandl
     [SerializeField] [FMODUnity.EventRef] private string hoverSfx;
     private FMOD.Studio.EventInstance hoverSfxInstance;
 
-    [Header("OnClick")]
+    [Header("Events")]
     public UnityEvent OnClick;
-    [SerializeField] private Color clickTextColor;
-    [SerializeField] private TextMeshProUGUI statName;
-    [SerializeField] private TextMeshProUGUI statValue;
+    public UnityEvent OnRelease;
+
+    [Header("OnClick")]
+    [SerializeField] private Color clickIconColor;
     [SerializeField] private ParticleSystem vfx;
     [SerializeField] [FMODUnity.EventRef] private string clickSfx;
     private FMOD.Studio.EventInstance clickSfxInstance;
 
     [Header("OnRelease")]
-    [SerializeField] private Color normalTextColor;
+    [SerializeField] private Color normalIconColor;
     [SerializeField] private Color normalBoxColor;
 
     private void Awake()
@@ -41,9 +42,7 @@ public class PlusButton : MonoBehaviour, IPointerEnterHandler, IPointerDownHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        icon.color = clickTextColor;
-        statName.color = clickTextColor;
-        statValue.color = clickTextColor;
+        icon.color = clickIconColor;
         vfx.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         vfx.Play();
         audioManager.StopSFX(clickSfxInstance);
@@ -66,9 +65,9 @@ public class PlusButton : MonoBehaviour, IPointerEnterHandler, IPointerDownHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        icon.color = normalTextColor;
-        statName.color = Color.white;
-        statValue.color = Color.white;
+        icon.color = normalIconColor;
+
+        OnRelease?.Invoke();
     }
 
     public void Activate()

@@ -36,6 +36,8 @@ public class TurretConstructor : MonoBehaviour
     [SerializeField] private GameObject TurretTemplate;
     [SerializeField] private List<GameObject> allWeapons;
     [SerializeField] private List<GameObject> allBases;
+    [SerializeField] private List<Program> allPrograms;
+    [SerializeField] private List<Program> unlockedPrograms;
 
     private int lastRdmBase = int.MaxValue;
     private int lastRdmWeapon = int.MaxValue;
@@ -60,7 +62,6 @@ public class TurretConstructor : MonoBehaviour
         var container = Instantiate(list[rdm]);
         container.name = list[rdm].name;
         container.SetActive(false);
-        //GameObject container = Instantiate(_instance, transform.position, Quaternion.identity);
         return container;
     }
 
@@ -77,7 +78,6 @@ public class TurretConstructor : MonoBehaviour
         var container = Instantiate(list[rdm]);
         container.name = list[rdm].name;
         container.SetActive(false);
-        //GameObject container = Instantiate(_instance, transform.position, Quaternion.identity);
         return container;
     }
 
@@ -86,7 +86,6 @@ public class TurretConstructor : MonoBehaviour
         GameObject blueprint = Instantiate(TurretTemplate, transform.position, Quaternion.identity);
         
         var manager = blueprint.GetComponent<TurretManager>();
-        //var baseEffect = _base.GetComponent<BaseEffectTemplate>();
 
         _weapon.SetActive(true);
         _weapon.transform.SetParent(blueprint.transform);
@@ -96,90 +95,28 @@ public class TurretConstructor : MonoBehaviour
         _base.transform.localPosition = Vector3.zero;
 
         manager.Initiate();
-        //baseEffect.Initiate();
-        //manager.actionController.restBar = manager.GetComponent<RestBarManager>();
-
-        // if(baseEffect.GetTrigger() == EffectTrigger.OnLevelUp) 
-        // {
-        //     Debug.Log("registered");
-        //     manager.OnLevelUp += baseEffect.HandleLevelTrigger;
-        // }
-
+      
         return blueprint;
     }
 
-    //public void ReplaceBase(GameObject turret, GameObject newBase)
-    //{
-    //    var manager = turret.GetComponent<TurretManager>();
-
-
-    //    newBase.SetActive(true);
-    //    newBase.transform.SetParent(turret.transform);
-    //    newBase.transform.localPosition = Vector3.zero;
-    //    newBase.transform.rotation = turret.transform.rotation;
-
-    //    //manager.actionController.LoadStats();
-
-    //    var effect = newBase.GetComponent<BaseEffectTemplate>();
-    //    effect.Initiate();
-    //    //manager.ReplaceBase(effect);
-
-    //    HandleBaseEffect(turret);
-    //    //manager.actionController.SaveStats();
-    //}
-    
-    //public void HandleBaseEffect(GameObject occupyingTurret)
-    //{
-    //    var manager = occupyingTurret.GetComponent<TurretManager>();
-    //    BaseEffectTemplate effect = manager.baseEffect;
-    //    //var weapon = manager.actionController;
-    //    //effect.ReceiveWeapon(weapon);
-    //    switch(effect.GetTrigger())
-    //    {
-    //        case EffectTrigger.Immediate:
-    //            effect.ApplyEffect();
-    //        break;
-    //        case EffectTrigger.OnLevelUp:
-    //            occupyingTurret.GetComponent<TurretManager>().OnLevelUp += effect.HandleLevelTrigger;
-    //        break;
-    //        case EffectTrigger.OnHit:
-    //            occupyingTurret.GetComponent<HitManager>().OnHit += effect.HandleCommonTrigger;
-    //        break;
-    //        case EffectTrigger.OnDestruction:
-    //            occupyingTurret.GetComponent<HitManager>().OnDeath += effect.HandleCommonTrigger;
-    //        break;
-    //        case EffectTrigger.OnTurretSell:
-    //            FindObjectOfType<SellButton>(true).OnTurretSell += effect.HandleCommonTrigger;
-    //        break;
-    //        case EffectTrigger.OnTurretBuild:
-    //            RewardManager.Main.OnTurretBuild += effect.HandleCommonTrigger;
-    //        break;
-    //    }
-    //}
-
     public GameObject GetWeaponById(int weaponID)
     {
-        var weapon = allWeapons.Find(x => x.GetComponent<ActionController>().weaponID == weaponID);
+        var weapon = allWeapons.Find(x => x.GetComponent<Weapon>().Id == weaponID);
         var weaponInstance = Instantiate(weapon, Vector3.zero, Quaternion.identity);
         weaponInstance.name = weapon.name;
-        weaponInstance.GetComponent<ActionController>().Initiate();
         weaponInstance.SetActive(false);
         return weaponInstance;
     }
 
     public GameObject GetWeaponPrefabById(int weaponID)
     {
-        var weapon = allWeapons.Find(x => x.GetComponent<ActionController>().weaponID == weaponID);
-        // var weaponInstance = Instantiate(weapon, Vector3.zero, Quaternion.identity);
-        // weaponInstance.name = weapon.name;
-        // weaponInstance.GetComponent<ActionController>().Initiate();
-        // weaponInstance.SetActive(false);
+        var weapon = allWeapons.Find(x => x.GetComponent<Weapon>().Id == weaponID);
         return weapon;
     }
 
     public GameObject GetBaseById(int baseID)
     {
-        var _base = allBases.Find(x => x.GetComponent<BaseEffectTemplate>().baseID == baseID);
+        var _base = allBases.Find(x => x.GetComponent<Foundation>().Id == baseID);
         var baseInstance = Instantiate(_base, Vector3.zero, Quaternion.identity);
         baseInstance.name = _base.name;
         baseInstance.SetActive(false);
@@ -188,10 +125,25 @@ public class TurretConstructor : MonoBehaviour
 
     public GameObject GetBasePrefabById(int baseID)
     {
-        var _base = allBases.Find(x => x.GetComponent<BaseEffectTemplate>().baseID == baseID);
-        // var baseInstance = Instantiate(_base, Vector3.zero, Quaternion.identity);
-        // baseInstance.name = _base.name;
-        // baseInstance.SetActive(false);
+        var _base = allBases.Find(x => x.GetComponent<Foundation>().Id == baseID);
         return _base;
+    }
+
+    public Program GetProgramById(int programID)
+    {
+        var _program = allPrograms.Find(x => x.Id == programID);
+        return _program;
+    }
+
+    public Program GetRandomUnlockedProgram()
+    {
+        var rdm = Random.Range(0, unlockedPrograms.Count);
+        return unlockedPrograms[rdm];
+    }
+
+    public void AddUnlockedProgram(Program program)
+    {
+        if (unlockedPrograms.Contains(program)) return;
+        unlockedPrograms.Add(program);
     }
 }

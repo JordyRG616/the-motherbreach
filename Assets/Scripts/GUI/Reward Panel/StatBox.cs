@@ -15,13 +15,19 @@ public class StatBox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private Color inactiveColor;
     [HideInInspector] public string description;
     [SerializeField] private Image background;
+    [SerializeField] private Color clickTextColor;
+
     private TurretStat stat;
     private List<StatBox> statBoxes = new List<StatBox>();
+    private BuildBox buildBox;
+
 
     void Start()
     {
         statInfoBox = FindObjectOfType<StatInfoBox>(true).GetComponent<RectTransform>();
         statBoxes = FindObjectsOfType<StatBox>(true).ToList();
+
+        buildBox = FindObjectOfType<BuildBox>();
     }
 
     public void Activate()
@@ -66,7 +72,11 @@ public class StatBox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void CheckUpgradeButton()
     {
-        if (stat == null) return;
+        if (stat == null) 
+        {
+            plus.Deactivate();
+            return;
+        }
         if (stat.CanUpgrade()) plus.Activate();
         else plus.Deactivate();
     }
@@ -75,5 +85,16 @@ public class StatBox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         stat.incrementDelegate(stat.increment);
         statBoxes.ForEach(x => x.CheckUpgradeButton());
+
+        header.color = clickTextColor;
+        value.color = clickTextColor;
+
+        buildBox.UpdateStats();
+    }
+
+    public void ResetGraphics()
+    {
+        header.color = Color.white;
+        value.color = Color.white;
     }
 }

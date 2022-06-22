@@ -7,6 +7,7 @@ public class TriggerTypeShooter : MonoBehaviour
     [SerializeField] private bool isEnemy = false;
     private int count;
     private EffectMediator mediator;
+    private TurretActionMediator turretMediator;
     private ParticleSystem ps;
     private List<ParticleSystem.Particle> particles = new List<ParticleSystem.Particle>();
     private List<Collider2D> affectedColliders;
@@ -18,6 +19,7 @@ public class TriggerTypeShooter : MonoBehaviour
     {
         ps = GetComponent<ParticleSystem>();
         mediator = GetComponent<EffectMediator>();
+        turretMediator = GetComponent<TurretActionMediator>();
 
         if(!isEnemy) getTargets += GetEnemies;
         else getTargets += GetTurrets;
@@ -32,11 +34,15 @@ public class TriggerTypeShooter : MonoBehaviour
             for (int j = 0; j < colliderData.GetColliderCount(i); j++)
             {
                 var col = colliderData.GetCollider(i, j);
-                if(col == null)
+                if (col == null)
                 {
                     ps.trigger.RemoveCollider(j);
                 }
-                else col.GetComponent<HitManager>().ReceiveTriggerEffect(mediator);
+                else
+                {
+                    if (turretMediator != null) col.GetComponent<HitManager>().ReceiveTriggerEffect(turretMediator);
+                    else col.GetComponent<HitManager>().ReceiveTriggerEffect(mediator);
+                }
             }
         }
     }

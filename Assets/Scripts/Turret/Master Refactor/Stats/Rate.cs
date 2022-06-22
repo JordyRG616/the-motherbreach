@@ -8,7 +8,10 @@ public class Rate : TurretStat
 
     protected override void SetValue(float value)
     {
-        var main = shooter.main;
-        main.duration = value;
+        foreach (ParticleSystem shooter in shooters)
+        {
+            var main = shooter.main;
+            main.duration = value;
+        }
     }
 }

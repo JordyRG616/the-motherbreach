@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DirectDamageWeapon : Weapon
+public class SingleShooterWeapon : Weapon
 {
     protected override void SetInitialEffect()
     {

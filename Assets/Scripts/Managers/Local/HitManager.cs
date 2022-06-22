@@ -66,6 +66,17 @@ public class HitManager : MonoBehaviour, IManager
         }
     }
 
+    public void ReceiveTriggerEffect(TurretActionMediator mediator)
+    {
+        if (iFrameWindow >= 0.05f)
+        {
+            mediator.PassTarget(this, out var damage);
+            lastAttacker = mediator.linkedWeapon.gameObject;
+            OnHit?.Invoke(this, new HitEventArgs(damage, lastAttacker));
+            iFrameWindow = 0;
+        }
+    }
+
     void FixedUpdate()
     {
         iFrameWindow += Time.fixedDeltaTime;

@@ -9,16 +9,12 @@ public class Pack : ScriptableObject
     public List<int> requiredIndexes;
     public Sprite icon;
     public List<GameObject> rewards;
-    public List<GameObject> possibleBases;
-    public List<ShipSubroutine> possibleSubroutines;
-    [HideInInspector] public ShipSubroutine selectedSubroutine;
+    public List<Program> programs;
     [TextArea] public string description;
 
     public void Initiate()
     {
-        var rdm = Random.Range(0, possibleSubroutines.Count);
-        selectedSubroutine = possibleSubroutines[rdm];
-        selectedSubroutine.Initiate();
+        
     }
 }
 

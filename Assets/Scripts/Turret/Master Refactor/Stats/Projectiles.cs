@@ -8,9 +8,12 @@ public class Projectiles : TurretStat
 
     protected override void SetValue(float value)
     {
-        var emission = shooter.emission;
-        var burst = emission.GetBurst(0);
-        burst.count = value;
-        emission.SetBurst(0, burst);
+        foreach (ParticleSystem shooter in shooters)
+        {
+            var emission = shooter.emission;
+            var burst = emission.GetBurst(0);
+            burst.count = value;
+            emission.SetBurst(0, burst);
+        }
     }
 }
