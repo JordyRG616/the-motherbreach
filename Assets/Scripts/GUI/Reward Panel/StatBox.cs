@@ -32,11 +32,15 @@ public class StatBox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void Activate()
     {
+        header.color = Color.white;
+        value.color = Color.white;
         background.color = activeColor;
     }
 
     public void Deactivate()
     {
+        header.color = Color.gray;
+        value.color = Color.gray;
         background.color = inactiveColor;
     }
 

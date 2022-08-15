@@ -40,6 +40,16 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
         // Destroy(gameObject);
     }
 
+    public void SellTurret()
+    {
+        foreach (IManager manager in GetComponents<IManager>())
+        {
+            manager.DestroyManager();
+        }
+
+        Destroy(gameObject);
+    }
+
     public void UpdateHealth(float amount)
     {
         currentIntegrity += amount;
@@ -103,5 +113,10 @@ public class IntegrityManager : MonoBehaviour, IDamageable, IManager
     public float GetMaxIntegrity()
     {
         return maxIntegrity;
+    }
+
+    public bool IsAtMaxIntegrity()
+    {
+        return Mathf.Approximately(maxIntegrity, currentIntegrity);
     }
 }

@@ -6,13 +6,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 
-public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class ExitButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler
 {
     [SerializeField] private Sprite clickSprite;
     [SerializeField] private RectTransform tipBox;
     private TextMeshProUGUI tipBoxText;
     private Image image;
-    private Sprite ogSprite;
     private UIAnimationManager animationManager;
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
@@ -22,28 +21,22 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     [SerializeField] private UIAnimations lowerTextAnimation;
     [SerializeField] private UpgradeButton upgradeButton;
     [SerializeField] private SellButton sellButton;
+    private float counter;
+    [SerializeField] private float pressTime;
+    private bool pressed;
+    [SerializeField] private RectMask2D mask;
 
     void Start()
     {
         animationManager = GameObject.FindGameObjectWithTag("RewardAnimation").GetComponent<UIAnimationManager>();
 
         image = GetComponent<Image>();
-        ogSprite = image.sprite;
         tipBoxText = tipBox.Find("Text").GetComponent<TextMeshProUGUI>();
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if(eventData.button != PointerEventData.InputButton.Left) return;
-        
-        StartCoroutine(ExitReward());
     }
 
     private IEnumerator ExitReward()
     {
         AudioManager.Main.RequestGUIFX(clicksSFX);
-        image.sprite = clickSprite;
-        Invoke("ResetSprite", .1f);
 
         DeactivateButtons();
 
@@ -52,7 +45,6 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         yield return StartCoroutine(PlayEndWaveAnimation());
 
         RewardManager.Main.Exit();
-        // Camera.main.GetComponent<Animator>().enabled = false;
     }
 
     private void DeactivateButtons()
@@ -71,21 +63,39 @@ public class ExitButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         lowerTextAnimation.PlayReverse();
     }
 
-    private void ResetSprite()
-    {
-        image.sprite = ogSprite;
-    }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         AudioManager.Main.RequestGUIFX(hoverSFX);
         GetComponent<ShaderAnimation>().Play();
-        tipBoxText.text = "next wave";
-        tipBox.gameObject.SetActive(true);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    private void Update()
     {
-        tipBox.gameObject.SetActive(false);
+        if (pressed)
+        {
+            counter += Time.deltaTime;
+
+            if (counter >= pressTime)
+            {
+                StartCoroutine(ExitReward());
+                pressed = false;
+                counter = 0;
+            }
+        }
+
+        mask.padding = new Vector4(0, 0, 218 * (1 - (counter / pressTime)));
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Left) return;
+
+        pressed = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        pressed = false;
+        counter = 0;
     }
 }

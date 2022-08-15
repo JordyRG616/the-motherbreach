@@ -9,74 +9,52 @@ using FMOD.Studio;
 [System.Serializable]
 public class AudioTrack 
 {
-    [Range(0, 1f)] public float trackVolume;
-    private float _trackVolume
+    public float trackVolume
     {
-        get
+        get => _trackVolume;
+        set
         {
-            if(trackVolume < 0) return 0;
-            if(trackVolume > 1) return 1;
-            return trackVolume; 
+            if (value > 1) _trackVolume = 1;
+            else if (value < 0) _trackVolume = 0;
+            else _trackVolume = value;
+
+            SetVolume(_trackVolume);
         }
     }
+    
+    private float _trackVolume;
+
     [SerializeField] private int maxChannels;
-    [SerializeField] private MonoBehaviour invoker;
-    public Dictionary<EventInstance, IEnumerator> activeChannels = new Dictionary<EventInstance, IEnumerator>();
+    public List<EventInstance> activeChannels { get; private set; } = new List<EventInstance>();
+    private Bus bus;
+    [SerializeField] private string busPath;
     public bool paused {get; private set;}
 
-    public void ReceiveAudio(EventInstance audioInstance, bool unique = false)
+
+    public void Initiate()
+    {
+        bus = RuntimeManager.GetBus(busPath);
+        bus.setVolume(_trackVolume);
+    }
+
+    public void SetVolume(float newVolume)
+    {
+        bus.setVolume(newVolume);
+    }
+
+    public void ReceiveAudio(EventInstance audioInstance)
     {
 
         if(activeChannels.Count < maxChannels)
         {
-            if(unique && activeChannels.Keys.Contains(audioInstance))
-            {
-                StopAudio(audioInstance);
-            }
-
-            IEnumerator couroutine = TrackAudioVolume(audioInstance);
-            activeChannels.Add(audioInstance, couroutine);
-            audioInstance.setVolume(_trackVolume);
             audioInstance.start();
-            invoker.StartCoroutine(couroutine);
-        }
-    }
-
-    public void ReceivePlayingAudio(EventInstance audioInstance)
-    {
-        if(activeChannels.Count < maxChannels)
-        {
-            IEnumerator couroutine = TrackAudioVolume(audioInstance);
-            activeChannels.Add(audioInstance, couroutine);
-            audioInstance.setVolume(_trackVolume);
-            invoker.StartCoroutine(couroutine);
-        }
-    }
-
-    private IEnumerator TrackAudioVolume(EventInstance audioInstance)
-    {
-
-        while (AudioIsPlaying(audioInstance))
-        {
-            audioInstance.setVolume(_trackVolume);
-
-            yield return new WaitForEndOfFrame();
-        }
-
-        StopAudio(audioInstance);
-    }
-
-    public void StopTrackingVolume(EventInstance audioInstance)
-    {
-        if(activeChannels.Keys.Contains(audioInstance))
-        {
-            invoker.StopCoroutine(activeChannels[audioInstance]);
+            activeChannels.Add(audioInstance);
         }
     }
 
     public void StopAudio(EventInstance audioInstance)
     {
-        if(!activeChannels.Keys.Contains(audioInstance)) return;
+        if(!activeChannels.Contains(audioInstance)) return;
         activeChannels.Remove(audioInstance);
         audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         audioInstance.release();
@@ -86,7 +64,7 @@ public class AudioTrack
     {
         if(activeChannels.Count > audioID)
         {
-            EventInstance audioInstance = activeChannels.ElementAt(audioID).Key;
+            EventInstance audioInstance = activeChannels[audioID];
             activeChannels.Remove(audioInstance);
             audioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             audioInstance.release();
@@ -95,13 +73,13 @@ public class AudioTrack
 
     public void StopAllAudio(FMOD.Studio.STOP_MODE mode = FMOD.Studio.STOP_MODE.IMMEDIATE)
     {
-        activeChannels.Keys.ToList().ForEach(x => x.stop(mode));
+        activeChannels.ForEach(x => x.stop(mode));
         activeChannels.Clear();
     }
 
     public void PauseAudio()
     {
-        foreach(EventInstance instance in activeChannels.Keys)
+        foreach(EventInstance instance in activeChannels)
         {
             instance.setPaused(true);
         }
@@ -111,7 +89,7 @@ public class AudioTrack
     
     public void UnpauseAudio()
     {
-        foreach(EventInstance instance in activeChannels.Keys)
+        foreach(EventInstance instance in activeChannels)
         {
             instance.setPaused(false);
         }
@@ -133,7 +111,7 @@ public class AudioTrack
 
     public bool AudioIsPlaying()
     {
-        foreach(EventInstance audio in activeChannels.Keys)
+        foreach(EventInstance audio in activeChannels)
         {
             if(AudioIsPlaying(audio))
             {

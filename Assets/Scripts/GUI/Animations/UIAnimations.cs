@@ -15,7 +15,6 @@ public abstract class UIAnimations : MonoBehaviour
     [SerializeField] [FMODUnity.EventRef] protected string OnReverseSFX;
     private static float globalSpeedModifier = 0.25f;
 
-
     public float Speed 
     {
         get

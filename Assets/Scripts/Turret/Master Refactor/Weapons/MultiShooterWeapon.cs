@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MultiShooterWeapon : Weapon
 {
@@ -11,6 +12,7 @@ public class MultiShooterWeapon : Weapon
         foreach(ParticleSystem shooter in additionalShooters)
         {
             StatSet.ForEach(x => x.ReceiveShooter(shooter));
+            dormentStats.ForEach(x => x.ReceiveShooter(shooter));
         }
 
         base.Initiate();
@@ -31,5 +33,27 @@ public class MultiShooterWeapon : Weapon
     {
         base.CeaseFire();
         additionalShooters.ForEach(x => x.Stop(true));
+    }
+
+    public override void LoadData(SaveFile saveFile)
+    {
+        var slotId = GetComponentInParent<TurretManager>().slotId;
+
+        var list = new List<TurretStat>();
+        list.AddRange(StatSet);
+        list.AddRange(dormentStats);
+
+        list.ForEach(x => x.Initiate(shooter, this));
+
+        foreach (ParticleSystem shooter in additionalShooters)
+        {
+            list.ForEach(x => x.ReceiveShooter(shooter));
+        }
+
+        foreach (TurretStat stat in list)
+        {
+            var value = BitConverter.ToSingle(saveFile.GetValue(stat.publicName + slotId));
+            stat.SetStatToValue(value);
+        }
     }
 }

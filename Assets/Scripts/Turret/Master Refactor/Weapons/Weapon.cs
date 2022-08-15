@@ -16,8 +16,8 @@ public abstract class Weapon : MonoBehaviour, ISavable
     public string Description { get => _description; }
     [SerializeField] protected List<TurretStat> StatSet;
     [SerializeField] protected List<TurretStat> dormentStats;
-    [SerializeField] protected List<Program> _initialPrograms;
-    public List<Program> InitialPrograms { get => _initialPrograms; }
+    [SerializeField] protected List<Trait> _initialPrograms;
+    public List<Trait> InitialPrograms { get => _initialPrograms; }
     [SerializeField] protected ParticleSystem shooter;
     public WaitForSeconds waitForCooldown;
     public WaitForSeconds waitForDuration;
@@ -31,14 +31,21 @@ public abstract class Weapon : MonoBehaviour, ISavable
     protected RestBarManager restBar;
     protected float restCounter;
     public bool attacking { get; protected set; }
+    protected bool initiated;
 
 
     public virtual void Initiate()
     {
+        if (initiated) return;
         StatSet.ForEach(x => x.Initiate(shooter, this));
+        StatSet.ForEach(x => x.overwritten = true);
+        dormentStats.ForEach(x => x.Initiate(shooter, this));
         StatSet = StatSet.OrderBy(x => x.sortingIndex).ToList();
+        dormentStats = dormentStats.OrderBy(x => x.sortingIndex).ToList();
 
-        waitForDuration = HasStat<Duration>() ? new WaitForSeconds(GetStatValue<Duration>()) : new WaitForSeconds(GetComponent<Duration>().startingValue);
+        var duration = HasStat<Duration>() ? GetStatValue<Duration>() : shooter.main.duration;
+
+        waitForDuration = HasStat<Duration>() ? new WaitForSeconds(duration) : new WaitForSeconds(duration);
         waitForCooldown = new WaitForSeconds(GetStatValue<Cooldown>());
 
         SetInitialEffect();
@@ -48,6 +55,7 @@ public abstract class Weapon : MonoBehaviour, ISavable
         targetSystem = GetComponent<TargetSystem>();
         _animator = GetComponent<Animator>();
         restBar = GetComponentInParent<RestBarManager>();
+        initiated = true;
     }
 
     protected virtual void HandleActivation(object sender, GameStateEventArgs e)
@@ -89,31 +97,77 @@ public abstract class Weapon : MonoBehaviour, ISavable
         return stat != null;
     }
 
+    public bool HasStat<T>(out TurretStat stat) where T : TurretStat
+    {
+        stat = StatSet.Find(x => x.GetType() == typeof(T));
+        return stat != null;
+    }
+
     public bool HasDormentStat(TurretStat T)
     {
-        var stat = dormentStats.Find(x => x.GetType() == T.GetType());
-        return stat != null;
+        //var stat = dormentStats.Find(x => x.GetType().IsSubclassOf(T.GetType()));
+        var type = T.GetType();
+        foreach (var testedStat in dormentStats)
+        {
+            var _t = testedStat.GetType();
+            if (_t == type || _t.IsSubclassOf(type)) return true;
+        }
+        return false;
     }
 
     public void ExposeDormentStat(TurretStat T)
     {
-        var stat = dormentStats.Find(x => x.GetType() == T.GetType());
+        //var stat = dormentStats.Find(x => x.GetType() == T.GetType());
+        TurretStat stat = null;
+        var type = T.GetType();
+        foreach (var _stat in dormentStats)
+        {
+            var _t = _stat.GetType();
+            if (_t == type || _t.IsSubclassOf(type)) stat = _stat;
+        }
         if (stat == null) return;
         StatSet.Add(stat);
         dormentStats.Remove(stat);
+        stat.Initiate(shooter, this);
+        stat.overwritten = true;
     }
 
     public void HideExposedStat(TurretStat T)
     {
-        var stat = StatSet.Find(x => x.GetType() == T.GetType());
+        TurretStat stat = null;
+        var type = T.GetType();
+        foreach (var _stat in StatSet)
+        {
+            var _t = _stat.GetType();
+            if (_t == type || _t.IsSubclassOf(type)) stat = _stat;
+        }
         if (stat == null) return;
         dormentStats.Add(stat);
         StatSet.Remove(stat);
+        stat.overwritten = false;
     }
 
     public float GetStatValue<T>() where T : TurretStat
     {
-        var stat = StatSet.Find(x => x.GetType() == typeof(T));
+        //var stat = StatSet.Find(x => x.GetType() == typeof(T));
+        TurretStat stat = null;
+        var type = typeof(T);
+        foreach (var _stat in StatSet)
+        {
+            var _t = _stat.GetType();
+            if (_t == type || _t.IsSubclassOf(type)) stat = _stat;
+        }
+
+        if(stat == null)
+        {
+            foreach (var _stat in dormentStats)
+            {
+                var _t = _stat.GetType();
+                if (_t == type || _t.IsSubclassOf(type)) stat = _stat;
+            }
+        }
+
+        stat.Initiate(shooter, this);
         return stat.Value;
     }
 
@@ -121,6 +175,12 @@ public abstract class Weapon : MonoBehaviour, ISavable
     {
         var damage = GetStatValue<Damage>();
         manager.HealthInterface.UpdateHealth(-damage);
+    }
+
+    private void OnDestroy()
+    {
+        if (!initiated) return;
+        gameManager.OnGameStateChange -= HandleActivation;
     }
 
     protected virtual IEnumerator ManageActivation()
@@ -163,6 +223,34 @@ public abstract class Weapon : MonoBehaviour, ISavable
         return StatSet;
     }
 
+    public List<TurretStat> GetDormentStats()
+    {
+        return dormentStats;
+    }
+
+    public List<TurretStat> GetAllStats()
+    {
+        var list = new List<TurretStat>();
+        list.AddRange(StatSet);
+        list.AddRange(dormentStats);
+        return list;
+    }
+
+    public int GetActiveStatCount()
+    {
+        return StatSet.Count;
+    }
+
+    public int GetDormentStatCount()
+    {
+        return dormentStats.Count;
+    }
+
+    public void ReplaceShooter(ParticleSystem newShooter)
+    {
+        shooter = newShooter;
+    }
+
     public Dictionary<string, byte[]> GetData()
     {
         var container = new Dictionary<string, byte[]>();
@@ -170,7 +258,11 @@ public abstract class Weapon : MonoBehaviour, ISavable
 
         container.Add(slotId + "weaponID", BitConverter.GetBytes(Id));
 
-        foreach (TurretStat stat in StatSet)
+        var list = new List<TurretStat>();
+        list.AddRange(StatSet);
+        list.AddRange(dormentStats);
+
+        foreach (TurretStat stat in list)
         {
             var key = stat.publicName + slotId;
             var value = BitConverter.GetBytes(stat.Value);
@@ -180,11 +272,17 @@ public abstract class Weapon : MonoBehaviour, ISavable
         return container;
     }
 
-    public void LoadData(SaveFile saveFile)
+    public virtual void LoadData(SaveFile saveFile)
     {
         var slotId = GetComponentInParent<TurretManager>().slotId;
 
-        foreach (TurretStat stat in StatSet)
+        var list = new List<TurretStat>();
+        list.AddRange(StatSet);
+        list.AddRange(dormentStats);
+
+        list.ForEach(x => x.Initiate(shooter, this));
+
+        foreach (TurretStat stat in list)
         {
             var value = BitConverter.ToSingle(saveFile.GetValue(stat.publicName + slotId));
             stat.SetStatToValue(value);

@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using CustomRandom;
 
-public class WaveManager : MonoBehaviour, ISavable
+public class WaveManager : MonoBehaviour
 {
     #region Singleton
     private static WaveManager _instance;
@@ -42,7 +43,6 @@ public class WaveManager : MonoBehaviour, ISavable
     private UIAnimations endOfWaveAnimation;
     private ParticleSystem endOfWaveVFX;
     [SerializeField] [FMODUnity.EventRef] private string endOfWaveSFX;
-    private Queue<WaveData> dataQueue  = new Queue<WaveData>();
     private WaveData activeWave;
     private ShipManager ship;
     private int spawnIndex;
@@ -59,6 +59,12 @@ public class WaveManager : MonoBehaviour, ISavable
     public event EventHandler<EndWaveEventArgs> OnWaveEnd;
     private EndWaveEventArgs defaultArg = new EndWaveEventArgs();
 
+    public delegate void ApplyWaveModifier(FormationManager manager);
+    public ApplyWaveModifier applyModifier;
+
+
+    private float waveTime;
+    private bool counting;
 
     public void ClearEvents()
     {
@@ -75,7 +81,6 @@ public class WaveManager : MonoBehaviour, ISavable
     {
         activeFormations.Clear();
         activeBosses.Clear();
-        dataQueue.Clear();
         activeWave = null;
 
         endOfWaveAnimation = GameObject.Find("End of wave text").GetComponent<UIAnimations>();
@@ -87,41 +92,55 @@ public class WaveManager : MonoBehaviour, ISavable
         AudioManager.Main.RequestMusic();
 
         ship = ShipManager.Main;
-
-        GenerateDataQueue();
+        listOfWaves = ScriptableObject.Instantiate(listOfWaves);
+        listOfWaves.Initiate();
     }
 
-    private void GenerateDataQueue()
+    public WaveData GetRandomWaveByLevel(int level)
     {
-        dataQueue.Clear();
-        activeWave = null;
-        spawnIndex = 0;
-        foreach(WaveData data in listOfWaves.waves)
-        {
-            dataQueue.Enqueue(data);
-        }
+        var list = listOfWaves.listsByLevel[level];
+        var rdm = RandomManager.GetRandomInteger(0, list.Count);
+
+        var wave = list[rdm];
+        list.Remove(wave);
+        return wave;
+    }
+
+    public WaveData GetRandomBossByLevel(int level)
+    {
+        var list = listOfWaves.bossesByLevel[level];
+        var rdm = RandomManager.GetRandomInteger(0, list.Count);
+
+        var wave = list[rdm];
+        list.Remove(wave);
+        return wave;
+    }
+
+    public EnemyInformation GetEnemyInformation(int index)
+    {
+        return listOfWaves.enemyInformation[index];
+    }
+
+    public BossInformation GetBossInformation(int index)
+    {
+        return listOfWaves.bossInformation[index];
     }
 
     public void StartNextWave()
     {
         GameManager.Main.SaveGame();
-
+        applyModifier = null;
         FindObjectOfType<ShipController>().GetComponent<Rigidbody2D>().WakeUp();
 
-        if(dataQueue.Count > 0)
-        {
-            activeWave = dataQueue.Dequeue();
-            waveIndex ++;
-            activeWave.SetQueue();
-            spawnIndex = 0;
-            StartCoroutine(InstantiateFormations());
-        }
-    }
 
-    public WaveData GetNextWave()
-    {
-        var wave = dataQueue.Peek();
-        return wave;
+        activeWave = NodeMapManager.Main.selectedNode.nodeWave;
+        if(!NodeMapManager.Main.selectedNode.bossNode) applyModifier += NodeMapManager.Main.selectedNode.modifier.ApplyFormationEffect;
+        waveIndex ++;
+        activeWave.SetQueue();
+        spawnIndex = 0;
+        counting = true;
+        StartCoroutine(InstantiateFormations());
+        
     }
 
     private Vector3 PositionToSpawn()
@@ -192,6 +211,7 @@ public class WaveManager : MonoBehaviour, ISavable
                         activeFormations.Add(manager);
                         manager.formationLevel = breach.breachLevel;
                         manager.OnFormationDefeat += RemoveFormation;
+                        applyModifier?.Invoke(manager);
 
 
                         var formationPointer = Instantiate(pointer, formation.transform.position, Quaternion.identity);
@@ -268,6 +288,11 @@ public class WaveManager : MonoBehaviour, ISavable
         return activeBosses.Count == 0 && activeFormations.Count == 0 && activeWave.breachQueue.Count == 0;
     }
 
+    private void Update()
+    {
+        if(counting) waveTime += Time.deltaTime;
+    }
+
     private IEnumerator EndWave()
     {
         endOfWaveVFX.Play();
@@ -278,22 +303,15 @@ public class WaveManager : MonoBehaviour, ISavable
 
         yield return new WaitUntil(() => !endOfWaveVFX.IsAlive(true));
 
-        if(dataQueue.Count == 0)
-        {
-            yield return new WaitForEndOfFrame();
-
-            GameManager.Main.endgamePic = ScreenCapture.CaptureScreenshotAsTexture();
-
-            GameManager.Main.Win();
-        }
-
         AudioManager.Main.GetAudioTrack("SFX").PauseAudio();
         AudioManager.Main.SwitchMusicTracks("Special");
 
         progressionMeter.AdvanceMarker();
 
         StopAllCoroutines();
+        counting = false;
         defaultArg.waveReward = activeWave.rewardValue;
+        defaultArg.waveTime = waveTime;
         OnWaveEnd?.Invoke(this, defaultArg);
     }
 
@@ -301,30 +319,10 @@ public class WaveManager : MonoBehaviour, ISavable
     {
         StartCoroutine(InstantiateFormations());
     }
-
-    public Dictionary<string, byte[]> GetData()
-    {
-        var container = new Dictionary<string, byte[]>();
-
-        container.Add("waveIndex", BitConverter.GetBytes(waveIndex));
-
-        return container;
-    }
-
-    public void LoadData(SaveFile saveFile)
-    {
-        if(dataQueue.Count == 0) return;
-        var count = BitConverter.ToInt32(saveFile.GetValue("waveIndex"));
-        waveIndex = count;
-        for (int i = 0; i < count; i++)
-        {
-            dataQueue.Dequeue();
-            progressionMeter.AdvanceMarker();
-        }
-    }
 }
 
 public class EndWaveEventArgs : EventArgs
 {
     public float waveReward;
+    public float waveTime;
 }

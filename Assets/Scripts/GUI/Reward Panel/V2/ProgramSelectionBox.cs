@@ -8,7 +8,7 @@ public class ProgramSelectionBox : MonoBehaviour, IPointerEnterHandler, IPointer
 {
     [SerializeField] private ProgramBox programBox;
     private Image icon;
-    private Program cachedProgram;
+    private Trait cachedProgram;
     private string description;
     private StatInfoBox statInfoBox;
 
@@ -18,7 +18,7 @@ public class ProgramSelectionBox : MonoBehaviour, IPointerEnterHandler, IPointer
         icon = GetComponent<Image>();
     }
 
-    public void ReceiveProgram(Program program)
+    public void ReceiveProgram(Trait program)
     {
         icon.sprite = program.sprite;
         icon.enabled = true;

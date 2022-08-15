@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf34a1a5e733a94b91d78f53f4c6f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  formationLevel: 0
 --- !u!1 &9043303713731774764
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,7 +62,6 @@ GameObject:
   - component: {fileID: 9043303713731774758}
   - component: {fileID: 9043303713731774757}
   - component: {fileID: 202851270522432703}
-  - component: {fileID: 5674464480262531770}
   m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
@@ -118,14 +118,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movements:
-  - {fileID: 9043303713731774757}
-  - {fileID: 5674464480262531770}
   - {fileID: 202851270522432703}
-  attackingMovements: 32
-  fleeDuration: 1
-  fleeDistance: 10
-  distanceToShoot: 25
-  shootDuration: 7
+  - {fileID: 9043303713731774757}
+  attackingMovements: 4
+  fleeDuration: 0.2
+  fleeDistance: 12.5
 --- !u!231 &9043303713731774758
 SpringJoint2D:
   m_ObjectHideFlags: 0
@@ -174,24 +171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedModifier: 0
-  eccentricity: 1
-  speed: 4
---- !u!114 &5674464480262531770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9043303713731774764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96673a071d4c3874386fc576b04d19db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedModifier: 0
-  allowInertia: 0
-  angleVariation: 50
-  rotationSpeed: 0.25
+  eccentricity: 4
+  speed: 1.5
 --- !u!1 &9043303713898056825
 GameObject:
   m_ObjectHideFlags: 0

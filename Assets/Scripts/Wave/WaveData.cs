@@ -5,9 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="Data/Wave", fileName ="New Wave Data")]
 public class WaveData : ScriptableObject
 {
-    public List<string> enemiesInWave;
+    public List<int> enemiesInWave;
     [SerializeField] private List<Breach> breaches;
     public float rewardValue;
+    public Sprite BossIcon;
 
     public Queue<Breach> breachQueue = new Queue<Breach>();
  
@@ -23,6 +24,15 @@ public class WaveData : ScriptableObject
     public int GetBreachCount()
     {
         return breaches.Count;
+    }
+
+    public void EnqueueExtraWaves(int extraWaves)
+    {
+        for (int i = 0; i < extraWaves; i++)
+        {
+            var rdm = Random.Range(0, breaches.Count);
+            breachQueue.Enqueue(breaches[rdm]);
+        }
     }
 }
 

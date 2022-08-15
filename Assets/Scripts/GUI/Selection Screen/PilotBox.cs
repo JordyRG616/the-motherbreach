@@ -15,6 +15,9 @@ public class PilotBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField] private bool defaultSelection;
     [SerializeField] private GameObject unknownPortrait;
     [SerializeField] private GameObject truePortrait;
+    [SerializeField] private Animator anim;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string OnSelection;
     private StatInfoBox tipbox;
     private Sprite ogSprite;
     public UnityEvent OnClickEvent;
@@ -59,7 +62,7 @@ public class PilotBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     private void SetSelection()
     {
         frame.sprite = clickedSprite;
-
+        AudioManager.Main.RequestGUIFX(OnSelection);
         launchButton.ReceivePilot(pilotPrefab);
         OnClickEvent?.Invoke();
 
@@ -74,14 +77,22 @@ public class PilotBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(!inactive) return;
+        if(!inactive)
+        {
+            anim.SetTrigger("Enter");
+            return;
+        }
         tipbox.gameObject.SetActive(true);
         tipbox.SetText("\nThis pilot was captured. Can be rescued by finding and destroy the corresponding" + StatColorHandler.DamagePaint("jailship") + ".\n\n");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(!inactive) return;
+        if(!inactive)
+        {
+            anim.SetTrigger("Exit");
+            return;
+        }
         tipbox.gameObject.SetActive(false);
 
     }

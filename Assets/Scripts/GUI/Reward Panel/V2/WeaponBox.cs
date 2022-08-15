@@ -80,9 +80,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
                 light2D.color = selectedColor;
                 AudioManager.Main.RequestGUIFX(clickSFX);
                 buildBox.ReceiveWeaponBox(this);
-                //buildBox.UpdateStats();
                 buildBox.SetCostToWeaponCost(true);
-                //buildButton.mode = (turret.Level < 3)? BuildButton.ButtonMode.UPGRADE : BuildButton.ButtonMode.DONE;
                 selected = true;
 
                 return;
@@ -103,11 +101,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             else
             {
                 buildBox.ClearWeaponBox();
-                //var turret = upgradeButton.slot.occupyingTurret.GetComponent<TurretManager>();
                 buildButton.mode = BuildButton.ButtonMode.DONE;
-                //turret.actionController.LoadStats();
-                //turret.actionController.GetShooters().ForEach(x => x.RemoveLevelUp());
-                // turret.Level --;
                 buildBox.UpdateStats();
             }
         } 
@@ -138,9 +132,6 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     {
         activeVFX.Stop();
         var turret = upgradeButton.slot.occupyingTurret.GetComponent<TurretManager>();
-        //turret.actionController.LoadStats();
-        //turret.actionController.GetShooters().ForEach(x => x.RemoveLevelUp());
-        // turret.Level --;
     }
 
     public void Detach()

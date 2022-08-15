@@ -29,7 +29,6 @@ public class AudioManager : MonoBehaviour
     #endregion
 
     private AudioLibrary library;
-    private AudioEffects effects;
     
     [SerializeField] private Settings settings;
     [SerializeField] private AudioTrack musicTrack;
@@ -48,34 +47,34 @@ public class AudioManager : MonoBehaviour
     public void Initialize()
     {
         SetVolume();
+        
 
-        effects = new AudioEffects(this);
         library = GetComponentInChildren<AudioLibrary>();
         DontDestroyOnLoad(gameObject);
     }
 
     public void SetVolume()
     {
+        musicTrack.Initiate();
         musicTrack.trackVolume = settings.musicVolume;
+        uniqueMusicTrack.Initiate();
         uniqueMusicTrack.trackVolume = settings.musicVolume;
+        SFXTrack.Initiate();
         SFXTrack.trackVolume = settings.sfxVolume;
+        GUITrack.Initiate();
         GUITrack.trackVolume = settings.guiVolume;
     }
 
     public void RequestMusic()
     {
-        // if(musicTrack.AudioIsPlaying()) CrossfadeMusics();
-        // else 
-        musicTrack.ReceiveAudio(library.GetMusic(), true);
+        musicTrack.ReceiveAudio(library.GetMusic());
 
         StartCoroutine(Playlist());
     }
 
     public void RequestMusic(string musicName)
     {
-        // if(musicTrack.AudioIsPlaying()) CrossfadeMusics(musicName);
-        // else 
-        uniqueMusicTrack.ReceiveAudio(library.GetMusic(musicName), true);
+        uniqueMusicTrack.ReceiveAudio(library.GetMusic(musicName));
     }
 
     public void RequestBossMusic(string musicName, out FMOD.Studio.EventInstance instance)
@@ -156,34 +155,6 @@ public class AudioManager : MonoBehaviour
         uniqueMusicTrack.trackVolume = volume;
     }
 
-    public void StopMusicTrack()
-    {
-        for (int i = 0; i < uniqueMusicTrack.activeChannels.Count; i++)
-        {
-            uniqueMusicTrack.StopAudio(i);
-        }
-
-        // for (int i = 0; i < musicTrack.activeChannels.Count; i++)
-        // {
-        //     musicTrack.StopAudio(i);
-        // }
-    }
-
-    private void StopUniqueTrack()
-    {
-        
-    }
-
-    public void CrossfadeMusics()
-    {
-        effects.StartCrossfade(musicTrack.activeChannels.Keys.FirstOrDefault(), library.GetMusic(), musicTrack);
-    }
-
-    public void CrossfadeMusics(string musicName)
-    {
-        effects.StartCrossfade(musicTrack.activeChannels.Keys.FirstOrDefault(), library.GetMusic(musicName), musicTrack);
-    }
-
     public void RequestSFX(string eventPath)
     {
         SFXTrack.ReceiveAudio(library.GetSFX(eventPath));
@@ -202,18 +173,18 @@ public class AudioManager : MonoBehaviour
 
     public bool IsPlayingSFX(FMOD.Studio.EventInstance instance)
     {
-        return SFXTrack.activeChannels.Keys.Contains(instance);
+        return SFXTrack.activeChannels.Contains(instance);
     }
 
     public void RequestGUIFX(string eventPath, out int index)
     {
-        GUITrack.ReceiveAudio(library.GetGUISound(eventPath), true);
+        GUITrack.ReceiveAudio(library.GetGUISound(eventPath));
         index = GUITrack.activeChannels.Count - 1;
     }
 
     public void RequestGUIFX(string eventPath)
     {
-        GUITrack.ReceiveAudio(library.GetGUISound(eventPath), true);
+        GUITrack.ReceiveAudio(library.GetGUISound(eventPath));
     }
 
     public void StopGUIFX(int index)
@@ -223,9 +194,12 @@ public class AudioManager : MonoBehaviour
 
     public void PlayInvalidSelection(string invalidTip)
     {
-        if(GameManager.Main.gameState != GameState.OnReward) return;
-        InvalidPopup.Main.PopInvalidText(invalidTip);
-        GUITrack.ReceiveAudio(library.GetGUISound("event:/UI/Reward/Reward_InvalidSelection"), true);
+        if(GameManager.Main.gameState == GameState.OnReward || GameManager.Main.gameState == GameState.OnTitle)
+        {
+            InvalidPopup.Main.PopInvalidText(invalidTip);
+            GUITrack.ReceiveAudio(library.GetGUISound("event:/UI/Reward/Reward_InvalidSelection"));
+        }
+
     }
 
     public void HandleMusicVolume(float amount)

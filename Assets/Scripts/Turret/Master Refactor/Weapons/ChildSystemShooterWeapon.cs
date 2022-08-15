@@ -13,7 +13,9 @@ public class ChildSystemShooterWeapon : Weapon
         StatSet.ForEach(x => x.Initiate(trueSystem, this));
         StatSet = StatSet.OrderBy(x => x.sortingIndex).ToList();
 
-        waitForDuration = new WaitForSeconds(GetStatValue<Duration>());
+        var duration = TryGetComponent<Duration>(out var _d) ? GetStatValue<Duration>() : shooter.main.duration;
+
+        waitForDuration = HasStat<Duration>() ? new WaitForSeconds(duration) : new WaitForSeconds(duration);
         waitForCooldown = new WaitForSeconds(GetStatValue<Cooldown>());
 
         SetInitialEffect();

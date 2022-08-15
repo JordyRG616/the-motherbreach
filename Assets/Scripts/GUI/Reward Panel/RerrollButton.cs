@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
+    public enum RerrollTarget { Weapons, Foundations }
+
+    [SerializeField] private RerrollTarget target;
     [SerializeField] private Sprite clickSprite;
     [SerializeField] private RectTransform tipBox;
     [SerializeField] private UIAnimations cashTextAnim;
@@ -20,7 +23,10 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
     [SerializeField] [FMODUnity.EventRef] private string clicksSFX;
-    private int offerTimelineIndex;
+    private float counter;
+    [SerializeField] private float pressTime;
+    private bool pressed;
+    [SerializeField] private RectMask2D mask;
 
     public event EventHandler OnReroll;
 
@@ -40,7 +46,7 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         AudioManager.Main.RequestGUIFX(hoverSFX);
         GetComponent<ShaderAnimation>().Play();
-        tipBoxText.text = "reset (" + rerrollCost + "$)";
+        tipBoxText.text = "reset " + target + " (" + rerrollCost + "$)";
         tipBox.gameObject.SetActive(true);
     }
 
@@ -51,41 +57,66 @@ public class RerrollButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(eventData.button != PointerEventData.InputButton.Left) return;
-        
-        var locked = FindObjectOfType<LockButton>().locked;
+        if (eventData.button != PointerEventData.InputButton.Left) return;
 
-        if(rewardManager.TotalCash >= rerrollCost && !locked && !buildBox.OnUpgrade)
+        //image.sprite = clickSprite;
+        pressed = true;
+
+    }
+
+    private void Activate()
+    {
+        if (rewardManager.TotalCash >= rerrollCost && !buildBox.OnUpgrade)
         {
             AudioManager.Main.RequestGUIFX(clicksSFX);
-            image.sprite = clickSprite;
 
-            rewardManager.SpendedCash = 2;  
-            cashTextAnim.PlayReverse();
+            rewardManager.SpendCash(rerrollCost);
 
             Reroll();
             OnReroll?.Invoke(this, EventArgs.Empty);
             return;
-        } else
+        }
+        else
         {
-            if(locked) AudioManager.Main.PlayInvalidSelection("Offer is locked");
-            else AudioManager.Main.PlayInvalidSelection("Not enough cash");
+            AudioManager.Main.PlayInvalidSelection("Not enough cash");
         }
     }
 
     public void Reroll()
     {
-        rewardManager.EliminateOffer();
-        rewardManager.GenerateOffer();
+        if(target == RerrollTarget.Weapons)
+        {
+            rewardManager.EliminateWeaponOffer();
+            rewardManager.GenerateWeaponOffer();
+        }
+        else
+        {
+            rewardManager.EliminateFoundationOffer();
+            rewardManager.GenerateFoundationOffer();
+        }
+
+        //rewardManager.EliminateOffer();
+        //rewardManager.GenerateOffer();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Invoke("ResetSprite", .1f);
+        pressed = false;
+        counter = 0;
     }
 
-    private void ResetSprite()
+    void Update()
     {
-        image.sprite = ogSprite;
+        if (pressed)
+        {
+            counter += Time.deltaTime;
+            if (counter >= pressTime)
+            {
+                Activate();
+                pressed = false;
+                counter = 0;
+            }
+        }
+        mask.padding = new Vector4(0, 0, 0, 35 * (1 - (counter / pressTime)));
     }
 }

@@ -10,6 +10,5 @@ public class TurretActionMediator : MonoBehaviour
     {
         linkedWeapon.totalEffect(target);
         damage = linkedWeapon.GetStatValue<Damage>();
-        Debug.Log(damage);
     }
 }

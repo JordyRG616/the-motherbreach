@@ -106,12 +106,12 @@ public class RewardCalculator : MonoBehaviour, ISavable
     public void InitiateChoice()
     {
         if(choosing == true) return;
-        if(expAmount == expRequeriment[ShopLevel])
-        {
-            PackOfferManager.Main.IniatiatePackChoice();
-            FindObjectOfType<OfferTweaker>().removalPoints ++;
-            choosing = true;
-        }
+        PackOfferManager.Main.IniatiatePackChoice();
+        choosing = true;
+        //if(expAmount == expRequeriment[ShopLevel])
+        //{
+            //FindObjectOfType<OfferTweaker>().removalPoints ++;
+        //}
     }
 
     public void LevelUp()
@@ -119,7 +119,7 @@ public class RewardCalculator : MonoBehaviour, ISavable
         expAmount = 0;
         ShopLevel++;
         AudioManager.Main.RequestGUIFX(levelGained);
-        FindObjectOfType<RerrollButton>().Reroll();
+        rewardManager.RerrollAll();
         choosing = false;
     }
 
@@ -127,12 +127,12 @@ public class RewardCalculator : MonoBehaviour, ISavable
     {
         foreach(GameObject reward in rewards)
         {
-            if(reward.TryGetComponent<ActionController>(out var controller))
+            if(reward.TryGetComponent<Weapon>(out var controller))
                 weapons.Add(reward);
-            if(reward.TryGetComponent<BaseEffectTemplate>(out var effect))
+            if(reward.TryGetComponent<Foundation>(out var effect))
                 bases.Add(reward);
-            if(reward.TryGetComponent<Artifact>(out var artifact))
-                ShipManager.Main.ReceiveArtifact(artifact);
+            //if(reward.TryGetComponent<Artifact>(out var artifact))
+            //    ShipManager.Main.ReceiveArtifact(artifact);
         }
 
         LevelUp();
@@ -217,5 +217,16 @@ public class RewardCalculator : MonoBehaviour, ISavable
             offerTweaker.removalPoints++;
         }
 
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                InitiateChoice();
+            }
+        }
     }
 }

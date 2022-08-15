@@ -9904,7 +9904,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4978077965712481474}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.42, z: 0}
+  m_LocalPosition: {x: 0, y: -0.365, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10626,7 +10626,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.88
+      value: 0.24
       mode: 0
       spread: 0
       speed:
@@ -14735,7 +14735,7 @@ Transform:
   m_GameObject: {fileID: 6390329837503872514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7770133180850522560}
@@ -14788,7 +14788,7 @@ SpriteRenderer:
   m_SortingLayerID: -111248837
   m_SortingLayer: 2
   m_SortingOrder: -2
-  m_Sprite: {fileID: 21300000, guid: bd17f79f92aed5945a8fd3fcac4ed45a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fdcbce498e4be4441a0a7f18765a0a24, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -14837,7 +14837,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.6, y: 1.6}
+    oldSize: {x: 1.28, y: 1.28}
     newSize: {x: 0.15, y: 0.15}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -14845,15 +14845,18 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.00786205, y: 0.49163038}
-      - {x: -0.61009413, y: -0.019749582}
-      - {x: -0.6144567, y: -0.1954734}
-      - {x: -0.30209437, y: -0.19672737}
-      - {x: -0.082998246, y: -0.49163824}
-      - {x: 0.110278904, y: -0.49163842}
-      - {x: 0.2929989, y: -0.20543529}
-      - {x: 0.6049814, y: -0.19470423}
-      - {x: 0.5824318, y: -0.020518899}
+    - - {x: -0.039182603, y: 0.4771913}
+      - {x: -0.20026073, y: 0.04244624}
+      - {x: -0.43090624, y: -0.16723706}
+      - {x: -0.4343416, y: -0.3841443}
+      - {x: -0.28809074, y: -0.47729146}
+      - {x: -0.15768422, y: -0.31482446}
+      - {x: 0.15496425, y: -0.31878778}
+      - {x: 0.29051375, y: -0.48130506}
+      - {x: 0.43584746, y: -0.38616395}
+      - {x: 0.42907548, y: -0.1693552}
+      - {x: 0.20641679, y: 0.04777377}
+      - {x: 0.026746985, y: 0.48028845}
 --- !u!114 &6390329837503872524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14899,7 +14902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03c9e513ff6a6cf4b9d2a6425f8e3e3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 90
+  maxHealth: 60
   damageMultiplier: 1
 --- !u!114 &6390329837503872525
 MonoBehaviour:
@@ -14966,7 +14969,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   keyword: 0
-  tags: 0
+  weaponClass: 0
   initialDamage: 5
   initialRest: 0
   damageText: 
@@ -15649,7 +15652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3709292450076844395, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.09
+      value: 1.31
       objectReference: {fileID: 0}
     - target: {fileID: 3709292450076844395, guid: 863168ef1acab6744a6f89054d70ea8c, type: 3}
       propertyPath: m_LocalPosition.z

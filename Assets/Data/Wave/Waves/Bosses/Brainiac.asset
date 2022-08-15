@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0f701f77d25324585ba86577dd2f08, type: 3}
+  m_Name: Brainiac
+  m_EditorClassIdentifier: 
+  enemiesInWave: 02000000
+  breaches:
+  - availableFormations:
+    - {fileID: 2635984711344348252, guid: d0361a2046888b545af3023d5275f335, type: 3}
+    intervalOfSpawn: 0
+    intervalTillNextWave: 15
+    spawnInSamePosition: 1
+    bossWave: 1
+    breachLevel: 0
+  rewardValue: 13
+  BossIcon: {fileID: -1621700809, guid: a3620628354e0b94fb7eab147fc38041, type: 3}

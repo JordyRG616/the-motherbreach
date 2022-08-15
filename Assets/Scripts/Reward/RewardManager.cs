@@ -52,6 +52,8 @@ public class RewardManager : MonoBehaviour, ISavable
     public event EventHandler OnRewardSelection;
     public event EventHandler<BuildEventArgs> OnTurretBuild;
 
+    private UIAnimations rewardPanelAnimation;
+
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string buildSFX;
 
@@ -92,6 +94,7 @@ public class RewardManager : MonoBehaviour, ISavable
         weaponBoxes = FindObjectsOfType<WeaponBox>(true).ToList();
         baseBoxes = FindObjectsOfType<BaseBox>(true).ToList();
         cashTextAnimation = FindObjectOfType<CashTextAnimation>();
+        rewardPanelAnimation = FindObjectOfType<BuildButton>().GetComponent<UIAnimations>();
 
         AudioManager.Main.GetAudioTrack("Special").StopAllAudio();
         AudioManager.Main.SwitchMusicTracks("Special");
@@ -109,23 +112,36 @@ public class RewardManager : MonoBehaviour, ISavable
         ship.GetComponent<Rigidbody2D>().Sleep();
         animationManager.Play();
         
-        var locked = FindObjectOfType<LockButton>().locked;
+        //var locked = FindObjectOfType<LockButton>().locked;
 
-        if(!locked) GenerateOffer();
+        GenerateOffer();
 
         GameManager.Main.SaveGame();
     }
 
     public void GenerateOffer()
     {
-        RewardLevel _base = calculator.CalculateRewardLevel();
-        RewardLevel _top = calculator.CalculateRewardLevel();
-        
         foreach(WeaponBox weaponBox in weaponBoxes)
         {
             weaponBox.GenerateNewWeapon();
         }
         foreach(BaseBox baseBox in baseBoxes)
+        {
+            baseBox.GenerateNewBase();
+        }
+    }
+
+    public void GenerateWeaponOffer()
+    {
+        foreach (WeaponBox weaponBox in weaponBoxes)
+        {
+            weaponBox.GenerateNewWeapon();
+        }
+    }
+
+    public void GenerateFoundationOffer()
+    {
+        foreach (BaseBox baseBox in baseBoxes)
         {
             baseBox.GenerateNewBase();
         }
@@ -148,14 +164,13 @@ public class RewardManager : MonoBehaviour, ISavable
         tutorialManager.TriggerPosBuildTutorial();
         buildBox.Clear();
         OnTurretBuild?.Invoke(this, new BuildEventArgs(ActiveSelection.GetComponent<TurretManager>()));
-        //turretConstructor.HandleBaseEffect(ActiveSelection);
         var manager = ActiveSelection.GetComponent<TurretManager>();
-        //SpendCash((int)manager.Stats[Stat.Cost]);
         ShipManager.Main.RegisterTurret(manager);
 
 
         AudioManager.Main.RequestGUIFX(buildSFX);
 
+        rewardPanelAnimation.PlayReverse();
         ActiveSelection = null;
     }
 
@@ -173,8 +188,9 @@ public class RewardManager : MonoBehaviour, ISavable
 
     public void EliminateOffer()
     {
-        buildBox.Clear();
-        foreach(WeaponBox weaponBox in weaponBoxes)
+        buildBox.Unselect(this, EventArgs.Empty);
+
+        foreach (WeaponBox weaponBox in weaponBoxes)
         {
             weaponBox.Clear();
         }
@@ -184,11 +200,29 @@ public class RewardManager : MonoBehaviour, ISavable
         }
     }
 
+    public void EliminateWeaponOffer()
+    {
+        buildBox.Unselect(this, EventArgs.Empty);
+        foreach (WeaponBox weaponBox in weaponBoxes)
+        {
+            weaponBox.Clear();
+        }
+    }
+
+    public void EliminateFoundationOffer()
+    {
+        buildBox.Unselect(this, EventArgs.Empty);
+        foreach (BaseBox baseBox in baseBoxes)
+        {
+            baseBox.Clear();
+        }
+    }
+
     public void SetSelection(GameObject _weapon, GameObject _base)
     {
         ActiveSelection = turretConstructor.Construct(_weapon, _base);
-        // ActiveSelection.transform.position = Vector3.zero;
         ActiveSelection.SetActive(true);
+        ActiveSelection.transform.position = buildBox.transform.position;
         ActiveSelection.AddComponent<TrackingDevice>().StartTracking();
         foreach (SpriteRenderer renderer in ActiveSelection.GetComponentsInChildren<SpriteRenderer>())
         {
@@ -199,6 +233,7 @@ public class RewardManager : MonoBehaviour, ISavable
             vfx.EnableSelected();
         }
 
+        rewardPanelAnimation.Play();
     }
 
     private void ClearSelection()
@@ -214,7 +249,14 @@ public class RewardManager : MonoBehaviour, ISavable
         ActiveSelection.GetComponentInChildren<Weapon>(true).transform.parent = null;
         ActiveSelection.GetComponentInChildren<Foundation>().gameObject.SetActive(false);
         ActiveSelection.GetComponentInChildren<Foundation>(true).transform.parent = null;
+        rewardPanelAnimation.PlayReverse();
         Destroy(ActiveSelection);
+    }
+
+    public void RerrollAll()
+    {
+        EliminateOffer();
+        GenerateOffer();
     }
 
     public Dictionary<string, byte[]> GetData()

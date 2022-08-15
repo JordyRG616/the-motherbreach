@@ -4,12 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
-using System;
 
 public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
 {
     public enum ButtonMode {BUILD, DONE, UPGRADE, EVOLVE};
-
 
     [SerializeField] private Sprite clickedSprite;
     private Sprite ogSprite;
@@ -21,9 +19,10 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     [HideInInspector] public ButtonMode mode = ButtonMode.BUILD;
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
     [SerializeField] [FMODUnity.EventRef] private string clickSFX;
-
-
-
+    private float counter;
+    [SerializeField] private float pressTime;
+    private bool pressed;
+    [SerializeField] private RectMask2D mask;
 
     void Start()
     {
@@ -36,11 +35,17 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(eventData.button != PointerEventData.InputButton.Left) return;
-        
-        image.sprite = clickedSprite;
+        if (eventData.button != PointerEventData.InputButton.Left) return;
+
+        pressed = true;
+        //image.sprite = clickedSprite;
+
+    }
+
+    private void Activate()
+    {
         // textMesh.color = Color.white;
-        if(mode == ButtonMode.BUILD) Build();
+        if (mode == ButtonMode.BUILD) Build();
         if (mode == ButtonMode.DONE) Done();
         if (mode == ButtonMode.UPGRADE) Upgrade();
     }
@@ -49,6 +54,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         if(rewardManager.TotalCash >= buildBox.GetUpgradeCost())
         {
+            rewardManager.SpendCash((int)buildBox.GetUpgradeCost());
             AudioManager.Main.RequestGUIFX(clickSFX);
             buildBox.UpgradeTurret();
         }
@@ -74,6 +80,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             {
                 AudioManager.Main.RequestGUIFX(clickSFX);
                 rewardManager.SetSelection(buildBox.Selections().Weapon, buildBox.Selections().Base);
+                rewardManager.SpendCash((int)buildBox.TotalCost);
             }
             else AudioManager.Main.PlayInvalidSelection("Not enough cash");
         }
@@ -81,7 +88,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         {
             if(buildBox.Selections().Weapon == null && buildBox.Selections().Base == null)
             {
-                AudioManager.Main.PlayInvalidSelection("Select a weapon and a base");
+                AudioManager.Main.PlayInvalidSelection("Select a weapon and a foundation");
                 return;
             }
             if(buildBox.Selections().Weapon == null) 
@@ -91,7 +98,7 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             }
             if(buildBox.Selections().Base == null)
             {
-                AudioManager.Main.PlayInvalidSelection("Select a base first");
+                AudioManager.Main.PlayInvalidSelection("Select a foundation first");
                 return;
             } 
         }
@@ -99,17 +106,32 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        image.sprite = ogSprite;
-        // textMesh.color = Color.black;
+        //image.sprite = ogSprite;
+        pressed = false;
+        counter = 0;
     }
 
     void Update()
     {
+        if (pressed)
+        {
+            counter += Time.deltaTime;
+            if (counter >= pressTime)
+            {
+                Activate();
+                pressed = false;
+                counter = 0;
+            }
+        }
+
+        mask.padding = new Vector4(0, 0, 0, 40 * (1 - (counter / pressTime)));
+
         if(buildBox.baseToReplace)
         {
             textMesh.text = "replace";
             return;
         }
+
         textMesh.text = mode.ToString();
     }
 

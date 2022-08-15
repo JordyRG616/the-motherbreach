@@ -56,7 +56,7 @@ public class ProgramBox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
 
-    public void SetupFilledBox(Program program)
+    public void SetupFilledBox(Trait program)
     {
         plus.Deactivate();
         levelRequirement.gameObject.SetActive(false);
@@ -150,12 +150,12 @@ public class ProgramBox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
     }
 
-    public void SelectProgram(Program program)
+    public void SelectProgram(Trait program)
     {
         var foundation = buildBox.selectedBase.GetComponent<Foundation>();
         //SetupFilledBox(program);
-        foundation.ReceiveProgram(program);
-        foundation.GetComponentInParent<TurretManager>().upgradePoints--;
+        foundation.ReceiveTrait(program);
+        //foundation.GetComponentInParent<TurretManager>().upgradePoints--;
         buildBox.UpdateStats();
         StartCoroutine(Shrink());
     }

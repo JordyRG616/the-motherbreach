@@ -31,6 +31,10 @@ public class ShipManager : MonoBehaviour, ISavable
     private ArtifactsPanel artifactsPanel;
 
     private List<ShipSubroutine> subroutines = new List<ShipSubroutine>();
+    private Dictionary<string, List<Trait>> updatingFoundations = new Dictionary<string, List<Trait>>();
+
+    public delegate void UpdatingFoundationEvent(string key, int count);
+    public UpdatingFoundationEvent OnTraitCountUpdate;
 
     void Awake()
     {
@@ -42,8 +46,6 @@ public class ShipManager : MonoBehaviour, ISavable
         cam = Camera.main;
 
         controller = FindObjectOfType<ShipController>().transform;
-
-        // gameManager.OnGameStateChange += HandleAnchor;
     }
 
     private void HandleAnchor(object sender, GameStateEventArgs e)
@@ -95,6 +97,44 @@ public class ShipManager : MonoBehaviour, ISavable
     {
         subroutines.Add(subroutine);
         subroutines.ForEach(x => x.UpdateSubroutine());
+    }
+
+    public void ReceiveUpdatingTrait(string key, Trait trait)
+    {
+        int count = 0;
+
+        if (updatingFoundations.ContainsKey(key))
+        {
+            var list = updatingFoundations[key];
+
+            list.Add(trait);
+            count = list.Count;
+
+        } else
+        {
+            var list = new List<Trait>();
+
+            list.Add(trait);
+            updatingFoundations.Add(key, list);
+            count = list.Count;
+        }
+
+
+        OnTraitCountUpdate?.Invoke(key, count);
+    }
+
+    public void RemoveUpdatingTrait(string key, Trait trait)
+    {
+        int count = 0;
+
+        if(updatingFoundations.ContainsKey(key))
+        {
+            var list = updatingFoundations[key];
+
+            list.Remove(trait);
+            count = list.Count;
+            OnTraitCountUpdate?.Invoke(key, count); 
+        }
     }
 
     public Dictionary<string, byte[]> GetData()

@@ -86,13 +86,13 @@ public class LevelUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     private void Update()
     {
-        HandleExpBar();
+        //HandleExpBar();
 
-        if(Mathf.Approximately(expBar.sizeDelta.y, expAmount.sizeDelta.y) && expAmount.sizeDelta.y > 0)
-        {
-            rewardCalculator.InitiateChoice();
-            UpdateExpGui();
-        }
+        //if(Mathf.Approximately(expBar.sizeDelta.y, expAmount.sizeDelta.y) && expAmount.sizeDelta.y > 0)
+        //{
+        //    rewardCalculator.InitiateChoice();
+        //    UpdateExpGui();
+        //}
     }
 
     private void HandleExpBar()

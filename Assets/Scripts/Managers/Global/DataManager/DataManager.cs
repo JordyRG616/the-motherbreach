@@ -62,9 +62,13 @@ public class DataManager : MonoBehaviour
         metaProgressionSave = new MetaSaveFile(null, null, 0, 0, 0);
 
         saveInterfaces.Add(RewardManager.Main);
-        saveInterfaces.Add(WaveManager.Main);
         saveInterfaces.Add(RewardCalculator.Main);
         saveInterfaces.Add(settings);
+    }
+
+    public void ReceiveSavable(ISavable savable)
+    {
+        saveInterfaces.Add(savable);
     }
 
     public void SaveData()
@@ -73,8 +77,6 @@ public class DataManager : MonoBehaviour
         if(ship != null && !saveInterfaces.Contains(ship)) saveInterfaces.Add(ship);
 
         saveFile = new SaveFile(GetSaveData());
-
-        saveFile.rdmState = UnityEngine.Random.state;
 
         var jFile = JsonUtility.ToJson(saveFile);
 
@@ -182,8 +184,6 @@ public class DataManager : MonoBehaviour
 
                     saveFile = JsonUtility.FromJson<SaveFile>(text);
 
-                    UnityEngine.Random.state = saveFile.rdmState;
-
                     SetSaveData();
                     reader.Close();
                 }
@@ -213,6 +213,9 @@ public class DataManager : MonoBehaviour
     {
         var saveMatrix = new Dictionary<string, byte[]>();
 
+        var _seed = GameManager.Main.seed;
+        saveMatrix.Add(_seed, new byte[0]);
+
         foreach(ISavable savable in saveInterfaces)
         {
             var data = savable.GetData();
@@ -224,6 +227,11 @@ public class DataManager : MonoBehaviour
         }
 
         return saveMatrix;
+    }
+
+    public string GetSavedSeed()
+    {
+        return saveFile.contents[0].identifier;
     }
 
     public void SetSaveData()

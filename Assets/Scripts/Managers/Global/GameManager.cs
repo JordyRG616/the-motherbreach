@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using CustomRandom;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float initialCash;
     [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private GameObject deleteSaveButton;
+    [Header("Seed")]
+    public string seed;
     
     [Header("Meta progression")]
     [SerializeField] private List<Pilot> unlockablePilots;
@@ -62,6 +65,7 @@ public class GameManager : MonoBehaviour
     private WaveManager waveManager;
     private InputManager inputManager;
     private AudioManager audioManager;
+    private NodeMapManager mapManager;
 
     private GameObject selectedShip;
     private GameObject selectedPilot;
@@ -100,7 +104,6 @@ public class GameManager : MonoBehaviour
 
         if(gameState == GameState.OnTitle)
         {
-            // Screen.SetResolution(1280, 720, true);
             fadePanelAnimation = GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadeAnimation>();
             fadePanelAnimation.PlayReverse();
             inputManager = InputManager.Main;
@@ -114,22 +117,42 @@ public class GameManager : MonoBehaviour
     public void StartGameLoop()
     {
         DontDestroyOnLoad(gameObject);
+        GenerateRandomSeed();
 
-        if(!saveFound) StartCoroutine(FadeToSelectionScreen());
+        if (!saveFound) StartCoroutine(FadeToSelectionScreen());
         else StartCoroutine(FadeToGame());
+    }
+
+    private void GenerateRandomSeed()
+    {
+        if(!dataManager.SaveFileExists())
+        {
+            string _seed = string.Empty;
+
+            for (int i = 0; i < 8; i++)
+            {
+                var n = UnityEngine.Random.Range(65, 91);
+                var c = (char)n;
+                Debug.Log(c);
+                _seed += c;
+            }
+
+            seed = _seed;
+        } 
+        else
+        {
+            seed = dataManager.GetSavedSeed();
+        }
+
+        RandomManager.Initiate(seed);
     }
 
     private IEnumerator FadeToSelectionScreen()
     {
-        // fadePanelAnimation = GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadeAnimation>();
-        
-        var rdm = new System.Random();
-        var _rdm = rdm.Next();
-        UnityEngine.Random.InitState(_rdm);
+
         yield return StartCoroutine(fadePanelAnimation.Forward());
 
         SceneManager.LoadScene(5);
-        // SceneManager.sceneLoaded += LateStart;
 
     }
 
@@ -173,6 +196,9 @@ public class GameManager : MonoBehaviour
         waveManager.OnWaveEnd += InitiateRewardPhase;
         inputManager.OnGamePaused += HandleOptionsMenu;
 
+        mapManager = NodeMapManager.Main;
+        mapManager.CreateMap();
+
         pauseAnimation = GameObject.FindGameObjectWithTag("PauseAnimation").GetComponent<UIAnimationManager>();
 
         if (dataManager.SaveFileExists())
@@ -183,6 +209,7 @@ public class GameManager : MonoBehaviour
 
         EndWaveEventArgs initialArgs = new EndWaveEventArgs();
         initialArgs.waveReward = dataManager.SaveFileExists() ? BitConverter.ToInt32(dataManager.saveFile.GetValue("totalCash")) : initialCash;
+        initialArgs.waveTime = 0;
         gameState = GameState.OnReward;
         InitiateRewardPhase(this, initialArgs);
 
@@ -201,11 +228,6 @@ public class GameManager : MonoBehaviour
         portrait.GetComponent<Pilot>().Initialize();
     }
 
-    private void GenerateBackground(int count)
-    {
-        
-    }
-
     private void InitiateWavePhase(object sender, EventArgs e)
     {
         gameState = GameState.OnWave;
@@ -217,7 +239,7 @@ public class GameManager : MonoBehaviour
     {
         gameState = GameState.OnReward;
         OnGameStateChange?.Invoke(this, toReward);
-        rewardInfoPanel.Initiate((int)e.waveReward);
+        rewardInfoPanel.Initiate((int)e.waveReward, e.waveTime);
     }
 
     public void HandleOptionsMenu(object sender, EventArgs e)
@@ -232,9 +254,6 @@ public class GameManager : MonoBehaviour
         onPause = true;
         audioManager.GetAudioTrack("SFX").PauseAudio();
         var menu = GameObject.FindWithTag("OptionMenu");
-
-        // if(gameState == GameState.OnReward) menu.transform.localScale = new Vector3(.5f, .5f);
-        // else menu.transform.localScale = new Vector3(1f, 1f);
 
         Time.timeScale = 0;
         yield return StartCoroutine(pauseAnimation.PlayTimeline());
@@ -276,10 +295,6 @@ public class GameManager : MonoBehaviour
     {
         gameState = GameState.OnEndgame;
         Time.timeScale = 1;
-
-        // audioManager.StopAllAudio();
-        // audioManager.RequestMusic("Victory");
-        // audioManager.SwitchMusicTracks("Special");
 
         inputManager.ClearEvents();
         waveManager.ClearEvents();

@@ -6,11 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
+public class SellButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler
 {
-    public enum ButtonMode {Sell, Replace}
-    private ButtonMode mode = ButtonMode.Sell;
-
     private TextMeshProUGUI textMesh;
     private int refund;
     private UIAnimations cashTextAnimation;
@@ -18,11 +15,15 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     private BuildBox buildBox;
     private TurretSlot cachedSlot;
     private InputManager inputManager;
+    private bool onCoroutine;
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string hoverSFX;
     [SerializeField] [FMODUnity.EventRef] private string sellSFX;
     [SerializeField] [FMODUnity.EventRef] private string replaceSFX;
-
+    private float counter;
+    [SerializeField] private float pressTime;
+    private bool pressed;
+    [SerializeField] private RectMask2D mask;
 
     public event EventHandler OnTurretSell;
 
@@ -52,30 +53,30 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         gameObject.SetActive(false);
         cachedSlot = null;
     }
-    public void SetButton(int refund, TurretSlot turretSlot, ButtonMode mode = ButtonMode.Sell)
+    public void SetButton(int refund, TurretSlot turretSlot)
     {
-        if(mode == ButtonMode.Sell) textMesh.text = "sell" + " (" + refund +"$)";
-        else textMesh.text = "<size=70%>replace";
+        textMesh.text = "sell" + " (" + refund +"$)";
 
-        this.mode = mode;
         this.refund = refund;
         cachedSlot = turretSlot;
-        if(mode == ButtonMode.Replace) gameObject.SetActive(false);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    private void Update()
     {
-        if(eventData.button != PointerEventData.InputButton.Left) return;
-        
-        if(mode == ButtonMode.Sell)
+        if (pressed)
         {
-            StartCoroutine(Sell());
-            OnTurretSell?.Invoke(this, EventArgs.Empty);
+            counter += Time.deltaTime;
+
+            if (counter >= pressTime)
+            {
+                StartCoroutine(Sell());
+                OnTurretSell?.Invoke(this, EventArgs.Empty);
+                pressed = false;
+                counter = 0;
+            }
         }
-        // else
-        // {
-        //     Replace();
-        // }
+
+        mask.padding = new Vector4(0, 0, 0, 44 * (1 - (counter / pressTime)));
     }
 
     public void Replace()
@@ -90,7 +91,6 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         if (rewardManager.TotalCash >= cost)
         {
             AudioManager.Main.RequestGUIFX(replaceSFX);
-            //TurretConstructor.Main.ReplaceBase(cachedSlot.occupyingTurret, _base);
             rewardManager.SpendCash((int)cost);
             buildBox.selectedBaseBox.Detach();
             buildBox.UpdateStats();
@@ -113,12 +113,9 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         GetComponent<Image>().enabled = false;
 
         cachedSlot.GetComponentInChildren<ParticleSystem>().Stop();
-        ShipManager.Main.turrets.Remove(cachedSlot.occupyingTurret.GetComponent<TurretManager>());
-        Destroy(cachedSlot.occupyingTurret);
+        cachedSlot.occupyingTurret.GetComponent<IntegrityManager>().SellTurret();
         cachedSlot.Clear();
 
-        FindObjectOfType<UpgradeButton>().gameObject.SetActive(false);
-        
         yield return new WaitUntil(() => !vfx.IsAlive());
 
         GetComponentInChildren<TextMeshProUGUI>(true).gameObject.SetActive(true);
@@ -136,5 +133,18 @@ public class SellButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     void OnDisable()
     {
         inputManager.OnSelectionClear -= Disable;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Left) return;
+
+        pressed = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        pressed = false;
+        counter = 0;
     }
 }

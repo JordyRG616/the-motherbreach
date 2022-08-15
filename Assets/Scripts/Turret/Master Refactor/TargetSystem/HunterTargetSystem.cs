@@ -18,12 +18,6 @@ public class HunterTargetSystem : TargetSystem
 
     private void Update()
     {
-        //if(target == null)
-        //{
-        //    GetTarget();
-        //    return;
-        //}
-
         GetTarget();
         if(target == null)
         {

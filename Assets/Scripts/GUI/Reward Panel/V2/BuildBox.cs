@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using StringHandler;
+using System.Linq;
 
 public class BuildBox : MonoBehaviour
 {
@@ -74,7 +75,11 @@ public class BuildBox : MonoBehaviour
 
     public void ReceiveWeapon(GameObject receveidWeapon, WeaponBox box)
     {
-        if(selectedWeaponBox) selectedWeaponBox.Unselect ();
+        if(selectedWeaponBox)
+        {
+            UndoFoundationEffect();
+            selectedWeaponBox.Unselect ();
+        }
         selectedWeapon = receveidWeapon;
         weaponImage.sprite = selectedWeapon.GetComponent<SpriteRenderer>().sprite;
         weaponImage.color = Color.white;
@@ -86,7 +91,11 @@ public class BuildBox : MonoBehaviour
 
     public void ReceiveWeapon(GameObject receveidWeapon)
     {
-        if(selectedWeaponBox) selectedWeaponBox.Unselect();
+        if(selectedWeaponBox)
+        {
+            UndoFoundationEffect();
+            selectedWeaponBox.Unselect();
+        }
         selectedWeapon = receveidWeapon;
         weaponImage.sprite = selectedWeapon.GetComponent<SpriteRenderer>().sprite;
         weaponImage.color = Color.white;
@@ -111,7 +120,11 @@ public class BuildBox : MonoBehaviour
 
     public void ReceiveBase(GameObject receveidBase, BaseBox box)
     {
-        if(selectedBaseBox) selectedBaseBox.Unselect();
+        if(selectedBaseBox)
+        {
+            UndoFoundationEffect();
+            selectedBaseBox.Unselect();
+        }
         selectedBase = receveidBase;
         baseImage.sprite = selectedBase.GetComponent<SpriteRenderer>().sprite;
         baseImage.color = Color.white;
@@ -123,7 +136,11 @@ public class BuildBox : MonoBehaviour
 
     public void ReceiveBase(GameObject receveidBase)
     {
-        if(selectedBaseBox) selectedBaseBox.Unselect();
+        if (selectedBaseBox)
+        {
+            UndoFoundationEffect();
+            selectedBaseBox.Unselect();
+        }
         selectedBase = receveidBase;
         baseImage.sprite = selectedBase.GetComponent<SpriteRenderer>().sprite;
         baseImage.color = Color.white;
@@ -157,9 +174,9 @@ public class BuildBox : MonoBehaviour
         if(selectedWeapon)
         {
             var weapon = selectedWeapon.GetComponent<Weapon>();
-            List<Program> _programs = new List<Program>();
+            List<Trait> _programs = new List<Trait>();
 
-            foreach(Program program in weapon.InitialPrograms)
+            foreach(Trait program in weapon.InitialPrograms)
             {
                 _programs.Add(program);
             }
@@ -173,7 +190,7 @@ public class BuildBox : MonoBehaviour
                     if (weapon.HasDormentStat(stat)) weapon.ExposeDormentStat(stat);
                 }
 
-                foreach (Program program in foundation.Programs)
+                foreach (Trait program in foundation.Programs)
                 {
                     _programs.Add(program);
                 }
@@ -185,9 +202,9 @@ public class BuildBox : MonoBehaviour
         if (selectedBase && !selectedWeapon)
         {
             var foundation = selectedBase.GetComponent<Foundation>();
-            List<Program> _programs = new List<Program>();
+            List<Trait> _programs = new List<Trait>();
 
-            foreach (Program program in foundation.Programs)
+            foreach (Trait program in foundation.Programs)
             {
                 _programs.Add(program);
             }
@@ -211,8 +228,8 @@ public class BuildBox : MonoBehaviour
     public float GetUpgradeCost()
     {
         if (!OnUpgrade) return 0;
-        if (selectedWeaponBox) return weaponCost;
-        if (selectedBaseBox) return baseCost;
+        if (selectedWeaponBox) return weaponCost / 2;
+        if (selectedBaseBox) return baseCost / 2;
         return 0;
     }
 
@@ -235,24 +252,32 @@ public class BuildBox : MonoBehaviour
 
     private void UpdateAdditionalStats(Weapon weapon)
     {
-        var stats = weapon.GetTurretStats();
+        var stats = weapon.GetAllStats();
+        stats = stats.OrderBy(x => x.sortingIndex).ToList();
 
-        for(int i = 0; i < stats.Count; i++)
+        //var count = weapon.GetActiveStatCount();
+
+        for (int i = 0; i < stats.Count; i++)
         {
             var statbox = statBoxes[i];
             var stat = stats[i];
-            statbox.Activate();
+
+            if (weapon.HasStat(stat)) statbox.Activate();
+            else statbox.Deactivate();
+
             statbox.SetHeaderText(stat.publicName);
+            //var desc = stat.GetLiteralValue();
             var desc = (stat.Initiated) ? stat.GetLiteralValue() : stat.GetLiteralStartingValue();
             statbox.SetValueText(desc);
             statbox.description = stat.statDescription;
+            if (stat.upgradeCost > 1) statbox.description += StatColorHandler.DamagePaint("\nrequires " + stat.upgradeCost + " points!");
             statbox.ReceiveStat(stat);
         }
     }
 
-    private void UpdateProgramBoxes(List<Program> programs)
+    private void UpdateProgramBoxes(List<Trait> programs)
     {
-        var lockedLevel = -1;
+        var lockedLevel = 1;
         var component = (selectedBase == null) ? selectedWeapon : selectedBase;
         var manager = component.GetComponentInParent<TurretManager>();
 
@@ -280,6 +305,7 @@ public class BuildBox : MonoBehaviour
     public bool CheckCompability(Foundation testedFoundation)
     {
         if (!selectedWeapon) return true;
+        if (testedFoundation.exposedStats.Count == 0) return true;
         var weapon = selectedWeapon.GetComponent<Weapon>();
 
         foreach(TurretStat stat in testedFoundation.exposedStats)
@@ -294,8 +320,9 @@ public class BuildBox : MonoBehaviour
     {
         if (!selectedBase) return true;
         var foundation = selectedBase.GetComponent<Foundation>();
-        
-        foreach(TurretStat stat in foundation.exposedStats)
+        if (foundation.exposedStats.Count == 0) return true;
+
+        foreach (TurretStat stat in foundation.exposedStats)
         {
             if (testedWeapon.HasDormentStat(stat)) return true;
         }
@@ -344,7 +371,8 @@ public class BuildBox : MonoBehaviour
 
             foreach (TurretStat stat in foundation.exposedStats)
             {
-                if (weapon.HasStat(stat)) weapon.HideExposedStat(stat);
+                //if (weapon.HasStat(stat)) 
+                    weapon.HideExposedStat(stat);
             }
         }
     }
@@ -358,6 +386,7 @@ public class BuildBox : MonoBehaviour
 
     public void Unselect(object sender, EventArgs e)
     {
+        UndoFoundationEffect();
         if(selectedWeaponBox) 
         {
             selectedWeaponBox.Unselect();
@@ -374,13 +403,8 @@ public class BuildBox : MonoBehaviour
 
     public void ClearWeapon()
     {
-        if (selectedWeaponBox) selectedWeaponBox.Detach();
-        //if (selectedWeaponBox && !OnUpgrade) 
-        //{
-        //    //selectedWeapon.GetComponent<ActionController>().Reset();
-        //    selectedWeaponBox.Detach();
-        //}
         UndoFoundationEffect();
+        if (selectedWeaponBox) selectedWeaponBox.Detach();
         selectedWeaponBox = null;
         selectedWeapon = null;
         weaponImage.color = Color.clear;
@@ -390,12 +414,8 @@ public class BuildBox : MonoBehaviour
 
     public void ClearWeapon(out GameObject _weapon)
     {
+        UndoFoundationEffect();
         if (selectedWeaponBox) selectedWeaponBox.Detach();
-            //{
-            //    //selectedWeapon.GetComponent<ActionController>().Reset();
-            //    selectedWeaponBox.Detach();
-            //}
-            UndoFoundationEffect();
         selectedWeaponBox = null;
         _weapon = selectedWeapon;
         selectedWeapon = null;
@@ -418,13 +438,13 @@ public class BuildBox : MonoBehaviour
 
     public void ClearBase()
     {
+        UndoFoundationEffect();
         if (selectedBaseBox) selectedBaseBox.Detach();
         //if (selectedWeaponBox && !OnUpgrade) 
         //{
         //    //selectedWeapon.GetComponent<ActionController>().Reset();
         //    // selectedWeaponBox.Detach();
         //}
-        UndoFoundationEffect();
         selectedBaseBox = null;
         selectedBase = null;
         baseImage.color = Color.clear;
@@ -434,13 +454,13 @@ public class BuildBox : MonoBehaviour
 
     public void ClearBase(out GameObject _base)
     {
+        UndoFoundationEffect();
         if (selectedBaseBox) selectedBaseBox.Detach();
         //if (selectedWeaponBox && !OnUpgrade) 
         //{
         //    //selectedWeapon.GetComponent<ActionController>().Reset();
         //    // selectedWeaponBox.Detach();
         //}
-        UndoFoundationEffect();
         selectedBaseBox = null;
         _base = selectedBase;
         selectedBase = null;

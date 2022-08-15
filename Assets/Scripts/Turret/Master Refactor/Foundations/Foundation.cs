@@ -11,8 +11,8 @@ public abstract class Foundation : MonoBehaviour, ISavable
     [SerializeField] protected int _cost;
     public int Cost { get => _cost; }
     public List<TurretStat> exposedStats { get; protected set; } = new List<TurretStat>();
-    [SerializeField] protected List<Program> _programs;
-    public List<Program> Programs { get => _programs; }
+    [SerializeField] protected List<Trait> _programs;
+    public List<Trait> Programs { get => _programs; }
     protected Weapon linkedWeapon;
 
 
@@ -24,9 +24,9 @@ public abstract class Foundation : MonoBehaviour, ISavable
         var cache = Programs.ToList();
         Programs.Clear();
 
-        weapon.InitialPrograms.ForEach(x => ReceiveProgram(x));
+        weapon.InitialPrograms.ForEach(x => ReceiveTrait(x));
         weapon.InitialPrograms.Clear();
-        cache.ForEach(x => ReceiveProgram(x));
+        cache.ForEach(x => ReceiveTrait(x));
     }
 
     private void Awake()
@@ -34,12 +34,11 @@ public abstract class Foundation : MonoBehaviour, ISavable
         exposedStats = GetComponents<TurretStat>().ToList();
     }
 
-    public void ReceiveProgram(Program program)
+    public void ReceiveTrait(Trait program)
     {
-        var type = program.GetType();
-        var programInstance = (Program)ScriptableObject.CreateInstance(type);
-        programInstance.Initiate();
-        Programs.Add(program);
+        var programInstance = program.ReturnTraitInstance();
+        programInstance.Initiate(linkedWeapon);
+        Programs.Add(programInstance);
     }
 
     public virtual string Description()
@@ -53,7 +52,7 @@ public abstract class Foundation : MonoBehaviour, ISavable
 
         string program = "";
 
-        if (Programs[0] != null) program += Programs[0].name + " (" + Programs[0].Description() + ")";
+        if (Programs[0] != null) program += Programs[0].name + " - <i> " + Programs[0].Description() + ".</i>";
 
         return "Exposes" + stats + " and enables " + program + ".";
     }
@@ -64,7 +63,7 @@ public abstract class Foundation : MonoBehaviour, ISavable
         var slotId = GetComponentInParent<TurretManager>().slotId;
         int index = 0;
 
-        foreach(Program program in Programs)
+        foreach(Trait program in Programs)
         {
             var key = slotId + "Program" + index;
             index++;
@@ -88,7 +87,7 @@ public abstract class Foundation : MonoBehaviour, ISavable
 
             var value = BitConverter.ToInt32(saveFile.GetValue(key));
             var program = TurretConstructor.Main.GetProgramById(value);
-            ReceiveProgram(program);
+            ReceiveTrait(program);
         }
     }
 }

@@ -37,10 +37,16 @@ public class PackBox : MonoBehaviour
         }
 
         i = 0;
+        programBoxes.ForEach(x => x.gameObject.SetActive(false));
+
         foreach(ProgramBox programBox in programBoxes)
         {
             if (pack.programs.Count == i) break;
-            if (pack.programs[i] != null) programBox.SetupFilledBox(pack.programs[i]);
+            if (pack.programs[i] != null)
+            {
+                programBox.gameObject.SetActive(true);
+                programBox.SetupFilledBox(pack.programs[i]);
+            }
             else programBox.EmptyBox();
             i++;
         }

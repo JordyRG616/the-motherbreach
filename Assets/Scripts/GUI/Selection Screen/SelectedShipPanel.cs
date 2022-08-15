@@ -28,10 +28,14 @@ public class SelectedShipPanel : MonoBehaviour
     [SerializeField] private Sprite powerCoreIcon;
     [SerializeField] private Sprite reinforcedCoreIcon;
     [SerializeField] private Sprite nobleCoreIcon;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string OnSelectionChange;
+    [SerializeField] [FMODUnity.EventRef] private string OnShipUnlock;
 
     private LaunchButton launchButton;
     private MetaSaveFile save;
     private GameManager gameManager;
+    private AudioManager audioManager;
 
     private int activeIndex;
 
@@ -41,6 +45,7 @@ public class SelectedShipPanel : MonoBehaviour
 
         imageMaterial = new Material(shipImage.material);
         shipImage.material = imageMaterial;
+        audioManager = AudioManager.Main;
 
         launchButton = FindObjectOfType<LaunchButton>();
         ChangeSelection(0);
@@ -65,7 +70,7 @@ public class SelectedShipPanel : MonoBehaviour
 
         activeShip = ships[activeIndex];
 
-
+        audioManager.RequestGUIFX(OnSelectionChange);
         shipImage.sprite = activeShip.shipSprite;
 
         shipName.text = activeShip.ship.name;
@@ -120,20 +125,15 @@ public class SelectedShipPanel : MonoBehaviour
     
     public void UnlockShip()
     {
-        if(!HasEnoughCore())
-        {
-            AudioManager.Main.PlayInvalidSelection("Not enough cores");
-        } else
-        {
-            gameManager.UpdateCoreInventory(-activeShip.powerCoreCost, -activeShip.reinforcedCoreCost, -activeShip.nobleCoreCost);
-            gameManager.UnlockShip(activeShip.ship.GetComponent<ShipManager>().index);
-            FindObjectOfType<CoreInventory>().SetCoresValues();
-            activeShip.unlocked = true;
-            ChangeSelection(0);
-        }
+        audioManager.RequestGUIFX(OnShipUnlock);
+        gameManager.UpdateCoreInventory(-activeShip.powerCoreCost, -activeShip.reinforcedCoreCost, -activeShip.nobleCoreCost);
+        gameManager.UnlockShip(activeShip.ship.GetComponent<ShipManager>().index);
+        FindObjectOfType<CoreInventory>().SetCoresValues();
+        activeShip.unlocked = true;
+        ChangeSelection(0);
     }
 
-    private bool HasEnoughCore()
+    public bool HasEnoughCore()
     {
         if(save == null || save.UnlockedShipsIndices == null) return false;
 

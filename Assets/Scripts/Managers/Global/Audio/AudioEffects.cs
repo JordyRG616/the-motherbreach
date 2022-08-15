@@ -24,7 +24,6 @@ public class AudioEffects
         musicIn.setVolume(0);
         musicIn.start();
 
-        targetTrack.StopTrackingVolume(musicOut);
 
         while(step <= 1)
         {
@@ -41,7 +40,6 @@ public class AudioEffects
         yield return new WaitUntil(() => step > 1);
 
         targetTrack.StopAudio(musicOut);
-        targetTrack.ReceivePlayingAudio(musicIn);
 
         invoker.StopCoroutine("Crossfade");
     }

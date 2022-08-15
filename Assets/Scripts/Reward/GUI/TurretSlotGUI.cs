@@ -6,13 +6,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     // private TrackingDevice tracking;
     [SerializeField] private TurretSlot associatedSlot;
     [SerializeField] private Color color;
     private RectTransform sellButton;
-    private RectTransform upgradeButton;
     private bool turretOnUpgrade;
     private RewardManager manager;
     private RectTransform selfRect;
@@ -50,10 +49,10 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
             selectedVFX = associatedSlot.GetComponentInChildren<ParticleSystem>(true);
 
-            // tracking = GetComponent<TrackingDevice>();
-
-            sellButton = FindObjectOfType<SellButton>(true).GetComponent<RectTransform>();
-            upgradeButton = FindObjectOfType<UpgradeButton>(true).GetComponent<RectTransform>();
+            var _sellButton = FindObjectOfType<SellButton>(true);
+            sellButton = _sellButton.GetComponent<RectTransform>();
+            _sellButton.OnTurretSell += ActivateSprite;
+            manager.OnRewardSelection += StopVFX;
 
             offset = new Vector3(Camera.main.pixelWidth/2, Camera.main.pixelHeight/2);
 
@@ -67,7 +66,6 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
 
         if(!associatedSlot.IsOcuppied()) GetComponent<Image>().color = color;
         
-        // tracking.StartTracking(associatedSlot.transform);
     }
 
     public void StopVFX(object sender, EventArgs e)
@@ -83,6 +81,12 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
         GetComponent<Image>().color = _color;
     }
 
+    public void ActivateSprite(object sender, EventArgs e)
+    {
+        if (associatedSlot.IsOcuppied()) return;
+        GetComponent<Image>().color = color;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         
@@ -93,7 +97,6 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
         var _weapon = associatedSlot.occupyingTurret.GetComponentInChildren<Weapon>().gameObject;
         var _base = associatedSlot.occupyingTurret.GetComponentInChildren<Foundation>().gameObject;
 
-        //_weapon.GetComponent<ActionController>().SaveStats();
         buildBox.ActivateUpgradeMode();
         buildBox.ReceiveWeapon(_weapon);
         buildBox.ReceiveBase(_base);
@@ -107,14 +110,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
         if(refund < 1) refund = 1;
 
         sellButton.GetComponent<SellButton>().SetButton(refund, associatedSlot);
-
-        upgradeButton.gameObject.SetActive(true);
-
-        upgradeButton.GetComponent<UpgradeButton>().SetButton(associatedSlot);
-
-        sellButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 110) - offset;
-        upgradeButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 50) - offset;
-
+        sellButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 55) - offset;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -142,6 +138,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             selectedVFX.Play();
             SendToBuildBox();
             turretOnUpgrade = true;
+            ShowOptions();
             return;
         } 
         AudioManager.Main.PlayInvalidSelection("Select an empty slot");
@@ -179,9 +176,5 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
         {
             preview.gameObject.SetActive(false);
         }
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
     }
 }

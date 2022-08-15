@@ -28,16 +28,18 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
     private int _level = 0;
     public int upgradePoints;
 
-
     public event EventHandler<LevelUpArgs> OnLevelUp;
     public string slotId;
+
+    public delegate void TurretDestroyedEvent();
+    public TurretDestroyedEvent OnTurretDestruction;
 
     public void Initiate()
     {
         weapon = GetComponentInChildren<Weapon>();
         foundation = GetComponentInChildren<Foundation>();
-        foundation.Initiate(weapon);
         weapon.Initiate();
+        foundation.Initiate(weapon);
 
         integrityManager = GetComponent<IntegrityManager>();
     }
@@ -50,14 +52,17 @@ public class TurretManager : MonoBehaviour, IManager, ISavable
     public void DestroyManager()
     {
         GetComponentInParent<ShipManager>().RemoveTurret(this);
+
+        OnTurretDestruction?.Invoke();
     }
 
     public void LevelUp()
     {
         upgradePoints++;
         Level++;
-    }
 
+        OnLevelUp?.Invoke(this, new LevelUpArgs(Level));
+    }
 
     public Dictionary<string, byte[]> GetData()
     {

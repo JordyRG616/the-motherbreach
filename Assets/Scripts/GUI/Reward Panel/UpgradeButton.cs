@@ -162,7 +162,7 @@ public class UpgradeButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         // SetButtonText(cost);
 
         // FindObjectOfType<SellButton>().Disable();
-        FindObjectOfType<SellButton>().SetButton(0, clickedSlot, SellButton.ButtonMode.Replace);
+        //FindObjectOfType<SellButton>().SetButton(0, clickedSlot, SellButton.ButtonMode.Replace);
         buildButton.mode = BuildButton.ButtonMode.DONE;
 
         onUpgrade = true;

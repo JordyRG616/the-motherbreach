@@ -69,42 +69,27 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
                 selected = true;
                 return;
             }
-        }
-        else if(buildBox.OnUpgrade && IsSameBase())
-        {
-            activeVFX.Play();
-            light2D.color = selectedColor;
-            AudioManager.Main.RequestGUIFX(clickSFX);
-            //replacedBase = buildBox.selectedBase;
-            //buildBox.PreviewBaseEffect(cachedBase, buildBox.selectedWeapon);
-            buildBox.ReceiveBaseBox(this);
-            //buildBox.baseToReplace = cachedBase;
-            buildBox.SetCostToBaseCost(true);
-            selected = true;
+            else if(buildBox.OnUpgrade && IsSameBase())
+            {
+                activeVFX.Play();
+                light2D.color = selectedColor;
+                AudioManager.Main.RequestGUIFX(clickSFX);
+                buildBox.ReceiveBaseBox(this);
+                buildBox.SetCostToBaseCost(true);
+                selected = true;
 
-            return;
+                return;
+            }
         }
         else if(buildBox.CheckBaseBox(this))
         {
-            if(upgradeButton.onUpgrade)
-            {
-                AudioManager.Main.RequestGUIFX(returnSFX);
-                buildBox.selectedWeapon.GetComponent<ActionController>().LoadStats();
-                buildBox.ClearBase(out cachedBase);
-                buildBox.ReceiveBase(replacedBase);
-                buildBox.SetCostToBaseCost(false);
-                image.color = Color.white;
-                selected = false;
-                return;
-            }
-
             AudioManager.Main.RequestGUIFX(returnSFX);
             buildBox.ClearBase(out cachedBase);
             image.color = Color.white;
             selected = false;
             return;
         }
-        AudioManager.Main.PlayInvalidSelection("");
+        AudioManager.Main.PlayInvalidSelection("hehehehe");
     }
 
     private bool IsSameBase()

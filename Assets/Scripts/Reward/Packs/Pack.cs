@@ -9,7 +9,7 @@ public class Pack : ScriptableObject
     public List<int> requiredIndexes;
     public Sprite icon;
     public List<GameObject> rewards;
-    public List<Program> programs;
+    public List<Trait> programs;
     [TextArea] public string description;
 
     public void Initiate()

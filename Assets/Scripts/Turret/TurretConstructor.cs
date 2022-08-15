@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CustomRandom;
 
 public class TurretConstructor : MonoBehaviour
 {   
@@ -36,11 +37,9 @@ public class TurretConstructor : MonoBehaviour
     [SerializeField] private GameObject TurretTemplate;
     [SerializeField] private List<GameObject> allWeapons;
     [SerializeField] private List<GameObject> allBases;
-    [SerializeField] private List<Program> allPrograms;
-    [SerializeField] private List<Program> unlockedPrograms;
+    [SerializeField] private List<Trait> allPrograms;
+    [SerializeField] private List<Trait> unlockedPrograms;
 
-    private int lastRdmBase = int.MaxValue;
-    private int lastRdmWeapon = int.MaxValue;
     private RewardCalculator rewardCalculator;
 
 
@@ -52,13 +51,8 @@ public class TurretConstructor : MonoBehaviour
     public GameObject GetTop()
     {
         var list = rewardCalculator.weapons;
-        int rdm = Random.Range(0, list.Count);
-        if(rdm == lastRdmWeapon)
-        {
-            rdm = Random.Range(0, list.Count);
-        }
-        lastRdmWeapon = rdm;
-
+        int rdm = RandomManager.GetRandomInteger(0, list.Count);
+        
         var container = Instantiate(list[rdm]);
         container.name = list[rdm].name;
         container.SetActive(false);
@@ -68,12 +62,7 @@ public class TurretConstructor : MonoBehaviour
     public GameObject GetBase()
     {
         var list = rewardCalculator.bases;
-        int rdm = Random.Range(0, list.Count);
-        if(rdm == lastRdmBase)
-        {
-            rdm = Random.Range(0, list.Count);
-        }
-        lastRdmBase = rdm;
+        int rdm = RandomManager.GetRandomInteger(0, list.Count);
 
         var container = Instantiate(list[rdm]);
         container.name = list[rdm].name;
@@ -129,19 +118,19 @@ public class TurretConstructor : MonoBehaviour
         return _base;
     }
 
-    public Program GetProgramById(int programID)
+    public Trait GetProgramById(int programID)
     {
         var _program = allPrograms.Find(x => x.Id == programID);
         return _program;
     }
 
-    public Program GetRandomUnlockedProgram()
+    public Trait GetRandomUnlockedProgram()
     {
         var rdm = Random.Range(0, unlockedPrograms.Count);
         return unlockedPrograms[rdm];
     }
 
-    public void AddUnlockedProgram(Program program)
+    public void AddUnlockedProgram(Trait program)
     {
         if (unlockedPrograms.Contains(program)) return;
         unlockedPrograms.Add(program);

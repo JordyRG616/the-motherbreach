@@ -18,7 +18,7 @@ public class FleeMovement : FormationMovement
 
         var finalDirection = ((Vector2)direction + perpendicular);
 
-        RotateChildren(-finalDirection);
+        RotateChildren(finalDirection);
         body.AddForce(finalDirection * speed * 100);
     }
 }

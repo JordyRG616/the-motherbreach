@@ -28,7 +28,6 @@ public class ProgressionMeter : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void AdvanceMarker()
     {
-        Debug.Log("called");
         markerPosition ++;
         Vector4 pad = new Vector4(0, 0, markers[markerPosition], 0);
         mask.padding = pad;
@@ -49,16 +48,16 @@ public class ProgressionMeter : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     private string SetPreviewText()
     {
-        var container = "next wave:\n";
-        var wave = waveManager.GetNextWave();
-        container += StatColorHandler.StatPaint(wave.GetBreachCount() + " breaches") + "\nenemies detected:\n";
-        foreach(string enemy in wave.enemiesInWave)
-        {
-            container += StatColorHandler.DamagePaint(enemy) + "\n";
-        }
+        //var container = "next wave:\n";
+        //var wave = waveManager.GetNextWave();
+        //container += StatColorHandler.StatPaint(wave.GetBreachCount() + " breaches") + "\nenemies detected:\n";
+        //foreach(string enemy in wave.enemiesInWave)
+        //{
+        //    container += StatColorHandler.DamagePaint(enemy) + "\n";
+        //}
 
-        container = "<size=125%>" + container;
+        //container = "<size=125%>" + container;
 
-        return container;
+        return "";
     }
 }

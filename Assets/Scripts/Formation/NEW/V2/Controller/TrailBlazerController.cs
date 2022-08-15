@@ -6,46 +6,57 @@ public class TrailBlazerController : FormationMovementController
 {
     [SerializeField] private float fleeDuration = .4f;
     [SerializeField] private float fleeDistance;
-    [SerializeField] private float distanceToShoot;
-    [SerializeField] private float shootDuration;
     private float timer;
-    private bool countTime;
     private bool fleeing;
-    private bool shooting;
 
     protected override void ManageStates()
     {
-        if(fleeing && timer >= fleeDuration)
+        if (fleeing)
         {
-            fleeing = false;
-            countTime = false;
-            timer = 0;
+            timer += Time.fixedDeltaTime;
+            if (timer >= fleeDuration) fleeing = false;
+            return;
         }
-        if(shooting && timer >= shootDuration)
-        {
-            shooting = false;
-            timer = 0;
-            fleeing = true;
-            RegisterMovement(EnemyMovementType.Flee);
-        }
+
         var distance = Vector2.Distance(transform.position, ship.transform.position);
-        
-        if(distance > distanceToShoot && !shooting && !fleeing)
+
+        if(distance <= fleeDistance)
+        {
+            RegisterMovement(EnemyMovementType.Flee);
+            fleeing = true;
+            timer = 0;
+        }
+        else
         {
             RegisterMovement(EnemyMovementType.Orbit);
-            // var splitTimer = splitCooldown + splitTime;
-        }
-        if(distance <= distanceToShoot && !shooting && !fleeing)
-        {
-            RegisterMovement(EnemyMovementType.Cone);
-            countTime = true;
-            shooting = true;
         }
         
-    }
 
-    void Update()
-    {
-        if(countTime) timer += Time.deltaTime;
+        //if(fleeing && timer >= fleeDuration)
+        //{
+        //    fleeing = false;
+        //    countTime = false;
+        //    timer = 0;
+        //}
+        //if(shooting && timer >= shootDuration)
+        //{
+        //    shooting = false;
+        //    timer = 0;
+        //    fleeing = true;
+        //    RegisterMovement(EnemyMovementType.Flee);
+        //}
+        
+        //if(distance > distanceToShoot && !shooting && !fleeing)
+        //{
+        //    RegisterMovement(EnemyMovementType.Orbit);
+        //    // var splitTimer = splitCooldown + splitTime;
+        //}
+        //if(distance <= distanceToShoot && !shooting && !fleeing)
+        //{
+        //    RegisterMovement(EnemyMovementType.Cone);
+        //    countTime = true;
+        //    shooting = true;
+        //}
+        
     }
 }

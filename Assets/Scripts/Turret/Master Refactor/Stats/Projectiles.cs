@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Projectiles : TurretStat
 {
-    public override float Value { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+    public override float Value { get => _value; protected set => _value = value; }
 
     protected override void SetValue(float value)
     {

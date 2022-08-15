@@ -12,11 +12,13 @@ public abstract class TurretStat : MonoBehaviour
     public string statDescription;
     [Header("Increment Information")]
     [SerializeField] private IncrementType incrementType;
+    [field: SerializeField] public int upgradeCost { get; protected set; } = 1;
     public float increment;
-    public bool Initiated { get; protected set; }
+    [field: SerializeField] public bool Initiated { get; protected set; }
     protected List<ParticleSystem> shooters = new List<ParticleSystem>();
     protected Weapon weapon;
     protected TurretManager manager;
+    public bool overwritten;
 
     public delegate void IncrementDelegate(float amount);
     public IncrementDelegate incrementDelegate;
@@ -32,7 +34,6 @@ public abstract class TurretStat : MonoBehaviour
 
         shooters.Add(shooter);
         this.weapon = weapon;
-        manager = GetComponentInParent<TurretManager>();
 
         Value = startingValue;
         SetValue(Value);
@@ -68,18 +69,26 @@ public abstract class TurretStat : MonoBehaviour
 
     public bool CanUpgrade()
     {
+        if (!overwritten) return false;
+        manager = GetComponentInParent<TurretManager>();
         if (manager == null) return false;
-        return manager.upgradePoints > 0;
+        return manager.upgradePoints >= upgradeCost;
     }
 
     private void SpendUpgradePoint(float amount)
     {
-        manager.upgradePoints--;
+        manager.upgradePoints -= upgradeCost;
     }
 
     public void ApplyPercentage(float percentage)
     {
         Value *= 1 + percentage;
+        SetValue(Value);
+    }
+
+    public void RemovePercentage(float percentage)
+    {
+        Value /= 1 + percentage;
         SetValue(Value);
     }
 
@@ -91,16 +100,18 @@ public abstract class TurretStat : MonoBehaviour
 
     public virtual string GetLiteralValue()
     {
-        return Value.ToString("#.#");
+        return Value.ToString("0.0");
     }
 
     public virtual string GetLiteralStartingValue()
     {
-        return startingValue.ToString("#.#");
+        return startingValue.ToString("0.0");
     }
 
     public void SetStatToValue(float value)
     {
-        SetValue(value);
+        Value = value;
+        SetValue(Value);
     }
 }
+

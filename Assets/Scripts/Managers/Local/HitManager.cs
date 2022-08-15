@@ -34,24 +34,24 @@ public class HitManager : MonoBehaviour, IManager
     {
         if(other.TryGetComponent<EffectMediator>(out EffectMediator action))
         {
-            if(iFrameWindow >= 0.05f)
-            {
+            //if(iFrameWindow >= 0.05f)
+            //{
                 action.PassTarget(this, out var damage);
                 lastAttacker = action.associatedEffect.gameObject;
                 OnHit?.Invoke(this, new HitEventArgs(damage, lastAttacker));
                 iFrameWindow = 0;
-            }
+            //}
         }
 
         else if (other.TryGetComponent<TurretActionMediator>(out TurretActionMediator mediator))
         {
-            if (iFrameWindow >= 0.05f)
-            {
+            //if (iFrameWindow >= 0.05f)
+            //{
                 mediator.PassTarget(this, out var damage);
                 lastAttacker = mediator.linkedWeapon.gameObject;
                 OnHit?.Invoke(this, new HitEventArgs(damage, lastAttacker));
                 iFrameWindow = 0;
-            }
+            //}
         }
     }
 
