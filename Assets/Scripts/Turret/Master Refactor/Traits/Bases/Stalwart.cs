@@ -34,7 +34,6 @@ public class Stalwart : Trait
 
     public void UpdateBuff(string key, int count)
     {
-        Debug.Log(this.count + "/" + count);
         if (key != this.key) return;
 
         if (count == this.count) return;

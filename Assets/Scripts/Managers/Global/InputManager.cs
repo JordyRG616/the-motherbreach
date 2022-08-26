@@ -49,6 +49,9 @@ public class InputManager : MonoBehaviour
     public delegate void ControlScheme();
     public ControlScheme move;
 
+    public delegate void RewardShortcurt();
+    public RewardShortcurt rewardShortcurt;
+
 
     public void ClearEvents()
     {
@@ -171,6 +174,8 @@ public class InputManager : MonoBehaviour
         {
             OnSelectionClear?.Invoke(this, EventArgs.Empty);
         }
+
+        rewardShortcurt?.Invoke();
     }
 
     public void UnPause()

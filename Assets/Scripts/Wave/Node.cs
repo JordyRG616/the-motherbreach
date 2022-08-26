@@ -125,8 +125,8 @@ public class Node : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void SetUnavailable()
     {
-        if (selected) return;
         available = false;
+        if (selected) return;
         anim.SetBool("Available", false);
     }
 
@@ -190,12 +190,7 @@ public class Node : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     }
 
     public void OnPointerClick(PointerEventData eventData)
-    {
-        if(selected)
-        {
-            SetAvailable();
-        }
-
+    {  
         if(available)
         {
             SetSelected();

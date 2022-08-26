@@ -26,7 +26,7 @@ public class ScrapCollector : Trait
     public override Trait ReturnTraitInstance()
     {
         var type = this.GetType();
-        var instance = (AssaultProtocol)ScriptableObject.CreateInstance(type);
+        var instance = (ScrapCollector)ScriptableObject.CreateInstance(type);
 
         return instance;
     }

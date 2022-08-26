@@ -23557,6 +23557,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 956126525, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: initialWeapons.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 956126525, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
+      propertyPath: initialWeapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 5443480414947530925, guid: 1b571f505e9745c4dbf01594eaf28364, type: 3}
     - target: {fileID: 956126527, guid: 351cbfbb46e19de4e8ff9be7929c9e8d, type: 3}
       propertyPath: allBases.Array.size
       value: 9
@@ -24436,7 +24444,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.size
-      value: 79
+      value: 84
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[10].eventPath
+      value: event:/SFX/NEW/Bombershoot
       objectReference: {fileID: 0}
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[78].eventName
@@ -24445,6 +24457,46 @@ PrefabInstance:
     - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
       propertyPath: SFXEvents.Array.data[78].eventPath
       value: event:/SFX/NEW/Bosses/Battlecruiser/CannonDestroyed
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[79].eventName
+      value: Init1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[79].eventPath
+      value: event:/SFX/NEW/Beams/Init1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[80].eventName
+      value: Gadget
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[80].eventPath
+      value: event:/SFX/NEW/Deployables/Gadgeteer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[81].eventName
+      value: AegisShield
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[81].eventPath
+      value: event:/SFX/NEW/Deployables/Aegis_Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[82].eventName
+      value: AegisRedock
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[82].eventPath
+      value: event:/SFX/NEW/Deployables/Aegis_Redock
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[83].eventName
+      value: ArcherShoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018682489856898823, guid: 144cdf219fff9284087740c026fd8404, type: 3}
+      propertyPath: SFXEvents.Array.data[83].eventPath
+      value: event:/SFX/NEW/Deployables/Acher_Shoot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 144cdf219fff9284087740c026fd8404, type: 3}

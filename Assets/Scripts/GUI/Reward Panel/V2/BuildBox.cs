@@ -215,21 +215,21 @@ public class BuildBox : MonoBehaviour
 
     public void SetCostToBaseCost(bool enabled)
     {
-        if(enabled) costText.text = baseCost + "$";
+        if(enabled) costText.text = GetUpgradeCost() + "$";
         else costText.text = "-";
     }
 
     public void SetCostToWeaponCost(bool enabled)
     {
-        if(enabled) costText.text = weaponCost + "$";
+        if(enabled) costText.text = GetUpgradeCost() + "$";
         else costText.text = "-";
     }
 
     public float GetUpgradeCost()
     {
         if (!OnUpgrade) return 0;
-        if (selectedWeaponBox) return weaponCost / 2;
-        if (selectedBaseBox) return baseCost / 2;
+        if (selectedWeaponBox) return Mathf.Ceil(weaponCost / 2);
+        if (selectedBaseBox) return Mathf.Ceil(baseCost / 2);
         return 0;
     }
 
@@ -255,8 +255,6 @@ public class BuildBox : MonoBehaviour
         var stats = weapon.GetAllStats();
         stats = stats.OrderBy(x => x.sortingIndex).ToList();
 
-        //var count = weapon.GetActiveStatCount();
-
         for (int i = 0; i < stats.Count; i++)
         {
             var statbox = statBoxes[i];
@@ -266,7 +264,6 @@ public class BuildBox : MonoBehaviour
             else statbox.Deactivate();
 
             statbox.SetHeaderText(stat.publicName);
-            //var desc = stat.GetLiteralValue();
             var desc = (stat.Initiated) ? stat.GetLiteralValue() : stat.GetLiteralStartingValue();
             statbox.SetValueText(desc);
             statbox.description = stat.statDescription;
@@ -371,7 +368,6 @@ public class BuildBox : MonoBehaviour
 
             foreach (TurretStat stat in foundation.exposedStats)
             {
-                //if (weapon.HasStat(stat)) 
                     weapon.HideExposedStat(stat);
             }
         }
@@ -440,11 +436,6 @@ public class BuildBox : MonoBehaviour
     {
         UndoFoundationEffect();
         if (selectedBaseBox) selectedBaseBox.Detach();
-        //if (selectedWeaponBox && !OnUpgrade) 
-        //{
-        //    //selectedWeapon.GetComponent<ActionController>().Reset();
-        //    // selectedWeaponBox.Detach();
-        //}
         selectedBaseBox = null;
         selectedBase = null;
         baseImage.color = Color.clear;
@@ -456,11 +447,6 @@ public class BuildBox : MonoBehaviour
     {
         UndoFoundationEffect();
         if (selectedBaseBox) selectedBaseBox.Detach();
-        //if (selectedWeaponBox && !OnUpgrade) 
-        //{
-        //    //selectedWeapon.GetComponent<ActionController>().Reset();
-        //    // selectedWeaponBox.Detach();
-        //}
         selectedBaseBox = null;
         _base = selectedBase;
         selectedBase = null;
@@ -478,26 +464,4 @@ public class BuildBox : MonoBehaviour
     {
         return selectedBaseBox == checkTarget;
     }
-
-    //public void ShowKeywordInfo()
-    //{
-    //    if(keywords.Count == 0) return;
-    //    var text = string.Empty;
-
-    //    foreach(Keyword keyword in keywords)
-    //    {
-    //        text += KeywordHandler.KeywordDescription(keyword);
-    //    }
-
-    //    if(!statInfoBox.gameObject.activeSelf)
-    //    {
-    //        statInfoBox.gameObject.SetActive(true);
-    //        statInfoBox.GetComponent<StatInfoBox>().SetText(text);
-    //    }
-    //}
-
-    //public void HideKeywordInfo()
-    //{
-    //    statInfoBox.gameObject.SetActive(false);
-    //}
 }

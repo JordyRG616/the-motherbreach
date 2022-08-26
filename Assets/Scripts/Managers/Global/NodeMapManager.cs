@@ -37,8 +37,13 @@ public class NodeMapManager : MonoBehaviour, ISavable
     [SerializeField] private List<EnemyBox> enemyBoxes;
     [SerializeField] private List<EnemyBox> inRewardEnemyBoxes;
     [SerializeField] private RectTransform rect;
+    [SerializeField] private GameObject normalMap;
     [SerializeField] private List<MapLine> lines;
     [SerializeField] private Node FirstNode;
+    [SerializeField] private GameObject tutorialMap;
+    [SerializeField] private List<MapLine> tutorialLines;
+    [SerializeField] private Node tutorialFirstNode;
+
     [Header("Boss Information")]
     [SerializeField] private Image bossImage;
     [SerializeField] private Image coreImage;
@@ -51,7 +56,7 @@ public class NodeMapManager : MonoBehaviour, ISavable
     private WaveManager waveManager;
     private int currentLineIndex;
     private int nodeIndex;
-    //private Dictionary<int, int> lineAndNodeIndecis
+    public Map selectedMap { get; private set; }
 
     private void Start()
     {
@@ -59,9 +64,22 @@ public class NodeMapManager : MonoBehaviour, ISavable
         DataManager.Main.ReceiveSavable(this);
     }
 
-    public void CreateMap()
+    public void CreateMap(Map map)
     {
-        StartCoroutine(Generate());
+        selectedMap = map;
+        switch(map)
+        {
+            case Map.Tutorial:
+                normalMap.SetActive(false);
+                tutorialMap.SetActive(true);
+                StartCoroutine(GenerateTutorial());
+                break;
+            case Map.Valdarkan:
+                normalMap.SetActive(true);
+                tutorialMap.SetActive(false);
+                StartCoroutine(Generate());
+                break;
+        }
     }
 
     private IEnumerator Generate()
@@ -81,6 +99,27 @@ public class NodeMapManager : MonoBehaviour, ISavable
         else
         {
             FirstNode.SetAvailable();
+        }
+    }
+
+    private IEnumerator GenerateTutorial()
+    {
+        yield return time;
+        tutorialLines[0].InitializeFirstLine(tutorialLines[1]);
+        for (int i = 1; i < tutorialLines.Count - 1; i++)
+        {
+            tutorialLines[i].InitializeLine(tutorialLines[i + 1]);
+        }
+
+        tutorialFirstNode.Activate();
+        if (DataManager.Main.SaveFileExists())
+        {
+            LoadData(DataManager.Main.saveFile);
+        }
+        else
+        {
+            tutorialFirstNode.SetAvailable();
+            tutorialFirstNode.SetSelected();
         }
     }
 
@@ -162,18 +201,26 @@ public class NodeMapManager : MonoBehaviour, ISavable
         }
     }
 
+    public void SetAllNodesUnavailable()
+    {
+        if (selectedMap == Map.Tutorial) tutorialLines.ForEach(x => x.DeactivateAvailableNodes());
+        else lines.ForEach(x => x.DeactivateAvailableNodes());
+    }
+
     public Dictionary<string, byte[]> GetData()
     {
         var dictionary = new Dictionary<string, byte[]>();
 
         dictionary.Add("LineIndex", System.BitConverter.GetBytes(currentLineIndex));
         dictionary.Add("NodeIndex", System.BitConverter.GetBytes(nodeIndex));
+        dictionary.Add("Map", System.BitConverter.GetBytes((int)selectedMap));
 
         return dictionary;
     }
 
     public void LoadData(SaveFile saveFile)
     {
+        selectedMap = GameManager.Main.selectedMap;
         currentLineIndex = System.BitConverter.ToInt32(saveFile.GetValue("LineIndex"));
         nodeIndex = System.BitConverter.ToInt32(saveFile.GetValue("NodeIndex"));
 
@@ -181,4 +228,11 @@ public class NodeMapManager : MonoBehaviour, ISavable
         //line.SetAvailableNodes();
         line.GetNodeByIndex(nodeIndex).SetSelected();
     }
+}
+
+public enum Map 
+{ 
+    None = -1,
+    Tutorial = 0, 
+    Valdarkan = 1
 }

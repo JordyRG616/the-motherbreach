@@ -4842,7 +4842,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4913,6 +4913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/Explosions/Explosion2
+  singleSFX: 0
 --- !u!1 &1390574586571994468
 GameObject:
   m_ObjectHideFlags: 0
@@ -14572,7 +14573,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -19386,7 +19387,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -111248837
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 5
   m_RenderMode: 5
   m_MeshDistribution: 0
@@ -19518,7 +19519,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -111248837
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 713727869, guid: 23a9fb3ac3e9bcf468bd6f98458126f5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -19564,8 +19565,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coreType: 1
-  maxHealth: 750
-  damageReduction: 0.66
+  maxHealth: 1500
+  damageReduction: 0.33
   onDamageSFX: event:/SFX/NEW/BossHit 1
   onDeathSFX: event:/SFX/NEW/EnemyDeath
   onDeathVFX: {fileID: 3220421286866415807}
@@ -19865,7 +19866,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   keyword: 0
-  tags: 0
+  weaponClass: 0
   initialDamage: 3
   initialRest: 0
   damageText: 
@@ -19892,7 +19893,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   keyword: 0
-  tags: 0
+  weaponClass: 0
   initialDamage: 2.5
   initialRest: 0
   damageText: 
@@ -19919,7 +19920,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   keyword: 0
-  tags: 0
+  weaponClass: 0
   initialDamage: 2.5
   initialRest: 0
   damageText: 
@@ -19946,7 +19947,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   keyword: 0
-  tags: 0
+  weaponClass: 0
   initialDamage: 2.5
   initialRest: 0
   damageText: 
@@ -19973,7 +19974,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   keyword: 0
-  tags: 0
+  weaponClass: 0
   initialDamage: 2.5
   initialRest: 0
   damageText: 
@@ -23854,7 +23855,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 129
+      m_Bits: 8321
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -24849,7 +24850,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -28780,7 +28781,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 128
+      m_Bits: 8320
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -29821,6 +29822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/Blunderbuss
+  singleSFX: 0
 --- !u!1 &2968516860861797995
 GameObject:
   m_ObjectHideFlags: 0
@@ -34610,7 +34612,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -39484,7 +39486,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -39555,6 +39557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/Explosions/Explosion2
+  singleSFX: 0
 --- !u!1 &3839058295741352671
 GameObject:
   m_ObjectHideFlags: 0
@@ -44393,7 +44396,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -49272,7 +49275,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -53175,7 +53178,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 129
+      m_Bits: 8321
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -54170,7 +54173,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -58984,7 +58987,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -63865,7 +63868,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -63910,6 +63913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/Bombers/Bomber4
+  singleSFX: 0
 --- !u!1 &6887481553337164630
 GameObject:
   m_ObjectHideFlags: 0
@@ -68752,7 +68756,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -68823,6 +68827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/Explosions/Explosion2
+  singleSFX: 0
 --- !u!1 &7068913793220109946
 GameObject:
   m_ObjectHideFlags: 0
@@ -72694,7 +72699,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 129
+      m_Bits: 8321
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -73689,7 +73694,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -78563,7 +78568,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -78634,6 +78639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/SmallExplosion
+  singleSFX: 0
 --- !u!1 &8459996937177944799
 GameObject:
   m_ObjectHideFlags: 0
@@ -82536,7 +82542,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 129
+      m_Bits: 8321
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -83531,7 +83537,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -88405,7 +88411,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2006087579
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -88476,6 +88482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/Explosions/Explosion2
+  singleSFX: 0
 --- !u!1001 &1800623809937790202
 PrefabInstance:
   m_ObjectHideFlags: 0

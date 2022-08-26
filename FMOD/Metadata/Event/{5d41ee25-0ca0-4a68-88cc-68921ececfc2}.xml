@@ -56,7 +56,11 @@
 			<destination>{5be1d04a-1c59-4ce2-a916-8112f535f77a}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{86f264d2-ad71-460b-a043-e48d722177fa}" />
+	<object class="EventAutomatableProperties" id="{86f264d2-ad71-460b-a043-e48d722177fa}">
+		<property name="triggerCooldown">
+			<value>20</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{bc35bd8c-3376-4d61-ae14-8c27756ce52a}" />
 	<object class="GroupTrack" id="{bc5b97b2-61f7-47c9-8c22-25ce21ed566f}">
 		<relationship name="modules">
@@ -90,7 +94,10 @@
 	<object class="MixerBusPanner" id="{3d76ecd9-1a03-41b9-ba24-dca2c712ad29}" />
 	<object class="SingleSound" id="{0ea551cd-7cae-487a-9559-74786679fd8f}">
 		<property name="length">
-			<value>0.60000000000000009</value>
+			<value>0.56875000000000009</value>
+		</property>
+		<property name="timelockedOffset">
+			<value>0.03125</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{65304e4e-f269-4796-8d17-058771c5cbee}</destination>
@@ -116,6 +123,8 @@
 	<object class="MixerBusEffectChain" id="{ad16e595-c813-4204-89be-1bd40d0570ac}">
 		<relationship name="effects">
 			<destination>{1de73a48-0cc0-4cba-a53f-3b38f36681ce}</destination>
+			<destination>{51a106fa-fbb9-4e1e-b2ed-97b897feed52}</destination>
+			<destination>{50853bbb-1a65-486b-8972-5512e32b664d}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{6a3b9f2c-7a4b-40cd-bf69-853146df39c7}" />
@@ -127,5 +136,38 @@
 	</object>
 	<object class="MixerBusPanner" id="{8b1c97c6-0309-482e-a13c-ca95245b5c06}" />
 	<object class="MixerBusFader" id="{1de73a48-0cc0-4cba-a53f-3b38f36681ce}" />
+	<object class="PitchShifterEffect" id="{51a106fa-fbb9-4e1e-b2ed-97b897feed52}">
+		<property name="pitch">
+			<value>1.19999993</value>
+		</property>
+		<relationship name="modulators">
+			<destination>{6b9ee8fe-090d-4875-9a6e-6937bf04e656}</destination>
+		</relationship>
+	</object>
+	<object class="FlangerEffect" id="{50853bbb-1a65-486b-8972-5512e32b664d}">
+		<property name="rate">
+			<value>0.779999971</value>
+		</property>
+		<property name="mix">
+			<value>69</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{7e90538e-8b74-4465-a52c-468542883a6d}" />
+	<object class="ADSRModulator" id="{6b9ee8fe-090d-4875-9a6e-6937bf04e656}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>pitch</value>
+		</property>
+		<property name="attackTime">
+			<value>192.307709</value>
+		</property>
+		<property name="peakValue">
+			<value>-11.1111374</value>
+		</property>
+		<property name="holdTime">
+			<value>685.897461</value>
+		</property>
+		<property name="decayShape">
+			<value>-1.00000048</value>
+		</property>
+	</object>
 </objects>

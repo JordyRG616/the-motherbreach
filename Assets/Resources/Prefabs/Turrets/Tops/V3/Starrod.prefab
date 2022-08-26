@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5943033160891382704}
   - component: {fileID: 1150177761686663657}
   - component: {fileID: 913938790970936802}
+  - component: {fileID: 6385996386698833360}
   m_Layer: 8
   m_Name: Init
   m_TagString: Untagged
@@ -285,7 +286,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.05
+      scalar: 0.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4870,6 +4871,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &6385996386698833360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4961293998910094200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Beams/Init1
+  singleSFX: 1
 --- !u!1 &5443480414947530925
 GameObject:
   m_ObjectHideFlags: 0
@@ -5017,11 +5032,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingIndex: 1
   publicName: damage
-  startingValue: 1
+  startingValue: 0.5
   statDescription: The damage dealt to the enemy hit by the beam
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &6785697610430519377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5041,6 +5058,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2075384233065408538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5060,6 +5079,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: -0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2002384404795463318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5099,8 +5120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae303faa01349f44a0bdba550994639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackSpeed: 1
-  maxAngle: 5
+  maxAngle: 0.1
+  rotate: 0
 --- !u!95 &2291029129052336054
 Animator:
   serializedVersion: 4
@@ -5140,6 +5161,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: 0.05
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &5001744198109058671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5159,6 +5182,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.15
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &5048406709779340490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5178,6 +5203,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: 0
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!1 &6080456192710883551
 GameObject:
   m_ObjectHideFlags: 0
@@ -5190,6 +5217,7 @@ GameObject:
   - component: {fileID: 6562616260777598661}
   - component: {fileID: 7494555583762021965}
   - component: {fileID: 6650965171002694054}
+  - component: {fileID: 6716654295673905711}
   m_Layer: 8
   m_Name: Shooter (1)
   m_TagString: Untagged
@@ -10005,6 +10033,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedWeapon: {fileID: 2002384404795463318}
+--- !u!114 &6716654295673905711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6080456192710883551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Beams/Beam6
+  singleSFX: 1
 --- !u!1 &7341485585046848111
 GameObject:
   m_ObjectHideFlags: 0

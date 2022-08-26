@@ -4825,6 +4825,7 @@ GameObject:
   - component: {fileID: 1859227969090033607}
   - component: {fileID: 2116098400894245828}
   - component: {fileID: 2877500850312142076}
+  - component: {fileID: 556543822616332229}
   m_Layer: 8
   m_Name: Shooter
   m_TagString: Untagged
@@ -9671,6 +9672,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnemy: 0
+--- !u!114 &556543822616332229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4760888668532324996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Spreader1
+  singleSFX: 0
 --- !u!1 &5443480414947530925
 GameObject:
   m_ObjectHideFlags: 0
@@ -9817,11 +9832,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingIndex: 1
   publicName: damage
-  startingValue: 1
+  startingValue: 0.5
   statDescription: Increases the damage dealt to each enemy inside the cloud
   incrementType: 0
   <upgradeCost>k__BackingField: 1
-  increment: 0.05
+  increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &6785697610430519377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9841,6 +9858,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2075384233065408538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9860,6 +9879,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: -0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2002384404795463318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9900,11 +9921,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingIndex: 4
   publicName: fire rate
-  startingValue: 15
+  startingValue: 10
   statDescription: The number of clouds the turret fires per second
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.05
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &1607067855786983616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9921,9 +9944,11 @@ MonoBehaviour:
   publicName: cloud size
   startingValue: 3
   statDescription: The size of the cloud, relative to the starting value
-  incrementType: 0
+  incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.15
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &969331628358838956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9938,11 +9963,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingIndex: 6
   publicName: cloud duration
-  startingValue: 0
+  startingValue: 5
   statDescription: How long the cloud takes to fade away
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.05
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &1619474944657045609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9955,8 +9982,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae303faa01349f44a0bdba550994639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackSpeed: 100
-  maxAngle: 0
+  maxAngle: 0.1
+  rotate: 0
 --- !u!95 &2291029129052336054
 Animator:
   serializedVersion: 4

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,9 +6,8 @@ public class HunterTargetSystem : TargetSystem
     
     private Collider2D fieldOfView;
     private List<Collider2D> contacts = new List<Collider2D>();
-    private float refSpeed;
-    [SerializeField] private float trackSpeed;
     [SerializeField] private float maxAngle;
+    [SerializeField] private bool rotate = true;
 
     private void Start()
     {
@@ -19,27 +17,30 @@ public class HunterTargetSystem : TargetSystem
     private void Update()
     {
         GetTarget();
-        if(target == null)
+        if (MaxReach())
+        {
+            target = null;
+        }
+
+
+        if (target == null)
         {
             ResetRotation();
             return;
         }
-
-        if (MaxReach()) return;
-
         HuntTarget();
     }
 
     private void ResetRotation()
     {
         if (transform.localEulerAngles.z == 0) return;
-        float _angle = Mathf.SmoothDampAngle(transform.localEulerAngles.z, 0, ref refSpeed, trackSpeed / 10);
 
-        this.transform.localRotation = Quaternion.Euler(0, 0, _angle);
+        this.transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void GetTarget()
     {
+        if (target != null) return;
         var count = fieldOfView.GetContacts(contacts);
         if (count == 0)
         {
@@ -47,29 +48,28 @@ public class HunterTargetSystem : TargetSystem
             return;
         }
 
-
-
         var rdm = Random.Range(0, count);
         target = contacts[rdm].transform;
     }
 
     private void HuntTarget()
     {
+        if (!rotate) return;
         Vector3 direction = target.transform.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.z, angle - 90f, ref refSpeed, trackSpeed / 10);
 
-        this.transform.rotation = Quaternion.Euler(0, 0, _angle);
+        if (MaxReach()) return;
+
+        this.transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
     }
 
     private bool MaxReach()
     {
-        if (transform.localEulerAngles.z > maxAngle && transform.localEulerAngles.z < 360 - maxAngle) return true;
+        if (transform.localEulerAngles.z >= maxAngle && transform.localEulerAngles.z <= 360 - maxAngle) return true;
         return false;
     }
 
     public void SetTurnSpeed(float value)
     {
-        trackSpeed = value;
     }
 }

@@ -215,6 +215,8 @@ public class DataManager : MonoBehaviour
 
         var _seed = GameManager.Main.seed;
         saveMatrix.Add(_seed, new byte[0]);
+        var steps = CustomRandom.RandomManager.Step;
+        saveMatrix.Add("SeedStep", BitConverter.GetBytes(steps));
 
         foreach(ISavable savable in saveInterfaces)
         {

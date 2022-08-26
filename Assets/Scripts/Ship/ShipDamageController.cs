@@ -91,6 +91,8 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         currentHealth += amount;
         if(currentHealth <= 0)
         {
+            textMesh.text = 0.ToString("0");
+            StopAllCoroutines();
             StartCoroutine(DeathAnimation());
             return;
         }
@@ -172,6 +174,21 @@ public class ShipDamageController : MonoBehaviour, IDamageable
         GameManager.Main.endgamePic = ScreenCapture.CaptureScreenshotAsTexture();
 
         GameManager.Main.GameOver();
+    }
+
+    public void DieByLackOfTurrets()
+    {
+        StartCoroutine(DeathByLackOfTurrets());
+    }
+
+    private IEnumerator DeathByLackOfTurrets()
+    {
+
+        while (currentHealth >= 0)
+        {
+            UpdateHealthNoEffects(-1);
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
     }
 
     public void UpdateHealthBar()

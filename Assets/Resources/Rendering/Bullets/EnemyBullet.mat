@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: EnemyBullet
-  m_Shader: {fileID: -6465566751694194690, guid: 0d55b4e2f6401014e9f7fac59f6416f8, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: b4d064681a4bd55479df062a5584975a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,7 +20,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 98e9b090f93ff9744981225726a946a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_69c39591f6bc45f6bd19341bcca76051_Texture_1:
+        m_Texture: {fileID: 8400000, guid: a8485805d9523ff46af1d97983d4a217, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _outline:
@@ -45,6 +49,7 @@ Material:
     - Vector1_8c92290eeab24826b46a55ec38989ecf: 0.1
     - Vector1_98b411774ee345f98befa7f90d30de76: 6
     - Vector1_eecb621018c34953872eb13f3126cb65: 45
+    - _Alpha: 1
     m_Colors:
-    - Color_658ce0e6ac074315b430ed020f4fc057: {r: 64, g: 0.5019608, b: 5.221185, a: 1}
+    - Color_658ce0e6ac074315b430ed020f4fc057: {r: 23.968628, g: 23.968628, b: 23.968628, a: 1}
   m_BuildTextureStacks: []

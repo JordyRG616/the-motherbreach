@@ -155,6 +155,7 @@ MonoBehaviour:
   <upgradeCost>k__BackingField: 1
   increment: 0
   <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &6785697610430519377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +176,7 @@ MonoBehaviour:
   <upgradeCost>k__BackingField: 1
   increment: 0.1
   <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2075384233065408538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +197,7 @@ MonoBehaviour:
   <upgradeCost>k__BackingField: 0
   increment: -0.1
   <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2002384404795463318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,8 +241,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae303faa01349f44a0bdba550994639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackSpeed: 1
-  maxAngle: 5
+  maxAngle: 0.1
+  rotate: 0
 --- !u!114 &8389269283448469966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +263,7 @@ MonoBehaviour:
   <upgradeCost>k__BackingField: 1
   increment: 0.1
   <Initiated>k__BackingField: 0
+  overwritten: 0
   portableShields:
   - {fileID: 7642246191898080955}
   - {fileID: 8378358818833882593}
@@ -283,6 +287,7 @@ MonoBehaviour:
   <upgradeCost>k__BackingField: 1
   increment: 0.25
   <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &9194070132511885473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +308,7 @@ MonoBehaviour:
   <upgradeCost>k__BackingField: 1
   increment: 0.1
   <Initiated>k__BackingField: 0
+  overwritten: 0
   portableShields:
   - {fileID: 7642246191898080955}
   - {fileID: 8378358818833882593}
@@ -346,6 +352,7 @@ MonoBehaviour:
   <upgradeCost>k__BackingField: 0
   increment: 0
   <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!1 &6080456192710883551
 GameObject:
   m_ObjectHideFlags: 0

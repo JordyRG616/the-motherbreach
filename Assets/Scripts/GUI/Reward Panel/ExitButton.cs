@@ -8,7 +8,9 @@ using System;
 
 public class ExitButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler
 {
-    [SerializeField] private Sprite clickSprite;
+    [SerializeField] private GameObject blinkingText;
+    [SerializeField] private GameObject buttonText;
+    [SerializeField] private Image button;
     [SerializeField] private RectTransform tipBox;
     private TextMeshProUGUI tipBoxText;
     private Image image;
@@ -25,17 +27,22 @@ public class ExitButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler,
     [SerializeField] private float pressTime;
     private bool pressed;
     [SerializeField] private RectMask2D mask;
+    private BackgroundManager backgroundManager;
 
     void Start()
     {
         animationManager = GameObject.FindGameObjectWithTag("RewardAnimation").GetComponent<UIAnimationManager>();
+        backgroundManager = FindObjectOfType<BackgroundManager>();
 
         image = GetComponent<Image>();
         tipBoxText = tipBox.Find("Text").GetComponent<TextMeshProUGUI>();
+
+        StartCoroutine(WatchTurretCount());
     }
 
     private IEnumerator ExitReward()
     {
+        backgroundManager.ChangeBackground();
         AudioManager.Main.RequestGUIFX(clicksSFX);
 
         DeactivateButtons();
@@ -61,6 +68,26 @@ public class ExitButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler,
         yield return StartCoroutine(lowerTextAnimation.Forward());
 
         lowerTextAnimation.PlayReverse();
+    }
+
+    private IEnumerator WatchTurretCount()
+    {
+        var shipManager = ShipManager.Main;
+
+        while(true)
+        {
+            button.enabled = false;
+            buttonText.SetActive(false);
+            blinkingText.SetActive(true);
+
+            yield return new WaitUntil(() => shipManager.GetTurretCount() > 0);
+
+            button.enabled = true;
+            buttonText.SetActive(true);
+            blinkingText.SetActive(false);
+
+            yield return new WaitUntil(() => shipManager.GetTurretCount() == 0);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

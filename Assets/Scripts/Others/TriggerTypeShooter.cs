@@ -38,10 +38,10 @@ public class TriggerTypeShooter : MonoBehaviour
                 {
                     ps.trigger.RemoveCollider(j);
                 }
-                else
+                else if(col.TryGetComponent<HitManager>(out var manager))
                 {
-                    if (turretMediator != null) col.GetComponent<HitManager>().ReceiveTriggerEffect(turretMediator);
-                    else col.GetComponent<HitManager>().ReceiveTriggerEffect(mediator);
+                    if (turretMediator != null) manager.ReceiveTriggerEffect(turretMediator);
+                    else manager.ReceiveTriggerEffect(mediator);
                 }
             }
         }

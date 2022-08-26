@@ -11,11 +11,14 @@ public class PortableShield : Deployable
     [SerializeField] private ParticleSystem VFX;
     [SerializeField] private float directionModifier;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string onRedockSFX;
     private Vector2 direction;
     private CircleCollider2D coll;
     private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
     private DeployerWeapon deployer;
     private Transform shipManager;
+    private float maxDistance;
 
     private void Awake()
     {
@@ -33,7 +36,12 @@ public class PortableShield : Deployable
     private void Start()
     {
         spriteRenderer.color = Color.clear;
-        
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (deployer == null) Destroy(gameObject);
     }
 
     public override void Initialize()
@@ -58,7 +66,6 @@ public class PortableShield : Deployable
         direction = transform.parent.position - shipManager.position;
         direction += Vector2.Perpendicular(direction) / directionModifier;
         direction.Normalize();
-        //transform.SetParent(null);
         float step = 0;
         var color = Color.white;
 
@@ -72,21 +79,27 @@ public class PortableShield : Deployable
             yield return waitTime;
         }
 
+
         spriteRenderer.color = Color.white;
         StartCoroutine(Orbit());
     }
 
     private IEnumerator Orbit()
     {
+        maxDistance = Vector2.Distance(transform.position, shipManager.position);
+        transform.SetParent(null);
+
         while (true)
         {
             direction = shipManager.position - transform.position;
             var perpendicular = Vector2.Perpendicular(direction);
+            if (direction.magnitude > maxDistance) perpendicular += direction * -directionModifier;
             direction = perpendicular.normalized;
 
             transform.position += (Vector3)direction * orbitSpeed * -directionModifier;
 
-            yield return waitTime;
+            yield return new WaitForEndOfFrame();
+            //yield return waitTime;
         }
     }
 
@@ -129,6 +142,7 @@ public class PortableShield : Deployable
 
         transform.localPosition = originPoint;
         transform.rotation = transform.parent.rotation;
+        AudioManager.Main.RequestSFX(onRedockSFX);
         OnRedock?.Invoke(this);
         remainingLifetime = lifetime;
     }

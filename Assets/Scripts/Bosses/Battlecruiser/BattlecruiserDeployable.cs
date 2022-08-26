@@ -21,6 +21,7 @@ public class BattlecruiserDeployable : MonoBehaviour, IDamageable
     private float sing;
 
     private Transform ship;
+    private BossHealthController bossHealth;
 
     public void Initiate(Transform parent)
     {
@@ -35,7 +36,8 @@ public class BattlecruiserDeployable : MonoBehaviour, IDamageable
         retaliationWeapon.ReceiveTarget(ShipManager.Main.gameObject);
         sing = Mathf.Sign(Random.Range(-1, 1f));
 
-        parent.GetComponent<BossHealthController>().OnDeath += SuddenDeath;
+        bossHealth = parent.GetComponent<BossHealthController>();
+        bossHealth.OnDeath += SuddenDeath;
     }
 
     private void SuddenDeath(object sender, System.EventArgs e)
@@ -60,13 +62,12 @@ public class BattlecruiserDeployable : MonoBehaviour, IDamageable
     public void UpdateHealth(float amount)
     {
         currentHealth += amount;
-        UpdateHealthBar();
         AudioManager.Main.RequestSFX(hitSFX);
         if(currentHealth <= 0)
         {
-            retaliationWeapon.GetShooterSystem().Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             StartCoroutine(LastBreath());
         }
+        else UpdateHealthBar();
     }
 
     public void UpdateHealthBar()
@@ -87,6 +88,8 @@ public class BattlecruiserDeployable : MonoBehaviour, IDamageable
 
     public IEnumerator LastBreath()
     {
+        bossHealth.OnDeath -= SuddenDeath;
+
         float step = 0;
 
         deathParticles.Play();

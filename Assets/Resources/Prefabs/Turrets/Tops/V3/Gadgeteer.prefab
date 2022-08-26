@@ -151,6 +151,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.05
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &6785697610430519377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +172,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2075384233065408538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +193,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: -0.05
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2002384404795463318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,8 +238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae303faa01349f44a0bdba550994639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackSpeed: 1
-  maxAngle: 5
+  maxAngle: 0.1
+  rotate: 0
 --- !u!114 &-8562254021464873470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +259,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 2
   increment: 1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &1943211192005350049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +280,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 2
   increment: 1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &4973701020336473851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,11 +296,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingIndex: 5
   publicName: Fire rate
-  startingValue: 2
+  startingValue: 3
   statDescription: The number of bullets the gadget fires per second
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: 0.2
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!95 &2291029129052336054
 Animator:
   serializedVersion: 4

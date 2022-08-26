@@ -10,11 +10,16 @@ public class DeployableRod : Deployable
     private float rotationFactor = 0;
     [SerializeField] private ParticleSystem shooter;
     [SerializeField] private TurretActionMediator actionMediator;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string onLaunchSFX;
 
     private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
+    private AudioManager audioManager;
 
     public override void Initialize()
     {
+        audioManager = AudioManager.Main;
+
         var weapon = transform.GetComponentInParent<Weapon>();
         actionMediator.linkedWeapon = weapon;
         weapon.ReplaceShooter(shooter);
@@ -27,6 +32,7 @@ public class DeployableRod : Deployable
 
     public override void Launch()
     {
+        audioManager.RequestSFX(onLaunchSFX);
         StartCoroutine(LaunchSequence());
     }
 
@@ -45,6 +51,8 @@ public class DeployableRod : Deployable
             step += 0.01f;
             yield return waitTime;
         }
+
+        shooter.Play();
     }
 
     protected override void Update()
@@ -67,6 +75,6 @@ public class DeployableRod : Deployable
 
     public void A_Shoot()
     {
-        shooter.Play();
+        //shooter.Play();
     }
 }

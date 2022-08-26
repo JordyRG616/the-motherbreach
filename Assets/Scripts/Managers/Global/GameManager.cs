@@ -66,9 +66,10 @@ public class GameManager : MonoBehaviour
     private InputManager inputManager;
     private AudioManager audioManager;
     private NodeMapManager mapManager;
+    private TutorialManager tutorialManager;
 
     private GameObject selectedShip;
-    private GameObject selectedPilot;
+    public Map selectedMap { get; private set; }
 
     private UIAnimationManager pauseAnimation;
     public bool onPause {get; private set;}
@@ -161,7 +162,6 @@ public class GameManager : MonoBehaviour
         fadePanelAnimation = GameObject.FindGameObjectWithTag("FadePanel").GetComponent<FadeAnimation>();
         
         selectedShip = dataManager.GetLoadedShip();
-        selectedPilot = dataManager.GetLoadedPilot();
 
         yield return StartCoroutine(fadePanelAnimation.Forward());
 
@@ -170,10 +170,12 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void StartGame(GameObject ship, GameObject pilot)
+    public void StartGame(GameObject ship, Map map)
     {
         selectedShip = ship;
-        selectedPilot = pilot;
+        selectedMap = map;
+
+        if (selectedMap != Map.Tutorial) FindObjectOfType<TutorialManager>().No();
 
         SceneManager.LoadScene(2);
         SceneManager.sceneLoaded += LateStart;
@@ -182,6 +184,7 @@ public class GameManager : MonoBehaviour
 
     private void LateStart(Scene scene, LoadSceneMode mode)
     {
+        if(dataManager.SaveFileExists()) selectedMap = (Map)System.BitConverter.ToInt32(dataManager.saveFile.GetValue("Map"));
         InstantiateSelections();
 
         rewardManager = RewardManager.Main;
@@ -197,7 +200,9 @@ public class GameManager : MonoBehaviour
         inputManager.OnGamePaused += HandleOptionsMenu;
 
         mapManager = NodeMapManager.Main;
-        mapManager.CreateMap();
+        mapManager.CreateMap(selectedMap);
+
+        tutorialManager = FindObjectOfType<TutorialManager>();
 
         pauseAnimation = GameObject.FindGameObjectWithTag("PauseAnimation").GetComponent<UIAnimationManager>();
 
@@ -211,9 +216,9 @@ public class GameManager : MonoBehaviour
         initialArgs.waveReward = dataManager.SaveFileExists() ? BitConverter.ToInt32(dataManager.saveFile.GetValue("totalCash")) : initialCash;
         initialArgs.waveTime = 0;
         gameState = GameState.OnReward;
-        InitiateRewardPhase(this, initialArgs);
 
-        FindObjectOfType<TutorialManager>().TriggerInitialTutorial();
+        if (selectedMap == Map.Tutorial) StartCoroutine(StartTutorialWave());
+        else InitiateRewardPhase(this, initialArgs);
 
         SceneManager.sceneLoaded -= LateStart;
     }
@@ -221,11 +226,20 @@ public class GameManager : MonoBehaviour
     private void InstantiateSelections()
     {
         var ship = Instantiate(selectedShip, Vector3.zero, Quaternion.identity);
-        var portraitFrame = GameObject.FindGameObjectWithTag("PortraitFrame");
-        var portrait = Instantiate(selectedPilot, Vector3.zero, Quaternion.identity, portraitFrame.transform);
-        portrait.GetComponent<RectTransform>().anchoredPosition = new Vector2(50, 55);
-        ship.GetComponent<ShipManager>().pilotIndex = portrait.GetComponent<Pilot>().index;
-        portrait.GetComponent<Pilot>().Initialize();
+        //var portraitFrame = GameObject.FindGameObjectWithTag("PortraitFrame");
+        //var portrait = Instantiate(selectedPilot, Vector3.zero, Quaternion.identity, portraitFrame.transform);
+        //portrait.GetComponent<RectTransform>().anchoredPosition = new Vector2(50, 55);
+        //ship.GetComponent<ShipManager>().pilotIndex = portrait.GetComponent<Pilot>().index;
+        //portrait.GetComponent<Pilot>().Initialize();
+    }
+
+    private IEnumerator StartTutorialWave()
+    {
+        yield return new WaitForSeconds(.2f);
+
+        yield return tutorialManager.ShowWaveTutorial();
+
+        InitiateWavePhase(this, EventArgs.Empty);
     }
 
     private void InitiateWavePhase(object sender, EventArgs e)
@@ -310,6 +324,7 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
+        if (selectedMap == Map.Tutorial) return;
         dataManager.SaveData();
     }
 

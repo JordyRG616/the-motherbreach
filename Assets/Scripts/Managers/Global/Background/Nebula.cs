@@ -2,17 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class Nebula
+[CreateAssetMenu(menuName ="Data/Wave/Nebula", fileName ="New Nebula")]
+public class Nebula: ScriptableObject
 {
-    [SerializeField] private SpriteRenderer nebula;
-    [SerializeField] private List<Material> possibleMaterials;
+    public Material firstNebulaMaterial;
+    public Material secondNebulaMaterial;
+    public Material thirdNebulaMaterial;
+    public Color backgroundColor;
 
-    public void SetRandomMaterial()
-    {
-        var rdm = UnityEngine.Random.Range(0, possibleMaterials.Count);
-        var material = new Material(possibleMaterials[rdm]);
-
-        nebula.material = material;
-    }
+    public RenderTextureParameters renderParamenters;
 }

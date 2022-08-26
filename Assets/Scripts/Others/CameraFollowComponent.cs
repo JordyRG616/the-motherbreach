@@ -7,7 +7,6 @@ public class CameraFollowComponent : MonoBehaviour
     private Transform objectToFollow;
     [SerializeField] private float followDistance;
     [SerializeField] private float followSpeed;
-    private bool following;
 
     void Start()
     {
@@ -25,8 +24,6 @@ public class CameraFollowComponent : MonoBehaviour
             yield return new WaitForSeconds(.01f);
             direction = objectToFollow.position - transform.position + new Vector3(0, 0, transform.position.z);
         }
-
-        following = false;
 
         StopCoroutine("Follow");
     }

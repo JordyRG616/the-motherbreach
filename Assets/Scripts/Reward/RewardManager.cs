@@ -1,6 +1,5 @@
-using System.Linq;
 using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,7 +40,6 @@ public class RewardManager : MonoBehaviour, ISavable
 
     private InputManager inputManager;
     private TurretConstructor turretConstructor;
-    private RewardCalculator calculator;
     private UIAnimationManager animationManager;
     [HideInInspector] public int TotalCash, EarnedCash, SpendedCash;
     private BuildBox buildBox;
@@ -82,7 +80,6 @@ public class RewardManager : MonoBehaviour, ISavable
 
         turretConstructor = TurretConstructor.Main;
         turretConstructor.Initialize();
-        calculator = RewardCalculator.Main;
         animationManager = GameObject.FindGameObjectWithTag("RewardAnimation").GetComponent<UIAnimationManager>();
 
         buildBox = FindObjectOfType<BuildBox>();
@@ -94,14 +91,14 @@ public class RewardManager : MonoBehaviour, ISavable
         weaponBoxes = FindObjectsOfType<WeaponBox>(true).ToList();
         baseBoxes = FindObjectsOfType<BaseBox>(true).ToList();
         cashTextAnimation = FindObjectOfType<CashTextAnimation>();
-        rewardPanelAnimation = FindObjectOfType<BuildButton>().GetComponent<UIAnimations>();
+        rewardPanelAnimation = GameObject.FindGameObjectWithTag("Build Box").GetComponent<UIAnimations>();
 
         AudioManager.Main.GetAudioTrack("Special").StopAllAudio();
         AudioManager.Main.SwitchMusicTracks("Special");
         AudioManager.Main.RequestMusic("Reward Song 2");
     }
 
-    public void InitiateReward(int rewardValue)
+    public void InitiateReward(int rewardValue, bool firstOff)
     {
         SpendedCash = 0;
         EarnCash(rewardValue);
@@ -112,9 +109,8 @@ public class RewardManager : MonoBehaviour, ISavable
         ship.GetComponent<Rigidbody2D>().Sleep();
         animationManager.Play();
         
-        //var locked = FindObjectOfType<LockButton>().locked;
-
         GenerateOffer();
+        if (firstOff && DataManager.Main.SaveFileExists()) LoadBoxes(DataManager.Main.saveFile);
 
         GameManager.Main.SaveGame();
     }
@@ -161,12 +157,12 @@ public class RewardManager : MonoBehaviour, ISavable
 
     public void BuildSelection()
     {
+        SpendCash((int)buildBox.TotalCost);
         tutorialManager.TriggerPosBuildTutorial();
         buildBox.Clear();
         OnTurretBuild?.Invoke(this, new BuildEventArgs(ActiveSelection.GetComponent<TurretManager>()));
         var manager = ActiveSelection.GetComponent<TurretManager>();
         ShipManager.Main.RegisterTurret(manager);
-
 
         AudioManager.Main.RequestGUIFX(buildSFX);
 
@@ -176,9 +172,7 @@ public class RewardManager : MonoBehaviour, ISavable
 
     public void Exit()
     {
-        var locked = FindObjectOfType<LockButton>().locked;
-
-        if(!locked) EliminateOffer();
+        EliminateOffer();
         
         AudioManager.Main.GetAudioTrack("SFX").UnpauseAudio();
         AudioManager.Main.SwitchMusicTracks("Music");
@@ -236,12 +230,6 @@ public class RewardManager : MonoBehaviour, ISavable
         rewardPanelAnimation.Play();
     }
 
-    private void ClearSelection()
-    {
-        if(ActiveSelection != null) ActiveSelection.SetActive(false);
-        ActiveSelection = null;
-    }
-
     private void ClearSelection(object sender, EventArgs e)
     {
         if(ActiveSelection == null) return;
@@ -265,14 +253,48 @@ public class RewardManager : MonoBehaviour, ISavable
 
         container.Add("totalCash", BitConverter.GetBytes(TotalCash));
 
+        for (int i = 0; i < weaponBoxes.Count; i++)
+        {
+            var key = "weaponBox" + i;
+            var value = BitConverter.GetBytes(weaponBoxes[i].Occupied);
+            container.Add(key, value);
+        }
+
+        for (int i = 0; i < baseBoxes.Count; i++)
+        {
+            var key = "baseBox" + i;
+            var value = BitConverter.GetBytes(baseBoxes[i].Occupied);
+            container.Add(key, value);
+        }
+
         return container;
     }
 
     public void LoadData(SaveFile saveFile)
     {
-        // TotalCash = 0;
-        // var cash = BitConverter.ToInt32(saveFile.GetValue("totalCash"));
-        // EarnCash(cash);
+    }
+
+    public void LoadBoxes(SaveFile saveFile)
+    {
+        for (int i = 0; i < weaponBoxes.Count; i++)
+        {
+            var key = "weaponBox" + i;
+            if (saveFile.ContainsSavedContent(key))
+            {
+                var _occupied = BitConverter.ToBoolean(saveFile.GetValue(key));
+                if (!_occupied) weaponBoxes[i].Clear();
+            }
+        }
+
+        for (int i = 0; i < baseBoxes.Count; i++)
+        {
+            var key = "baseBox" + i;
+            if (saveFile.ContainsSavedContent(key))
+            {
+                var _occupied = BitConverter.ToBoolean(saveFile.GetValue(key));
+                if (!_occupied) baseBoxes[i].Clear();
+            }
+        }
     }
 }
 

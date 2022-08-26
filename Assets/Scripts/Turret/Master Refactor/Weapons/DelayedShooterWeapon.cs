@@ -9,8 +9,12 @@ public class DelayedShooterWeapon : Weapon
 
     public override void Initiate()
     {
-        StatSet.ForEach(x => x.Initiate(delayedShooter, this));
+        if (initiated) return;
+        StatSet.ForEach(x => x.Initiate(shooter, this));
+        StatSet.ForEach(x => x.overwritten = true);
+        dormentStats.ForEach(x => x.Initiate(shooter, this));
         StatSet = StatSet.OrderBy(x => x.sortingIndex).ToList();
+        dormentStats = dormentStats.OrderBy(x => x.sortingIndex).ToList();
 
         waitForDuration = new WaitForSeconds(GetStatValue<Duration>());
         waitForCooldown = new WaitForSeconds(GetStatValue<Cooldown>());

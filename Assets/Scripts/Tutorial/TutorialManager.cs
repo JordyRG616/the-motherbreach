@@ -23,16 +23,6 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject blockPanel;
     [SerializeField] private RectTransform highlightPanel;
     public static bool tutorialFinished;
-    private static bool initiated;
-    
-    void Start()
-    {
-        if(!initiated && !tutorialFinished)
-        {
-            ShowSkipWindow();
-            initiated = true;
-        }
-    }
 
     public void ShowSkipWindow()
     {

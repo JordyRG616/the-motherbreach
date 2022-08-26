@@ -4920,6 +4920,7 @@ GameObject:
   - component: {fileID: 7050646893131983487}
   - component: {fileID: 6622248265100879239}
   - component: {fileID: 7592131314160020581}
+  - component: {fileID: 5615114079167948407}
   m_Layer: 0
   m_Name: Explosion v2
   m_TagString: Untagged
@@ -5026,7 +5027,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5195,7 +5196,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -9815,3 +9816,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedWeapon: {fileID: 0}
+--- !u!114 &5615114079167948407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3529067808266414264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/SmallExplosion
+  singleSFX: 1

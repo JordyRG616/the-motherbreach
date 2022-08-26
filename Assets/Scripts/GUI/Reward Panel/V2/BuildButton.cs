@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -9,8 +7,10 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 {
     public enum ButtonMode {BUILD, DONE, UPGRADE, EVOLVE};
 
-    [SerializeField] private Sprite clickedSprite;
-    private Sprite ogSprite;
+    [SerializeField] private Image buildButton;
+    [SerializeField] private GameObject blinkingText;
+    [SerializeField] private GameObject upgradingText;
+    [SerializeField] private GameObject selectText;
     private TextMeshProUGUI textMesh;
     [SerializeField] private Image image;
     private RewardManager rewardManager;
@@ -27,7 +27,6 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     void Start()
     {
         textMesh = image.GetComponentInChildren<TextMeshProUGUI>();
-        ogSprite = image.sprite;
         buildBox = FindObjectOfType<BuildBox>();
         rewardManager = RewardManager.Main;
         upgradeButton = FindObjectOfType<UpgradeButton>();
@@ -38,13 +37,11 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         if (eventData.button != PointerEventData.InputButton.Left) return;
 
         pressed = true;
-        //image.sprite = clickedSprite;
 
     }
 
     private void Activate()
     {
-        // textMesh.color = Color.white;
         if (mode == ButtonMode.BUILD) Build();
         if (mode == ButtonMode.DONE) Done();
         if (mode == ButtonMode.UPGRADE) Upgrade();
@@ -69,7 +66,6 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             FindObjectOfType<SellButton>(true).Replace();
         }
         upgradeButton.Disable();
-        // FindObjectOfType<SellButton>().Disable();
     }
 
     private void Build()
@@ -80,39 +76,69 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             {
                 AudioManager.Main.RequestGUIFX(clickSFX);
                 rewardManager.SetSelection(buildBox.Selections().Weapon, buildBox.Selections().Base);
-                rewardManager.SpendCash((int)buildBox.TotalCost);
             }
             else AudioManager.Main.PlayInvalidSelection("Not enough cash");
         }
-        else
+    }
+
+    private void SetGraphics()
+    {
+        if(rewardManager.ActiveSelection != null)
         {
-            if(buildBox.Selections().Weapon == null && buildBox.Selections().Base == null)
+            buildButton.enabled = false;
+            textMesh.gameObject.SetActive(false);
+            selectText.SetActive(true);
+            blinkingText.SetActive(false);
+            upgradingText.SetActive(false);
+            return;
+        }
+
+        if(mode == ButtonMode.BUILD)
+        {
+            selectText.SetActive(false);
+            upgradingText.SetActive(false);
+            if (buildBox.selectedWeapon && buildBox.selectedBase)
             {
-                AudioManager.Main.PlayInvalidSelection("Select a weapon and a foundation");
-                return;
+                buildButton.enabled = true;
+                textMesh.gameObject.SetActive(true);
+                blinkingText.SetActive(false);
+            } else
+            {
+                buildButton.enabled = false;
+                textMesh.gameObject.SetActive(false);
+                blinkingText.SetActive(true);
             }
-            if(buildBox.Selections().Weapon == null) 
+        }
+
+        if (mode == ButtonMode.UPGRADE)
+        {
+            selectText.SetActive(false);
+            blinkingText.SetActive(false);
+            if (buildBox.selectedBaseBox || buildBox.selectedWeaponBox)
             {
-                AudioManager.Main.PlayInvalidSelection("Select a weapon first");
-                return;
+                buildButton.enabled = true;
+                textMesh.gameObject.SetActive(true);
+                upgradingText.SetActive(false);
             }
-            if(buildBox.Selections().Base == null)
+            else
             {
-                AudioManager.Main.PlayInvalidSelection("Select a foundation first");
-                return;
-            } 
+                buildButton.enabled = false;
+                textMesh.gameObject.SetActive(false);
+                upgradingText.SetActive(true);
+            }
         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        //image.sprite = ogSprite;
         pressed = false;
         counter = 0;
     }
 
     void Update()
     {
+        SetGraphics();
+
         if (pressed)
         {
             counter += Time.deltaTime;
@@ -125,12 +151,6 @@ public class BuildButton : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         }
 
         mask.padding = new Vector4(0, 0, 0, 40 * (1 - (counter / pressTime)));
-
-        if(buildBox.baseToReplace)
-        {
-            textMesh.text = "replace";
-            return;
-        }
 
         textMesh.text = mode.ToString();
     }

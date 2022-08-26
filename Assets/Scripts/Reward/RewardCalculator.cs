@@ -55,7 +55,8 @@ public class RewardCalculator : MonoBehaviour, ISavable
     private int expAmount;
     private Dictionary<int, int> expRequeriment = new Dictionary<int, int>();
     private RewardManager rewardManager;
-    private bool choosing;
+    public bool choosing { get; private set; }
+    private bool enablePack = true;
     [Header("SFX")]
     [SerializeField] [FMODUnity.EventRef] private string expGained;
     [SerializeField] [FMODUnity.EventRef] private string levelGained;
@@ -105,13 +106,15 @@ public class RewardCalculator : MonoBehaviour, ISavable
 
     public void InitiateChoice()
     {
+        if (!enablePack)
+        {
+            enablePack = !enablePack;
+            return;
+        }
         if(choosing == true) return;
         PackOfferManager.Main.IniatiatePackChoice();
         choosing = true;
-        //if(expAmount == expRequeriment[ShopLevel])
-        //{
-            //FindObjectOfType<OfferTweaker>().removalPoints ++;
-        //}
+        enablePack = !enablePack;
     }
 
     public void LevelUp()
@@ -131,8 +134,6 @@ public class RewardCalculator : MonoBehaviour, ISavable
                 weapons.Add(reward);
             if(reward.TryGetComponent<Foundation>(out var effect))
                 bases.Add(reward);
-            //if(reward.TryGetComponent<Artifact>(out var artifact))
-            //    ShipManager.Main.ReceiveArtifact(artifact);
         }
 
         LevelUp();
@@ -150,11 +151,6 @@ public class RewardCalculator : MonoBehaviour, ISavable
         return level;
     }
 
-    public void ApplyLevelUpToModelOfClass(WeaponClass weaponClass, LevelUpData levelUp)
-    {
-        
-    }
-
     public Dictionary<string, byte[]> GetData()
     {
         var container = new Dictionary<string, byte[]>();
@@ -164,7 +160,9 @@ public class RewardCalculator : MonoBehaviour, ISavable
         container.Add("WeaponCount", BitConverter.GetBytes(weapons.Count));
         container.Add("BaseCount", BitConverter.GetBytes(bases.Count));
         container.Add("RemovalPoints", BitConverter.GetBytes(FindObjectOfType<OfferTweaker>().removalPoints));
-        
+        container.Add("ChoosingPack", BitConverter.GetBytes(choosing));
+        container.Add("EnablePack", BitConverter.GetBytes(enablePack));
+
         int i = 0;
         foreach(GameObject weapon in weapons)
         {
@@ -209,14 +207,8 @@ public class RewardCalculator : MonoBehaviour, ISavable
             bases.Add(TurretConstructor.Main.GetBasePrefabById(id));
         }
 
-        var removalCount = BitConverter.ToInt32(saveFile.GetValue("RemovalPoints"));
-
-
-        for (int i = 0; i < removalCount; i++)
-        {
-            offerTweaker.removalPoints++;
-        }
-
+        enablePack = BitConverter.ToBoolean(saveFile.GetValue("EnablePack"));
+        choosing = BitConverter.ToBoolean(saveFile.GetValue("ChoosingPack"));
     }
 
     private void Update()

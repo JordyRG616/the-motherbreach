@@ -4872,7 +4872,7 @@ ParticleSystem:
   startDelay:
     serializedVersion: 2
     minMaxState: 0
-    scalar: 0.3
+    scalar: 0.5
     minScalar: 0
     maxCurve:
       serializedVersion: 2
@@ -9740,6 +9740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/Shoots/shoot7
+  singleSFX: 0
 --- !u!1 &4357572104417735323
 GameObject:
   m_ObjectHideFlags: 0
@@ -14759,9 +14760,11 @@ MonoBehaviour:
   publicName: damage
   startingValue: 10
   statDescription: Increases the damage dealt by each bullet
-  incrementType: 0
+  incrementType: 1
   <upgradeCost>k__BackingField: 1
-  increment: 0.5
+  increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &6785697610430519377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14781,6 +14784,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2075384233065408538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14800,6 +14805,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: -0.05
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &1619474944657045609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14812,8 +14819,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae303faa01349f44a0bdba550994639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackSpeed: 3.5
-  maxAngle: 75
+  maxAngle: 60
+  rotate: 1
 --- !u!114 &3275906367924824028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14859,9 +14866,11 @@ MonoBehaviour:
   publicName: size
   startingValue: 0.33
   statDescription: The size of each projectile, relative to the starting size
-  incrementType: 1
+  incrementType: 0
   <upgradeCost>k__BackingField: 1
-  increment: 0.1
+  increment: 0.2
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &3708969821026069581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14882,6 +14891,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 2
   increment: 1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!95 &2291029129052336054
 Animator:
   serializedVersion: 4
@@ -14921,6 +14932,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.2
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!1 &5665063303620285832
 GameObject:
   m_ObjectHideFlags: 0
@@ -29531,6 +29544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/Shoots/shoot7
+  singleSFX: 0
 --- !u!1 &8962512383701107946
 GameObject:
   m_ObjectHideFlags: 0

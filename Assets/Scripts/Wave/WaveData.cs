@@ -9,6 +9,7 @@ public class WaveData : ScriptableObject
     [SerializeField] private List<Breach> breaches;
     public float rewardValue;
     public Sprite BossIcon;
+    public Nebula nebulaSetting;
 
     public Queue<Breach> breachQueue = new Queue<Breach>();
  

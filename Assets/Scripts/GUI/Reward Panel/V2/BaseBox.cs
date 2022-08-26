@@ -26,7 +26,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color selectable;
     [SerializeField] private Color notSelectable;
-    private GameObject replacedBase;
+    public bool Occupied { get => cachedBase != null; }
 
     void Start()
     {
@@ -69,19 +69,19 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
                 selected = true;
                 return;
             }
-            else if(buildBox.OnUpgrade && IsSameBase())
-            {
-                activeVFX.Play();
-                light2D.color = selectedColor;
-                AudioManager.Main.RequestGUIFX(clickSFX);
-                buildBox.ReceiveBaseBox(this);
-                buildBox.SetCostToBaseCost(true);
-                selected = true;
-
-                return;
-            }
         }
-        else if(buildBox.CheckBaseBox(this))
+        if(IsSameBase() && !buildBox.CheckBaseBox(this))
+        {
+            activeVFX.Play();
+            light2D.color = selectedColor;
+            AudioManager.Main.RequestGUIFX(clickSFX);
+            buildBox.ReceiveBaseBox(this);
+            buildBox.SetCostToBaseCost(true);
+            selected = true;
+
+            return;
+        }
+        if(buildBox.CheckBaseBox(this))
         {
             AudioManager.Main.RequestGUIFX(returnSFX);
             buildBox.ClearBase(out cachedBase);
@@ -89,7 +89,7 @@ public class BaseBox : MonoBehaviour, IPointerClickHandler, IPointerExitHandler,
             selected = false;
             return;
         }
-        AudioManager.Main.PlayInvalidSelection("hehehehe");
+        AudioManager.Main.PlayInvalidSelection("");
     }
 
     private bool IsSameBase()

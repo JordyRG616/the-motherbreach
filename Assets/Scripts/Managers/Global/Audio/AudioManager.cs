@@ -55,13 +55,13 @@ public class AudioManager : MonoBehaviour
 
     public void SetVolume()
     {
-        musicTrack.Initiate();
+        musicTrack.Initiate(this);
         musicTrack.trackVolume = settings.musicVolume;
-        uniqueMusicTrack.Initiate();
+        uniqueMusicTrack.Initiate(this);
         uniqueMusicTrack.trackVolume = settings.musicVolume;
-        SFXTrack.Initiate();
+        SFXTrack.Initiate(this);
         SFXTrack.trackVolume = settings.sfxVolume;
-        GUITrack.Initiate();
+        GUITrack.Initiate(this);
         GUITrack.trackVolume = settings.guiVolume;
     }
 

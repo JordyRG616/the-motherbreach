@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CustomRandom;
 
 public class PackOfferManager : MonoBehaviour
 {
@@ -100,7 +101,7 @@ public class PackOfferManager : MonoBehaviour
 
         while(container.Count < qnt)
         {
-            var rdm = Random.Range(0, unlockedPacks.Count);
+            var rdm = RandomManager.GetRandomInteger(0, unlockedPacks.Count);
             if(!container.Contains(unlockedPacks[rdm])) container.Add(unlockedPacks[rdm]);
         }
 

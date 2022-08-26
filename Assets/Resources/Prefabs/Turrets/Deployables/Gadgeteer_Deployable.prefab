@@ -125,6 +125,7 @@ MonoBehaviour:
   rotationSpeed: 1.5
   shooter: {fileID: 8781837641575297490}
   actionMediator: {fileID: 2179150619795666565}
+  onLaunchSFX: event:/SFX/NEW/Deployables/Gadgeteer
 --- !u!1 &2754145853681965063
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +179,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -4977,7 +4978,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SFX: event:/SFX/NEW/Shoots/shoot8
+  SFX: event:/SFX/NEW/Shoots/shoot4
+  singleSFX: 0
 --- !u!1 &5578786462259513740
 GameObject:
   m_ObjectHideFlags: 0

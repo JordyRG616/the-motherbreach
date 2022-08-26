@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CustomRandom;
@@ -12,8 +11,8 @@ public class MapLine : MonoBehaviour
 
     public Node GetNodeByIndex(int index)
     {
-        if (index < 0) index = 0;
         if (index >= nodesInLine.Count) index = nodesInLine.Count - 1;
+        if (index < 0) index = 0;
         var node = nodesInLine.Find(x => x.lineIndex == index);
 
         return node;

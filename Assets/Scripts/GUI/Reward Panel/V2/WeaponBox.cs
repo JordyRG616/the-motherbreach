@@ -29,6 +29,7 @@ public class WeaponBox : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     [SerializeField] private Color selectable;
     [SerializeField] private Color notSelectable;
     private UpgradeButton upgradeButton;
+    public bool Occupied { get => cachedWeapon != null; }
     
 
     void Start()

@@ -45,8 +45,6 @@ public class WaveManager : MonoBehaviour
     [SerializeField] [FMODUnity.EventRef] private string endOfWaveSFX;
     private WaveData activeWave;
     private ShipManager ship;
-    private int spawnIndex;
-    private int waveIndex;
     public List<FormationManager> activeFormations {get; private set;} = new List<FormationManager>();
     public List<BossController> activeBosses {get; private set;} = new List<BossController>();
     private TutorialManager tutorialManager;
@@ -62,7 +60,7 @@ public class WaveManager : MonoBehaviour
     public delegate void ApplyWaveModifier(FormationManager manager);
     public ApplyWaveModifier applyModifier;
 
-
+    private int spawnIndex;
     private float waveTime;
     private bool counting;
 
@@ -135,9 +133,8 @@ public class WaveManager : MonoBehaviour
 
         activeWave = NodeMapManager.Main.selectedNode.nodeWave;
         if(!NodeMapManager.Main.selectedNode.bossNode) applyModifier += NodeMapManager.Main.selectedNode.modifier.ApplyFormationEffect;
-        waveIndex ++;
         activeWave.SetQueue();
-        spawnIndex = 0;
+        spawnIndex = activeWave.breachQueue.Count;
         counting = true;
         StartCoroutine(InstantiateFormations());
         
@@ -182,6 +179,7 @@ public class WaveManager : MonoBehaviour
                     var boss = Instantiate(breach.GetRandomBoss(), spwPos, Quaternion.identity);
 
                     activeBosses.Add(boss.GetComponent<BossController>());
+                    spawnIndex--;
 
                     var formationPointer = Instantiate(pointer, boss.transform.position, Quaternion.identity);
                     formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(boss.transform);
@@ -212,7 +210,7 @@ public class WaveManager : MonoBehaviour
                         manager.formationLevel = breach.breachLevel;
                         manager.OnFormationDefeat += RemoveFormation;
                         applyModifier?.Invoke(manager);
-
+                        spawnIndex--;
 
                         var formationPointer = Instantiate(pointer, formation.transform.position, Quaternion.identity);
                         formationPointer.GetComponent<EnemyPointer>().ReceiveTarget(formation.transform.Find("Head"));
@@ -285,11 +283,13 @@ public class WaveManager : MonoBehaviour
 
     private bool CheckForEndOfWave()
     {
-        return activeBosses.Count == 0 && activeFormations.Count == 0 && activeWave.breachQueue.Count == 0;
+        if (spawnIndex > 0) return false;
+        if (activeFormations.Count > 0) return false;
+        return true;
     }
 
     private void Update()
-    {
+    { 
         if(counting) waveTime += Time.deltaTime;
     }
 
@@ -305,6 +305,11 @@ public class WaveManager : MonoBehaviour
 
         AudioManager.Main.GetAudioTrack("SFX").PauseAudio();
         AudioManager.Main.SwitchMusicTracks("Special");
+
+        if(NodeMapManager.Main.selectedNode.bossNode)
+        {
+            GameManager.Main.Win();
+        }
 
         progressionMeter.AdvanceMarker();
 

@@ -22,7 +22,7 @@ public abstract class Deployable : MonoBehaviour
 
     private void GameManager_OnGameStateChange(object sender, EndWaveEventArgs e)
     {
-        Destroy(gameObject);
+        DisableDeployable();
         waveManager.OnWaveEnd -= GameManager_OnGameStateChange;
     }
 

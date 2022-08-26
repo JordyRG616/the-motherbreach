@@ -1,14 +1,11 @@
 using System.Linq;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    // private TrackingDevice tracking;
     [SerializeField] private TurretSlot associatedSlot;
     [SerializeField] private Color color;
     private RectTransform sellButton;
@@ -85,6 +82,7 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     {
         if (associatedSlot.IsOcuppied()) return;
         GetComponent<Image>().color = color;
+        turretOnUpgrade = false;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -106,11 +104,11 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
     {
         sellButton.gameObject.SetActive(true);
 
-        int refund = (int)associatedSlot.occupyingTurret.GetComponent<TurretManager>().Level;
+        int refund = (int)associatedSlot.occupyingTurret.GetComponent<TurretManager>().Level / 2;
         if(refund < 1) refund = 1;
 
         sellButton.GetComponent<SellButton>().SetButton(refund, associatedSlot);
-        sellButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 55) - offset;
+        //sellButton.anchoredPosition = Camera.main.WorldToScreenPoint(associatedSlot.transform.position) + new Vector3(0, 55) - offset;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -156,11 +154,12 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             {
                 foreach(TurretVFXManager vfx in manager.ActiveSelection.GetComponentsInChildren<TurretVFXManager>()) vfx.SetSelectedColor(true);
             }
-        } else if(associatedSlot.IsOcuppied())
-        {
-            preview.gameObject.SetActive(true);
-            preview.ReceiveInformation(associatedSlot.occupyingTurret.GetComponent<TurretManager>());
-        }
+        } 
+        //else if(associatedSlot.IsOcuppied())
+        //{
+        //    preview.gameObject.SetActive(true);
+        //    preview.ReceiveInformation(associatedSlot.occupyingTurret.GetComponent<TurretManager>());
+        //}
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -172,9 +171,10 @@ public class TurretSlotGUI : MonoBehaviour, IPointerClickHandler, IPointerDownHa
             manager.ActiveSelection.transform.rotation = Quaternion.identity;
             foreach(TurretVFXManager vfx in manager.ActiveSelection.GetComponentsInChildren<TurretVFXManager>()) vfx.SetSelectedColor(false);
 
-        } else if(associatedSlot.IsOcuppied())
-        {
-            preview.gameObject.SetActive(false);
-        }
+        } 
+        //else if(associatedSlot.IsOcuppied())
+        //{
+        //    preview.gameObject.SetActive(false);
+        //}
     }
 }

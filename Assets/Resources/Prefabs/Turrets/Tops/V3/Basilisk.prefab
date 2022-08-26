@@ -144,8 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae303faa01349f44a0bdba550994639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackSpeed: 10
   maxAngle: 55
+  rotate: 1
 --- !u!114 &6288187793747434160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +165,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &6785697610430519377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,6 +186,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2075384233065408538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +207,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: -0.15
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2002384404795463318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,8 +224,8 @@ MonoBehaviour:
   _id: 6
   _cost: 2
   _class: 0
-  _description: Fires a barrage of shots towards a single enemy, eith increasing
-    fire rate.
+  _description: Fires a barrage of low accuracy shots towards a single enemy, with
+    increasing fire rate.
   StatSet:
   - {fileID: 6288187793747434160}
   - {fileID: 6785697610430519377}
@@ -249,6 +255,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: 0.25
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &5562772879244896250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +276,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &8163039721924592550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,6 +297,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.2
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!95 &2291029129052336054
 Animator:
   serializedVersion: 4
@@ -10737,7 +10749,7 @@ ParticleSystem:
     m_TextureColorAffectsParticles: 1
     m_TextureAlphaAffectsParticles: 1
     m_TextureBilinearFiltering: 0
-    randomDirectionAmount: 0
+    randomDirectionAmount: 0.075
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
@@ -14841,7 +14853,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SFX: event:/SFX/NEW/Shoots/shoot8
+  SFX: event:/SFX/NEW/Shoots/shoot4
+  singleSFX: 0
 --- !u!1 &8962512383701107946
 GameObject:
   m_ObjectHideFlags: 0

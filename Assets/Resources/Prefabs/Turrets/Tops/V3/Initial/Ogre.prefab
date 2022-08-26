@@ -14603,6 +14603,7 @@ GameObject:
   - component: {fileID: 7640952513482396138}
   - component: {fileID: 5779248174898093586}
   - component: {fileID: 7101713825590171632}
+  - component: {fileID: 5813115746359459907}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -19498,6 +19499,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedWeapon: {fileID: 2002384404795463318}
+--- !u!114 &5813115746359459907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4263559011134378797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Explosion
+  singleSFX: 0
 --- !u!1 &5443480414947530925
 GameObject:
   m_ObjectHideFlags: 0
@@ -19650,6 +19665,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &6785697610430519377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19669,6 +19686,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2075384233065408538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19688,6 +19707,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: -0.05
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2002384404795463318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19736,6 +19757,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.05
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &7014755436294063659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19755,6 +19778,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: 0.05
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &6344816795142088196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19775,6 +19800,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 2
   increment: 1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &1619474944657045609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19787,8 +19814,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae303faa01349f44a0bdba550994639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackSpeed: 10
-  maxAngle: 55
+  maxAngle: 0.1
+  rotate: 0
 --- !u!95 &2291029129052336054
 Animator:
   serializedVersion: 4
@@ -24690,6 +24717,7 @@ GameObject:
   - component: {fileID: 3217507168120794727}
   - component: {fileID: 2840268640940359111}
   - component: {fileID: 5395010414297505161}
+  - component: {fileID: 3529186473547847369}
   m_Layer: 8
   m_Name: Shooter (1)
   m_TagString: Untagged
@@ -24798,7 +24826,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -24851,7 +24879,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -29576,6 +29604,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &3529186473547847369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8230312388191378127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Bombershoot
+  singleSFX: 0
 --- !u!1 &8962512383701107946
 GameObject:
   m_ObjectHideFlags: 0
@@ -29747,13 +29789,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9109541d47bc63d439066f3fc2737ec9, type: 3}
---- !u!4 &4331229716185444608 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5962048229035131024, guid: 9109541d47bc63d439066f3fc2737ec9, type: 3}
-  m_PrefabInstance: {fileID: 7973321032406380944}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &4331229716185444614 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5962048229035131030, guid: 9109541d47bc63d439066f3fc2737ec9, type: 3}
+  m_PrefabInstance: {fileID: 7973321032406380944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4331229716185444608 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5962048229035131024, guid: 9109541d47bc63d439066f3fc2737ec9, type: 3}
   m_PrefabInstance: {fileID: 7973321032406380944}
   m_PrefabAsset: {fileID: 0}

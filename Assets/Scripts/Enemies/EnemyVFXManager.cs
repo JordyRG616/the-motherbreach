@@ -14,10 +14,9 @@ public class EnemyVFXManager : VFXManager
         base.Awake();
     }
 
-    public IEnumerator LastBreath()
+    public void LastBreath()
     {
-        float step = 0;
-
+        deathParticles.transform.SetParent(null);
         deathParticles.Play();
         audioManager.StopSFX(audioInstance);
         audioManager.RequestSFX(deathSFX, out audioInstance);
@@ -30,15 +29,15 @@ public class EnemyVFXManager : VFXManager
 
         GetComponent<Collider2D>().enabled = false;
 
-        while(step <= deathDuration)
-        {
-            instMaterial.SetFloat("_death", step / deathDuration);
-            GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.clear, step / deathDuration);
-            step += .01f;
-            yield return new WaitForSeconds(.01f);
-        }
+        //while(step <= deathDuration)
+        //{
+        //    instMaterial.SetFloat("_death", step / deathDuration);
+        //    GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.clear, step / deathDuration);
+        //    step += .01f;
+        //    yield return new WaitForSeconds(.01f);
+        //}
 
-        // yield return new WaitUntil(() => !deathParticles.isPlaying);
+        //// yield return new WaitUntil(() => !deathParticles.isPlaying);
 
         healthController.TriggerOnDeath();
     }

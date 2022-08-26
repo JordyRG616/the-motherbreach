@@ -14620,6 +14620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/Shoots/shoot8
+  singleSFX: 0
 --- !u!1 &5443480414947530925
 GameObject:
   m_ObjectHideFlags: 0
@@ -14772,6 +14773,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &6785697610430519377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14791,6 +14794,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2075384233065408538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14810,6 +14815,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: -0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &8004788429241321606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14823,7 +14830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackSpeed: 2
-  maxAngle: 360
+  maxAngle: 350
   bottomWeapon: {fileID: 7561935198365668597}
   topWeapon: {fileID: 3626621490285760677}
 --- !u!114 &2002384404795463318
@@ -14869,11 +14876,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingIndex: 3
   publicName: Bullet Speed
-  startingValue: 20
+  startingValue: 30
   statDescription: Increases the speed of this turret's bullets
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: 0
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &2240817099018914645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14893,6 +14902,8 @@ MonoBehaviour:
   incrementType: 1
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!114 &-7029711808311348400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14912,6 +14923,8 @@ MonoBehaviour:
   incrementType: 0
   <upgradeCost>k__BackingField: 1
   increment: 0.1
+  <Initiated>k__BackingField: 0
+  overwritten: 0
 --- !u!95 &2291029129052336054
 Animator:
   serializedVersion: 4
@@ -29552,6 +29565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFX: event:/SFX/NEW/Shoots/shoot8
+  singleSFX: 0
 --- !u!1 &8962512383701107946
 GameObject:
   m_ObjectHideFlags: 0

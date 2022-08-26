@@ -10,8 +10,12 @@ public class ChildSystemShooterWeapon : Weapon
 
     public override void Initiate()
     {
-        StatSet.ForEach(x => x.Initiate(trueSystem, this));
+        if (initiated) return;
+        StatSet.ForEach(x => x.Initiate(shooter, this));
+        StatSet.ForEach(x => x.overwritten = true);
+        dormentStats.ForEach(x => x.Initiate(shooter, this));
         StatSet = StatSet.OrderBy(x => x.sortingIndex).ToList();
+        dormentStats = dormentStats.OrderBy(x => x.sortingIndex).ToList();
 
         var duration = TryGetComponent<Duration>(out var _d) ? GetStatValue<Duration>() : shooter.main.duration;
 
@@ -48,4 +52,11 @@ public class ChildSystemShooterWeapon : Weapon
         shooter.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         delayedShooter.Play();
     }
+
+    private void OnDestroy()
+    {
+        if (!initiated) return;
+        gameManager.OnGameStateChange -= HandleActivation;
+    }
+
 }

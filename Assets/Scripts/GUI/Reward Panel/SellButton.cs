@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,7 +54,7 @@ public class SellButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     }
     public void SetButton(int refund, TurretSlot turretSlot)
     {
-        textMesh.text = "sell" + " (" + refund +"$)";
+        textMesh.text = "+" + refund + "$";
 
         this.refund = refund;
         cachedSlot = turretSlot;

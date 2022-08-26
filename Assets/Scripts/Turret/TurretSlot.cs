@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TurretSlot : MonoBehaviour
@@ -11,13 +9,11 @@ public class TurretSlot : MonoBehaviour
 
     public bool IsOcuppied()
     {
-        return occupyingTurret != null;
+        return occupied;
     }
 
     public void BuildTurret(GameObject turret)
     {
-        //occupyingTurret = Instantiate(turret, Vector3.zero, transform.rotation, transform);
-        // turret.transform.position = transform.position;
         occupyingTurret = turret;
         if(occupyingTurret.TryGetComponent<TrackingDevice>(out var device))
         {   

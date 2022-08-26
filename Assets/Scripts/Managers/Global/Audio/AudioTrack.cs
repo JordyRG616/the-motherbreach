@@ -25,16 +25,19 @@ public class AudioTrack
     private float _trackVolume;
 
     [SerializeField] private int maxChannels;
+    public int currentChannels;
     public List<EventInstance> activeChannels { get; private set; } = new List<EventInstance>();
     private Bus bus;
     [SerializeField] private string busPath;
     public bool paused {get; private set;}
+    private MonoBehaviour invoker;
 
 
-    public void Initiate()
+    public void Initiate(MonoBehaviour invoker)
     {
         bus = RuntimeManager.GetBus(busPath);
         bus.setVolume(_trackVolume);
+        this.invoker = invoker;
     }
 
     public void SetVolume(float newVolume)
@@ -49,7 +52,23 @@ public class AudioTrack
         {
             audioInstance.start();
             activeChannels.Add(audioInstance);
+            currentChannels = activeChannels.Count;
+            invoker.StartCoroutine(WatchInstance(audioInstance));
         }
+    }
+
+    private IEnumerator WatchInstance(EventInstance instance)
+    {
+        yield return new WaitUntil(() => InstanceStopped(instance));
+
+        activeChannels.Remove(instance);
+    }
+
+    private bool InstanceStopped(EventInstance instance)
+    {
+        instance.getPlaybackState(out var state);
+        if (state == PLAYBACK_STATE.STOPPED) return true;
+        else return false;
     }
 
     public void StopAudio(EventInstance audioInstance)

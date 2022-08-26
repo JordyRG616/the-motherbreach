@@ -41,7 +41,7 @@ public class RewardPanelButton : MonoBehaviour, IPointerUpHandler, IPointerDownH
             }
         }
 
-        mask.padding = new Vector4(0, 0, 121 * (1 - (counter / pressTime)));
+        mask.padding = new Vector4(0, 0, 160 * (1 - (counter / pressTime)));
     }
 
     public void OnPointerDown(PointerEventData eventData)

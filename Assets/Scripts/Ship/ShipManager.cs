@@ -46,7 +46,34 @@ public class ShipManager : MonoBehaviour, ISavable
         cam = Camera.main;
 
         controller = FindObjectOfType<ShipController>().transform;
+
+        if (gameManager.selectedMap == Map.Tutorial) CreateWeaponry();
     }
+
+    private void CreateWeaponry()
+    {
+        var slots = FindObjectsOfType<TurretSlot>().ToList();
+        var turretConstructor = TurretConstructor.Main;
+
+        for (int i = 0; i < 2; i++)
+        {
+            var weapon = turretConstructor.GetWeaponById(1);
+            var foundation = turretConstructor.GetBaseById(1);
+            var rdm = CustomRandom.RandomManager.GetRandomInteger(0, slots.Count);
+            var turret = turretConstructor.Construct(weapon, foundation);
+            slots[rdm].BuildTurret(turret);
+            slots.RemoveAt(rdm);
+            RegisterTurret(turret.GetComponent<TurretManager>());
+        }
+    }
+
+    private IEnumerator WatchTurretCount()
+    {
+        yield return new WaitUntil(() => turrets.Count == 0);
+
+        GetComponent<ShipDamageController>().DieByLackOfTurrets();
+    }
+
 
     private void HandleAnchor(object sender, GameStateEventArgs e)
     {
@@ -58,11 +85,17 @@ public class ShipManager : MonoBehaviour, ISavable
     {
         if(e.newState == GameState.OnReward)
         {
+            StopCoroutine(WatchTurretCount());
             foreach(TurretManager turret in turrets)
             {
                 turret.integrityManager.HealToFull();
             }
         }
+        if(e.newState == GameState.OnWave)
+        {
+            StartCoroutine(WatchTurretCount());
+        }
+
     }
 
     public void RegisterTurret(TurretManager turret)

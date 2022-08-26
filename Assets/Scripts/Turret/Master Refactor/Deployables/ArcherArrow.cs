@@ -8,6 +8,8 @@ public class ArcherArrow : Deployable
     [SerializeField] private Animator anim;
     [SerializeField] private ParticleSystem trail;
     [SerializeField] private TurretActionMediator actionMediator;
+    [Header("SFX")]
+    [SerializeField] [FMODUnity.EventRef] private string onInitializeSFX;
     private DeployerWeapon weapon;
     private WaitForSeconds time = new WaitForSeconds(0.01f);
     private Vector2 direction = Vector2.up;
@@ -42,6 +44,7 @@ public class ArcherArrow : Deployable
     public override void Initialize()
     {
         transform.rotation = transform.parent.rotation;
+        AudioManager.Main.RequestSFX(onInitializeSFX);
     }
 
     public override void Launch()

@@ -41,7 +41,7 @@ public class MachineLearning : Trait
     public override Trait ReturnTraitInstance()
     {
         var type = this.GetType();
-        var instance = (RecicledHull)ScriptableObject.CreateInstance(type);
+        var instance = (MachineLearning)ScriptableObject.CreateInstance(type);
 
         //instance.percentage = percentage;
 

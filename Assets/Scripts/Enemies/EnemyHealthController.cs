@@ -81,7 +81,8 @@ public class EnemyHealthController : MonoBehaviour, IDamageable
             }
             
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            vfxManager.StartCoroutine(vfxManager.LastBreath());
+            //Destroy(GetComponent<Rigidbody2D>());
+            vfxManager.LastBreath();
             OnDeath?.Invoke(this, new EnemyEventArgs(this));
         }
 

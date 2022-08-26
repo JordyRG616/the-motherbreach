@@ -36,7 +36,11 @@ public abstract class Foundation : MonoBehaviour, ISavable
 
     public void ReceiveTrait(Trait program)
     {
+        var _p = Programs.Find(x => x.Id == program.Id);
+        if (_p != null) return;
         var programInstance = program.ReturnTraitInstance();
+        programInstance.Id = program.Id;
+        programInstance.sprite = program.sprite;
         programInstance.Initiate(linkedWeapon);
         Programs.Add(programInstance);
     }
@@ -78,7 +82,7 @@ public abstract class Foundation : MonoBehaviour, ISavable
     {
         var slotId = GetComponentInParent<TurretManager>().slotId;
 
-        Programs.Clear();
+        //Programs.Clear();
 
         for (int i = 0; i < 5; i++)
         {

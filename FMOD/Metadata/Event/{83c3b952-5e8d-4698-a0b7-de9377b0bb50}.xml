@@ -61,6 +61,9 @@
 		<property name="priority">
 			<value>1</value>
 		</property>
+		<property name="triggerCooldown">
+			<value>120</value>
+		</property>
 	</object>
 	<object class="MarkerTrack" id="{7f83f45e-cd45-4222-83ed-11e905bbe423}" />
 	<object class="GroupTrack" id="{f0bc8814-5b75-45c3-810b-079e9e6257a0}">
@@ -189,6 +192,7 @@
 	<object class="MixerBusEffectChain" id="{5e2e4749-146d-43d5-a970-771dbda32894}">
 		<relationship name="effects">
 			<destination>{20b4d0ce-f294-4469-80fa-568f69704745}</destination>
+			<destination>{9f58cbf1-bb21-495b-aa9a-6db6bab16ce4}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{977893bb-31f1-4b49-a3be-e0bf844db905}" />
@@ -219,6 +223,14 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{20b4d0ce-f294-4469-80fa-568f69704745}" />
+	<object class="PitchShifterEffect" id="{9f58cbf1-bb21-495b-aa9a-6db6bab16ce4}">
+		<property name="pitch">
+			<value>1</value>
+		</property>
+		<relationship name="modulators">
+			<destination>{86a45218-c16d-43f4-8b59-7531f91a2686}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusFader" id="{156aa2b0-869b-4ac8-8a88-6277320715c4}" />
 	<object class="RandomizerModulator" id="{c5718fa5-8841-4a11-9036-cb7c781b912b}">
 		<property name="nameOfPropertyBeingModulated">
@@ -226,6 +238,17 @@
 		</property>
 		<property name="amount">
 			<value>10</value>
+		</property>
+	</object>
+	<object class="ADSRModulator" id="{86a45218-c16d-43f4-8b59-7531f91a2686}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>pitch</value>
+		</property>
+		<property name="attackTime">
+			<value>12.820549</value>
+		</property>
+		<property name="peakValue">
+			<value>-42.2222214</value>
 		</property>
 	</object>
 </objects>

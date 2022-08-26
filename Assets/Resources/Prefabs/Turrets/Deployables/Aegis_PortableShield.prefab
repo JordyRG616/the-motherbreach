@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4909166049784893737}
   - component: {fileID: 1424945279346224814}
   - component: {fileID: 4334937628749589139}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Aegis_PortableShield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,6 +124,7 @@ MonoBehaviour:
   VFX: {fileID: 273104627370945165}
   directionModifier: 0
   spriteRenderer: {fileID: 2625401005933122929}
+  onRedockSFX: event:/SFX/NEW/Deployables/Aegis_Redock
 --- !u!1 &6874065886846345595
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +136,8 @@ GameObject:
   - component: {fileID: 3318988911046822445}
   - component: {fileID: 273104627370945165}
   - component: {fileID: 8753163749427263597}
-  m_Layer: 0
+  - component: {fileID: 2929647705809132376}
+  m_Layer: 13
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4995,6 +4997,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &2929647705809132376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6874065886846345595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a2624ab9a01674fa9f2def50b00bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX: event:/SFX/NEW/Deployables/Aegis_Shield
+  singleSFX: 1
 --- !u!1 &8135924147795124418
 GameObject:
   m_ObjectHideFlags: 0
@@ -5005,7 +5021,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7996002157751851543}
   - component: {fileID: 2625401005933122929}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}

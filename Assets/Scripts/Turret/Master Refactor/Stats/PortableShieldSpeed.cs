@@ -10,4 +10,14 @@ public class PortableShieldSpeed : BulletSpeed
     {
         portableShields.ForEach(x => x.SetOrbitSpeed(value));
     }
+
+    public override string GetLiteralValue()
+    {
+        return (Value * 100).ToString();
+    }
+
+    public override string GetLiteralStartingValue()
+    {
+        return (startingValue * 100).ToString();
+    }
 }
